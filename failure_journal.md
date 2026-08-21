@@ -41,3 +41,13 @@ and paid cash.
 180 blocked, Rs.4,63,124 goodwill protected.
 **Lessons:** Context (offline) overrides archetype; rule order is safety;
 the demo star was nearly lost to a catch-all rule.
+
+## Entry 5 — Day 5
+**What broke:** Nothing new — pipeline ran clean end-to-end.
+**Verified:** 250 recovered / 70 deferred / 180 blocked; jobs table now holds
+70 queued DEFERRED_RETRY rows.
+**Lesson:** When diagnosis + gate are correct, execution is boring.
+Boring execution is the goal.
+**Assumption:** simulation treats every ALLOW retry as successful; production
+would track actual Razorpay retry outcomes per attempt.
+
