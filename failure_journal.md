@@ -16,3 +16,28 @@
 **Lessons:**
 - Pre-flight > firefighting.
 - "Password failed" can mean "wrong door" — check who owns the port.
+
+## Entry 2 — Day 2
+**What broke:** Re-running generator crashed: UniqueViolation on pay_sim_0000.
+ORM .delete() left ghost state in the session cache.
+**Fixes:** Raw TRUNCATE, then full drop_all/create_all wipe; generator now idempotent.
+**Lessons:** Idempotency must be real, not assumed; when the ORM fights you,
+drop to raw SQL; wipe-and-rebuild is fine for synthetic data.
+
+## Entry 3 — Day 3
+**What broke:** Review caught two landmines: module-level LLM clients crash on
+empty keys; an unchunked 500-item prompt would blow the context window on the
+final batch.
+**Fixes:** Lazy client init; internal chunking (10/batch); held-out eval n=40
+→ archetype 100% / owner 100%.
+**Lessons:** Init external clients lazily; always chunk LLM payloads;
+measure on held-out data, never trust vibes.
+
+## Entry 4 — Day 4
+**What broke:** Gate's catch-all "technical → ALLOW" swallowed offline QR
+failures → silent retry would double-charge a customer who left the store
+and paid cash.
+**Fixes:** R-07 offline QR trap placed BEFORE the generic rule; result:
+180 blocked, Rs.4,63,124 goodwill protected.
+**Lessons:** Context (offline) overrides archetype; rule order is safety;
+the demo star was nearly lost to a catch-all rule.
