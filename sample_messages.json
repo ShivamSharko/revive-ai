@@ -1,0 +1,30 @@
+{
+  "ALLOW": {
+    "en": {
+      "message": "Hi! Your payment of Rs.499 didn't go through due to a technical reason. No stress - whenever you're ready, try again here: https://rzp.io/l/revive1 Reply STOP to opt out.",
+      "via": "template",
+      "guarded": true
+    },
+    "hi": {
+      "message": "नमस्ते! तकनीकी कारण से आपका Rs.499 का भुगतान पूरा नहीं हो सका। कोई जल्दी नहीं - जब चाहें यहाँ दोबारा कोशिश करें: https://rzp.io/l/revive1 | रुकने के लिए STOP लिखें।",
+      "via": "template",
+      "guarded": true
+    }
+  },
+  "DEFER": {
+    "en": {
+      "message": "Hi! No rush at all. We'll gently retry your Rs.4,811 payment around day 1 next month. Thank you! Reply STOP to opt out.",
+      "via": "template",
+      "guarded": true
+    },
+    "hi": {
+      "message": "नमस्ते! कोई जल्दी नहीं। हम अगले महीने की 1 तारीख़ के बाद आपका Rs.4,811 का भुगतान दोबारा कोशिश करेंगे। धन्यवाद! | रुकने के लिए STOP लिखें।",
+      "via": "template",
+      "guarded": true
+    }
+  },
+  "BLOCK": {
+    "message": null,
+    "reason": "R-07 offline consent trap"
+  }
+}

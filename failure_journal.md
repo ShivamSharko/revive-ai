@@ -60,3 +60,9 @@ and corrupted main.py once — file-role confusion.
 12-line FastAPI server.
 **Lesson:** Write inserts against the schema you HAVE. Python goes in files,
 commands go in terminals.
+
+## Entry 7 — Day 7
+**What broke:** Windows Python defaulted to cp1252 encoding and crashed when 
+trying to write Hindi characters to disk.
+**Fixes:** Explicitly passed encoding="utf-8" to write_text().
+**Lesson:** Always specify encoding="utf-8" on Windows file I/O. 
