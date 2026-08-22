@@ -83,3 +83,11 @@ into Python just to sum amounts (OOM at 50M rows).
 **Scheduled:** CORS middleware (Day 11); AuditLog writes in simulate.py (Day 12).
 **Lesson:** Databases are built to do math. Never sum in Python what Postgres
 can sum in microseconds.
+
+## Entry 11 — Day 11
+**What broke:** Review caught an empty Audit trail on the dashboard (batch
+pipeline never wrote AuditLog) and a phantom pandas dependency.
+**Fixes:** Idempotent AuditLog writes in simulate.py (live webhook rows kept);
+pandas + streamlit pinned in requirements.
+**Lesson:** A dashboard with one empty table quietly destroys trust in the
+other nine that are full.

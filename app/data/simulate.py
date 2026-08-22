@@ -1,6 +1,6 @@
 """Run the 500 failures through the Diagnosis Engine + Consent Gate."""
 from app.db.database import SessionLocal
-from app.db.models import PaymentFailure, Diagnosis, GateDecision
+from app.db.models import PaymentFailure, Diagnosis, GateDecision, AuditLog
 from app.core.diagnosis import diagnose_batch
 from app.core.gate import evaluate_consent
 
@@ -13,6 +13,13 @@ def main():
         db.commit()
 
         failures = db.query(PaymentFailure).filter_by(source="synthetic").all()
+
+        # Idempotent audit: clear previous batch rows, keep live webhook rows
+        db.query(AuditLog).filter(
+            AuditLog.entity_type == "failure",
+            AuditLog.entity_id.in_([f.id for f in failures])
+        ).delete(synchronize_session=False)
+
         print(f"Processing {len(failures)} failures through Revive AI...")
 
         # 2. Diagnose in batches (our chunked engine handles the 500 safely)
@@ -32,12 +39,16 @@ def main():
             # Save GateDecision to DB
             db.add(GateDecision(failure_id=f.id, rule_id=rule_id, verdict=verdict))
 
-            if verdict == "ALLOW": 
+            # Audit trail: every decision logged with actor + reasoning
+            db.add(AuditLog(entity_type="failure", entity_id=f.id, actor="system",
+                            action=f"{verdict}:{rule_id}", reasoning=reasoning))
+
+            if verdict == "ALLOW":
                 allow += 1
             elif verdict == "BLOCK":
                 block += 1
-                protected_paise += f.amount_paise 
-            elif verdict == "DEFER": 
+                protected_paise += f.amount_paise
+            elif verdict == "DEFER":
                 defer += 1
 
         db.commit()
