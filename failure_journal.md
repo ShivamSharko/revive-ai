@@ -51,3 +51,12 @@ Boring execution is the goal.
 **Assumption:** simulation treats every ALLOW retry as successful; production
 would track actual Razorpay retry outcomes per attempt.
 
+## Entry 6 — Day 6
+**What broke:** Review caught two schema mismatches before runtime: AuditLog is
+polymorphic (entity_type/entity_id — no failure_id) and actor is String(8),
+so "revive-ai" (9 chars) would raise DataError. Also pasted Python into cmd
+and corrupted main.py once — file-role confusion.
+**Fixes:** Polymorphic insert with actor="system"; restored main.py to the
+12-line FastAPI server.
+**Lesson:** Write inserts against the schema you HAVE. Python goes in files,
+commands go in terminals.

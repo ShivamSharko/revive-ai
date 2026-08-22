@@ -9,5 +9,6 @@ class Settings:
     RAZORPAY_KEY_SECRET = os.getenv("RAZORPAY_KEY_SECRET", "")
     GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
     GROQ_API_KEY = os.getenv("GROQ_API_KEY", "")
+    WEBHOOK_SECRET = os.getenv("WEBHOOK_SECRET", "whsec_test_secret")
 
 settings = Settings()
