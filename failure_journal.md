@@ -75,3 +75,11 @@ loop = N+1 (10,001 DB calls at scale).
 **Fixes:** ASCII status icons; one group_by aggregation + dict lookup.
 **Lesson:** Encoding bugs are a platform property — assume Windows bites twice.
 Aggregate first, loop second.
+
+## Entry 9 — Day 9
+**What broke:** Review caught an O(N) memory trap: /overview loaded every row
+into Python just to sum amounts (OOM at 50M rows).
+**Fixes:** func.count/func.sum in Postgres; fetch answers, not rows.
+**Scheduled:** CORS middleware (Day 11); AuditLog writes in simulate.py (Day 12).
+**Lesson:** Databases are built to do math. Never sum in Python what Postgres
+can sum in microseconds.
