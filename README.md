@@ -14,7 +14,7 @@ diagnoses every failure, passes it through a **Consent Gate**, and only then act
 | Metric | Value |
 |---|---|
 | Failures processed | 500 synthetic + 3 real Razorpay test payments |
-| Diagnosis accuracy (held-out, n=40) | 100% archetype / 100% owner (via Groq) |
+| Diagnosis accuracy (held-out, n=40) | 92% archetype / 92% owner (via Groq + Gemini) |
 | Retries blocked by Consent Gate | 141 (28%) |
 | Customer goodwill protected | Rs.3,60,283 |
 | Revenue safely recaptured | Rs.7,69,682 |
