@@ -91,3 +91,12 @@ pipeline never wrote AuditLog) and a phantom pandas dependency.
 pandas + streamlit pinned in requirements.
 **Lesson:** A dashboard with one empty table quietly destroys trust in the
 other nine that are full.
+
+## Entry 12 — Day 12
+**What broke:** Free-tier quotas had two doors: RPM, then a tokens-per-minute
+window. The old 5-retry backoff storm burned quota on retries that also 429'd.
+**Fixes:** Quota-aware cooling (45s on RateLimitError, single retry); resumable
+simulate kept LLM diagnoses and upgraded rules rows across 6 waves.
+**Result:** 500/500 pure-LLM diagnoses (groq primary, gemini failover).
+**Lesson:** Under hostile quotas, retries are traffic too. Fail cool, resume
+later; never storm.

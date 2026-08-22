@@ -14,11 +14,12 @@ diagnoses every failure, passes it through a **Consent Gate**, and only then act
 | Metric | Value |
 |---|---|
 | Failures processed | 500 synthetic + 3 real Razorpay test payments |
-| Diagnosis accuracy (held-out, n=40) | 100% archetype / 100% owner |
-| Retries blocked by Consent Gate | 180 (36%) |
-| Customer goodwill protected | Rs.4,63,124 |
-| Deferred to salary day | 70 |
-| Safe retries executed | 250 |
+| Diagnosis accuracy (held-out, n=40) | 100% archetype / 100% owner (via Groq) |
+| Retries blocked by Consent Gate | 141 (28%) |
+| Customer goodwill protected | Rs.3,60,283 |
+| Revenue safely recaptured | Rs.7,69,682 |
+| Deferred to salary day | 67 |
+| Safe retries executed | 292 |
 
 Real test-mode IDs: `pay_TSO8itQ6X4u1TT` (captured) · `pay_TSOALEUJL823Wr`
 (failed) · `pay_TSODxy4fmJFYBE` (authorized-stuck — at-risk revenue detected).
