@@ -63,6 +63,7 @@ commands go in terminals.
 
 ## Entry 7 — Day 7
 **What broke:** Windows Python defaulted to cp1252 encoding and crashed when 
-trying to write Hindi characters to disk.
+trying to write Hindi (Devanagari) characters to disk.
 **Fixes:** Explicitly passed encoding="utf-8" to write_text().
-**Lesson:** Always specify encoding="utf-8" on Windows file I/O. 
+**Lesson:** Always specify encoding="utf-8" on Windows file I/O to prevent 
+charmap codec errors.
