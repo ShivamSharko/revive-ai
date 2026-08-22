@@ -67,3 +67,11 @@ trying to write Hindi (Devanagari) characters to disk.
 **Fixes:** Explicitly passed encoding="utf-8" to write_text().
 **Lesson:** Always specify encoding="utf-8" on Windows file I/O to prevent 
 charmap codec errors.
+
+## Entry 8 — Day 8
+**What broke:** Review caught two pre-run landmines: emoji print() would crash
+on Windows cp1252 (Day 7's bug family), and a per-merchant query inside the
+loop = N+1 (10,001 DB calls at scale).
+**Fixes:** ASCII status icons; one group_by aggregation + dict lookup.
+**Lesson:** Encoding bugs are a platform property — assume Windows bites twice.
+Aggregate first, loop second.
