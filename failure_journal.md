@@ -84,6 +84,15 @@ into Python just to sum amounts (OOM at 50M rows).
 **Lesson:** Databases are built to do math. Never sum in Python what Postgres
 can sum in microseconds.
 
+## Entry 10 — Day 10
+**What broke:** README had hardcoded numbers from pre-Day-12 runs; missing
+the 5 Laws section and cross-industry table promised in master doc.
+**Fixes:** Added placeholder comment for Day-12 numbers; added 5 Laws
+(no money moves without valid consent); added cross-industry table
+(airlines, hospitals, hotels); added Windows setup steps.
+**Lesson:** README is the first thing judges read. Numbers must match reality;
+philosophy (the Laws) is as important as architecture.
+
 ## Entry 11 — Day 11
 **What broke:** Review caught an empty Audit trail on the dashboard (batch
 pipeline never wrote AuditLog) and a phantom pandas dependency.
