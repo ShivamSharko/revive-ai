@@ -5,7 +5,25 @@ import urllib.request
 import pandas as pd
 import streamlit as st
 
-API = "http://127.0.0.1:8000"
+"""Streamlit command center: the agent's live state, one screen."""
+import json
+import os
+import urllib.request
+
+import pandas as pd
+import streamlit as st
+
+
+def _api_base():
+    try:
+        if "REVIVE_API" in st.secrets:
+            return st.secrets["REVIVE_API"]
+    except Exception:
+        pass
+    return os.environ.get("REVIVE_API", "http://127.0.0.1:8000")
+
+
+API = _api_base()
 
 def get(path):
     with urllib.request.urlopen(API + path) as r:
