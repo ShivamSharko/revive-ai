@@ -16,10 +16,10 @@ diagnoses every failure, passes it through a **Consent Gate**, and only then act
 | Failures processed | 500 synthetic + 3 real Razorpay test payments |
 | Diagnosis accuracy (held-out, n=40) | 92% archetype / 92% owner (via Groq + Gemini) |
 | Retries blocked by Consent Gate | 141 (28%) |
-| Customer goodwill protected | Rs.3,60,283 |
-| Revenue safely recaptured | Rs.7,69,682 |
+| Customer goodwill protected | Rs.7,06,919 (blocked + deferred) |
+| Revenue safely recaptured | Rs.7,83,676 (incl. 1 real Razorpay test payment) |
 | Deferred to salary day | 67 |
-| Safe retries executed | 292 |
+| Safe retries executed | 293 |
 
 Real test-mode IDs: `pay_TSO8itQ6X4u1TT` (captured) · `pay_TSOALEUJL823Wr`
 (failed) · `pay_TSODxy4fmJFYBE` (authorized-stuck — at-risk revenue detected).
