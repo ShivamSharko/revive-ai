@@ -80,3 +80,7 @@ uvicorn app.main:app --reload # API on :8000
   Razorpay retry outcomes per attempt.
 - Synthetic batch is labeled ground truth; accuracy measured on held-out sample.
 - `failure_journal.md` logs every break and fix from Day 1 onward.
+
+**Live:** [/api/overview](https://revive-ai-production-3535.up.railway.app/api/overview) ·
+[/api/audit](https://revive-ai-production-3535.up.railway.app/api/audit) ·
+[/health](https://revive-ai-production-3535.up.railway.app/health)
