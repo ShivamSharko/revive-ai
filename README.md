@@ -81,6 +81,9 @@ uvicorn app.main:app --reload # API on :8000
 - Synthetic batch is labeled ground truth; accuracy measured on held-out sample.
 - `failure_journal.md` logs every break and fix from Day 1 onward.
 
-**Live:** [/api/overview](https://revive-ai-production-3535.up.railway.app/api/overview) ·
-[/api/audit](https://revive-ai-production-3535.up.railway.app/api/audit) ·
-[/health](https://revive-ai-production-3535.up.railway.app/health)
+## 🌐 Live Demo
+
+- **Command Center:** [Streamlit Dashboard](https://revive-ai-shxvy4uyvqydxucqxbqyin.streamlit.app)
+- **API Overview:** [revive-ai-production-3535.up.railway.app/api/overview](https://revive-ai-production-3535.up.railway.app/api/overview)
+- **Audit Trail:** [revive-ai-production-3535.up.railway.app/api/audit](https://revive-ai-production-3535.up.railway.app/api/audit)
+- **Health Check:** [revive-ai-production-3535.up.railway.app/health](https://revive-ai-production-3535.up.railway.app/health)
