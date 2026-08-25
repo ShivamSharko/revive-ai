@@ -88,14 +88,13 @@ uvicorn app.main:app --reload # API on :8000
 - **Audit Trail:** [revive-ai-production-3535.up.railway.app/api/audit](https://revive-ai-production-3535.up.railway.app/api/audit)
 - **Health Check:** [revive-ai-production-3535.up.railway.app/health](https://revive-ai-production-3535.up.railway.app/health)
 
-## Track 03 coverage — all 7 example directions
-
-| Example direction | Implementation |
+## Track 03 coverage — zero scope cut
+| Direction | Implementation |
 |---|---|
-| Payment degradation + root cause | Diagnosis Engine (92% held-out) + Health Graph + EV Optimizer |
-| Checkout drop-off recovery | Mechanism Swap (OTP→UPI Collect) + funnel + merchant insight |
+| Payment degradation + root cause | `diagnosis.py` + `health.py` (Redis) + `ev_optimizer.py` |
+| Checkout drop-off recovery | Mechanism Swap + `dropoff_funnel.py` + `poll_orders.py` |
 | Failed subscription recovery | `/webhooks/razorpay/subscriptions` + mandate gate |
-| B2B receivables recovery | `receivables.py`: dispute halt + payment-plan splitting |
-| Mandate expiry assurance | `audit.py` RBI 24h pre-debit audit + R-01 BLOCK |
-| Hinglish voice recovery | `voice.py`: Hinglish scripts + edge-tts (hi-IN) audio |
-| Drop-to-pay flow tracker | `dropoff_funnel.py`: orders → drops → attempts → recovered |
+| B2B receivables recovery | `receivables.py`: dispute halt + plan split |
+| Mandate expiry assurance | `audit.py` + R-01 |
+| Hinglish voice recovery | `voice.py`: ElevenLabs → edge-tts → text |
+| Drop-to-pay flow tracker | `dropoff_funnel.py` |
