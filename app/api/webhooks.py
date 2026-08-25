@@ -8,6 +8,8 @@ from app.db.database import SessionLocal
 from app.db.models import PaymentFailure
 from app.core.worker import process_failure
 
+from app.db.models import PaymentFailure, MerchantConfig
+
 router = APIRouter()
 
 @router.post("/webhooks/razorpay")
@@ -62,21 +64,31 @@ async def subscription_webhook(request: Request, background_tasks: BackgroundTas
     p = event["payload"]["subscription"]["entity"]
     db = SessionLocal()
     try:
+        merchant_id = p.get("merchant_id", "merch_002")
+        merchant = db.query(MerchantConfig).filter_by(merchant_id=merchant_id).first()
+        actual_hours = merchant.pre_debit_notification_hours if merchant else 24
+
+        if actual_hours < 24:
+            failure_code = "MANDATE_NOTIFICATION_BREACH"
+            failure_description = f"Pre-debit notification sent at {actual_hours}h (RBI requires >=24h)"
+        else:
+            failure_code = p.get("error_code", "SUBSCRIPTION_CHARGE_FAILED")
+            failure_description = p.get("error_description", "Subscription charge failed")
+
         f = PaymentFailure(
             external_payment_id=p.get("id", "sub_unknown"),
             source="subscription",
             amount_paise=p.get("amount", 0),
             currency="INR",
             method="emandate",
-            failure_code="MANDATE_NOTIFICATION_BREACH",
-            failure_description="Subscription charge failed — possible mandate breach",
+            failure_code=failure_code,
+            failure_description=failure_description,
             customer_id=p.get("customer_id", "cust_sub_001"),
-            merchant_id="merch_002",
+            merchant_id=merchant_id,
             context="recurring",
             session_active=False,
             status="pending",
-            occurred_at=datetime.now()
-        )
+            occurred_at=datetime.now())
         db.add(f)
         db.commit()
         db.refresh(f)

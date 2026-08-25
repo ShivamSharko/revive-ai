@@ -63,10 +63,10 @@ Total: Rs.7,22,833 recovered · Rs.4,13,888 protected · Rs.1,56,972 deferred
 ## ⚖️ The 5 Laws (The Conscience)
 
 1. **No money moves without valid consent.** (Protects against the Offline QR trap)
-2. **Never retry in a way that can double-charge.**
-3. **Never pressure, threaten, or shame a customer.** (Tone guard on every message)
-4. **Never debit without RBI-compliant notice.** (24-hour pre-debit rule)
-5. **Every decision is logged and auditable.**
+2. **Never remind. Resolve.** (A message must encode the diagnosis. "Bank was down, it's fixed now" > "Your cart is saved!")
+3. **The best recovery is invisible.** (Silent retries for technical failures)
+4. **Safety is rules, not AI.** (The Consent Gate and stopping rules are deterministic code, never probabilistic LLMs)
+5. **Assign ownership before acting.** (Never sell debt as recovery. Check if infra, merchant, or customer owns the failure)
 
 ---
 

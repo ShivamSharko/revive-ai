@@ -30,15 +30,15 @@ def execute_recovery(db, failure: PaymentFailure, verdict: str, rule_id: str, re
     if verdict == "ALLOW":
         bank_code = failure.method.upper() if failure.method else "DEFAULT"
         ev_data = calculate_ev(failure.amount_paise, bank_code)
-        
-        if is_degraded(bank_code):
+
+        if is_degraded(bank_code) or ev_data["recommendation"] == "DEFER":
             db.add(Job(
                 failure_id=failure.id, kind="DEFERRED_RETRY",
                 run_at=failure.occurred_at + timedelta(days=1), status="queued"))
             db.add(RecoveryAction(
-                failure_id=failure.id, action_type="DEFER_BANK_DEGRADED",
+                failure_id=failure.id, action_type="DEFER_EV" if ev_data["recommendation"] == "DEFER" else "DEFER_BANK_DEGRADED",
                 actor="system", status="deferred",
-                reasoning=f"Bank {bank_code} degraded (rate {ev_data['probability']}). EV={ev_data['ev']}. Deferred.",
+                reasoning=f"EV={ev_data['ev']} (prob={ev_data['probability']}, cost={ev_data['cost']}). Bank degraded={is_degraded(bank_code)}. Deferred.",
                 executed_at=func.now()))
             failure.status = "deferred"
             failure.amount_protected_paise = failure.amount_paise
@@ -96,3 +96,75 @@ def execute_recovery(db, failure: PaymentFailure, verdict: str, rule_id: str, re
             executed_at=func.now()))
         failure.status = "protected"
         failure.amount_protected_paise = failure.amount_paise
+
+    # --- Integrated messaging + voice (graceful: never breaks recovery) ---
+    # Runs only for LIVE failures (webhook), keeps the 500-batch fast & quota-safe
+    try:
+        if failure.source != "synthetic":
+            from app.db.models import Diagnosis as _Diag
+            _d = (db.query(_Diag).filter_by(failure_id=failure.id)
+                    .order_by(_Diag.id.desc()).first())
+            _arch = (_d.archetype if _d and _d.archetype else "technical")
+
+            if verdict in ("ALLOW", "DEFER"):
+                from app.core import messaging as _msg
+                _fn = next((getattr(_msg, n) for n in
+                            ("generate_message", "draft_message", "compose_message",
+                             "build_message", "create_message")
+                            if hasattr(_msg, n)), None)
+                if _fn:
+                    import inspect as _ins
+                    _np = len(_ins.signature(_fn).parameters)
+                    _out = _fn(failure, _d, verdict.lower()) if _np >= 3 else (
+                           _fn(failure, _d) if _np == 2 else _fn(failure))
+                    _text = _out if isinstance(_out, str) else (
+                            _out.get("en") or _out.get("message") or str(_out))
+                    db.add(RecoveryAction(
+                        failure_id=failure.id, action_type="MESSAGE_DRAFTED",
+                        actor="system", status="pending_send",
+                        reasoning=f"Message drafted: {str(_text)[:80]}",
+                        executed_at=func.now()))
+
+            if verdict == "ALLOW" and _arch == "technical":
+                from app.core.voice import voice_script, synthesize
+                _audio = synthesize(voice_script(_arch), f"voice_{failure.id}.mp3")
+                db.add(RecoveryAction(
+                    failure_id=failure.id, action_type="VOICE_SYNTHESIZED",
+                    actor="system", status="generated",
+                    reasoning=f"Voice file: {_audio}",
+                    executed_at=func.now()))
+    except Exception:
+        pass
+
+    # Wire messaging for ALLOW and DEFER verdicts
+    if verdict in ("ALLOW", "DEFER"):
+        try:
+            msg = draft_message(failure, diag, verdict.lower())
+            db.add(RecoveryAction(
+                failure_id=failure.id,
+                action_type="MESSAGE_DRAFTED",
+                actor="system",
+                status="pending_send",
+                reasoning=f"Message drafted: {msg.get('en', '')[:80]}...",
+                executed_at=func.now()
+            ))
+        except Exception as e:
+            # Don't fail the recovery if messaging fails
+            pass
+
+    # Wire voice for ALLOW verdicts (technical failures get voice explanation)
+    if verdict == "ALLOW" and diag.archetype == "technical":
+        try:
+            script = voice_script(diag.archetype)
+            audio_path = synthesize(script, f"voice_{failure.id}.mp3")
+            db.add(RecoveryAction(
+                failure_id=failure.id,
+                action_type="VOICE_SYNTHESIZED",
+                actor="system",
+                status="generated",
+                reasoning=f"Voice file: {audio_path}",
+                executed_at=func.now()
+            ))
+        except Exception as e:
+            # Don't fail the recovery if voice fails
+            pass
