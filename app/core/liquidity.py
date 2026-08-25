@@ -1,5 +1,6 @@
 """Liquidity Curves — full histogram of a customer's captured payment days."""
 from collections import Counter
+
 from app.db.models import CustomerPaymentHistory
 
 def liquidity_curve(db, customer_id: str) -> dict:

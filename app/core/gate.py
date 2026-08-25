@@ -3,6 +3,7 @@ from collections import Counter
 from app.db.models import PaymentFailure, MerchantConfig, CustomerPaymentHistory
 from app.core.diagnosis import DiagnosisOut
 from sqlalchemy.orm import Session
+from app.core.liquidity import liquidity_curve
 
 # THE 7 LAWS OF THE CONSENT GATE
 R01_RBI_MANDATE = "R01_RBI_MANDATE"
@@ -39,8 +40,11 @@ def evaluate_consent(db: Session, failure: PaymentFailure, diag: DiagnosisOut):
     # LAW 4: Liquidity Deferral (Wait for salary day)
     if diag.archetype == "affordability" and diag.owner == "customer_temp":
         if history:
-            days = [h.day_of_month for h in history]
-            salary_day = Counter(days).most_common(1)[0][0]
+        curve = liquidity_curve(db, f.customer_id)
+        day = curve["modal_day"] or (f.occurred_at.day + 7)
+                reasoning = (f"Liquidity curve over {curve['samples']} captured payments: modal day "
+                     f"{curve['modal_day']} (conf {curve['confidence']}), "
+                     f"histogram {curve['histogram']}. Defer to day {day}.")
             return Verdict.DEFER, "R04_LIQUIDITY_DEFER", f"Insufficient funds. Defer to salary day {salary_day}."
         return Verdict.DEFER, "R04_LIQUIDITY_DEFER", "Insufficient funds. Defer to next month."
 
