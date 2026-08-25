@@ -4,7 +4,7 @@
 
 ---
 
-## 🇮🇳 The Problem (2026 Reality)
+## The Problem (2026 Reality)
 
 India's digital payments infrastructure is the world's most advanced, which means its failure problem is the world's largest:
 
