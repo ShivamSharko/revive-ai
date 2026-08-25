@@ -5,7 +5,8 @@ psycopg2-binary
 python-dotenv
 razorpay
 openai
-groq
 streamlit
 pandas
 edge-tts
+redis
+requests

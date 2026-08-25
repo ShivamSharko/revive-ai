@@ -33,16 +33,19 @@ Blindly retrying these failures double-charges customers, spams them during sala
 
 ---
 
-## 📈 The Numbers (Test-Mode Evidence)
+## 📈 The Numbers (Verified — Latest 500-Batch Run)
 
 | Metric | Value |
 |---|---|
 | Failures processed | 500 synthetic + 3 real Razorpay test payments |
-| Diagnosis accuracy | **92% archetype / 92% owner** (Groq + Gemini failover, held-out n=40) |
-| Retries blocked by Consent Gate | **141 (28%)** |
-| Customer goodwill protected | **₹7,06,919** (blocked + deferred) |
-| Revenue safely recaptured | **₹7,83,676** (incl. 1 real Razorpay test payment) |
-| Safe retries executed | **293** |
+| Diagnosis accuracy | **90% archetype / 92% owner** (Groq GPT-OSS + Gemini failover, held-out n=40) |
+| Pure LLM coverage | **500/500** (0 rule fallback) |
+| Gate ALLOW (safe retry) | **278** |
+| Gate DEFER (salary-day EV) | **64** |
+| Gate BLOCK (protect) | **158** |
+| Revenue safely recaptured | **₹7,66,852** |
+| Customer goodwill protected | **₹5,66,624** (BLOCK ₹4,03,092 + DEFER ₹1,63,532) |
+| Per-archetype recovered | Technical ₹3,83,698 · Intent ₹2,47,560 · Lifecycle ₹95,811 |
 
 **Real test-mode IDs:** `pay_TSO8itQ6X4u1TT` (captured) · `pay_TSOALEUJL823Wr` (failed) · `pay_TSODxy4fmJFYBE` (authorized-stuck).
 
@@ -66,10 +69,10 @@ We didn't study other payment gateways. We studied industries that mastered high
 Every line of code in this repo passes through these 5 laws. If it violates a law, we cut it.
 
 1. **No money moves without valid consent.** (Protects against the Offline QR Trap)
-2. **Never retry in a way that can double-charge.** 
+2. **Never retry in a way that can double-charge.**
 3. **Never pressure, threaten, or shame a customer.** (Tone guard on every message)
 4. **Never debit without RBI-compliant notice.** (24-hour pre-debit rule)
-5. **Every decision is logged and auditable.** 
+5. **Every decision is logged and auditable.**
 
 ---
 
@@ -82,7 +85,7 @@ Razorpay Webhook / Orders API / Synthetic Generator
 [Ingestion] ──→ FastAPI BackgroundTasks (Async Queue)
      │
      ▼
-[Diagnosis Engine] ──→ Groq Llama-3.3 + Gemini Failover + Pydantic Validation
+[Diagnosis Engine] ──→ Groq GPT-OSS + Gemini Failover + Pydantic Validation
      │
      ▼
 [Consent Gate] ──→ Deterministic Rules (R-01 to R-07)
@@ -133,7 +136,7 @@ python -m venv venv && venv\Scripts\activate
 pip install -r requirements.txt
 
 # Database & Data
-python -m scripts.init_db                     # 8 tables
+python -m scripts.wipe_and_init               # 9 tables
 python -m app.data.generator                  # 500 labeled failures
 
 # The Pipeline
@@ -147,12 +150,15 @@ streamlit run app/dashboard.py                # Dashboard on :8501
 
 ### Demo Scripts
 ```bash
-python -m app.data.evaluate                   # 92% held-out accuracy
+python -m scripts.verify_numbers              # Print all verified metrics
+python -m scripts.wipe_and_init               # Nuclear reset: drop & recreate all tables
+python -m scripts.simulate_promise            # Flow: Promise-to-Pay tracker
+python -m app.data.evaluate                   # Held-out accuracy check
 python -m scripts.send_test_webhook           # HMAC-verified real webhook
 python -m scripts.simulate_dropoffs           # Flow B: merchant insights
 python -m scripts.simulate_b2b                # Flow D: B2B dispute halt + plans
 python -m scripts.voice_demo                  # Hinglish TTS (ElevenLabs)
-python -m scripts.generate_money_slide        # Dynamic ASCII money slide
+python -m scripts.generate_money_slide        # Dynamic per-archetype money slide
 ```
 
 ---

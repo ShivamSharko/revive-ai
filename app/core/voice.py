@@ -2,7 +2,12 @@
 import asyncio
 import os
 
+import requests
+
 from app.config import settings
+
+ELEVENLABS_API_KEY = settings.ELEVENLABS_API_KEY or os.getenv("ELEVENLABS_API_KEY", "")
+VOICE_ID = "cgSgspJ2msm6clMCkdW9"  # ElevenLabs Anjali (Hinglish)
 
 SCRIPTS = {
     "technical": "Namaste! Aapka payment, bank server issue ki wajah se fail hua tha. Ab problem fix ho gayi hai. Bas ek tap... aur dobara try kijiye.",
@@ -16,13 +21,11 @@ def voice_script(archetype):
 
 def synthesize(text: str, out_path: str) -> str:
     # Tier 1: ElevenLabs — low stability = expressive, NOT robotic
-    key = settings.ELEVENLABS_API_KEY or os.getenv("ELEVENLABS_API_KEY", "")
-    if key:
+    if ELEVENLABS_API_KEY:
         try:
-            import requests
             r = requests.post(
-                "https://api.elevenlabs.io/v1/text-to-speech/21m00Tcm4TlvDq8ikWAM",
-                headers={"xi-api-key": key},
+                f"https://api.elevenlabs.io/v1/text-to-speech/{VOICE_ID}",
+                headers={"xi-api-key": ELEVENLABS_API_KEY},
                 json={"text": text,
                       "model_id": "eleven_multilingual_v2",
                       "voice_settings": {"stability": 0.35,
