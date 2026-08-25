@@ -8,3 +8,4 @@ openai
 groq
 streamlit
 pandas
+edge-tts
