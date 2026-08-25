@@ -21,7 +21,7 @@ def _get_clients():
     if settings.GROQ_API_KEY:
         clients.append(("groq", OpenAI(api_key=settings.GROQ_API_KEY,
                         base_url="https://api.groq.com/openai/v1"),
-                        "openai/gpt-oss-120b"))
+                        "llama-3.3-70b-versatile"))
     if settings.GEMINI_API_KEY:
         clients.append(("gemini", OpenAI(api_key=settings.GEMINI_API_KEY,
                         base_url="https://generativelanguage.googleapis.com/v1beta/openai/"),

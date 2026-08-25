@@ -6,6 +6,5 @@ python-dotenv
 razorpay
 openai
 groq
-redis
 streamlit
 pandas

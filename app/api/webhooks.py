@@ -1,22 +1,17 @@
-"""Razorpay webhook ingestion with HMAC verification + full pipeline."""
-import hashlib
-import hmac
 import json
+import hmac
+import hashlib
 from datetime import datetime
-
-from fastapi import APIRouter, HTTPException, Request
-
+from fastapi import APIRouter, HTTPException, Request, BackgroundTasks
 from app.config import settings
-from app.core.diagnosis import diagnose_batch
-from app.core.gate import evaluate_consent
-from app.core.recovery import execute_recovery
 from app.db.database import SessionLocal
-from app.db.models import (AuditLog, Diagnosis, GateDecision, PaymentFailure)
+from app.db.models import PaymentFailure
+from app.core.worker import process_failure
 
 router = APIRouter()
 
 @router.post("/webhooks/razorpay")
-async def razorpay_webhook(request: Request):
+async def razorpay_webhook(request: Request, background_tasks: BackgroundTasks):
     body = await request.body()
     sig = request.headers.get("X-Razorpay-Signature", "")
     expected = hmac.new(settings.WEBHOOK_SECRET.encode(), body, hashlib.sha256).hexdigest()
@@ -46,19 +41,47 @@ async def razorpay_webhook(request: Request):
             db.commit()
             db.refresh(f)
 
-        (diag, model), = diagnose_batch([f])
-        db.add(Diagnosis(failure_id=f.id, archetype=diag.archetype, owner=diag.owner,
-                         confidence=diag.confidence, reasoning=diag.reasoning,
-                         model_used=model))
-        verdict, rule_id, reasoning = evaluate_consent(db, f, diag)
-        db.add(GateDecision(failure_id=f.id, rule_id=rule_id, verdict=verdict))
-        execute_recovery(db, f, verdict, rule_id, reasoning)
-        
-        # FIX: Polymorphic audit log insertion with string(8) actor constraint
-        db.add(AuditLog(entity_type="failure", entity_id=f.id, actor="system",
-                        action=f"{verdict}:{rule_id}", reasoning=reasoning))
-        
+        # QUEUE for async processing — returns immediately
+        background_tasks.add_task(process_failure, f.id)
+        return {"status": "queued", "payment_id": p["id"], "failure_id": f.id}
+    finally:
+        db.close()
+
+@router.post("/webhooks/razorpay/subscriptions")
+async def subscription_webhook(request: Request, background_tasks: BackgroundTasks):
+    body = await request.body()
+    sig = request.headers.get("X-Razorpay-Signature", "")
+    expected = hmac.new(settings.WEBHOOK_SECRET.encode(), body, hashlib.sha256).hexdigest()
+    if not hmac.compare_digest(sig, expected):
+        raise HTTPException(400, "invalid signature")
+
+    event = json.loads(body)
+    if event.get("event") != "subscription.charged":
+        return {"status": "ignored"}
+
+    p = event["payload"]["subscription"]["entity"]
+    db = SessionLocal()
+    try:
+        f = PaymentFailure(
+            external_payment_id=p.get("id", "sub_unknown"),
+            source="subscription",
+            amount_paise=p.get("amount", 0),
+            currency="INR",
+            method="emandate",
+            failure_code="MANDATE_NOTIFICATION_BREACH",
+            failure_description="Subscription charge failed — possible mandate breach",
+            customer_id=p.get("customer_id", "cust_sub_001"),
+            merchant_id="merch_002",
+            context="recurring",
+            session_active=False,
+            status="pending",
+            occurred_at=datetime.now()
+        )
+        db.add(f)
         db.commit()
-        return {"payment_id": p["id"], "verdict": verdict, "rule_id": rule_id}
+        db.refresh(f)
+
+        background_tasks.add_task(process_failure, f.id)
+        return {"status": "queued", "subscription_id": p.get("id")}
     finally:
         db.close()
