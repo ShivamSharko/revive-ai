@@ -38,15 +38,14 @@ def evaluate_consent(db: Session, failure: PaymentFailure, diag: DiagnosisOut):
         return Verdict.BLOCK, "R03_STRUCTURAL_STOP", "Repeated failures. Spamming will cause churn."
 
     # LAW 4: Liquidity Deferral (Wait for salary day)
+    # LAW 4: Liquidity Deferral (Wait for salary day)
     if diag.archetype == "affordability" and diag.owner == "customer_temp":
-        if history:
-        curve = liquidity_curve(db, f.customer_id)
-        day = curve["modal_day"] or (f.occurred_at.day + 7)
-                reasoning = (f"Liquidity curve over {curve['samples']} captured payments: modal day "
+        curve = liquidity_curve(db, failure.customer_id)
+        day = curve["modal_day"] or (failure.occurred_at.day + 7)
+        reasoning = (f"Liquidity curve over {curve['samples']} captured payments: modal day "
                      f"{curve['modal_day']} (conf {curve['confidence']}), "
                      f"histogram {curve['histogram']}. Defer to day {day}.")
-            return Verdict.DEFER, "R04_LIQUIDITY_DEFER", f"Insufficient funds. Defer to salary day {salary_day}."
-        return Verdict.DEFER, "R04_LIQUIDITY_DEFER", "Insufficient funds. Defer to next month."
+        return Verdict.DEFER, R04_LIQUIDITY_DEFER, reasoning
 
     # ★ THE DEMO STAR: Offline QR Consent Trap (R-07) ★
     # Customer left physical store. Silent retry = double charge.
