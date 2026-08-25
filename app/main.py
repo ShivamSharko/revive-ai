@@ -57,5 +57,10 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(title="Revive AI", lifespan=lifespan)
+
+@app.get("/health")
+def health():
+    return {"status": "ok", "service": "revive-ai"}
+
 app.include_router(dashboard_router)
 app.include_router(webhook_router)
