@@ -21,7 +21,7 @@ def _get_clients():
     if settings.GROQ_API_KEY:
         clients.append(("groq", OpenAI(api_key=settings.GROQ_API_KEY,
                         base_url="https://api.groq.com/openai/v1"),
-                        "llama-3.3-70b-versatile"))
+                        "openai/gpt-oss-120b"))
     if settings.GEMINI_API_KEY:
         clients.append(("gemini", OpenAI(api_key=settings.GEMINI_API_KEY,
                         base_url="https://generativelanguage.googleapis.com/v1beta/openai/"),
@@ -74,11 +74,14 @@ def _payload(f):
 
 
 def _validate(item):
+    """Repair or reject a single diagnosis dict. Never crash."""
+    if not isinstance(item, dict):
+        raise ValidationError("Not a dict")
     try:
         return DiagnosisOut.model_validate(item)
     except ValidationError:
-        arch = str(item.get("archetype", "")).lower()
-        owner = str(item.get("owner", "")).lower()
+        arch = str(item.get("archetype") or "").lower()
+        owner = str(item.get("owner") or "").lower()
         a = next((x for x in ARCHS if x == arch or x in arch), None)
         o = next((x for x in OWNERS if x == owner or x in owner), None)
         if not a or not o:
