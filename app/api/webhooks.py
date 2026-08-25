@@ -56,7 +56,7 @@ async def subscription_webhook(request: Request, background_tasks: BackgroundTas
         raise HTTPException(400, "invalid signature")
 
     event = json.loads(body)
-    if event.get("event") != "subscription.charged":
+    if event.get("event") != "subscription.charged.failed":
         return {"status": "ignored"}
 
     p = event["payload"]["subscription"]["entity"]
