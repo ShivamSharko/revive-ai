@@ -121,6 +121,7 @@ Every example direction in the Razorpay Buildathon problem statement is implemen
 | Mandate expiry assurance | `audit.py` (RBI 24h pre-debit) + R-01 |
 | Hinglish voice recovery | `voice.py`: ElevenLabs → edge-tts → text fallback |
 | Drop-to-pay flow tracker | `dropoff_funnel.py` |
+| Promise-to-pay tracker | `promise.py`: customer commits to date, auto-retry or human escalate |
 
 ---
 

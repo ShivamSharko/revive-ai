@@ -63,12 +63,28 @@ def execute_recovery(db, failure: PaymentFailure, verdict: str, rule_id: str, re
             record_attempt(bank_code, success=True)
 
     elif verdict == "DEFER":
+        import re
+        from datetime import datetime
+
+        # Parse modal salary day from gate reasoning: "Defer to day X."
+        day_match = re.search(r"Defer to day (\d+)", reasoning)
+        if day_match:
+            target_day = int(day_match.group(1))
+            today = datetime.now().day
+            days_until = (target_day - today) % 30
+            if days_until <= 0:
+                days_until += 30
+            run_at = failure.occurred_at + timedelta(days=days_until)
+        else:
+            run_at = failure.occurred_at + timedelta(days=7)
+
         db.add(Job(
             failure_id=failure.id, kind="DEFERRED_RETRY",
-            run_at=failure.occurred_at + timedelta(days=7), status="queued"))
+            run_at=run_at, status="queued"))
         db.add(RecoveryAction(
             failure_id=failure.id, action_type="DEFERRED",
             actor="system", status="scheduled",
+            reasoning=f"Deferred to salary day. {reasoning}",
             executed_at=func.now()))
         failure.status = "deferred"
         failure.amount_protected_paise = failure.amount_paise

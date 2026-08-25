@@ -47,8 +47,8 @@ class GateDecision(Base):
     __tablename__ = "gate_decisions"
     id = Column(Integer, primary_key=True)
     failure_id = Column(Integer, ForeignKey("payment_failures.id"), index=True)
-    rule_id = Column(String(16))
-    verdict = Column(String(8))
+    rule_id = Column(String(32), nullable=False)  # FIX: was String(16), too short
+    verdict = Column(String(16), nullable=False)
     context_snapshot = Column(JSON)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
 
@@ -105,3 +105,13 @@ class MerchantConfig(Base):
     pre_debit_notification_hours = Column(Integer, default=24)
     billing_day = Column(Integer)
     fee_reveal_at_checkout = Column(Boolean, default=False)
+
+
+class PromiseToPay(Base):
+    __tablename__ = "promises_to_pay"
+    id = Column(Integer, primary_key=True)
+    failure_id = Column(Integer, ForeignKey("payment_failures.id"), index=True)
+    promised_date = Column(DateTime(timezone=True), nullable=False)
+    amount_paise = Column(BigInteger, nullable=False)
+    status = Column(String(16), default="active")
+    created_at = Column(DateTime(timezone=True), server_default=func.now())
