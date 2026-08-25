@@ -2,8 +2,7 @@
 import asyncio
 import os
 
-from dotenv import load_dotenv
-load_dotenv()
+from app.config import settings
 
 SCRIPTS = {
     "technical": "Namaste! Aapka payment, bank server issue ki wajah se fail hua tha. Ab problem fix ho gayi hai. Bas ek tap... aur dobara try kijiye.",
@@ -17,7 +16,7 @@ def voice_script(archetype):
 
 def synthesize(text: str, out_path: str) -> str:
     # Tier 1: ElevenLabs — low stability = expressive, NOT robotic
-    key = os.environ.get("ELEVENLABS_API_KEY")
+    key = settings.ELEVENLABS_API_KEY or os.getenv("ELEVENLABS_API_KEY", "")
     if key:
         try:
             import requests
