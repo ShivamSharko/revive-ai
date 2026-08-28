@@ -45,13 +45,13 @@ Blindly retrying these failures double-charges customers who already paid cash, 
 ### The Money Slide (generated live by `scripts/generate_money_slide.py`)
 
 ```text
-500 failures (Rs.12,93,693 At Risk)
-├── Technical:     Rs.3,71,362 recovered (silent retries, invisible recovery)
-├── Intent:        Rs.2,55,660 recovered (mechanism swaps & nudges)
-├── Affordability: Rs.0 now · Rs.1,56,972 scheduled (Deferred EV to salary day)
-└── Lifecycle:     Rs.1,37,251 protected (mandate compliance enforced)
+512 failures (₹12,99,681 At Risk)
+├── Technical:     ₹3,74,913 recovered (silent retries, invisible recovery)
+├── Intent:        ₹2,50,458 recovered (mechanism swaps & nudges)
+├── Affordability: ₹0 now · ₹1,42,634 scheduled (Deferred EV to salary day)
+└── Lifecycle:     ₹95,811 recovered (card updates) · ₹1,37,251 protected (mandate compliance enforced)
 
-Total: Rs.7,22,833 recovered · Rs.4,13,888 protected · Rs.1,56,972 deferred
+Total: ₹7,21,182 recovered · ₹4,29,877 protected · ₹1,42,634 deferred
 
 "Customer-structural recovery = Rs.0. That's intentional. (Hotel 'Walk' Protocol)"
 ```
