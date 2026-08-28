@@ -5,7 +5,7 @@ from datetime import datetime
 from fastapi import APIRouter, HTTPException, Request, BackgroundTasks
 from app.config import settings
 from app.db.database import SessionLocal
-from app.db.models import PaymentFailure, MerchantConfig
+from app.db.models import PaymentFailure, MerchantConfig, GateDecision
 from app.core.worker import process_failure
 
 router = APIRouter()
@@ -42,6 +42,10 @@ async def razorpay_webhook(request: Request, background_tasks: BackgroundTasks):
             db.refresh(f)
 
         # QUEUE for async processing — returns immediately
+        already = db.query(GateDecision).filter_by(failure_id=f.id).first()
+        if already:
+            return {"status": "duplicate_ignored", "payment_id": p["id"], "failure_id": f.id}
+
         background_tasks.add_task(process_failure, f.id)
         return {"status": "queued", "payment_id": p["id"], "failure_id": f.id}
     finally:
@@ -60,15 +64,14 @@ async def subscription_webhook(request: Request, background_tasks: BackgroundTas
         return {"status": "ignored"}
 
     p = event["payload"]["subscription"]["entity"]
+    ext_id = p.get("id", "sub_unknown")
+
     db = SessionLocal()
     try:
-        # Check for duplicate
-        existing = db.query(PaymentFailure).filter_by(
-            external_payment_id=p.get("id", "sub_unknown"),
-            source="subscription"
-        ).first()
+        # Idempotency: if Razorpay retries the webhook, ignore duplicates
+        existing = db.query(PaymentFailure).filter_by(external_payment_id=ext_id).first()
         if existing:
-            return {"status": "duplicate", "subscription_id": p.get("id")}
+            return {"status": "duplicate_ignored", "subscription_id": ext_id}
 
         merchant_id = p.get("merchant_id", "merch_002")
         merchant = db.query(MerchantConfig).filter_by(merchant_id=merchant_id).first()
@@ -76,31 +79,30 @@ async def subscription_webhook(request: Request, background_tasks: BackgroundTas
 
         if actual_hours < 24:
             failure_code = "MANDATE_NOTIFICATION_BREACH"
-            failure_desc = f"Pre-debit notification sent at {actual_hours}h (RBI requires >=24h)"
+            failure_description = f"Pre-debit notification sent at {actual_hours}h (RBI requires >=24h)"
         else:
             failure_code = p.get("error_code", "SUBSCRIPTION_CHARGE_FAILED")
-            failure_desc = p.get("error_description", "Subscription charge failed")
+            failure_description = p.get("error_description", "Subscription charge failed")
 
         f = PaymentFailure(
-            external_payment_id=p.get("id", "sub_unknown"),
+            external_payment_id=ext_id,
             source="subscription",
             amount_paise=p.get("amount", 0),
             currency="INR",
             method="emandate",
             failure_code=failure_code,
-            failure_description=failure_desc,
+            failure_description=failure_description,
             customer_id=p.get("customer_id", "cust_sub_001"),
             merchant_id=merchant_id,
             context="recurring",
             session_active=False,
             status="pending",
-            occurred_at=datetime.now()
-        )
+            occurred_at=datetime.now())
         db.add(f)
         db.commit()
         db.refresh(f)
 
         background_tasks.add_task(process_failure, f.id)
-        return {"status": "queued", "subscription_id": p.get("id")}
+        return {"status": "queued", "subscription_id": ext_id}
     finally:
         db.close()

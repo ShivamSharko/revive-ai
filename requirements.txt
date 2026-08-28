@@ -11,4 +11,4 @@ pandas
 edge-tts
 redis
 requests
-apscheduler
+apschedulerpytest

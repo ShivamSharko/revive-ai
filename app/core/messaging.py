@@ -61,7 +61,7 @@ def generate_message(failure, verdict, lang="en", defer_day=1, link=None):
     msg, model = draft_llm(payload, lang)
     if msg:
         return {"message": msg, "via": model, "guarded": True}
-    return {"message": FALLBACK[(verdict, lang)].format(
+    return {"message": (FALLBACK.get((verdict, lang)) or FALLBACK[(verdict, "en")]).format(
                 amt=f"{failure.amount_paise/100:,.0f}", day=defer_day,
                 link=payload["link"]),
             "via": "template", "guarded": True}

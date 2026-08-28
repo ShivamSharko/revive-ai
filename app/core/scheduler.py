@@ -24,12 +24,15 @@ async def run_job_processor():
                 job.attempts += 1
                 failure = db.query(PaymentFailure).get(job.failure_id)
                 if failure and failure.status == "deferred":
-                    # Re-process: re-diagnose, re-gate, attempt recovery
-                    process_failure(failure.id)
+                    fid = failure.id
                     job.status = "completed"
+                    db.commit()
+                    # FIX: heavy LLM + recovery work runs in a thread,
+                    # so the FastAPI event loop never blocks
+                    await asyncio.to_thread(process_failure, fid)
                 else:
                     job.status = "cancelled"
-                db.commit()
+                    db.commit()
         except Exception as e:
             db.rollback()
         finally:
@@ -42,11 +45,11 @@ async def run_orders_poller():
         await asyncio.sleep(300)  # 5 minutes
         db = SessionLocal()
         try:
-            orders = fetch_abandoned_orders()
+            # FIX: network call to Razorpay runs in a thread
+            orders = await asyncio.to_thread(fetch_abandoned_orders)
             for o in orders:
                 if db.query(PaymentFailure).filter_by(external_payment_id=o["id"]).first():
                     continue
-                from datetime import datetime
                 db.add(PaymentFailure(
                     external_payment_id=o["id"],
                     source="orders_api",

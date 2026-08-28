@@ -25,6 +25,6 @@
   },
   "BLOCK": {
     "message": null,
-    "reason": "R-07 offline consent trap"
+    "reason": "R07_OFFLINE_QR_TRAP: customer left store; silent retry blocked to prevent double-charge"
   }
 }

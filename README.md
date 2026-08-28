@@ -164,5 +164,6 @@ python -m scripts.dropoff_funnel         # drop-to-pay flow tracker
 - Simulation treats ALLOW retries as successful; production would track real Razorpay retry outcomes per attempt.
 - Synthetic batch is labeled ground truth; accuracy measured on held-out sample (n=40, stratified).
 - `failure_journal.md` logs every break, fix, and "aha" moment — including the day Groq retired our model mid-build.
+- Accuracy is computed only over rows holding a pure-LLM diagnosis; rules-fallback rows (none in the shipped batch — verify via `scripts/verify_numbers.py`) are excluded from the calculation.
 
 **Revive AI. Never remind. Resolve. No money moves without consent.**
