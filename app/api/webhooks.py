@@ -5,10 +5,8 @@ from datetime import datetime
 from fastapi import APIRouter, HTTPException, Request, BackgroundTasks
 from app.config import settings
 from app.db.database import SessionLocal
-from app.db.models import PaymentFailure
-from app.core.worker import process_failure
-
 from app.db.models import PaymentFailure, MerchantConfig
+from app.core.worker import process_failure
 
 router = APIRouter()
 
@@ -64,16 +62,24 @@ async def subscription_webhook(request: Request, background_tasks: BackgroundTas
     p = event["payload"]["subscription"]["entity"]
     db = SessionLocal()
     try:
+        # Check for duplicate
+        existing = db.query(PaymentFailure).filter_by(
+            external_payment_id=p.get("id", "sub_unknown"),
+            source="subscription"
+        ).first()
+        if existing:
+            return {"status": "duplicate", "subscription_id": p.get("id")}
+
         merchant_id = p.get("merchant_id", "merch_002")
         merchant = db.query(MerchantConfig).filter_by(merchant_id=merchant_id).first()
         actual_hours = merchant.pre_debit_notification_hours if merchant else 24
 
         if actual_hours < 24:
             failure_code = "MANDATE_NOTIFICATION_BREACH"
-            failure_description = f"Pre-debit notification sent at {actual_hours}h (RBI requires >=24h)"
+            failure_desc = f"Pre-debit notification sent at {actual_hours}h (RBI requires >=24h)"
         else:
             failure_code = p.get("error_code", "SUBSCRIPTION_CHARGE_FAILED")
-            failure_description = p.get("error_description", "Subscription charge failed")
+            failure_desc = p.get("error_description", "Subscription charge failed")
 
         f = PaymentFailure(
             external_payment_id=p.get("id", "sub_unknown"),
@@ -82,13 +88,14 @@ async def subscription_webhook(request: Request, background_tasks: BackgroundTas
             currency="INR",
             method="emandate",
             failure_code=failure_code,
-            failure_description=failure_description,
+            failure_description=failure_desc,
             customer_id=p.get("customer_id", "cust_sub_001"),
             merchant_id=merchant_id,
             context="recurring",
             session_active=False,
             status="pending",
-            occurred_at=datetime.now())
+            occurred_at=datetime.now()
+        )
         db.add(f)
         db.commit()
         db.refresh(f)

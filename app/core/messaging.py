@@ -49,10 +49,15 @@ def draft_llm(payload, lang):
             continue
     return None, None
 
-def generate_message(failure, verdict, lang="en", defer_day=1):
-    payload = {"amount_rupees": failure.amount_paise / 100, "method": failure.method,
-               "failure_code": failure.failure_code, "verdict": verdict,
-               "defer_day": defer_day, "link": "https://rzp.io/l/revive1"}
+def generate_message(failure, verdict, lang="en", defer_day=1, link=None):
+    payload = {
+        "amount_rupees": failure.amount_paise / 100,
+        "method": failure.method,
+        "failure_code": failure.failure_code,
+        "verdict": verdict,
+        "defer_day": defer_day,
+        "link": link or "https://rzp.io/l/revive-fallback"
+    }
     msg, model = draft_llm(payload, lang)
     if msg:
         return {"message": msg, "via": model, "guarded": True}

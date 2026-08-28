@@ -32,15 +32,15 @@ Blindly retrying these failures double-charges customers who already paid cash, 
 
 ## 📈 The Numbers (Fresh 500-Batch, Test-Mode Evidence)
 
-| Metric | Value |
-|---|---|
-| Failures processed | 500 synthetic (seeded, reproducible) + 3 real Razorpay test payments (`real_pay_ids.json`) |
-| Diagnosis accuracy (held-out, n=40) | **95% archetype / 92% owner** (Groq `gpt-oss-120b` + Gemini failover, 500/500 pure-LLM) |
-| Retries blocked by Consent Gate | **159 (32%)** |
-| Safe retries executed (ALLOW) | **278** |
-| Deferred to salary day (DEFER) | **63** |
-| Revenue safely recaptured | **Rs.7,22,833** |
-| Customer goodwill protected | **Rs.5,70,860** (Rs.4,13,888 blocked + Rs.1,56,972 deferred) |
+| Metric| Value|
+| ---| ---|
+| Failures processed| 512 (500 synthetic + live test payments)|
+| Diagnosis accuracy (held-out, n=40)| **98% archetype / 95% owner** |
+| Retries blocked by Consent Gate| **165 (32%)**|
+| Safe retries executed (ALLOW)| **277**|
+| Deferred to salary day (DEFER)| **58**|
+| Revenue safely recaptured| **₹7,21,182**|
+| Customer goodwill protected| **₹5,72,511** (₹4,29,877 blocked + ₹1,42,634 deferred)|
 
 ### The Money Slide (generated live by `scripts/generate_money_slide.py`)
 
@@ -63,7 +63,7 @@ Total: Rs.7,22,833 recovered · Rs.4,13,888 protected · Rs.1,56,972 deferred
 ## ⚖️ The 5 Laws (The Conscience)
 
 1. **No money moves without valid consent.** (Protects against the Offline QR trap)
-2. **Never remind. Resolve.** (A message must encode the diagnosis. "Bank was down, it's fixed now" > "Your cart is saved!")
+2. **Never remind. Resolve.** (A message must encode the diagnosis. "Bank was down, it's fixed now" &gt; "Your cart is saved!")
 3. **The best recovery is invisible.** (Silent retries for technical failures)
 4. **Safety is rules, not AI.** (The Consent Gate and stopping rules are deterministic code, never probabilistic LLMs)
 5. **Assign ownership before acting.** (Never sell debt as recovery. Check if infra, merchant, or customer owns the failure)

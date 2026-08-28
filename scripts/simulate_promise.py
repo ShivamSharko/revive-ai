@@ -30,7 +30,7 @@ def main():
         promises = check_promises(db, datetime.now() + timedelta(days=10))
         print(f"\n{len(promises)} active promise(s) due within 10 days:")
         for p in promises[:5]:
-            f = db.query(PaymentFailure).get(p.failure_id)
+            f = db.get(PaymentFailure, p.failure_id)
             print(f"  - {f.external_payment_id}: ₹{p.amount_paise/100:,.0f} due {p.promised_date.date()}")
 
         print("\n→ On promise date: auto-retry via UPI Collect Request")

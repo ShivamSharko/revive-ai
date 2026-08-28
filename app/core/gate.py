@@ -38,7 +38,6 @@ def evaluate_consent(db: Session, failure: PaymentFailure, diag: DiagnosisOut):
         return Verdict.BLOCK, "R03_STRUCTURAL_STOP", "Repeated failures. Spamming will cause churn."
 
     # LAW 4: Liquidity Deferral (Wait for salary day)
-    # LAW 4: Liquidity Deferral (Wait for salary day)
     if diag.archetype == "affordability" and diag.owner == "customer_temp":
         curve = liquidity_curve(db, failure.customer_id)
         day = curve["modal_day"] or (failure.occurred_at.day + 7)

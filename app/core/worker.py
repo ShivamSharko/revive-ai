@@ -1,4 +1,5 @@
 """Background worker for async webhook processing."""
+import traceback
 from app.db.database import SessionLocal
 from app.db.models import PaymentFailure, Diagnosis, GateDecision, AuditLog
 from app.core.diagnosis import diagnose_batch
@@ -13,7 +14,18 @@ def process_failure(failure_id: int):
             return
 
         # 1. Diagnose
-        (diag, model), = diagnose_batch([f])
+        try:
+            (diag, model), = diagnose_batch([f])
+        except Exception as e:
+            db.add(AuditLog(
+                entity_type="failure", entity_id=f.id,
+                actor="system", action="DIAGNOSIS_ERROR",
+                reasoning=f"LLM+rules both failed: {type(e).__name__}: {str(e)[:200]}"
+            ))
+            f.status = "error"
+            db.commit()
+            return
+
         db.add(Diagnosis(
             failure_id=f.id,
             archetype=diag.archetype,
@@ -24,8 +36,31 @@ def process_failure(failure_id: int):
         ))
 
         # 2. Gate
-        verdict, rule_id, reasoning = evaluate_consent(db, f, diag)
-        db.add(GateDecision(failure_id=f.id, rule_id=rule_id, verdict=verdict))
+        try:
+            verdict, rule_id, reasoning = evaluate_consent(db, f, diag)
+        except Exception as e:
+            db.add(AuditLog(
+                entity_type="failure", entity_id=f.id,
+                actor="system", action="GATE_ERROR",
+                reasoning=f"Gate crashed: {type(e).__name__}: {str(e)[:200]}"
+            ))
+            f.status = "error"
+            db.commit()
+            return
+
+        db.add(GateDecision(
+            failure_id=f.id,
+            rule_id=rule_id,
+            verdict=verdict,
+            context_snapshot={
+                "archetype": diag.archetype,
+                "owner": diag.owner,
+                "context": f.context,
+                "method": f.method,
+                "failure_code": f.failure_code,
+                "amount_paise": f.amount_paise,
+            }
+        ))
 
         # 3. Audit
         db.add(AuditLog(
@@ -36,9 +71,32 @@ def process_failure(failure_id: int):
             reasoning=reasoning
         ))
 
-        # 4. Recover
-        execute_recovery(db, f, verdict, rule_id, reasoning)
+        # 4. Recover — LIVE MODE: voice + messaging fire here
+        try:
+            execute_recovery(db, f, verdict, rule_id, reasoning, live_mode=True)
+        except Exception as e:
+            db.rollback()
+            db.add(AuditLog(
+                entity_type="failure", entity_id=f.id,
+                actor="system", action="RECOVERY_ERROR",
+                reasoning=f"Recovery crashed: {type(e).__name__}: {str(e)[:200]}\n{traceback.format_exc()[:300]}"
+            ))
+            f.status = "error"
+            db.commit()
+            return
+
         db.commit()
 
+    except Exception as e:
+        db.rollback()
+        try:
+            db.add(AuditLog(
+                entity_type="failure", entity_id=failure_id,
+                actor="system", action="WORKER_FATAL",
+                reasoning=f"Worker crashed fatally: {type(e).__name__}: {str(e)[:200]}"
+            ))
+            db.commit()
+        except:
+            pass
     finally:
         db.close()

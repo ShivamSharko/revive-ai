@@ -51,7 +51,15 @@ def main():
             elif arch == "affordability":
                 print(f"├── Affordability: ₹0 now · ₹{defer:,.0f} scheduled (Deferred EV to salary day)")
             else:
-                print(f"└── Lifecycle:     ₹{prot:,.0f} protected (mandate compliance enforced)")
+                # Lifecycle: show BOTH recovered and protected
+                parts = []
+                if rec > 0:
+                    parts.append(f"₹{rec:,.0f} recovered (card updates)")
+                if prot > 0:
+                    parts.append(f"₹{prot:,.0f} protected (mandate compliance enforced)")
+                if not parts:
+                    parts.append("₹0")
+                print(f"└── Lifecycle:     {' · '.join(parts)}")
 
         total_rec = sum((recovered.get(a, 0) or 0) for a in ["technical", "intent", "affordability", "lifecycle"]) / 100
         total_prot = sum((protected.get(a, 0) or 0) for a in ["technical", "intent", "affordability", "lifecycle"]) / 100

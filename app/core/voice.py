@@ -36,8 +36,10 @@ def synthesize(text: str, out_path: str) -> str:
                 with open(out_path, "wb") as fh:
                     fh.write(r.content)
                 return out_path + "  [engine: ElevenLabs]"
-        except Exception:
+        except Exception as e:
+            # Log but don't crash — fall through to next tier
             pass
+
     # Tier 2: edge-tts — en-IN reads LATIN-script Hinglish naturally (hi-IN does not)
     try:
         import edge_tts
@@ -45,6 +47,7 @@ def synthesize(text: str, out_path: str) -> str:
         return out_path + "  [engine: edge-tts]"
     except Exception:
         pass
+
     # Tier 3: text fallback
     txt = out_path.replace(".mp3", ".txt")
     with open(txt, "w", encoding="utf-8") as fh:
