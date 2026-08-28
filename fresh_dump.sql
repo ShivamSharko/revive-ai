@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict 5YWrLDp5MAbaVIzgiZrHfTcYfgQLim9stcO8HKKei0YzGGP84BtFpzps2fZ5Pbh
+\restrict Pu49m1ivVGED8bwNH9RS0WGd7RsB2cNnAwZx6t5bA1qgdV74YtQiNYgOxvbKRgN
 
 -- Dumped from database version 16.15
 -- Dumped by pg_dump version 16.15
@@ -456,506 +456,506 @@ ALTER TABLE ONLY public.recovery_actions ALTER COLUMN id SET DEFAULT nextval('pu
 
 COPY public.audit_logs (id, entity_type, entity_id, actor, action, reasoning, metadata_json, created_at) FROM stdin;
 1001	failure	513	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 13:43:19.941381+00
-671	failure	171	system	BLOCK:R03_STRUCTURAL_STOP	Repeated failures. Spamming will cause churn.	\N	2026-08-28 12:56:44.459967+00
-501	failure	1	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-502	failure	2	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 12:56:44.459967+00
-503	failure	3	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-504	failure	4	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-505	failure	5	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-506	failure	6	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 12:56:44.459967+00
-507	failure	7	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-508	failure	8	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 12:56:44.459967+00
-509	failure	9	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 12:56:44.459967+00
-510	failure	10	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 12:56:44.459967+00
-511	failure	11	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 1 (conf 1.0), histogram {1: 8}. Defer to day 1.	\N	2026-08-28 12:56:44.459967+00
-512	failure	12	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 1 (conf 1.0), histogram {1: 8}. Defer to day 1.	\N	2026-08-28 12:56:44.459967+00
-513	failure	13	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-514	failure	14	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-515	failure	15	system	BLOCK:R01_RBI_MANDATE	Pre-debit notification < 24h. RBI compliance block.	\N	2026-08-28 12:56:44.459967+00
-516	failure	16	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-517	failure	17	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-518	failure	18	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-519	failure	19	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-520	failure	20	system	BLOCK:R01_RBI_MANDATE	Pre-debit notification < 24h. RBI compliance block.	\N	2026-08-28 12:56:44.459967+00
-521	failure	21	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 20 (conf 1.0), histogram {20: 8}. Defer to day 20.	\N	2026-08-28 12:56:44.459967+00
-522	failure	22	system	BLOCK:R03_STRUCTURAL_STOP	Repeated failures. Spamming will cause churn.	\N	2026-08-28 12:56:44.459967+00
-523	failure	23	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-524	failure	24	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-525	failure	25	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-526	failure	26	system	BLOCK:R01_RBI_MANDATE	Pre-debit notification < 24h. RBI compliance block.	\N	2026-08-28 12:56:44.459967+00
-527	failure	27	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-528	failure	28	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-529	failure	29	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-530	failure	30	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-531	failure	31	system	BLOCK:R07_OFFLINE_QR_TRAP	Customer left store. Silent retry blocked to prevent double-charge.	\N	2026-08-28 12:56:44.459967+00
-532	failure	32	system	BLOCK:R01_RBI_MANDATE	Pre-debit notification < 24h. RBI compliance block.	\N	2026-08-28 12:56:44.459967+00
-533	failure	33	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 20 (conf 1.0), histogram {20: 8}. Defer to day 20.	\N	2026-08-28 12:56:44.459967+00
-534	failure	34	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-535	failure	35	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-536	failure	36	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-537	failure	37	system	BLOCK:R07_OFFLINE_QR_TRAP	Customer left store. Silent retry blocked to prevent double-charge.	\N	2026-08-28 12:56:44.459967+00
-538	failure	38	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-539	failure	39	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 1 (conf 1.0), histogram {1: 8}. Defer to day 1.	\N	2026-08-28 12:56:44.459967+00
-540	failure	40	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-541	failure	41	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-542	failure	42	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-543	failure	43	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-544	failure	44	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 12:56:44.459967+00
-545	failure	45	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 12:56:44.459967+00
-546	failure	46	system	BLOCK:R01_RBI_MANDATE	Pre-debit notification < 24h. RBI compliance block.	\N	2026-08-28 12:56:44.459967+00
-547	failure	47	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-548	failure	48	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-549	failure	49	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 20 (conf 1.0), histogram {20: 8}. Defer to day 20.	\N	2026-08-28 12:56:44.459967+00
-550	failure	50	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-551	failure	51	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 1 (conf 1.0), histogram {1: 8}. Defer to day 1.	\N	2026-08-28 12:56:44.459967+00
-552	failure	52	system	BLOCK:R01_RBI_MANDATE	Pre-debit notification < 24h. RBI compliance block.	\N	2026-08-28 12:56:44.459967+00
-553	failure	53	system	BLOCK:R03_STRUCTURAL_STOP	Repeated failures. Spamming will cause churn.	\N	2026-08-28 12:56:44.459967+00
-554	failure	54	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-555	failure	55	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 20 (conf 1.0), histogram {20: 8}. Defer to day 20.	\N	2026-08-28 12:56:44.459967+00
-556	failure	56	system	BLOCK:R01_RBI_MANDATE	Pre-debit notification < 24h. RBI compliance block.	\N	2026-08-28 12:56:44.459967+00
-557	failure	57	system	BLOCK:R01_RBI_MANDATE	Pre-debit notification < 24h. RBI compliance block.	\N	2026-08-28 12:56:44.459967+00
-558	failure	58	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-559	failure	59	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-560	failure	60	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-561	failure	61	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-562	failure	62	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-563	failure	63	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-564	failure	64	system	BLOCK:R01_RBI_MANDATE	Pre-debit notification < 24h. RBI compliance block.	\N	2026-08-28 12:56:44.459967+00
-565	failure	65	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 12:56:44.459967+00
-566	failure	66	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 15 (conf 1.0), histogram {15: 8}. Defer to day 15.	\N	2026-08-28 12:56:44.459967+00
-567	failure	67	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-568	failure	68	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-569	failure	69	system	BLOCK:R03_STRUCTURAL_STOP	Repeated failures. Spamming will cause churn.	\N	2026-08-28 12:56:44.459967+00
-570	failure	70	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-571	failure	71	system	BLOCK:R03_STRUCTURAL_STOP	Repeated failures. Spamming will cause churn.	\N	2026-08-28 12:56:44.459967+00
-572	failure	72	system	BLOCK:R03_STRUCTURAL_STOP	Repeated failures. Spamming will cause churn.	\N	2026-08-28 12:56:44.459967+00
-573	failure	73	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-574	failure	74	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-575	failure	75	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 12:56:44.459967+00
-576	failure	76	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 12:56:44.459967+00
-577	failure	77	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-578	failure	78	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 12:56:44.459967+00
-579	failure	79	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 12:56:44.459967+00
-580	failure	80	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-581	failure	81	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-582	failure	82	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 1 (conf 1.0), histogram {1: 8}. Defer to day 1.	\N	2026-08-28 12:56:44.459967+00
-583	failure	83	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-584	failure	84	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-585	failure	85	system	BLOCK:R03_STRUCTURAL_STOP	Repeated failures. Spamming will cause churn.	\N	2026-08-28 12:56:44.459967+00
-586	failure	86	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-587	failure	87	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-588	failure	88	system	BLOCK:R03_STRUCTURAL_STOP	Repeated failures. Spamming will cause churn.	\N	2026-08-28 12:56:44.459967+00
-589	failure	89	system	BLOCK:R03_STRUCTURAL_STOP	Repeated failures. Spamming will cause churn.	\N	2026-08-28 12:56:44.459967+00
-590	failure	90	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-591	failure	91	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-592	failure	92	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-593	failure	93	system	BLOCK:R03_STRUCTURAL_STOP	Repeated failures. Spamming will cause churn.	\N	2026-08-28 12:56:44.459967+00
-594	failure	94	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-595	failure	95	system	BLOCK:R03_STRUCTURAL_STOP	Repeated failures. Spamming will cause churn.	\N	2026-08-28 12:56:44.459967+00
-596	failure	96	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-597	failure	97	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-598	failure	98	system	BLOCK:R01_RBI_MANDATE	Pre-debit notification < 24h. RBI compliance block.	\N	2026-08-28 12:56:44.459967+00
-599	failure	99	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 12:56:44.459967+00
-600	failure	100	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-601	failure	101	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-602	failure	102	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-603	failure	103	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-604	failure	104	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-605	failure	105	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-606	failure	106	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 12:56:44.459967+00
-607	failure	107	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-608	failure	108	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 12:56:44.459967+00
-609	failure	109	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 12:56:44.459967+00
-610	failure	110	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-611	failure	111	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 20 (conf 1.0), histogram {20: 8}. Defer to day 20.	\N	2026-08-28 12:56:44.459967+00
-612	failure	112	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 20 (conf 1.0), histogram {20: 8}. Defer to day 20.	\N	2026-08-28 12:56:44.459967+00
-613	failure	113	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-614	failure	114	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-615	failure	115	system	BLOCK:R01_RBI_MANDATE	Pre-debit notification < 24h. RBI compliance block.	\N	2026-08-28 12:56:44.459967+00
-616	failure	116	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-617	failure	117	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-618	failure	118	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-619	failure	119	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-620	failure	120	system	BLOCK:R01_RBI_MANDATE	Pre-debit notification < 24h. RBI compliance block.	\N	2026-08-28 12:56:44.459967+00
-621	failure	121	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 20 (conf 1.0), histogram {20: 8}. Defer to day 20.	\N	2026-08-28 12:56:44.459967+00
-622	failure	122	system	BLOCK:R03_STRUCTURAL_STOP	Repeated failures. Spamming will cause churn.	\N	2026-08-28 12:56:44.459967+00
-623	failure	123	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-624	failure	124	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-625	failure	125	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-626	failure	126	system	BLOCK:R01_RBI_MANDATE	Pre-debit notification < 24h. RBI compliance block.	\N	2026-08-28 12:56:44.459967+00
-627	failure	127	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-628	failure	128	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-629	failure	129	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-630	failure	130	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 12:56:44.459967+00
-631	failure	131	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-632	failure	132	system	BLOCK:R01_RBI_MANDATE	Pre-debit notification < 24h. RBI compliance block.	\N	2026-08-28 12:56:44.459967+00
-633	failure	133	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 5 (conf 1.0), histogram {5: 8}. Defer to day 5.	\N	2026-08-28 12:56:44.459967+00
-634	failure	134	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-635	failure	135	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-636	failure	136	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-637	failure	137	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-638	failure	138	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-639	failure	139	system	BLOCK:R03_STRUCTURAL_STOP	Repeated failures. Spamming will cause churn.	\N	2026-08-28 12:56:44.459967+00
-640	failure	140	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-641	failure	141	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-642	failure	142	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-643	failure	143	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-644	failure	144	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 12:56:44.459967+00
-645	failure	145	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 12:56:44.459967+00
-646	failure	146	system	BLOCK:R01_RBI_MANDATE	Pre-debit notification < 24h. RBI compliance block.	\N	2026-08-28 12:56:44.459967+00
-647	failure	147	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-648	failure	148	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-649	failure	149	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 1 (conf 1.0), histogram {1: 8}. Defer to day 1.	\N	2026-08-28 12:56:44.459967+00
-650	failure	150	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-651	failure	151	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 5 (conf 1.0), histogram {5: 8}. Defer to day 5.	\N	2026-08-28 12:56:44.459967+00
-652	failure	152	system	BLOCK:R01_RBI_MANDATE	Pre-debit notification < 24h. RBI compliance block.	\N	2026-08-28 12:56:44.459967+00
-653	failure	153	system	BLOCK:R03_STRUCTURAL_STOP	Repeated failures. Spamming will cause churn.	\N	2026-08-28 12:56:44.459967+00
-654	failure	154	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-655	failure	155	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 15 (conf 1.0), histogram {15: 8}. Defer to day 15.	\N	2026-08-28 12:56:44.459967+00
-656	failure	156	system	BLOCK:R01_RBI_MANDATE	Pre-debit notification < 24h. RBI compliance block.	\N	2026-08-28 12:56:44.459967+00
-657	failure	157	system	BLOCK:R01_RBI_MANDATE	Pre-debit notification < 24h. RBI compliance block.	\N	2026-08-28 12:56:44.459967+00
-658	failure	158	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-659	failure	159	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-660	failure	160	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-661	failure	161	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-662	failure	162	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-663	failure	163	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-664	failure	164	system	BLOCK:R01_RBI_MANDATE	Pre-debit notification < 24h. RBI compliance block.	\N	2026-08-28 12:56:44.459967+00
-665	failure	165	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 12:56:44.459967+00
-666	failure	166	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 1 (conf 1.0), histogram {1: 8}. Defer to day 1.	\N	2026-08-28 12:56:44.459967+00
-667	failure	167	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-668	failure	168	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-669	failure	169	system	BLOCK:R03_STRUCTURAL_STOP	Repeated failures. Spamming will cause churn.	\N	2026-08-28 12:56:44.459967+00
-670	failure	170	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-672	failure	172	system	BLOCK:R03_STRUCTURAL_STOP	Repeated failures. Spamming will cause churn.	\N	2026-08-28 12:56:44.459967+00
-673	failure	173	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-674	failure	174	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-675	failure	175	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 12:56:44.459967+00
-676	failure	176	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-677	failure	177	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-678	failure	178	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-679	failure	179	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 12:56:44.459967+00
-680	failure	180	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-681	failure	181	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-682	failure	182	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 20 (conf 1.0), histogram {20: 8}. Defer to day 20.	\N	2026-08-28 12:56:44.459967+00
-683	failure	183	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-684	failure	184	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-685	failure	185	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 5 (conf 1.0), histogram {5: 8}. Defer to day 5.	\N	2026-08-28 12:56:44.459967+00
-686	failure	186	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-687	failure	187	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-688	failure	188	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 1 (conf 1.0), histogram {1: 8}. Defer to day 1.	\N	2026-08-28 12:56:44.459967+00
-689	failure	189	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 15 (conf 1.0), histogram {15: 8}. Defer to day 15.	\N	2026-08-28 12:56:44.459967+00
-690	failure	190	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 12:56:44.459967+00
-691	failure	191	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-692	failure	192	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-693	failure	193	system	BLOCK:R03_STRUCTURAL_STOP	Repeated failures. Spamming will cause churn.	\N	2026-08-28 12:56:44.459967+00
-694	failure	194	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-695	failure	195	system	BLOCK:R03_STRUCTURAL_STOP	Repeated failures. Spamming will cause churn.	\N	2026-08-28 12:56:44.459967+00
-696	failure	196	system	BLOCK:R07_OFFLINE_QR_TRAP	Customer left store. Silent retry blocked to prevent double-charge.	\N	2026-08-28 12:56:44.459967+00
-697	failure	197	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-698	failure	198	system	BLOCK:R01_RBI_MANDATE	Pre-debit notification < 24h. RBI compliance block.	\N	2026-08-28 12:56:44.459967+00
-699	failure	199	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 12:56:44.459967+00
-700	failure	200	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-701	failure	201	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-702	failure	202	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 12:56:44.459967+00
-703	failure	203	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-704	failure	204	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-705	failure	205	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-706	failure	206	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 12:56:44.459967+00
-707	failure	207	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-708	failure	208	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 12:56:44.459967+00
-709	failure	209	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 12:56:44.459967+00
-710	failure	210	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 12:56:44.459967+00
-711	failure	211	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 15 (conf 1.0), histogram {15: 8}. Defer to day 15.	\N	2026-08-28 12:56:44.459967+00
-712	failure	212	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 1 (conf 1.0), histogram {1: 8}. Defer to day 1.	\N	2026-08-28 12:56:44.459967+00
-713	failure	213	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 12:56:44.459967+00
-714	failure	214	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-715	failure	215	system	BLOCK:R01_RBI_MANDATE	Pre-debit notification < 24h. RBI compliance block.	\N	2026-08-28 12:56:44.459967+00
-716	failure	216	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-717	failure	217	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-718	failure	218	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-719	failure	219	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-720	failure	220	system	BLOCK:R01_RBI_MANDATE	Pre-debit notification < 24h. RBI compliance block.	\N	2026-08-28 12:56:44.459967+00
-721	failure	221	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 5 (conf 1.0), histogram {5: 8}. Defer to day 5.	\N	2026-08-28 12:56:44.459967+00
-722	failure	222	system	BLOCK:R03_STRUCTURAL_STOP	Repeated failures. Spamming will cause churn.	\N	2026-08-28 12:56:44.459967+00
-723	failure	223	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-724	failure	224	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-725	failure	225	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-726	failure	226	system	BLOCK:R01_RBI_MANDATE	Pre-debit notification < 24h. RBI compliance block.	\N	2026-08-28 12:56:44.459967+00
-727	failure	227	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-728	failure	228	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-729	failure	229	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-730	failure	230	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 12:56:44.459967+00
-731	failure	231	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-732	failure	232	system	BLOCK:R01_RBI_MANDATE	Pre-debit notification < 24h. RBI compliance block.	\N	2026-08-28 12:56:44.459967+00
-733	failure	233	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 1 (conf 1.0), histogram {1: 8}. Defer to day 1.	\N	2026-08-28 12:56:44.459967+00
-734	failure	234	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-735	failure	235	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-736	failure	236	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-737	failure	237	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-738	failure	238	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-739	failure	239	system	BLOCK:R03_STRUCTURAL_STOP	Repeated failures. Spamming will cause churn.	\N	2026-08-28 12:56:44.459967+00
-740	failure	240	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-741	failure	241	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-742	failure	242	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-743	failure	243	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-744	failure	244	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 12:56:44.459967+00
-745	failure	245	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 12:56:44.459967+00
-746	failure	246	system	BLOCK:R01_RBI_MANDATE	Pre-debit notification < 24h. RBI compliance block.	\N	2026-08-28 12:56:44.459967+00
-747	failure	247	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-748	failure	248	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-749	failure	249	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 1 (conf 1.0), histogram {1: 8}. Defer to day 1.	\N	2026-08-28 12:56:44.459967+00
-750	failure	250	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-751	failure	251	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 5 (conf 1.0), histogram {5: 8}. Defer to day 5.	\N	2026-08-28 12:56:44.459967+00
-752	failure	252	system	BLOCK:R01_RBI_MANDATE	Pre-debit notification < 24h. RBI compliance block.	\N	2026-08-28 12:56:44.459967+00
-753	failure	253	system	BLOCK:R03_STRUCTURAL_STOP	Repeated failures. Spamming will cause churn.	\N	2026-08-28 12:56:44.459967+00
-754	failure	254	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-755	failure	255	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 1 (conf 1.0), histogram {1: 8}. Defer to day 1.	\N	2026-08-28 12:56:44.459967+00
-756	failure	256	system	BLOCK:R01_RBI_MANDATE	Pre-debit notification < 24h. RBI compliance block.	\N	2026-08-28 12:56:44.459967+00
-757	failure	257	system	BLOCK:R01_RBI_MANDATE	Pre-debit notification < 24h. RBI compliance block.	\N	2026-08-28 12:56:44.459967+00
-758	failure	258	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-759	failure	259	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-760	failure	260	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-761	failure	261	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-762	failure	262	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-763	failure	263	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-764	failure	264	system	BLOCK:R01_RBI_MANDATE	Pre-debit notification < 24h. RBI compliance block.	\N	2026-08-28 12:56:44.459967+00
-765	failure	265	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 12:56:44.459967+00
-766	failure	266	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 1 (conf 1.0), histogram {1: 8}. Defer to day 1.	\N	2026-08-28 12:56:44.459967+00
-767	failure	267	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-768	failure	268	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-769	failure	269	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 1 (conf 1.0), histogram {1: 8}. Defer to day 1.	\N	2026-08-28 12:56:44.459967+00
-770	failure	270	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-771	failure	271	system	BLOCK:R03_STRUCTURAL_STOP	Repeated failures. Spamming will cause churn.	\N	2026-08-28 12:56:44.459967+00
-772	failure	272	system	BLOCK:R03_STRUCTURAL_STOP	Repeated failures. Spamming will cause churn.	\N	2026-08-28 12:56:44.459967+00
-773	failure	273	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-774	failure	274	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-775	failure	275	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 12:56:44.459967+00
-776	failure	276	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-777	failure	277	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-778	failure	278	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-779	failure	279	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 12:56:44.459967+00
-780	failure	280	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-781	failure	281	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-782	failure	282	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 1 (conf 1.0), histogram {1: 8}. Defer to day 1.	\N	2026-08-28 12:56:44.459967+00
-783	failure	283	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-784	failure	284	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-785	failure	285	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 1 (conf 1.0), histogram {1: 8}. Defer to day 1.	\N	2026-08-28 12:56:44.459967+00
-786	failure	286	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-787	failure	287	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-788	failure	288	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 15 (conf 1.0), histogram {15: 8}. Defer to day 15.	\N	2026-08-28 12:56:44.459967+00
-789	failure	289	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 1 (conf 1.0), histogram {1: 8}. Defer to day 1.	\N	2026-08-28 12:56:44.459967+00
-790	failure	290	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-791	failure	291	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-792	failure	292	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-793	failure	293	system	BLOCK:R03_STRUCTURAL_STOP	Repeated failures. Spamming will cause churn.	\N	2026-08-28 12:56:44.459967+00
-794	failure	294	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-795	failure	295	system	BLOCK:R03_STRUCTURAL_STOP	Repeated failures. Spamming will cause churn.	\N	2026-08-28 12:56:44.459967+00
-796	failure	296	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-797	failure	297	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-798	failure	298	system	BLOCK:R01_RBI_MANDATE	Pre-debit notification < 24h. RBI compliance block.	\N	2026-08-28 12:56:44.459967+00
-799	failure	299	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 12:56:44.459967+00
-800	failure	300	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-801	failure	301	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-802	failure	302	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 12:56:44.459967+00
-803	failure	303	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-804	failure	304	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-805	failure	305	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-806	failure	306	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 12:56:44.459967+00
-807	failure	307	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-808	failure	308	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 12:56:44.459967+00
-809	failure	309	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 12:56:44.459967+00
-810	failure	310	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 12:56:44.459967+00
-811	failure	311	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 1 (conf 1.0), histogram {1: 8}. Defer to day 1.	\N	2026-08-28 12:56:44.459967+00
-812	failure	312	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 1 (conf 1.0), histogram {1: 8}. Defer to day 1.	\N	2026-08-28 12:56:44.459967+00
-813	failure	313	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 12:56:44.459967+00
-814	failure	314	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-815	failure	315	system	BLOCK:R01_RBI_MANDATE	Pre-debit notification < 24h. RBI compliance block.	\N	2026-08-28 12:56:44.459967+00
-816	failure	316	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-817	failure	317	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-818	failure	318	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-819	failure	319	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-820	failure	320	system	BLOCK:R01_RBI_MANDATE	Pre-debit notification < 24h. RBI compliance block.	\N	2026-08-28 12:56:44.459967+00
-821	failure	321	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 5 (conf 1.0), histogram {5: 8}. Defer to day 5.	\N	2026-08-28 12:56:44.459967+00
-822	failure	322	system	BLOCK:R03_STRUCTURAL_STOP	Repeated failures. Spamming will cause churn.	\N	2026-08-28 12:56:44.459967+00
-823	failure	323	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-824	failure	324	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-825	failure	325	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-826	failure	326	system	BLOCK:R01_RBI_MANDATE	Pre-debit notification < 24h. RBI compliance block.	\N	2026-08-28 12:56:44.459967+00
-827	failure	327	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-828	failure	328	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-829	failure	329	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-830	failure	330	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 12:56:44.459967+00
-831	failure	331	system	BLOCK:R07_OFFLINE_QR_TRAP	Customer left store. Silent retry blocked to prevent double-charge.	\N	2026-08-28 12:56:44.459967+00
-832	failure	332	system	BLOCK:R01_RBI_MANDATE	Pre-debit notification < 24h. RBI compliance block.	\N	2026-08-28 12:56:44.459967+00
-833	failure	333	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 1 (conf 1.0), histogram {1: 8}. Defer to day 1.	\N	2026-08-28 12:56:44.459967+00
-834	failure	334	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-835	failure	335	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-836	failure	336	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-837	failure	337	system	BLOCK:R07_OFFLINE_QR_TRAP	Customer left store. Silent retry blocked to prevent double-charge.	\N	2026-08-28 12:56:44.459967+00
-838	failure	338	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-839	failure	339	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 5 (conf 1.0), histogram {5: 8}. Defer to day 5.	\N	2026-08-28 12:56:44.459967+00
-840	failure	340	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-841	failure	341	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-842	failure	342	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-843	failure	343	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-844	failure	344	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 12:56:44.459967+00
-845	failure	345	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 12:56:44.459967+00
-846	failure	346	system	BLOCK:R01_RBI_MANDATE	Pre-debit notification < 24h. RBI compliance block.	\N	2026-08-28 12:56:44.459967+00
-847	failure	347	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-848	failure	348	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-849	failure	349	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 1 (conf 1.0), histogram {1: 8}. Defer to day 1.	\N	2026-08-28 12:56:44.459967+00
-850	failure	350	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-851	failure	351	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 20 (conf 1.0), histogram {20: 8}. Defer to day 20.	\N	2026-08-28 12:56:44.459967+00
-852	failure	352	system	BLOCK:R01_RBI_MANDATE	Pre-debit notification < 24h. RBI compliance block.	\N	2026-08-28 12:56:44.459967+00
-853	failure	353	system	BLOCK:R03_STRUCTURAL_STOP	Repeated failures. Spamming will cause churn.	\N	2026-08-28 12:56:44.459967+00
-854	failure	354	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-855	failure	355	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 1 (conf 1.0), histogram {1: 8}. Defer to day 1.	\N	2026-08-28 12:56:44.459967+00
-856	failure	356	system	BLOCK:R01_RBI_MANDATE	Pre-debit notification < 24h. RBI compliance block.	\N	2026-08-28 12:56:44.459967+00
-857	failure	357	system	BLOCK:R01_RBI_MANDATE	Pre-debit notification < 24h. RBI compliance block.	\N	2026-08-28 12:56:44.459967+00
-858	failure	358	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-859	failure	359	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-860	failure	360	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-861	failure	361	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-862	failure	362	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-863	failure	363	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-864	failure	364	system	BLOCK:R01_RBI_MANDATE	Pre-debit notification < 24h. RBI compliance block.	\N	2026-08-28 12:56:44.459967+00
-865	failure	365	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 12:56:44.459967+00
-866	failure	366	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 1 (conf 1.0), histogram {1: 8}. Defer to day 1.	\N	2026-08-28 12:56:44.459967+00
-867	failure	367	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-868	failure	368	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-869	failure	369	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 1 (conf 1.0), histogram {1: 8}. Defer to day 1.	\N	2026-08-28 12:56:44.459967+00
-870	failure	370	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-871	failure	371	system	BLOCK:R03_STRUCTURAL_STOP	Repeated failures. Spamming will cause churn.	\N	2026-08-28 12:56:44.459967+00
-872	failure	372	system	BLOCK:R03_STRUCTURAL_STOP	Repeated failures. Spamming will cause churn.	\N	2026-08-28 12:56:44.459967+00
-873	failure	373	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-874	failure	374	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-875	failure	375	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 12:56:44.459967+00
-876	failure	376	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-877	failure	377	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-878	failure	378	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-879	failure	379	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 12:56:44.459967+00
-880	failure	380	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-881	failure	381	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-882	failure	382	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 1 (conf 1.0), histogram {1: 8}. Defer to day 1.	\N	2026-08-28 12:56:44.459967+00
-883	failure	383	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-884	failure	384	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-885	failure	385	system	BLOCK:R03_STRUCTURAL_STOP	Repeated failures. Spamming will cause churn.	\N	2026-08-28 12:56:44.459967+00
-886	failure	386	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-887	failure	387	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-888	failure	388	system	BLOCK:R03_STRUCTURAL_STOP	Repeated failures. Spamming will cause churn.	\N	2026-08-28 12:56:44.459967+00
-889	failure	389	system	BLOCK:R03_STRUCTURAL_STOP	Repeated failures. Spamming will cause churn.	\N	2026-08-28 12:56:44.459967+00
-890	failure	390	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-891	failure	391	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-892	failure	392	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-893	failure	393	system	BLOCK:R03_STRUCTURAL_STOP	Repeated failures. Spamming will cause churn.	\N	2026-08-28 12:56:44.459967+00
-894	failure	394	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-895	failure	395	system	BLOCK:R03_STRUCTURAL_STOP	Repeated failures. Spamming will cause churn.	\N	2026-08-28 12:56:44.459967+00
-896	failure	396	system	BLOCK:R07_OFFLINE_QR_TRAP	Customer left store. Silent retry blocked to prevent double-charge.	\N	2026-08-28 12:56:44.459967+00
-897	failure	397	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-898	failure	398	system	BLOCK:R01_RBI_MANDATE	Pre-debit notification < 24h. RBI compliance block.	\N	2026-08-28 12:56:44.459967+00
-899	failure	399	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 12:56:44.459967+00
-900	failure	400	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-901	failure	401	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-902	failure	402	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 12:56:44.459967+00
-903	failure	403	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-904	failure	404	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-905	failure	405	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-906	failure	406	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 12:56:44.459967+00
-907	failure	407	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-908	failure	408	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 12:56:44.459967+00
-909	failure	409	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 12:56:44.459967+00
-910	failure	410	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 12:56:44.459967+00
-911	failure	411	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 1 (conf 1.0), histogram {1: 8}. Defer to day 1.	\N	2026-08-28 12:56:44.459967+00
-912	failure	412	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 1 (conf 1.0), histogram {1: 8}. Defer to day 1.	\N	2026-08-28 12:56:44.459967+00
-913	failure	413	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 12:56:44.459967+00
-914	failure	414	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-915	failure	415	system	BLOCK:R01_RBI_MANDATE	Pre-debit notification < 24h. RBI compliance block.	\N	2026-08-28 12:56:44.459967+00
-916	failure	416	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-917	failure	417	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-918	failure	418	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-919	failure	419	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-920	failure	420	system	BLOCK:R01_RBI_MANDATE	Pre-debit notification < 24h. RBI compliance block.	\N	2026-08-28 12:56:44.459967+00
-921	failure	421	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 5 (conf 1.0), histogram {5: 8}. Defer to day 5.	\N	2026-08-28 12:56:44.459967+00
-922	failure	422	system	BLOCK:R03_STRUCTURAL_STOP	Repeated failures. Spamming will cause churn.	\N	2026-08-28 12:56:44.459967+00
-923	failure	423	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-924	failure	424	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-925	failure	425	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-926	failure	426	system	BLOCK:R01_RBI_MANDATE	Pre-debit notification < 24h. RBI compliance block.	\N	2026-08-28 12:56:44.459967+00
-927	failure	427	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-928	failure	428	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-929	failure	429	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-930	failure	430	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 12:56:44.459967+00
-931	failure	431	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-932	failure	432	system	BLOCK:R01_RBI_MANDATE	Pre-debit notification < 24h. RBI compliance block.	\N	2026-08-28 12:56:44.459967+00
-933	failure	433	system	BLOCK:R03_STRUCTURAL_STOP	Repeated failures. Spamming will cause churn.	\N	2026-08-28 12:56:44.459967+00
-934	failure	434	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-935	failure	435	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-936	failure	436	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-937	failure	437	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-938	failure	438	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-939	failure	439	system	BLOCK:R03_STRUCTURAL_STOP	Repeated failures. Spamming will cause churn.	\N	2026-08-28 12:56:44.459967+00
-940	failure	440	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-941	failure	441	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-942	failure	442	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-943	failure	443	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-944	failure	444	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 12:56:44.459967+00
-945	failure	445	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 12:56:44.459967+00
-946	failure	446	system	BLOCK:R01_RBI_MANDATE	Pre-debit notification < 24h. RBI compliance block.	\N	2026-08-28 12:56:44.459967+00
-947	failure	447	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-948	failure	448	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-949	failure	449	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 5 (conf 1.0), histogram {5: 8}. Defer to day 5.	\N	2026-08-28 12:56:44.459967+00
-950	failure	450	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-951	failure	451	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 1 (conf 1.0), histogram {1: 8}. Defer to day 1.	\N	2026-08-28 12:56:44.459967+00
-952	failure	452	system	BLOCK:R01_RBI_MANDATE	Pre-debit notification < 24h. RBI compliance block.	\N	2026-08-28 12:56:44.459967+00
-953	failure	453	system	BLOCK:R03_STRUCTURAL_STOP	Repeated failures. Spamming will cause churn.	\N	2026-08-28 12:56:44.459967+00
-954	failure	454	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-955	failure	455	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 1 (conf 1.0), histogram {1: 8}. Defer to day 1.	\N	2026-08-28 12:56:44.459967+00
-956	failure	456	system	BLOCK:R01_RBI_MANDATE	Pre-debit notification < 24h. RBI compliance block.	\N	2026-08-28 12:56:44.459967+00
-957	failure	457	system	BLOCK:R01_RBI_MANDATE	Pre-debit notification < 24h. RBI compliance block.	\N	2026-08-28 12:56:44.459967+00
-958	failure	458	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-959	failure	459	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-960	failure	460	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-961	failure	461	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-962	failure	462	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-963	failure	463	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-964	failure	464	system	BLOCK:R01_RBI_MANDATE	Pre-debit notification < 24h. RBI compliance block.	\N	2026-08-28 12:56:44.459967+00
-965	failure	465	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 12:56:44.459967+00
-966	failure	466	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 1 (conf 1.0), histogram {1: 8}. Defer to day 1.	\N	2026-08-28 12:56:44.459967+00
-967	failure	467	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-968	failure	468	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-969	failure	469	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 5 (conf 1.0), histogram {5: 8}. Defer to day 5.	\N	2026-08-28 12:56:44.459967+00
-970	failure	470	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-971	failure	471	system	BLOCK:R03_STRUCTURAL_STOP	Repeated failures. Spamming will cause churn.	\N	2026-08-28 12:56:44.459967+00
-972	failure	472	system	BLOCK:R03_STRUCTURAL_STOP	Repeated failures. Spamming will cause churn.	\N	2026-08-28 12:56:44.459967+00
-973	failure	473	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-974	failure	474	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-975	failure	475	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 12:56:44.459967+00
-976	failure	476	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 12:56:44.459967+00
-977	failure	477	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-978	failure	478	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 12:56:44.459967+00
-979	failure	479	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 12:56:44.459967+00
-980	failure	480	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-981	failure	481	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-982	failure	482	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 20 (conf 1.0), histogram {20: 8}. Defer to day 20.	\N	2026-08-28 12:56:44.459967+00
-983	failure	483	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-984	failure	484	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-985	failure	485	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 15 (conf 1.0), histogram {15: 8}. Defer to day 15.	\N	2026-08-28 12:56:44.459967+00
-986	failure	486	system	BLOCK:R07_OFFLINE_QR_TRAP	Customer left store. Silent retry blocked to prevent double-charge.	\N	2026-08-28 12:56:44.459967+00
-987	failure	487	system	BLOCK:R07_OFFLINE_QR_TRAP	Customer left store. Silent retry blocked to prevent double-charge.	\N	2026-08-28 12:56:44.459967+00
-988	failure	488	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 1 (conf 1.0), histogram {1: 8}. Defer to day 1.	\N	2026-08-28 12:56:44.459967+00
-989	failure	489	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 1 (conf 1.0), histogram {1: 8}. Defer to day 1.	\N	2026-08-28 12:56:44.459967+00
-990	failure	490	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-991	failure	491	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-992	failure	492	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-993	failure	493	system	BLOCK:R03_STRUCTURAL_STOP	Repeated failures. Spamming will cause churn.	\N	2026-08-28 12:56:44.459967+00
-994	failure	494	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 12:56:44.459967+00
-995	failure	495	system	BLOCK:R03_STRUCTURAL_STOP	Repeated failures. Spamming will cause churn.	\N	2026-08-28 12:56:44.459967+00
-996	failure	496	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-997	failure	497	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
-998	failure	498	system	BLOCK:R01_RBI_MANDATE	Pre-debit notification < 24h. RBI compliance block.	\N	2026-08-28 12:56:44.459967+00
-999	failure	499	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 12:56:44.459967+00
-1000	failure	500	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 12:56:44.459967+00
+1476	failure	475	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 14:12:43.376871+00
+1477	failure	476	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 14:12:43.376871+00
+1478	failure	477	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1479	failure	478	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 14:12:43.376871+00
+1480	failure	479	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 14:12:43.376871+00
+1481	failure	480	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1482	failure	481	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1483	failure	482	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 20 (conf 1.0), histogram {20: 8}. Defer to day 20.	\N	2026-08-28 14:12:43.376871+00
+1484	failure	483	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1485	failure	484	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1486	failure	485	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 15 (conf 1.0), histogram {15: 8}. Defer to day 15.	\N	2026-08-28 14:12:43.376871+00
+1487	failure	486	system	BLOCK:R07_OFFLINE_QR_TRAP	Customer left store. Silent retry blocked to prevent double-charge.	\N	2026-08-28 14:12:43.376871+00
+1488	failure	487	system	BLOCK:R07_OFFLINE_QR_TRAP	Customer left store. Silent retry blocked to prevent double-charge.	\N	2026-08-28 14:12:43.376871+00
+1489	failure	488	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 1 (conf 1.0), histogram {1: 8}. Defer to day 1.	\N	2026-08-28 14:12:43.376871+00
+1490	failure	489	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 1 (conf 1.0), histogram {1: 8}. Defer to day 1.	\N	2026-08-28 14:12:43.376871+00
+1491	failure	490	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1492	failure	491	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1493	failure	492	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1494	failure	493	system	BLOCK:R03_STRUCTURAL_STOP	Repeated failures. Spamming will cause churn.	\N	2026-08-28 14:12:43.376871+00
+1495	failure	494	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1496	failure	495	system	BLOCK:R03_STRUCTURAL_STOP	Repeated failures. Spamming will cause churn.	\N	2026-08-28 14:12:43.376871+00
+1497	failure	496	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1498	failure	497	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1499	failure	498	system	BLOCK:R01_RBI_MANDATE	Pre-debit notification < 24h. RBI compliance block.	\N	2026-08-28 14:12:43.376871+00
+1500	failure	499	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 14:12:43.376871+00
+1501	failure	500	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1002	failure	73	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1003	failure	140	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1004	failure	158	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1005	failure	240	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1006	failure	301	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1007	failure	440	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1008	failure	473	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1009	failure	11	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 1 (conf 1.0), histogram {1: 8}. Defer to day 1.	\N	2026-08-28 14:12:43.376871+00
+1010	failure	1	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1011	failure	2	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 14:12:43.376871+00
+1012	failure	3	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1013	failure	4	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1014	failure	5	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1015	failure	6	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 14:12:43.376871+00
+1016	failure	7	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1017	failure	8	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 14:12:43.376871+00
+1018	failure	9	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 14:12:43.376871+00
+1019	failure	10	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 14:12:43.376871+00
+1020	failure	12	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 1 (conf 1.0), histogram {1: 8}. Defer to day 1.	\N	2026-08-28 14:12:43.376871+00
+1021	failure	13	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1022	failure	14	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1023	failure	15	system	BLOCK:R01_RBI_MANDATE	Pre-debit notification < 24h. RBI compliance block.	\N	2026-08-28 14:12:43.376871+00
+1024	failure	16	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1025	failure	17	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1026	failure	18	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1027	failure	19	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1028	failure	20	system	BLOCK:R01_RBI_MANDATE	Pre-debit notification < 24h. RBI compliance block.	\N	2026-08-28 14:12:43.376871+00
+1029	failure	21	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 20 (conf 1.0), histogram {20: 8}. Defer to day 20.	\N	2026-08-28 14:12:43.376871+00
+1030	failure	22	system	BLOCK:R03_STRUCTURAL_STOP	Repeated failures. Spamming will cause churn.	\N	2026-08-28 14:12:43.376871+00
+1031	failure	23	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1032	failure	24	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1033	failure	25	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1034	failure	26	system	BLOCK:R01_RBI_MANDATE	Pre-debit notification < 24h. RBI compliance block.	\N	2026-08-28 14:12:43.376871+00
+1035	failure	27	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1036	failure	28	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1037	failure	29	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1038	failure	30	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1039	failure	31	system	BLOCK:R07_OFFLINE_QR_TRAP	Customer left store. Silent retry blocked to prevent double-charge.	\N	2026-08-28 14:12:43.376871+00
+1040	failure	32	system	BLOCK:R01_RBI_MANDATE	Pre-debit notification < 24h. RBI compliance block.	\N	2026-08-28 14:12:43.376871+00
+1041	failure	33	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 20 (conf 1.0), histogram {20: 8}. Defer to day 20.	\N	2026-08-28 14:12:43.376871+00
+1042	failure	34	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1043	failure	35	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1044	failure	36	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1045	failure	37	system	BLOCK:R07_OFFLINE_QR_TRAP	Customer left store. Silent retry blocked to prevent double-charge.	\N	2026-08-28 14:12:43.376871+00
+1046	failure	38	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1047	failure	39	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 1 (conf 1.0), histogram {1: 8}. Defer to day 1.	\N	2026-08-28 14:12:43.376871+00
+1048	failure	40	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1049	failure	41	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1050	failure	42	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1051	failure	43	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1052	failure	44	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 14:12:43.376871+00
+1053	failure	45	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 14:12:43.376871+00
+1054	failure	46	system	BLOCK:R01_RBI_MANDATE	Pre-debit notification < 24h. RBI compliance block.	\N	2026-08-28 14:12:43.376871+00
+1055	failure	47	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1056	failure	48	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1057	failure	49	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 20 (conf 1.0), histogram {20: 8}. Defer to day 20.	\N	2026-08-28 14:12:43.376871+00
+1058	failure	50	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1059	failure	51	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 1 (conf 1.0), histogram {1: 8}. Defer to day 1.	\N	2026-08-28 14:12:43.376871+00
+1060	failure	52	system	BLOCK:R01_RBI_MANDATE	Pre-debit notification < 24h. RBI compliance block.	\N	2026-08-28 14:12:43.376871+00
+1061	failure	53	system	BLOCK:R03_STRUCTURAL_STOP	Repeated failures. Spamming will cause churn.	\N	2026-08-28 14:12:43.376871+00
+1062	failure	54	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1063	failure	55	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 20 (conf 1.0), histogram {20: 8}. Defer to day 20.	\N	2026-08-28 14:12:43.376871+00
+1064	failure	56	system	BLOCK:R01_RBI_MANDATE	Pre-debit notification < 24h. RBI compliance block.	\N	2026-08-28 14:12:43.376871+00
+1065	failure	57	system	BLOCK:R01_RBI_MANDATE	Pre-debit notification < 24h. RBI compliance block.	\N	2026-08-28 14:12:43.376871+00
+1066	failure	58	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1067	failure	59	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1068	failure	60	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1069	failure	61	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1070	failure	62	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1071	failure	63	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1072	failure	64	system	BLOCK:R01_RBI_MANDATE	Pre-debit notification < 24h. RBI compliance block.	\N	2026-08-28 14:12:43.376871+00
+1073	failure	65	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 14:12:43.376871+00
+1074	failure	66	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 15 (conf 1.0), histogram {15: 8}. Defer to day 15.	\N	2026-08-28 14:12:43.376871+00
+1075	failure	67	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1076	failure	68	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1077	failure	69	system	BLOCK:R03_STRUCTURAL_STOP	Repeated failures. Spamming will cause churn.	\N	2026-08-28 14:12:43.376871+00
+1078	failure	70	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1079	failure	71	system	BLOCK:R03_STRUCTURAL_STOP	Repeated failures. Spamming will cause churn.	\N	2026-08-28 14:12:43.376871+00
+1080	failure	72	system	BLOCK:R03_STRUCTURAL_STOP	Repeated failures. Spamming will cause churn.	\N	2026-08-28 14:12:43.376871+00
+1081	failure	74	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1082	failure	75	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 14:12:43.376871+00
+1083	failure	76	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 14:12:43.376871+00
+1084	failure	77	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1085	failure	78	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 14:12:43.376871+00
+1086	failure	79	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 14:12:43.376871+00
+1087	failure	80	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1088	failure	81	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1089	failure	82	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 1 (conf 1.0), histogram {1: 8}. Defer to day 1.	\N	2026-08-28 14:12:43.376871+00
+1090	failure	83	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1091	failure	84	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1092	failure	85	system	BLOCK:R03_STRUCTURAL_STOP	Repeated failures. Spamming will cause churn.	\N	2026-08-28 14:12:43.376871+00
+1093	failure	86	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1094	failure	87	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1095	failure	88	system	BLOCK:R03_STRUCTURAL_STOP	Repeated failures. Spamming will cause churn.	\N	2026-08-28 14:12:43.376871+00
+1096	failure	89	system	BLOCK:R03_STRUCTURAL_STOP	Repeated failures. Spamming will cause churn.	\N	2026-08-28 14:12:43.376871+00
+1097	failure	90	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1098	failure	91	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1099	failure	92	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1100	failure	93	system	BLOCK:R03_STRUCTURAL_STOP	Repeated failures. Spamming will cause churn.	\N	2026-08-28 14:12:43.376871+00
+1101	failure	94	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1102	failure	95	system	BLOCK:R03_STRUCTURAL_STOP	Repeated failures. Spamming will cause churn.	\N	2026-08-28 14:12:43.376871+00
+1103	failure	96	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1104	failure	97	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1105	failure	98	system	BLOCK:R01_RBI_MANDATE	Pre-debit notification < 24h. RBI compliance block.	\N	2026-08-28 14:12:43.376871+00
+1106	failure	99	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 14:12:43.376871+00
+1107	failure	100	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1108	failure	101	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1109	failure	102	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1110	failure	103	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1111	failure	104	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1112	failure	105	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1113	failure	106	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 14:12:43.376871+00
+1114	failure	107	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1115	failure	108	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 14:12:43.376871+00
+1116	failure	109	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 14:12:43.376871+00
+1117	failure	110	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1118	failure	111	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 20 (conf 1.0), histogram {20: 8}. Defer to day 20.	\N	2026-08-28 14:12:43.376871+00
+1119	failure	112	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 20 (conf 1.0), histogram {20: 8}. Defer to day 20.	\N	2026-08-28 14:12:43.376871+00
+1120	failure	113	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1121	failure	114	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1122	failure	115	system	BLOCK:R01_RBI_MANDATE	Pre-debit notification < 24h. RBI compliance block.	\N	2026-08-28 14:12:43.376871+00
+1123	failure	116	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1124	failure	117	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1125	failure	118	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1126	failure	119	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1127	failure	120	system	BLOCK:R01_RBI_MANDATE	Pre-debit notification < 24h. RBI compliance block.	\N	2026-08-28 14:12:43.376871+00
+1128	failure	121	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 20 (conf 1.0), histogram {20: 8}. Defer to day 20.	\N	2026-08-28 14:12:43.376871+00
+1129	failure	122	system	BLOCK:R03_STRUCTURAL_STOP	Repeated failures. Spamming will cause churn.	\N	2026-08-28 14:12:43.376871+00
+1130	failure	123	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1131	failure	124	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1132	failure	125	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1133	failure	126	system	BLOCK:R01_RBI_MANDATE	Pre-debit notification < 24h. RBI compliance block.	\N	2026-08-28 14:12:43.376871+00
+1134	failure	127	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1135	failure	128	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1136	failure	129	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1137	failure	130	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 14:12:43.376871+00
+1138	failure	131	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1139	failure	132	system	BLOCK:R01_RBI_MANDATE	Pre-debit notification < 24h. RBI compliance block.	\N	2026-08-28 14:12:43.376871+00
+1140	failure	133	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 5 (conf 1.0), histogram {5: 8}. Defer to day 5.	\N	2026-08-28 14:12:43.376871+00
+1141	failure	134	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1142	failure	135	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1143	failure	136	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1144	failure	137	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1145	failure	138	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1146	failure	139	system	BLOCK:R03_STRUCTURAL_STOP	Repeated failures. Spamming will cause churn.	\N	2026-08-28 14:12:43.376871+00
+1147	failure	141	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1148	failure	142	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1149	failure	143	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1150	failure	144	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 14:12:43.376871+00
+1151	failure	145	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 14:12:43.376871+00
+1152	failure	146	system	BLOCK:R01_RBI_MANDATE	Pre-debit notification < 24h. RBI compliance block.	\N	2026-08-28 14:12:43.376871+00
+1153	failure	147	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1154	failure	148	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1155	failure	149	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 1 (conf 1.0), histogram {1: 8}. Defer to day 1.	\N	2026-08-28 14:12:43.376871+00
+1156	failure	150	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1157	failure	151	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 5 (conf 1.0), histogram {5: 8}. Defer to day 5.	\N	2026-08-28 14:12:43.376871+00
+1158	failure	152	system	BLOCK:R01_RBI_MANDATE	Pre-debit notification < 24h. RBI compliance block.	\N	2026-08-28 14:12:43.376871+00
+1159	failure	153	system	BLOCK:R03_STRUCTURAL_STOP	Repeated failures. Spamming will cause churn.	\N	2026-08-28 14:12:43.376871+00
+1160	failure	154	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1161	failure	155	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 15 (conf 1.0), histogram {15: 8}. Defer to day 15.	\N	2026-08-28 14:12:43.376871+00
+1162	failure	156	system	BLOCK:R01_RBI_MANDATE	Pre-debit notification < 24h. RBI compliance block.	\N	2026-08-28 14:12:43.376871+00
+1163	failure	157	system	BLOCK:R01_RBI_MANDATE	Pre-debit notification < 24h. RBI compliance block.	\N	2026-08-28 14:12:43.376871+00
+1164	failure	159	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1165	failure	160	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1166	failure	161	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1167	failure	162	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1168	failure	163	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1169	failure	164	system	BLOCK:R01_RBI_MANDATE	Pre-debit notification < 24h. RBI compliance block.	\N	2026-08-28 14:12:43.376871+00
+1170	failure	165	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 14:12:43.376871+00
+1171	failure	166	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 1 (conf 1.0), histogram {1: 8}. Defer to day 1.	\N	2026-08-28 14:12:43.376871+00
+1172	failure	167	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1173	failure	168	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1174	failure	169	system	BLOCK:R03_STRUCTURAL_STOP	Repeated failures. Spamming will cause churn.	\N	2026-08-28 14:12:43.376871+00
+1175	failure	170	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1176	failure	171	system	BLOCK:R03_STRUCTURAL_STOP	Repeated failures. Spamming will cause churn.	\N	2026-08-28 14:12:43.376871+00
+1177	failure	172	system	BLOCK:R03_STRUCTURAL_STOP	Repeated failures. Spamming will cause churn.	\N	2026-08-28 14:12:43.376871+00
+1178	failure	173	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1179	failure	174	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1180	failure	175	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 14:12:43.376871+00
+1181	failure	176	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1182	failure	177	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1183	failure	178	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1184	failure	179	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 14:12:43.376871+00
+1185	failure	180	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1186	failure	181	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1187	failure	182	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 20 (conf 1.0), histogram {20: 8}. Defer to day 20.	\N	2026-08-28 14:12:43.376871+00
+1188	failure	183	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1189	failure	184	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1190	failure	185	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 5 (conf 1.0), histogram {5: 8}. Defer to day 5.	\N	2026-08-28 14:12:43.376871+00
+1191	failure	186	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1192	failure	187	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1193	failure	188	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 1 (conf 1.0), histogram {1: 8}. Defer to day 1.	\N	2026-08-28 14:12:43.376871+00
+1194	failure	189	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 15 (conf 1.0), histogram {15: 8}. Defer to day 15.	\N	2026-08-28 14:12:43.376871+00
+1195	failure	190	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 14:12:43.376871+00
+1196	failure	191	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1197	failure	192	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1198	failure	193	system	BLOCK:R03_STRUCTURAL_STOP	Repeated failures. Spamming will cause churn.	\N	2026-08-28 14:12:43.376871+00
+1199	failure	194	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1200	failure	195	system	BLOCK:R03_STRUCTURAL_STOP	Repeated failures. Spamming will cause churn.	\N	2026-08-28 14:12:43.376871+00
+1201	failure	196	system	BLOCK:R07_OFFLINE_QR_TRAP	Customer left store. Silent retry blocked to prevent double-charge.	\N	2026-08-28 14:12:43.376871+00
+1202	failure	197	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1203	failure	198	system	BLOCK:R01_RBI_MANDATE	Pre-debit notification < 24h. RBI compliance block.	\N	2026-08-28 14:12:43.376871+00
+1204	failure	199	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 14:12:43.376871+00
+1205	failure	200	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1206	failure	201	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1207	failure	202	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 14:12:43.376871+00
+1208	failure	203	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1209	failure	204	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1210	failure	205	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1211	failure	206	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 14:12:43.376871+00
+1212	failure	207	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1213	failure	208	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 14:12:43.376871+00
+1214	failure	209	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 14:12:43.376871+00
+1215	failure	210	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 14:12:43.376871+00
+1216	failure	211	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 15 (conf 1.0), histogram {15: 8}. Defer to day 15.	\N	2026-08-28 14:12:43.376871+00
+1217	failure	212	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 1 (conf 1.0), histogram {1: 8}. Defer to day 1.	\N	2026-08-28 14:12:43.376871+00
+1218	failure	213	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 14:12:43.376871+00
+1219	failure	214	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1220	failure	215	system	BLOCK:R01_RBI_MANDATE	Pre-debit notification < 24h. RBI compliance block.	\N	2026-08-28 14:12:43.376871+00
+1221	failure	216	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1222	failure	217	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1223	failure	218	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1224	failure	219	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1225	failure	220	system	BLOCK:R01_RBI_MANDATE	Pre-debit notification < 24h. RBI compliance block.	\N	2026-08-28 14:12:43.376871+00
+1226	failure	221	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 5 (conf 1.0), histogram {5: 8}. Defer to day 5.	\N	2026-08-28 14:12:43.376871+00
+1227	failure	222	system	BLOCK:R03_STRUCTURAL_STOP	Repeated failures. Spamming will cause churn.	\N	2026-08-28 14:12:43.376871+00
+1228	failure	223	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1229	failure	224	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1230	failure	225	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1231	failure	226	system	BLOCK:R01_RBI_MANDATE	Pre-debit notification < 24h. RBI compliance block.	\N	2026-08-28 14:12:43.376871+00
+1232	failure	227	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1233	failure	228	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1234	failure	229	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1235	failure	230	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 14:12:43.376871+00
+1236	failure	231	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1237	failure	232	system	BLOCK:R01_RBI_MANDATE	Pre-debit notification < 24h. RBI compliance block.	\N	2026-08-28 14:12:43.376871+00
+1238	failure	233	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 1 (conf 1.0), histogram {1: 8}. Defer to day 1.	\N	2026-08-28 14:12:43.376871+00
+1239	failure	234	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1240	failure	235	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1241	failure	236	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1242	failure	237	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1243	failure	238	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1244	failure	239	system	BLOCK:R03_STRUCTURAL_STOP	Repeated failures. Spamming will cause churn.	\N	2026-08-28 14:12:43.376871+00
+1245	failure	241	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1246	failure	242	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1247	failure	243	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1248	failure	244	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 14:12:43.376871+00
+1249	failure	245	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 14:12:43.376871+00
+1250	failure	246	system	BLOCK:R01_RBI_MANDATE	Pre-debit notification < 24h. RBI compliance block.	\N	2026-08-28 14:12:43.376871+00
+1251	failure	247	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1252	failure	248	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1253	failure	249	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 1 (conf 1.0), histogram {1: 8}. Defer to day 1.	\N	2026-08-28 14:12:43.376871+00
+1254	failure	250	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1255	failure	251	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 5 (conf 1.0), histogram {5: 8}. Defer to day 5.	\N	2026-08-28 14:12:43.376871+00
+1256	failure	252	system	BLOCK:R01_RBI_MANDATE	Pre-debit notification < 24h. RBI compliance block.	\N	2026-08-28 14:12:43.376871+00
+1257	failure	253	system	BLOCK:R03_STRUCTURAL_STOP	Repeated failures. Spamming will cause churn.	\N	2026-08-28 14:12:43.376871+00
+1258	failure	254	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1259	failure	255	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 1 (conf 1.0), histogram {1: 8}. Defer to day 1.	\N	2026-08-28 14:12:43.376871+00
+1260	failure	256	system	BLOCK:R01_RBI_MANDATE	Pre-debit notification < 24h. RBI compliance block.	\N	2026-08-28 14:12:43.376871+00
+1261	failure	257	system	BLOCK:R01_RBI_MANDATE	Pre-debit notification < 24h. RBI compliance block.	\N	2026-08-28 14:12:43.376871+00
+1262	failure	258	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1263	failure	259	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1264	failure	260	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1265	failure	261	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1266	failure	262	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1267	failure	263	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1268	failure	264	system	BLOCK:R01_RBI_MANDATE	Pre-debit notification < 24h. RBI compliance block.	\N	2026-08-28 14:12:43.376871+00
+1269	failure	265	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 14:12:43.376871+00
+1270	failure	266	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 1 (conf 1.0), histogram {1: 8}. Defer to day 1.	\N	2026-08-28 14:12:43.376871+00
+1271	failure	267	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1272	failure	268	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1273	failure	269	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 1 (conf 1.0), histogram {1: 8}. Defer to day 1.	\N	2026-08-28 14:12:43.376871+00
+1274	failure	270	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1275	failure	271	system	BLOCK:R03_STRUCTURAL_STOP	Repeated failures. Spamming will cause churn.	\N	2026-08-28 14:12:43.376871+00
+1276	failure	272	system	BLOCK:R03_STRUCTURAL_STOP	Repeated failures. Spamming will cause churn.	\N	2026-08-28 14:12:43.376871+00
+1277	failure	273	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1278	failure	274	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1279	failure	275	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 14:12:43.376871+00
+1280	failure	276	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1281	failure	277	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1282	failure	278	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1283	failure	279	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 14:12:43.376871+00
+1284	failure	280	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1285	failure	281	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1286	failure	282	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 1 (conf 1.0), histogram {1: 8}. Defer to day 1.	\N	2026-08-28 14:12:43.376871+00
+1287	failure	283	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1288	failure	284	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1289	failure	285	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 1 (conf 1.0), histogram {1: 8}. Defer to day 1.	\N	2026-08-28 14:12:43.376871+00
+1290	failure	286	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1291	failure	287	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1292	failure	288	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 15 (conf 1.0), histogram {15: 8}. Defer to day 15.	\N	2026-08-28 14:12:43.376871+00
+1293	failure	289	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 1 (conf 1.0), histogram {1: 8}. Defer to day 1.	\N	2026-08-28 14:12:43.376871+00
+1294	failure	290	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1295	failure	291	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1296	failure	292	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1297	failure	293	system	BLOCK:R03_STRUCTURAL_STOP	Repeated failures. Spamming will cause churn.	\N	2026-08-28 14:12:43.376871+00
+1298	failure	294	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1299	failure	295	system	BLOCK:R03_STRUCTURAL_STOP	Repeated failures. Spamming will cause churn.	\N	2026-08-28 14:12:43.376871+00
+1300	failure	296	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1301	failure	297	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1302	failure	298	system	BLOCK:R01_RBI_MANDATE	Pre-debit notification < 24h. RBI compliance block.	\N	2026-08-28 14:12:43.376871+00
+1303	failure	299	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 14:12:43.376871+00
+1304	failure	300	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1305	failure	302	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 14:12:43.376871+00
+1306	failure	303	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1307	failure	304	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1308	failure	305	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1309	failure	306	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 14:12:43.376871+00
+1310	failure	307	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1311	failure	308	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 14:12:43.376871+00
+1312	failure	309	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 14:12:43.376871+00
+1313	failure	310	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 14:12:43.376871+00
+1314	failure	311	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 1 (conf 1.0), histogram {1: 8}. Defer to day 1.	\N	2026-08-28 14:12:43.376871+00
+1315	failure	312	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 1 (conf 1.0), histogram {1: 8}. Defer to day 1.	\N	2026-08-28 14:12:43.376871+00
+1316	failure	313	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 14:12:43.376871+00
+1317	failure	314	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1318	failure	315	system	BLOCK:R01_RBI_MANDATE	Pre-debit notification < 24h. RBI compliance block.	\N	2026-08-28 14:12:43.376871+00
+1319	failure	316	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1320	failure	317	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1321	failure	318	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1322	failure	319	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1323	failure	320	system	BLOCK:R01_RBI_MANDATE	Pre-debit notification < 24h. RBI compliance block.	\N	2026-08-28 14:12:43.376871+00
+1324	failure	321	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 5 (conf 1.0), histogram {5: 8}. Defer to day 5.	\N	2026-08-28 14:12:43.376871+00
+1325	failure	322	system	BLOCK:R03_STRUCTURAL_STOP	Repeated failures. Spamming will cause churn.	\N	2026-08-28 14:12:43.376871+00
+1326	failure	323	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1327	failure	324	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1328	failure	325	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1329	failure	326	system	BLOCK:R01_RBI_MANDATE	Pre-debit notification < 24h. RBI compliance block.	\N	2026-08-28 14:12:43.376871+00
+1330	failure	327	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1331	failure	328	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1332	failure	329	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1333	failure	330	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 14:12:43.376871+00
+1334	failure	331	system	BLOCK:R07_OFFLINE_QR_TRAP	Customer left store. Silent retry blocked to prevent double-charge.	\N	2026-08-28 14:12:43.376871+00
+1335	failure	332	system	BLOCK:R01_RBI_MANDATE	Pre-debit notification < 24h. RBI compliance block.	\N	2026-08-28 14:12:43.376871+00
+1336	failure	333	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 1 (conf 1.0), histogram {1: 8}. Defer to day 1.	\N	2026-08-28 14:12:43.376871+00
+1337	failure	334	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1338	failure	335	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1339	failure	336	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1340	failure	337	system	BLOCK:R07_OFFLINE_QR_TRAP	Customer left store. Silent retry blocked to prevent double-charge.	\N	2026-08-28 14:12:43.376871+00
+1341	failure	338	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1342	failure	339	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 5 (conf 1.0), histogram {5: 8}. Defer to day 5.	\N	2026-08-28 14:12:43.376871+00
+1343	failure	340	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1344	failure	341	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1345	failure	342	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1346	failure	343	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1347	failure	344	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 14:12:43.376871+00
+1348	failure	345	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 14:12:43.376871+00
+1349	failure	346	system	BLOCK:R01_RBI_MANDATE	Pre-debit notification < 24h. RBI compliance block.	\N	2026-08-28 14:12:43.376871+00
+1350	failure	347	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1351	failure	348	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1352	failure	349	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 1 (conf 1.0), histogram {1: 8}. Defer to day 1.	\N	2026-08-28 14:12:43.376871+00
+1353	failure	350	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1354	failure	351	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 20 (conf 1.0), histogram {20: 8}. Defer to day 20.	\N	2026-08-28 14:12:43.376871+00
+1355	failure	352	system	BLOCK:R01_RBI_MANDATE	Pre-debit notification < 24h. RBI compliance block.	\N	2026-08-28 14:12:43.376871+00
+1356	failure	353	system	BLOCK:R03_STRUCTURAL_STOP	Repeated failures. Spamming will cause churn.	\N	2026-08-28 14:12:43.376871+00
+1357	failure	354	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1358	failure	355	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 1 (conf 1.0), histogram {1: 8}. Defer to day 1.	\N	2026-08-28 14:12:43.376871+00
+1359	failure	356	system	BLOCK:R01_RBI_MANDATE	Pre-debit notification < 24h. RBI compliance block.	\N	2026-08-28 14:12:43.376871+00
+1360	failure	357	system	BLOCK:R01_RBI_MANDATE	Pre-debit notification < 24h. RBI compliance block.	\N	2026-08-28 14:12:43.376871+00
+1361	failure	358	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1362	failure	359	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1363	failure	360	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1364	failure	361	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1365	failure	362	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1366	failure	363	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1367	failure	458	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1368	failure	364	system	BLOCK:R01_RBI_MANDATE	Pre-debit notification < 24h. RBI compliance block.	\N	2026-08-28 14:12:43.376871+00
+1369	failure	365	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 14:12:43.376871+00
+1370	failure	366	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 1 (conf 1.0), histogram {1: 8}. Defer to day 1.	\N	2026-08-28 14:12:43.376871+00
+1371	failure	367	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1372	failure	368	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1373	failure	369	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 1 (conf 1.0), histogram {1: 8}. Defer to day 1.	\N	2026-08-28 14:12:43.376871+00
+1374	failure	370	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1375	failure	371	system	BLOCK:R03_STRUCTURAL_STOP	Repeated failures. Spamming will cause churn.	\N	2026-08-28 14:12:43.376871+00
+1376	failure	372	system	BLOCK:R03_STRUCTURAL_STOP	Repeated failures. Spamming will cause churn.	\N	2026-08-28 14:12:43.376871+00
+1377	failure	373	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1378	failure	374	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1379	failure	375	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 14:12:43.376871+00
+1380	failure	376	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1381	failure	377	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1382	failure	378	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1383	failure	379	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 14:12:43.376871+00
+1384	failure	380	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1385	failure	381	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1386	failure	382	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 1 (conf 1.0), histogram {1: 8}. Defer to day 1.	\N	2026-08-28 14:12:43.376871+00
+1387	failure	383	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1388	failure	384	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1389	failure	385	system	BLOCK:R03_STRUCTURAL_STOP	Repeated failures. Spamming will cause churn.	\N	2026-08-28 14:12:43.376871+00
+1390	failure	386	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1391	failure	387	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1392	failure	388	system	BLOCK:R03_STRUCTURAL_STOP	Repeated failures. Spamming will cause churn.	\N	2026-08-28 14:12:43.376871+00
+1393	failure	389	system	BLOCK:R03_STRUCTURAL_STOP	Repeated failures. Spamming will cause churn.	\N	2026-08-28 14:12:43.376871+00
+1394	failure	390	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1395	failure	391	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1396	failure	392	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1397	failure	393	system	BLOCK:R03_STRUCTURAL_STOP	Repeated failures. Spamming will cause churn.	\N	2026-08-28 14:12:43.376871+00
+1398	failure	394	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1399	failure	395	system	BLOCK:R03_STRUCTURAL_STOP	Repeated failures. Spamming will cause churn.	\N	2026-08-28 14:12:43.376871+00
+1400	failure	396	system	BLOCK:R07_OFFLINE_QR_TRAP	Customer left store. Silent retry blocked to prevent double-charge.	\N	2026-08-28 14:12:43.376871+00
+1401	failure	397	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1402	failure	398	system	BLOCK:R01_RBI_MANDATE	Pre-debit notification < 24h. RBI compliance block.	\N	2026-08-28 14:12:43.376871+00
+1403	failure	399	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 14:12:43.376871+00
+1404	failure	400	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1405	failure	401	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1406	failure	402	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 14:12:43.376871+00
+1407	failure	403	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1408	failure	404	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1409	failure	405	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1410	failure	406	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 14:12:43.376871+00
+1411	failure	407	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1412	failure	408	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 14:12:43.376871+00
+1413	failure	409	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 14:12:43.376871+00
+1414	failure	410	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 14:12:43.376871+00
+1415	failure	411	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 1 (conf 1.0), histogram {1: 8}. Defer to day 1.	\N	2026-08-28 14:12:43.376871+00
+1416	failure	412	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 1 (conf 1.0), histogram {1: 8}. Defer to day 1.	\N	2026-08-28 14:12:43.376871+00
+1417	failure	413	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 14:12:43.376871+00
+1418	failure	414	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1419	failure	415	system	BLOCK:R01_RBI_MANDATE	Pre-debit notification < 24h. RBI compliance block.	\N	2026-08-28 14:12:43.376871+00
+1420	failure	416	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1421	failure	417	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1422	failure	418	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1423	failure	419	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1424	failure	420	system	BLOCK:R01_RBI_MANDATE	Pre-debit notification < 24h. RBI compliance block.	\N	2026-08-28 14:12:43.376871+00
+1425	failure	421	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 5 (conf 1.0), histogram {5: 8}. Defer to day 5.	\N	2026-08-28 14:12:43.376871+00
+1426	failure	422	system	BLOCK:R03_STRUCTURAL_STOP	Repeated failures. Spamming will cause churn.	\N	2026-08-28 14:12:43.376871+00
+1427	failure	423	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1428	failure	424	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1429	failure	425	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1430	failure	426	system	BLOCK:R01_RBI_MANDATE	Pre-debit notification < 24h. RBI compliance block.	\N	2026-08-28 14:12:43.376871+00
+1431	failure	427	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1432	failure	428	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1433	failure	429	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1434	failure	430	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 14:12:43.376871+00
+1435	failure	431	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1436	failure	432	system	BLOCK:R01_RBI_MANDATE	Pre-debit notification < 24h. RBI compliance block.	\N	2026-08-28 14:12:43.376871+00
+1437	failure	433	system	BLOCK:R03_STRUCTURAL_STOP	Repeated failures. Spamming will cause churn.	\N	2026-08-28 14:12:43.376871+00
+1438	failure	434	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1439	failure	435	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1440	failure	436	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1441	failure	437	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1442	failure	438	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1443	failure	439	system	BLOCK:R03_STRUCTURAL_STOP	Repeated failures. Spamming will cause churn.	\N	2026-08-28 14:12:43.376871+00
+1444	failure	441	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1445	failure	442	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1446	failure	443	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1447	failure	444	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 14:12:43.376871+00
+1448	failure	445	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 14:12:43.376871+00
+1449	failure	446	system	BLOCK:R01_RBI_MANDATE	Pre-debit notification < 24h. RBI compliance block.	\N	2026-08-28 14:12:43.376871+00
+1450	failure	447	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1451	failure	448	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1452	failure	449	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 5 (conf 1.0), histogram {5: 8}. Defer to day 5.	\N	2026-08-28 14:12:43.376871+00
+1453	failure	450	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1454	failure	451	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 1 (conf 1.0), histogram {1: 8}. Defer to day 1.	\N	2026-08-28 14:12:43.376871+00
+1455	failure	452	system	BLOCK:R01_RBI_MANDATE	Pre-debit notification < 24h. RBI compliance block.	\N	2026-08-28 14:12:43.376871+00
+1456	failure	453	system	BLOCK:R03_STRUCTURAL_STOP	Repeated failures. Spamming will cause churn.	\N	2026-08-28 14:12:43.376871+00
+1457	failure	454	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1458	failure	455	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 1 (conf 1.0), histogram {1: 8}. Defer to day 1.	\N	2026-08-28 14:12:43.376871+00
+1459	failure	456	system	BLOCK:R01_RBI_MANDATE	Pre-debit notification < 24h. RBI compliance block.	\N	2026-08-28 14:12:43.376871+00
+1460	failure	457	system	BLOCK:R01_RBI_MANDATE	Pre-debit notification < 24h. RBI compliance block.	\N	2026-08-28 14:12:43.376871+00
+1461	failure	459	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1462	failure	460	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1463	failure	461	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1464	failure	462	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1465	failure	463	system	ALLOW:R05_TECH_RETRY	Transient technical failure. Safe to retry.	\N	2026-08-28 14:12:43.376871+00
+1466	failure	464	system	BLOCK:R01_RBI_MANDATE	Pre-debit notification < 24h. RBI compliance block.	\N	2026-08-28 14:12:43.376871+00
+1467	failure	465	system	BLOCK:R02_FEE_SHOCK	Hidden fees caused abandonment. Do not retry.	\N	2026-08-28 14:12:43.376871+00
+1468	failure	466	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 1 (conf 1.0), histogram {1: 8}. Defer to day 1.	\N	2026-08-28 14:12:43.376871+00
+1469	failure	467	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1470	failure	468	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1471	failure	469	system	DEFER:R04_LIQUIDITY_DEFER	Liquidity curve over 8 captured payments: modal day 5 (conf 1.0), histogram {5: 8}. Defer to day 5.	\N	2026-08-28 14:12:43.376871+00
+1472	failure	470	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
+1473	failure	471	system	BLOCK:R03_STRUCTURAL_STOP	Repeated failures. Spamming will cause churn.	\N	2026-08-28 14:12:43.376871+00
+1474	failure	472	system	BLOCK:R03_STRUCTURAL_STOP	Repeated failures. Spamming will cause churn.	\N	2026-08-28 14:12:43.376871+00
+1475	failure	474	system	ALLOW:R06_DEFAULT_ALLOW	No blocking rules triggered.	\N	2026-08-28 14:12:43.376871+00
 \.
 
 
@@ -2121,507 +2121,506 @@ COPY public.diagnoses (id, failure_id, archetype, owner, confidence, reasoning, 
 --
 
 COPY public.gate_decisions (id, failure_id, rule_id, verdict, context_snapshot, created_at) FROM stdin;
-1001	513	R05_TECH_RETRY	ALLOW	{"archetype": "technical", "owner": "infra", "context": "in_session_online", "method": "netbanking", "failure_code": "NB_SESSION_TIMEOUT", "amount_paise": 49900}	2026-08-28 13:43:19.941381+00
-501	1	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-502	2	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 12:56:44.459967+00
-503	3	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-504	4	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-505	5	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-506	6	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 12:56:44.459967+00
-507	7	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-508	8	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 12:56:44.459967+00
-509	9	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 12:56:44.459967+00
-510	10	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 12:56:44.459967+00
-511	11	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 12:56:44.459967+00
-512	12	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 12:56:44.459967+00
-513	13	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-514	14	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-515	15	R01_RBI_MANDATE	BLOCK	\N	2026-08-28 12:56:44.459967+00
-516	16	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-517	17	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-518	18	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-519	19	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-520	20	R01_RBI_MANDATE	BLOCK	\N	2026-08-28 12:56:44.459967+00
-521	21	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 12:56:44.459967+00
-522	22	R03_STRUCTURAL_STOP	BLOCK	\N	2026-08-28 12:56:44.459967+00
-523	23	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-524	24	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-525	25	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-526	26	R01_RBI_MANDATE	BLOCK	\N	2026-08-28 12:56:44.459967+00
-527	27	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-528	28	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-529	29	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-530	30	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-531	31	R07_OFFLINE_QR_TRAP	BLOCK	\N	2026-08-28 12:56:44.459967+00
-532	32	R01_RBI_MANDATE	BLOCK	\N	2026-08-28 12:56:44.459967+00
-533	33	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 12:56:44.459967+00
-534	34	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-535	35	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-536	36	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-537	37	R07_OFFLINE_QR_TRAP	BLOCK	\N	2026-08-28 12:56:44.459967+00
-538	38	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-539	39	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 12:56:44.459967+00
-540	40	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-541	41	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-542	42	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-543	43	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-544	44	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 12:56:44.459967+00
-545	45	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 12:56:44.459967+00
-546	46	R01_RBI_MANDATE	BLOCK	\N	2026-08-28 12:56:44.459967+00
-547	47	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-548	48	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-549	49	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 12:56:44.459967+00
-550	50	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-551	51	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 12:56:44.459967+00
-552	52	R01_RBI_MANDATE	BLOCK	\N	2026-08-28 12:56:44.459967+00
-553	53	R03_STRUCTURAL_STOP	BLOCK	\N	2026-08-28 12:56:44.459967+00
-554	54	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-555	55	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 12:56:44.459967+00
-556	56	R01_RBI_MANDATE	BLOCK	\N	2026-08-28 12:56:44.459967+00
-557	57	R01_RBI_MANDATE	BLOCK	\N	2026-08-28 12:56:44.459967+00
-558	58	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-559	59	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-560	60	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-561	61	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-562	62	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-563	63	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-564	64	R01_RBI_MANDATE	BLOCK	\N	2026-08-28 12:56:44.459967+00
-565	65	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 12:56:44.459967+00
-566	66	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 12:56:44.459967+00
-567	67	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-568	68	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-569	69	R03_STRUCTURAL_STOP	BLOCK	\N	2026-08-28 12:56:44.459967+00
-570	70	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-571	71	R03_STRUCTURAL_STOP	BLOCK	\N	2026-08-28 12:56:44.459967+00
-572	72	R03_STRUCTURAL_STOP	BLOCK	\N	2026-08-28 12:56:44.459967+00
-573	73	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-574	74	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-575	75	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 12:56:44.459967+00
-576	76	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 12:56:44.459967+00
-577	77	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-578	78	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 12:56:44.459967+00
-579	79	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 12:56:44.459967+00
-580	80	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-581	81	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-582	82	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 12:56:44.459967+00
-583	83	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-584	84	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-585	85	R03_STRUCTURAL_STOP	BLOCK	\N	2026-08-28 12:56:44.459967+00
-586	86	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-587	87	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-588	88	R03_STRUCTURAL_STOP	BLOCK	\N	2026-08-28 12:56:44.459967+00
-589	89	R03_STRUCTURAL_STOP	BLOCK	\N	2026-08-28 12:56:44.459967+00
-590	90	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-591	91	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-592	92	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-593	93	R03_STRUCTURAL_STOP	BLOCK	\N	2026-08-28 12:56:44.459967+00
-594	94	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-595	95	R03_STRUCTURAL_STOP	BLOCK	\N	2026-08-28 12:56:44.459967+00
-596	96	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-597	97	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-598	98	R01_RBI_MANDATE	BLOCK	\N	2026-08-28 12:56:44.459967+00
-599	99	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 12:56:44.459967+00
-600	100	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-601	101	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-602	102	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-603	103	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-604	104	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-605	105	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-606	106	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 12:56:44.459967+00
-607	107	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-608	108	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 12:56:44.459967+00
-609	109	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 12:56:44.459967+00
-610	110	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-611	111	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 12:56:44.459967+00
-612	112	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 12:56:44.459967+00
-613	113	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-614	114	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-615	115	R01_RBI_MANDATE	BLOCK	\N	2026-08-28 12:56:44.459967+00
-616	116	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-617	117	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-618	118	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-619	119	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-620	120	R01_RBI_MANDATE	BLOCK	\N	2026-08-28 12:56:44.459967+00
-621	121	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 12:56:44.459967+00
-622	122	R03_STRUCTURAL_STOP	BLOCK	\N	2026-08-28 12:56:44.459967+00
-623	123	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-624	124	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-625	125	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-626	126	R01_RBI_MANDATE	BLOCK	\N	2026-08-28 12:56:44.459967+00
-627	127	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-628	128	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-629	129	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-630	130	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 12:56:44.459967+00
-631	131	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-632	132	R01_RBI_MANDATE	BLOCK	\N	2026-08-28 12:56:44.459967+00
-633	133	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 12:56:44.459967+00
-634	134	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-635	135	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-636	136	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-637	137	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-638	138	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-639	139	R03_STRUCTURAL_STOP	BLOCK	\N	2026-08-28 12:56:44.459967+00
-640	140	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-641	141	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-642	142	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-643	143	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-644	144	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 12:56:44.459967+00
-645	145	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 12:56:44.459967+00
-646	146	R01_RBI_MANDATE	BLOCK	\N	2026-08-28 12:56:44.459967+00
-647	147	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-648	148	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-649	149	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 12:56:44.459967+00
-650	150	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-651	151	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 12:56:44.459967+00
-652	152	R01_RBI_MANDATE	BLOCK	\N	2026-08-28 12:56:44.459967+00
-653	153	R03_STRUCTURAL_STOP	BLOCK	\N	2026-08-28 12:56:44.459967+00
-654	154	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-655	155	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 12:56:44.459967+00
-656	156	R01_RBI_MANDATE	BLOCK	\N	2026-08-28 12:56:44.459967+00
-657	157	R01_RBI_MANDATE	BLOCK	\N	2026-08-28 12:56:44.459967+00
-658	158	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-659	159	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-660	160	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-661	161	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-662	162	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-663	163	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-664	164	R01_RBI_MANDATE	BLOCK	\N	2026-08-28 12:56:44.459967+00
-665	165	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 12:56:44.459967+00
-666	166	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 12:56:44.459967+00
-667	167	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-668	168	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-669	169	R03_STRUCTURAL_STOP	BLOCK	\N	2026-08-28 12:56:44.459967+00
-670	170	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-671	171	R03_STRUCTURAL_STOP	BLOCK	\N	2026-08-28 12:56:44.459967+00
-672	172	R03_STRUCTURAL_STOP	BLOCK	\N	2026-08-28 12:56:44.459967+00
-673	173	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-674	174	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-675	175	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 12:56:44.459967+00
-676	176	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-677	177	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-678	178	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-679	179	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 12:56:44.459967+00
-680	180	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-681	181	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-682	182	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 12:56:44.459967+00
-683	183	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-684	184	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-685	185	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 12:56:44.459967+00
-686	186	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-687	187	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-688	188	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 12:56:44.459967+00
-689	189	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 12:56:44.459967+00
-690	190	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 12:56:44.459967+00
-691	191	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-692	192	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-693	193	R03_STRUCTURAL_STOP	BLOCK	\N	2026-08-28 12:56:44.459967+00
-694	194	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-695	195	R03_STRUCTURAL_STOP	BLOCK	\N	2026-08-28 12:56:44.459967+00
-696	196	R07_OFFLINE_QR_TRAP	BLOCK	\N	2026-08-28 12:56:44.459967+00
-697	197	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-698	198	R01_RBI_MANDATE	BLOCK	\N	2026-08-28 12:56:44.459967+00
-699	199	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 12:56:44.459967+00
-700	200	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-701	201	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-702	202	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 12:56:44.459967+00
-703	203	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-704	204	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-705	205	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-706	206	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 12:56:44.459967+00
-707	207	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-708	208	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 12:56:44.459967+00
-709	209	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 12:56:44.459967+00
-710	210	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 12:56:44.459967+00
-711	211	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 12:56:44.459967+00
-712	212	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 12:56:44.459967+00
-713	213	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 12:56:44.459967+00
-714	214	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-715	215	R01_RBI_MANDATE	BLOCK	\N	2026-08-28 12:56:44.459967+00
-716	216	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-717	217	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-718	218	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-719	219	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-720	220	R01_RBI_MANDATE	BLOCK	\N	2026-08-28 12:56:44.459967+00
-721	221	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 12:56:44.459967+00
-722	222	R03_STRUCTURAL_STOP	BLOCK	\N	2026-08-28 12:56:44.459967+00
-723	223	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-724	224	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-725	225	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-726	226	R01_RBI_MANDATE	BLOCK	\N	2026-08-28 12:56:44.459967+00
-727	227	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-728	228	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-729	229	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-730	230	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 12:56:44.459967+00
-731	231	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-732	232	R01_RBI_MANDATE	BLOCK	\N	2026-08-28 12:56:44.459967+00
-733	233	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 12:56:44.459967+00
-734	234	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-735	235	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-736	236	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-737	237	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-738	238	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-739	239	R03_STRUCTURAL_STOP	BLOCK	\N	2026-08-28 12:56:44.459967+00
-740	240	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-741	241	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-742	242	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-743	243	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-744	244	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 12:56:44.459967+00
-745	245	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 12:56:44.459967+00
-746	246	R01_RBI_MANDATE	BLOCK	\N	2026-08-28 12:56:44.459967+00
-747	247	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-748	248	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-749	249	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 12:56:44.459967+00
-750	250	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-751	251	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 12:56:44.459967+00
-752	252	R01_RBI_MANDATE	BLOCK	\N	2026-08-28 12:56:44.459967+00
-753	253	R03_STRUCTURAL_STOP	BLOCK	\N	2026-08-28 12:56:44.459967+00
-754	254	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-755	255	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 12:56:44.459967+00
-756	256	R01_RBI_MANDATE	BLOCK	\N	2026-08-28 12:56:44.459967+00
-757	257	R01_RBI_MANDATE	BLOCK	\N	2026-08-28 12:56:44.459967+00
-758	258	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-759	259	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-760	260	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-761	261	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-762	262	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-763	263	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-764	264	R01_RBI_MANDATE	BLOCK	\N	2026-08-28 12:56:44.459967+00
-765	265	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 12:56:44.459967+00
-766	266	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 12:56:44.459967+00
-767	267	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-768	268	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-769	269	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 12:56:44.459967+00
-770	270	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-771	271	R03_STRUCTURAL_STOP	BLOCK	\N	2026-08-28 12:56:44.459967+00
-772	272	R03_STRUCTURAL_STOP	BLOCK	\N	2026-08-28 12:56:44.459967+00
-773	273	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-774	274	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-775	275	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 12:56:44.459967+00
-776	276	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-777	277	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-778	278	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-779	279	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 12:56:44.459967+00
-780	280	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-781	281	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-782	282	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 12:56:44.459967+00
-783	283	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-784	284	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-785	285	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 12:56:44.459967+00
-786	286	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-787	287	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-788	288	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 12:56:44.459967+00
-789	289	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 12:56:44.459967+00
-790	290	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-791	291	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-792	292	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-793	293	R03_STRUCTURAL_STOP	BLOCK	\N	2026-08-28 12:56:44.459967+00
-794	294	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-795	295	R03_STRUCTURAL_STOP	BLOCK	\N	2026-08-28 12:56:44.459967+00
-796	296	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-797	297	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-798	298	R01_RBI_MANDATE	BLOCK	\N	2026-08-28 12:56:44.459967+00
-799	299	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 12:56:44.459967+00
-800	300	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-801	301	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-802	302	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 12:56:44.459967+00
-803	303	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-804	304	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-805	305	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-806	306	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 12:56:44.459967+00
-807	307	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-808	308	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 12:56:44.459967+00
-809	309	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 12:56:44.459967+00
-810	310	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 12:56:44.459967+00
-811	311	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 12:56:44.459967+00
-812	312	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 12:56:44.459967+00
-813	313	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 12:56:44.459967+00
-814	314	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-815	315	R01_RBI_MANDATE	BLOCK	\N	2026-08-28 12:56:44.459967+00
-816	316	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-817	317	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-818	318	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-819	319	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-820	320	R01_RBI_MANDATE	BLOCK	\N	2026-08-28 12:56:44.459967+00
-821	321	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 12:56:44.459967+00
-822	322	R03_STRUCTURAL_STOP	BLOCK	\N	2026-08-28 12:56:44.459967+00
-823	323	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-824	324	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-825	325	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-826	326	R01_RBI_MANDATE	BLOCK	\N	2026-08-28 12:56:44.459967+00
-827	327	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-828	328	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-829	329	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-830	330	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 12:56:44.459967+00
-831	331	R07_OFFLINE_QR_TRAP	BLOCK	\N	2026-08-28 12:56:44.459967+00
-832	332	R01_RBI_MANDATE	BLOCK	\N	2026-08-28 12:56:44.459967+00
-833	333	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 12:56:44.459967+00
-834	334	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-835	335	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-836	336	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-837	337	R07_OFFLINE_QR_TRAP	BLOCK	\N	2026-08-28 12:56:44.459967+00
-838	338	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-839	339	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 12:56:44.459967+00
-840	340	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-841	341	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-842	342	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-843	343	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-844	344	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 12:56:44.459967+00
-845	345	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 12:56:44.459967+00
-846	346	R01_RBI_MANDATE	BLOCK	\N	2026-08-28 12:56:44.459967+00
-847	347	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-848	348	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-849	349	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 12:56:44.459967+00
-850	350	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-851	351	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 12:56:44.459967+00
-852	352	R01_RBI_MANDATE	BLOCK	\N	2026-08-28 12:56:44.459967+00
-853	353	R03_STRUCTURAL_STOP	BLOCK	\N	2026-08-28 12:56:44.459967+00
-854	354	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-855	355	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 12:56:44.459967+00
-856	356	R01_RBI_MANDATE	BLOCK	\N	2026-08-28 12:56:44.459967+00
-857	357	R01_RBI_MANDATE	BLOCK	\N	2026-08-28 12:56:44.459967+00
-858	358	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-859	359	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-860	360	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-861	361	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-862	362	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-863	363	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-864	364	R01_RBI_MANDATE	BLOCK	\N	2026-08-28 12:56:44.459967+00
-865	365	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 12:56:44.459967+00
-866	366	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 12:56:44.459967+00
-867	367	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-868	368	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-869	369	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 12:56:44.459967+00
-870	370	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-871	371	R03_STRUCTURAL_STOP	BLOCK	\N	2026-08-28 12:56:44.459967+00
-872	372	R03_STRUCTURAL_STOP	BLOCK	\N	2026-08-28 12:56:44.459967+00
-873	373	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-874	374	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-875	375	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 12:56:44.459967+00
-876	376	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-877	377	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-878	378	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-879	379	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 12:56:44.459967+00
-880	380	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-881	381	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-882	382	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 12:56:44.459967+00
-883	383	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-884	384	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-885	385	R03_STRUCTURAL_STOP	BLOCK	\N	2026-08-28 12:56:44.459967+00
-886	386	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-887	387	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-888	388	R03_STRUCTURAL_STOP	BLOCK	\N	2026-08-28 12:56:44.459967+00
-889	389	R03_STRUCTURAL_STOP	BLOCK	\N	2026-08-28 12:56:44.459967+00
-890	390	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-891	391	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-892	392	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-893	393	R03_STRUCTURAL_STOP	BLOCK	\N	2026-08-28 12:56:44.459967+00
-894	394	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-895	395	R03_STRUCTURAL_STOP	BLOCK	\N	2026-08-28 12:56:44.459967+00
-896	396	R07_OFFLINE_QR_TRAP	BLOCK	\N	2026-08-28 12:56:44.459967+00
-897	397	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-898	398	R01_RBI_MANDATE	BLOCK	\N	2026-08-28 12:56:44.459967+00
-899	399	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 12:56:44.459967+00
-900	400	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-901	401	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-902	402	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 12:56:44.459967+00
-903	403	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-904	404	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-905	405	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-906	406	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 12:56:44.459967+00
-907	407	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-908	408	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 12:56:44.459967+00
-909	409	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 12:56:44.459967+00
-910	410	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 12:56:44.459967+00
-911	411	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 12:56:44.459967+00
-912	412	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 12:56:44.459967+00
-913	413	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 12:56:44.459967+00
-914	414	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-915	415	R01_RBI_MANDATE	BLOCK	\N	2026-08-28 12:56:44.459967+00
-916	416	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-917	417	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-918	418	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-919	419	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-920	420	R01_RBI_MANDATE	BLOCK	\N	2026-08-28 12:56:44.459967+00
-921	421	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 12:56:44.459967+00
-922	422	R03_STRUCTURAL_STOP	BLOCK	\N	2026-08-28 12:56:44.459967+00
-923	423	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-924	424	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-925	425	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-926	426	R01_RBI_MANDATE	BLOCK	\N	2026-08-28 12:56:44.459967+00
-927	427	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-928	428	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-929	429	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-930	430	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 12:56:44.459967+00
-931	431	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-932	432	R01_RBI_MANDATE	BLOCK	\N	2026-08-28 12:56:44.459967+00
-933	433	R03_STRUCTURAL_STOP	BLOCK	\N	2026-08-28 12:56:44.459967+00
-934	434	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-935	435	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-936	436	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-937	437	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-938	438	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-939	439	R03_STRUCTURAL_STOP	BLOCK	\N	2026-08-28 12:56:44.459967+00
-940	440	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-941	441	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-942	442	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-943	443	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-944	444	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 12:56:44.459967+00
-945	445	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 12:56:44.459967+00
-946	446	R01_RBI_MANDATE	BLOCK	\N	2026-08-28 12:56:44.459967+00
-947	447	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-948	448	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-949	449	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 12:56:44.459967+00
-950	450	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-951	451	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 12:56:44.459967+00
-952	452	R01_RBI_MANDATE	BLOCK	\N	2026-08-28 12:56:44.459967+00
-953	453	R03_STRUCTURAL_STOP	BLOCK	\N	2026-08-28 12:56:44.459967+00
-954	454	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-955	455	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 12:56:44.459967+00
-956	456	R01_RBI_MANDATE	BLOCK	\N	2026-08-28 12:56:44.459967+00
-957	457	R01_RBI_MANDATE	BLOCK	\N	2026-08-28 12:56:44.459967+00
-958	458	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-959	459	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-960	460	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-961	461	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-962	462	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-963	463	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-964	464	R01_RBI_MANDATE	BLOCK	\N	2026-08-28 12:56:44.459967+00
-965	465	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 12:56:44.459967+00
-966	466	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 12:56:44.459967+00
-967	467	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-968	468	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-969	469	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 12:56:44.459967+00
-970	470	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-971	471	R03_STRUCTURAL_STOP	BLOCK	\N	2026-08-28 12:56:44.459967+00
-972	472	R03_STRUCTURAL_STOP	BLOCK	\N	2026-08-28 12:56:44.459967+00
-973	473	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-974	474	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-975	475	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 12:56:44.459967+00
-976	476	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 12:56:44.459967+00
-977	477	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-978	478	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 12:56:44.459967+00
-979	479	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 12:56:44.459967+00
-980	480	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-981	481	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-982	482	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 12:56:44.459967+00
-983	483	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-984	484	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-985	485	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 12:56:44.459967+00
-986	486	R07_OFFLINE_QR_TRAP	BLOCK	\N	2026-08-28 12:56:44.459967+00
-987	487	R07_OFFLINE_QR_TRAP	BLOCK	\N	2026-08-28 12:56:44.459967+00
-988	488	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 12:56:44.459967+00
-989	489	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 12:56:44.459967+00
-990	490	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-991	491	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-992	492	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-993	493	R03_STRUCTURAL_STOP	BLOCK	\N	2026-08-28 12:56:44.459967+00
-994	494	R05_TECH_RETRY	ALLOW	\N	2026-08-28 12:56:44.459967+00
-995	495	R03_STRUCTURAL_STOP	BLOCK	\N	2026-08-28 12:56:44.459967+00
-996	496	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-997	497	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
-998	498	R01_RBI_MANDATE	BLOCK	\N	2026-08-28 12:56:44.459967+00
-999	499	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 12:56:44.459967+00
-1000	500	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 12:56:44.459967+00
+1437	433	R03_STRUCTURAL_STOP	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1438	434	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1439	435	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1440	436	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1441	437	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1442	438	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1443	439	R03_STRUCTURAL_STOP	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1444	441	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1445	442	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1446	443	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1447	444	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1448	445	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1449	446	R01_RBI_MANDATE	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1450	447	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1451	448	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1452	449	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 14:12:43.376871+00
+1453	450	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1454	451	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 14:12:43.376871+00
+1455	452	R01_RBI_MANDATE	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1456	453	R03_STRUCTURAL_STOP	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1457	454	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1458	455	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 14:12:43.376871+00
+1459	456	R01_RBI_MANDATE	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1460	457	R01_RBI_MANDATE	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1461	459	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1462	460	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1463	461	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1464	462	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1465	463	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1466	464	R01_RBI_MANDATE	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1467	465	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1468	466	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 14:12:43.376871+00
+1469	467	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1470	468	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1471	469	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 14:12:43.376871+00
+1472	470	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1473	471	R03_STRUCTURAL_STOP	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1474	472	R03_STRUCTURAL_STOP	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1475	474	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1476	475	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1477	476	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1478	477	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1479	478	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1480	479	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1481	480	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1482	481	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1483	482	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 14:12:43.376871+00
+1484	483	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1485	484	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1486	485	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 14:12:43.376871+00
+1487	486	R07_OFFLINE_QR_TRAP	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1488	487	R07_OFFLINE_QR_TRAP	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1489	488	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 14:12:43.376871+00
+1490	489	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 14:12:43.376871+00
+1491	490	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1492	491	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1493	492	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1494	493	R03_STRUCTURAL_STOP	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1495	494	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1496	495	R03_STRUCTURAL_STOP	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1497	496	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1498	497	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1499	498	R01_RBI_MANDATE	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1500	499	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1501	500	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1002	73	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1003	140	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1004	158	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1005	240	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1006	301	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1007	440	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1008	473	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1009	11	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 14:12:43.376871+00
+1010	1	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1011	2	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1012	3	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1013	4	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1014	5	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1015	6	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1016	7	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1017	8	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1018	9	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1019	10	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1020	12	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 14:12:43.376871+00
+1021	13	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1022	14	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1023	15	R01_RBI_MANDATE	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1024	16	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1025	17	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1026	18	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1027	19	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1028	20	R01_RBI_MANDATE	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1029	21	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 14:12:43.376871+00
+1030	22	R03_STRUCTURAL_STOP	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1031	23	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1032	24	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1033	25	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1034	26	R01_RBI_MANDATE	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1035	27	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1036	28	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1037	29	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1038	30	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1039	31	R07_OFFLINE_QR_TRAP	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1040	32	R01_RBI_MANDATE	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1041	33	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 14:12:43.376871+00
+1042	34	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1043	35	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1044	36	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1045	37	R07_OFFLINE_QR_TRAP	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1046	38	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1047	39	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 14:12:43.376871+00
+1048	40	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1049	41	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1050	42	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1051	43	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1052	44	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1053	45	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1054	46	R01_RBI_MANDATE	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1055	47	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1056	48	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1057	49	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 14:12:43.376871+00
+1058	50	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1059	51	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 14:12:43.376871+00
+1060	52	R01_RBI_MANDATE	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1061	53	R03_STRUCTURAL_STOP	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1062	54	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1063	55	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 14:12:43.376871+00
+1064	56	R01_RBI_MANDATE	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1065	57	R01_RBI_MANDATE	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1066	58	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1067	59	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1068	60	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1069	61	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1070	62	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1071	63	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1072	64	R01_RBI_MANDATE	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1073	65	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1074	66	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 14:12:43.376871+00
+1075	67	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1076	68	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1077	69	R03_STRUCTURAL_STOP	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1078	70	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1079	71	R03_STRUCTURAL_STOP	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1080	72	R03_STRUCTURAL_STOP	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1081	74	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1082	75	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1083	76	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1084	77	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1085	78	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1086	79	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1087	80	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1088	81	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1089	82	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 14:12:43.376871+00
+1090	83	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1091	84	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1092	85	R03_STRUCTURAL_STOP	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1093	86	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1094	87	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1095	88	R03_STRUCTURAL_STOP	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1096	89	R03_STRUCTURAL_STOP	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1097	90	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1098	91	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1099	92	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1100	93	R03_STRUCTURAL_STOP	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1101	94	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1102	95	R03_STRUCTURAL_STOP	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1103	96	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1104	97	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1105	98	R01_RBI_MANDATE	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1106	99	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1107	100	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1108	101	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1109	102	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1110	103	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1111	104	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1112	105	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1113	106	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1114	107	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1115	108	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1116	109	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1117	110	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1118	111	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 14:12:43.376871+00
+1119	112	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 14:12:43.376871+00
+1120	113	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1121	114	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1122	115	R01_RBI_MANDATE	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1123	116	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1124	117	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1125	118	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1126	119	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1127	120	R01_RBI_MANDATE	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1128	121	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 14:12:43.376871+00
+1129	122	R03_STRUCTURAL_STOP	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1130	123	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1131	124	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1132	125	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1133	126	R01_RBI_MANDATE	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1134	127	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1135	128	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1136	129	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1137	130	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1138	131	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1139	132	R01_RBI_MANDATE	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1140	133	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 14:12:43.376871+00
+1141	134	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1142	135	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1143	136	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1144	137	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1145	138	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1146	139	R03_STRUCTURAL_STOP	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1147	141	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1148	142	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1149	143	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1150	144	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1151	145	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1152	146	R01_RBI_MANDATE	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1153	147	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1154	148	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1155	149	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 14:12:43.376871+00
+1156	150	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1157	151	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 14:12:43.376871+00
+1158	152	R01_RBI_MANDATE	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1159	153	R03_STRUCTURAL_STOP	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1160	154	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1161	155	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 14:12:43.376871+00
+1162	156	R01_RBI_MANDATE	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1163	157	R01_RBI_MANDATE	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1164	159	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1165	160	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1166	161	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1167	162	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1168	163	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1169	164	R01_RBI_MANDATE	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1170	165	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1171	166	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 14:12:43.376871+00
+1172	167	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1173	168	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1174	169	R03_STRUCTURAL_STOP	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1175	170	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1176	171	R03_STRUCTURAL_STOP	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1177	172	R03_STRUCTURAL_STOP	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1178	173	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1179	174	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1180	175	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1181	176	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1182	177	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1183	178	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1184	179	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1185	180	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1186	181	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1187	182	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 14:12:43.376871+00
+1188	183	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1189	184	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1190	185	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 14:12:43.376871+00
+1191	186	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1192	187	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1193	188	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 14:12:43.376871+00
+1194	189	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 14:12:43.376871+00
+1195	190	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1196	191	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1197	192	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1198	193	R03_STRUCTURAL_STOP	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1199	194	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1200	195	R03_STRUCTURAL_STOP	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1201	196	R07_OFFLINE_QR_TRAP	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1202	197	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1203	198	R01_RBI_MANDATE	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1204	199	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1205	200	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1206	201	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1207	202	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1208	203	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1209	204	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1210	205	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1211	206	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1212	207	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1213	208	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1214	209	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1215	210	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1216	211	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 14:12:43.376871+00
+1217	212	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 14:12:43.376871+00
+1218	213	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1219	214	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1220	215	R01_RBI_MANDATE	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1221	216	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1222	217	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1223	218	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1224	219	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1225	220	R01_RBI_MANDATE	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1226	221	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 14:12:43.376871+00
+1227	222	R03_STRUCTURAL_STOP	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1228	223	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1229	224	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1230	225	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1231	226	R01_RBI_MANDATE	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1232	227	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1233	228	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1234	229	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1235	230	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1236	231	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1237	232	R01_RBI_MANDATE	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1238	233	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 14:12:43.376871+00
+1239	234	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1240	235	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1241	236	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1242	237	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1243	238	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1244	239	R03_STRUCTURAL_STOP	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1245	241	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1246	242	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1247	243	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1248	244	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1249	245	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1250	246	R01_RBI_MANDATE	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1251	247	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1252	248	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1253	249	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 14:12:43.376871+00
+1254	250	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1255	251	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 14:12:43.376871+00
+1256	252	R01_RBI_MANDATE	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1257	253	R03_STRUCTURAL_STOP	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1258	254	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1259	255	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 14:12:43.376871+00
+1260	256	R01_RBI_MANDATE	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1261	257	R01_RBI_MANDATE	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1262	258	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1263	259	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1264	260	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1265	261	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1266	262	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1267	263	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1268	264	R01_RBI_MANDATE	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1269	265	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1270	266	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 14:12:43.376871+00
+1271	267	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1272	268	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1273	269	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 14:12:43.376871+00
+1274	270	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1275	271	R03_STRUCTURAL_STOP	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1276	272	R03_STRUCTURAL_STOP	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1277	273	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1278	274	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1279	275	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1280	276	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1281	277	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1282	278	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1283	279	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1284	280	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1285	281	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1286	282	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 14:12:43.376871+00
+1287	283	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1288	284	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1289	285	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 14:12:43.376871+00
+1290	286	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1291	287	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1292	288	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 14:12:43.376871+00
+1293	289	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 14:12:43.376871+00
+1294	290	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1295	291	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1296	292	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1297	293	R03_STRUCTURAL_STOP	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1298	294	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1299	295	R03_STRUCTURAL_STOP	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1300	296	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1301	297	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1302	298	R01_RBI_MANDATE	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1303	299	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1304	300	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1305	302	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1306	303	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1307	304	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1308	305	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1309	306	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1310	307	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1311	308	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1312	309	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1313	310	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1314	311	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 14:12:43.376871+00
+1315	312	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 14:12:43.376871+00
+1316	313	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1317	314	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1318	315	R01_RBI_MANDATE	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1319	316	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1320	317	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1321	318	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1322	319	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1323	320	R01_RBI_MANDATE	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1324	321	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 14:12:43.376871+00
+1325	322	R03_STRUCTURAL_STOP	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1326	323	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1327	324	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1328	325	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1329	326	R01_RBI_MANDATE	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1330	327	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1331	328	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1332	329	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1333	330	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1334	331	R07_OFFLINE_QR_TRAP	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1335	332	R01_RBI_MANDATE	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1336	333	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 14:12:43.376871+00
+1337	334	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1338	335	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1339	336	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1340	337	R07_OFFLINE_QR_TRAP	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1341	338	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1342	339	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 14:12:43.376871+00
+1343	340	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1344	341	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1345	342	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1346	343	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1347	344	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1348	345	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1349	346	R01_RBI_MANDATE	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1350	347	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1351	348	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1352	349	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 14:12:43.376871+00
+1353	350	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1354	351	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 14:12:43.376871+00
+1355	352	R01_RBI_MANDATE	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1356	353	R03_STRUCTURAL_STOP	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1357	354	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1358	355	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 14:12:43.376871+00
+1359	356	R01_RBI_MANDATE	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1360	357	R01_RBI_MANDATE	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1361	358	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1362	359	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1363	360	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1364	361	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1365	362	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1366	363	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1367	458	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1368	364	R01_RBI_MANDATE	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1369	365	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1370	366	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 14:12:43.376871+00
+1371	367	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1372	368	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1373	369	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 14:12:43.376871+00
+1374	370	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1375	371	R03_STRUCTURAL_STOP	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1376	372	R03_STRUCTURAL_STOP	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1377	373	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1378	374	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1379	375	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1380	376	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1381	377	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1382	378	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1383	379	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1384	380	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1385	381	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1386	382	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 14:12:43.376871+00
+1387	383	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1388	384	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1389	385	R03_STRUCTURAL_STOP	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1390	386	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1391	387	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1392	388	R03_STRUCTURAL_STOP	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1393	389	R03_STRUCTURAL_STOP	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1394	390	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1395	391	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1396	392	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1397	393	R03_STRUCTURAL_STOP	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1398	394	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1399	395	R03_STRUCTURAL_STOP	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1400	396	R07_OFFLINE_QR_TRAP	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1401	397	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1402	398	R01_RBI_MANDATE	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1403	399	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1404	400	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1405	401	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1406	402	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1407	403	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1408	404	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1409	405	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1410	406	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1411	407	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1412	408	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1413	409	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1414	410	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1415	411	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 14:12:43.376871+00
+1416	412	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 14:12:43.376871+00
+1417	413	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1418	414	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1419	415	R01_RBI_MANDATE	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1420	416	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1421	417	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1422	418	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1423	419	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1424	420	R01_RBI_MANDATE	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1425	421	R04_LIQUIDITY_DEFER	DEFER	\N	2026-08-28 14:12:43.376871+00
+1426	422	R03_STRUCTURAL_STOP	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1427	423	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1428	424	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1429	425	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1430	426	R01_RBI_MANDATE	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1431	427	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1432	428	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1433	429	R05_TECH_RETRY	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1434	430	R02_FEE_SHOCK	BLOCK	\N	2026-08-28 14:12:43.376871+00
+1435	431	R06_DEFAULT_ALLOW	ALLOW	\N	2026-08-28 14:12:43.376871+00
+1436	432	R01_RBI_MANDATE	BLOCK	\N	2026-08-28 14:12:43.376871+00
 \.
 
 
@@ -2630,64 +2629,64 @@ COPY public.gate_decisions (id, failure_id, rule_id, verdict, context_snapshot, 
 --
 
 COPY public.jobs (id, failure_id, kind, run_at, attempts, max_attempts, status, last_error) FROM stdin;
-1	11	DEFERRED_RETRY	2026-09-02 17:28:00+00	0	3	queued	\N
-2	12	DEFERRED_RETRY	2026-09-02 16:32:00+00	0	3	queued	\N
-3	21	DEFERRED_RETRY	2026-09-03 08:42:00+00	0	3	queued	\N
-4	33	DEFERRED_RETRY	2026-09-04 19:21:00+00	0	3	queued	\N
-5	39	DEFERRED_RETRY	2026-09-04 08:46:00+00	0	3	queued	\N
-6	49	DEFERRED_RETRY	2026-09-01 16:29:00+00	0	3	queued	\N
-7	51	DEFERRED_RETRY	2026-09-04 21:44:00+00	0	3	queued	\N
-8	55	DEFERRED_RETRY	2026-09-03 15:38:00+00	0	3	queued	\N
-9	66	DEFERRED_RETRY	2026-09-02 11:08:00+00	0	3	queued	\N
-10	82	DEFERRED_RETRY	2026-09-03 15:39:00+00	0	3	queued	\N
-11	111	DEFERRED_RETRY	2026-09-03 12:24:00+00	0	3	queued	\N
-12	112	DEFERRED_RETRY	2026-09-04 19:04:00+00	0	3	queued	\N
-13	121	DEFERRED_RETRY	2026-09-02 13:38:00+00	0	3	queued	\N
-14	133	DEFERRED_RETRY	2026-09-02 18:06:00+00	0	3	queued	\N
-15	149	DEFERRED_RETRY	2026-09-02 12:53:00+00	0	3	queued	\N
-16	151	DEFERRED_RETRY	2026-09-03 20:32:00+00	0	3	queued	\N
-17	155	DEFERRED_RETRY	2026-09-04 10:01:00+00	0	3	queued	\N
-18	166	DEFERRED_RETRY	2026-09-03 13:51:00+00	0	3	queued	\N
-19	182	DEFERRED_RETRY	2026-09-02 10:36:00+00	0	3	queued	\N
-20	185	DEFERRED_RETRY	2026-09-04 16:49:00+00	0	3	queued	\N
-21	188	DEFERRED_RETRY	2026-08-31 19:45:00+00	0	3	queued	\N
-22	189	DEFERRED_RETRY	2026-09-04 17:54:00+00	0	3	queued	\N
-23	211	DEFERRED_RETRY	2026-09-01 11:03:00+00	0	3	queued	\N
-24	212	DEFERRED_RETRY	2026-09-04 15:55:00+00	0	3	queued	\N
-25	221	DEFERRED_RETRY	2026-09-04 11:08:00+00	0	3	queued	\N
-26	233	DEFERRED_RETRY	2026-09-03 21:32:00+00	0	3	queued	\N
-27	249	DEFERRED_RETRY	2026-09-01 09:58:00+00	0	3	queued	\N
-28	251	DEFERRED_RETRY	2026-09-02 08:19:00+00	0	3	queued	\N
-29	255	DEFERRED_RETRY	2026-08-31 17:36:00+00	0	3	queued	\N
-30	266	DEFERRED_RETRY	2026-09-01 12:10:00+00	0	3	queued	\N
-31	269	DEFERRED_RETRY	2026-09-01 21:29:00+00	0	3	queued	\N
-32	282	DEFERRED_RETRY	2026-08-31 22:38:00+00	0	3	queued	\N
-33	285	DEFERRED_RETRY	2026-09-04 15:19:00+00	0	3	queued	\N
-34	288	DEFERRED_RETRY	2026-09-03 19:41:00+00	0	3	queued	\N
-35	289	DEFERRED_RETRY	2026-09-02 21:09:00+00	0	3	queued	\N
-36	311	DEFERRED_RETRY	2026-09-03 08:34:00+00	0	3	queued	\N
-37	312	DEFERRED_RETRY	2026-08-31 16:34:00+00	0	3	queued	\N
-38	321	DEFERRED_RETRY	2026-09-02 10:43:00+00	0	3	queued	\N
-39	333	DEFERRED_RETRY	2026-09-02 12:05:00+00	0	3	queued	\N
-40	339	DEFERRED_RETRY	2026-08-31 21:17:00+00	0	3	queued	\N
-41	349	DEFERRED_RETRY	2026-09-02 21:43:00+00	0	3	queued	\N
-42	351	DEFERRED_RETRY	2026-09-03 22:38:00+00	0	3	queued	\N
-43	355	DEFERRED_RETRY	2026-09-03 08:06:00+00	0	3	queued	\N
-44	366	DEFERRED_RETRY	2026-09-03 20:00:00+00	0	3	queued	\N
-45	369	DEFERRED_RETRY	2026-09-02 18:38:00+00	0	3	queued	\N
-46	382	DEFERRED_RETRY	2026-09-03 23:35:00+00	0	3	queued	\N
-47	411	DEFERRED_RETRY	2026-09-01 08:39:00+00	0	3	queued	\N
-48	412	DEFERRED_RETRY	2026-09-02 12:58:00+00	0	3	queued	\N
-49	421	DEFERRED_RETRY	2026-09-03 08:37:00+00	0	3	queued	\N
-50	449	DEFERRED_RETRY	2026-09-02 10:37:00+00	0	3	queued	\N
-51	451	DEFERRED_RETRY	2026-08-31 12:15:00+00	0	3	queued	\N
-52	455	DEFERRED_RETRY	2026-09-03 19:49:00+00	0	3	queued	\N
-53	466	DEFERRED_RETRY	2026-08-31 21:11:00+00	0	3	queued	\N
-54	469	DEFERRED_RETRY	2026-09-03 10:17:00+00	0	3	queued	\N
-55	482	DEFERRED_RETRY	2026-08-31 14:51:00+00	0	3	queued	\N
-56	485	DEFERRED_RETRY	2026-09-02 19:45:00+00	0	3	queued	\N
-57	488	DEFERRED_RETRY	2026-09-04 15:42:00+00	0	3	queued	\N
-58	489	DEFERRED_RETRY	2026-09-03 17:08:00+00	0	3	queued	\N
+59	11	DEFERRED_RETRY	2026-09-02 17:28:00+00	0	3	queued	\N
+60	12	DEFERRED_RETRY	2026-09-02 16:32:00+00	0	3	queued	\N
+61	21	DEFERRED_RETRY	2026-09-03 08:42:00+00	0	3	queued	\N
+62	33	DEFERRED_RETRY	2026-09-04 19:21:00+00	0	3	queued	\N
+63	39	DEFERRED_RETRY	2026-09-04 08:46:00+00	0	3	queued	\N
+64	49	DEFERRED_RETRY	2026-09-01 16:29:00+00	0	3	queued	\N
+65	51	DEFERRED_RETRY	2026-09-04 21:44:00+00	0	3	queued	\N
+66	55	DEFERRED_RETRY	2026-09-03 15:38:00+00	0	3	queued	\N
+67	66	DEFERRED_RETRY	2026-09-02 11:08:00+00	0	3	queued	\N
+68	82	DEFERRED_RETRY	2026-09-03 15:39:00+00	0	3	queued	\N
+69	111	DEFERRED_RETRY	2026-09-03 12:24:00+00	0	3	queued	\N
+70	112	DEFERRED_RETRY	2026-09-04 19:04:00+00	0	3	queued	\N
+71	121	DEFERRED_RETRY	2026-09-02 13:38:00+00	0	3	queued	\N
+72	133	DEFERRED_RETRY	2026-09-02 18:06:00+00	0	3	queued	\N
+73	149	DEFERRED_RETRY	2026-09-02 12:53:00+00	0	3	queued	\N
+74	151	DEFERRED_RETRY	2026-09-03 20:32:00+00	0	3	queued	\N
+75	155	DEFERRED_RETRY	2026-09-04 10:01:00+00	0	3	queued	\N
+76	166	DEFERRED_RETRY	2026-09-03 13:51:00+00	0	3	queued	\N
+77	182	DEFERRED_RETRY	2026-09-02 10:36:00+00	0	3	queued	\N
+78	185	DEFERRED_RETRY	2026-09-04 16:49:00+00	0	3	queued	\N
+79	188	DEFERRED_RETRY	2026-08-31 19:45:00+00	0	3	queued	\N
+80	189	DEFERRED_RETRY	2026-09-04 17:54:00+00	0	3	queued	\N
+81	211	DEFERRED_RETRY	2026-09-01 11:03:00+00	0	3	queued	\N
+82	212	DEFERRED_RETRY	2026-09-04 15:55:00+00	0	3	queued	\N
+83	221	DEFERRED_RETRY	2026-09-04 11:08:00+00	0	3	queued	\N
+84	233	DEFERRED_RETRY	2026-09-03 21:32:00+00	0	3	queued	\N
+85	249	DEFERRED_RETRY	2026-09-01 09:58:00+00	0	3	queued	\N
+86	251	DEFERRED_RETRY	2026-09-02 08:19:00+00	0	3	queued	\N
+87	255	DEFERRED_RETRY	2026-08-31 17:36:00+00	0	3	queued	\N
+88	266	DEFERRED_RETRY	2026-09-01 12:10:00+00	0	3	queued	\N
+89	269	DEFERRED_RETRY	2026-09-01 21:29:00+00	0	3	queued	\N
+90	282	DEFERRED_RETRY	2026-08-31 22:38:00+00	0	3	queued	\N
+91	285	DEFERRED_RETRY	2026-09-04 15:19:00+00	0	3	queued	\N
+92	288	DEFERRED_RETRY	2026-09-03 19:41:00+00	0	3	queued	\N
+93	289	DEFERRED_RETRY	2026-09-02 21:09:00+00	0	3	queued	\N
+94	311	DEFERRED_RETRY	2026-09-03 08:34:00+00	0	3	queued	\N
+95	312	DEFERRED_RETRY	2026-08-31 16:34:00+00	0	3	queued	\N
+96	321	DEFERRED_RETRY	2026-09-02 10:43:00+00	0	3	queued	\N
+97	333	DEFERRED_RETRY	2026-09-02 12:05:00+00	0	3	queued	\N
+98	339	DEFERRED_RETRY	2026-08-31 21:17:00+00	0	3	queued	\N
+99	349	DEFERRED_RETRY	2026-09-02 21:43:00+00	0	3	queued	\N
+100	351	DEFERRED_RETRY	2026-09-03 22:38:00+00	0	3	queued	\N
+101	355	DEFERRED_RETRY	2026-09-03 08:06:00+00	0	3	queued	\N
+102	366	DEFERRED_RETRY	2026-09-03 20:00:00+00	0	3	queued	\N
+103	369	DEFERRED_RETRY	2026-09-02 18:38:00+00	0	3	queued	\N
+104	382	DEFERRED_RETRY	2026-09-03 23:35:00+00	0	3	queued	\N
+105	411	DEFERRED_RETRY	2026-09-01 08:39:00+00	0	3	queued	\N
+106	412	DEFERRED_RETRY	2026-09-02 12:58:00+00	0	3	queued	\N
+107	421	DEFERRED_RETRY	2026-09-03 08:37:00+00	0	3	queued	\N
+108	449	DEFERRED_RETRY	2026-09-02 10:37:00+00	0	3	queued	\N
+109	451	DEFERRED_RETRY	2026-08-31 12:15:00+00	0	3	queued	\N
+110	455	DEFERRED_RETRY	2026-09-03 19:49:00+00	0	3	queued	\N
+111	466	DEFERRED_RETRY	2026-08-31 21:11:00+00	0	3	queued	\N
+112	469	DEFERRED_RETRY	2026-09-03 10:17:00+00	0	3	queued	\N
+113	482	DEFERRED_RETRY	2026-08-31 14:51:00+00	0	3	queued	\N
+114	485	DEFERRED_RETRY	2026-09-02 19:45:00+00	0	3	queued	\N
+115	488	DEFERRED_RETRY	2026-09-04 15:42:00+00	0	3	queued	\N
+116	489	DEFERRED_RETRY	2026-09-03 17:08:00+00	0	3	queued	\N
 \.
 
 
@@ -2717,7 +2716,6 @@ COPY public.payment_failures (id, external_payment_id, source, amount_paise, cur
 301	pay_sim_0300	synthetic	181300	INR	card	CARD_EXPIRED	Card on file expired	cust_061	merch_003	recurring	f	\N	\N	\N	\N	lifecycle	customer_temp	recovered	181300	0	2026-08-12 18:26:00+00	2026-08-28 12:45:31.167836+00
 440	pay_sim_0439	synthetic	52500	INR	card	CARD_EXPIRED	Card on file expired	cust_029	merch_005	recurring	f	\N	\N	\N	\N	lifecycle	customer_temp	recovered	52500	0	2026-08-13 10:56:00+00	2026-08-28 12:45:31.167836+00
 473	pay_sim_0472	synthetic	36200	INR	card	CARD_EXPIRED	Card on file expired	cust_035	merch_002	recurring	f	\N	\N	\N	\N	lifecycle	customer_temp	recovered	36200	0	2026-08-11 15:01:00+00	2026-08-28 12:45:31.167836+00
-11	pay_sim_0010	synthetic	481100	INR	upi	INSUFFICIENT_BALANCE	Bank declined: insufficient balance	cust_008	merch_002	in_session_online	t	\N	\N	\N	\N	affordability	customer_temp	promised	0	481100	2026-08-26 17:28:00+00	2026-08-28 12:45:31.167836+00
 501	order_TSOcslGhJbtnlu	orders_api	49900	INR	upi	ABANDONED_AT_CHECKOUT	Order order_TSOcslGhJbtnlu created but never paid	cust_live_001	merch_001	post_session_online	f	checkout	\N	\N	\N	intent	merchant	pending	0	0	2026-08-28 18:20:33.402074+00	2026-08-28 12:50:33.398109+00
 502	order_TSOceklMUD5X0H	orders_api	49900	INR	upi	ABANDONED_AT_CHECKOUT	Order order_TSOceklMUD5X0H created but never paid	cust_live_001	merch_001	post_session_online	f	checkout	\N	\N	\N	intent	merchant	pending	0	0	2026-08-28 18:20:33.403699+00	2026-08-28 12:50:33.398109+00
 503	order_TSOcU3potDxgrC	orders_api	49900	INR	upi	ABANDONED_AT_CHECKOUT	Order order_TSOcU3potDxgrC created but never paid	cust_live_001	merch_001	post_session_online	f	checkout	\N	\N	\N	intent	merchant	pending	0	0	2026-08-28 18:20:33.405109+00	2026-08-28 12:50:33.398109+00
@@ -2746,6 +2744,7 @@ COPY public.payment_failures (id, external_payment_id, source, amount_paise, cur
 15	pay_sim_0014	synthetic	235600	INR	upi	MANDATE_NOTIFICATION_BREACH	E-mandate charge blocked; pre-debit notification sent <24h before debit	cust_074	merch_002	recurring	f	\N	\N	\N	\N	lifecycle	merchant	protected	0	235600	2026-08-19 09:48:00+00	2026-08-28 12:45:31.167836+00
 16	pay_sim_0015	synthetic	440000	INR	upi	OFFLINE_QR_TIMEOUT	QR scan timed out in-store; customer left before completion	cust_023	merch_004	post_session_offline	f	\N	\N	\N	\N	technical	infra	recovered	440000	0	2026-08-21 22:58:00+00	2026-08-28 12:45:31.167836+00
 17	pay_sim_0016	synthetic	494400	INR	upi	OFFLINE_QR_TIMEOUT	QR scan timed out in-store; customer left before completion	cust_036	merch_002	post_session_offline	f	\N	\N	\N	\N	technical	infra	recovered	494400	0	2026-08-14 23:05:00+00	2026-08-28 12:45:31.167836+00
+11	pay_sim_0010	synthetic	481100	INR	upi	INSUFFICIENT_BALANCE	Bank declined: insufficient balance	cust_008	merch_002	in_session_online	t	\N	\N	\N	\N	affordability	customer_temp	deferred	0	481100	2026-08-26 17:28:00+00	2026-08-28 12:45:31.167836+00
 18	pay_sim_0017	synthetic	349400	INR	card	GATEWAY_5XX	Issuer gateway returned 502 during authorization	cust_061	merch_003	in_session_online	t	\N	\N	\N	\N	technical	infra	recovered	349400	0	2026-08-11 18:42:00+00	2026-08-28 12:45:31.167836+00
 19	pay_sim_0018	synthetic	285000	INR	upi	OFFLINE_QR_TIMEOUT	QR scan timed out in-store; customer left before completion	cust_014	merch_002	post_session_offline	f	\N	\N	\N	\N	technical	infra	recovered	285000	0	2026-08-14 23:18:00+00	2026-08-28 12:45:31.167836+00
 20	pay_sim_0019	synthetic	387400	INR	upi	MANDATE_NOTIFICATION_BREACH	E-mandate charge blocked; pre-debit notification sent <24h before debit	cust_052	merch_002	recurring	f	\N	\N	\N	\N	lifecycle	merchant	protected	0	387400	2026-08-03 18:16:00+00	2026-08-28 12:45:31.167836+00
@@ -3239,509 +3238,506 @@ COPY public.promises_to_pay (id, failure_id, promised_date, amount_paise, status
 --
 
 COPY public.recovery_actions (id, failure_id, action_type, actor, reasoning, status, amount_recovered_paise, executed_at) FROM stdin;
-1	1	RETRY_LINK	system	No blocking rules triggered.	executed	111900	2026-08-28 13:33:39.940654+00
-2	2	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 13:33:39.940654+00
-3	3	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	497000	2026-08-28 13:33:39.940654+00
-4	4	RETRY_LINK	system	No blocking rules triggered.	executed	96100	2026-08-28 13:33:39.940654+00
-5	5	RETRY_LINK	system	No blocking rules triggered.	executed	81400	2026-08-28 13:33:39.940654+00
-6	6	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 13:33:39.940654+00
-7	7	UPI_COLLECT	system	Mechanism Swap: OTP→UPI Collect. Link: https://rzp.io/rzp/xhPEWqox | No blocking rules triggered.	executed	253400	2026-08-28 13:33:39.940654+00
-8	8	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 13:33:39.940654+00
-9	9	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 13:33:39.940654+00
-10	10	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 13:33:39.940654+00
-11	11	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 13:33:39.940654+00
-12	12	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 13:33:39.940654+00
-13	13	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	373500	2026-08-28 13:33:39.940654+00
-14	14	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	220000	2026-08-28 13:33:39.940654+00
-15	15	BLOCKED	system	Pre-debit notification < 24h. RBI compliance block.	blocked	0	2026-08-28 13:33:39.940654+00
-16	16	RETRY_LINK	system	No blocking rules triggered.	executed	440000	2026-08-28 13:33:39.940654+00
-17	17	RETRY_LINK	system	No blocking rules triggered.	executed	494400	2026-08-28 13:33:39.940654+00
-18	18	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	349400	2026-08-28 13:33:39.940654+00
-19	19	RETRY_LINK	system	No blocking rules triggered.	executed	285000	2026-08-28 13:33:39.940654+00
-20	20	BLOCKED	system	Pre-debit notification < 24h. RBI compliance block.	blocked	0	2026-08-28 13:33:39.940654+00
-21	21	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 13:33:39.940654+00
-22	22	BLOCKED	system	Repeated failures. Spamming will cause churn.	blocked	0	2026-08-28 13:33:39.940654+00
-23	23	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	423200	2026-08-28 13:33:39.940654+00
-24	24	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	233600	2026-08-28 13:33:39.940654+00
-25	25	RETRY_LINK	system	No blocking rules triggered.	executed	411900	2026-08-28 13:33:39.940654+00
-26	26	BLOCKED	system	Pre-debit notification < 24h. RBI compliance block.	blocked	0	2026-08-28 13:33:39.940654+00
-27	27	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	198900	2026-08-28 13:33:39.940654+00
-28	28	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	423100	2026-08-28 13:33:39.940654+00
-29	29	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	410100	2026-08-28 13:33:39.940654+00
-30	30	RETRY_LINK	system	No blocking rules triggered.	executed	329100	2026-08-28 13:33:39.940654+00
-31	31	BLOCKED	system	Customer left store. Silent retry blocked to prevent double-charge.	blocked	0	2026-08-28 13:33:39.940654+00
-32	32	BLOCKED	system	Pre-debit notification < 24h. RBI compliance block.	blocked	0	2026-08-28 13:33:39.940654+00
-33	33	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 13:33:39.940654+00
-34	34	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	323900	2026-08-28 13:33:39.940654+00
-35	35	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	483300	2026-08-28 13:33:39.940654+00
-36	36	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	275500	2026-08-28 13:33:39.940654+00
-37	37	BLOCKED	system	Customer left store. Silent retry blocked to prevent double-charge.	blocked	0	2026-08-28 13:33:39.940654+00
-38	38	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	286800	2026-08-28 13:33:39.940654+00
-39	39	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 13:33:39.940654+00
-40	40	RETRY_LINK	system	No blocking rules triggered.	executed	141300	2026-08-28 13:33:39.940654+00
-41	41	UPI_COLLECT	system	Mechanism Swap: OTP→UPI Collect. Link: https://rzp.io/rzp/8Rr7bqhj | No blocking rules triggered.	executed	340500	2026-08-28 13:33:39.940654+00
-42	42	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	326200	2026-08-28 13:33:39.940654+00
-43	43	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	70900	2026-08-28 13:33:39.940654+00
-44	44	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 13:33:39.940654+00
-45	45	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 13:33:39.940654+00
-46	46	BLOCKED	system	Pre-debit notification < 24h. RBI compliance block.	blocked	0	2026-08-28 13:33:39.940654+00
-47	47	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	478500	2026-08-28 13:33:39.940654+00
-48	48	RETRY_LINK	system	No blocking rules triggered.	executed	328200	2026-08-28 13:33:39.940654+00
-49	49	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 13:33:39.940654+00
-50	50	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	396000	2026-08-28 13:33:39.940654+00
-51	51	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 13:33:39.940654+00
-52	52	BLOCKED	system	Pre-debit notification < 24h. RBI compliance block.	blocked	0	2026-08-28 13:33:39.940654+00
-53	53	BLOCKED	system	Repeated failures. Spamming will cause churn.	blocked	0	2026-08-28 13:33:39.940654+00
-54	54	UPI_COLLECT	system	Mechanism Swap: OTP→UPI Collect. Link: https://rzp.io/rzp/QLrojCEf | No blocking rules triggered.	executed	339100	2026-08-28 13:33:39.940654+00
-55	55	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 13:33:39.940654+00
-56	56	BLOCKED	system	Pre-debit notification < 24h. RBI compliance block.	blocked	0	2026-08-28 13:33:39.940654+00
-57	57	BLOCKED	system	Pre-debit notification < 24h. RBI compliance block.	blocked	0	2026-08-28 13:33:39.940654+00
-58	58	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	256600	2026-08-28 13:33:39.940654+00
-59	59	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	456700	2026-08-28 13:33:39.940654+00
-60	60	UPI_COLLECT	system	Mechanism Swap: OTP→UPI Collect. Link: https://rzp.io/rzp/pEL9I5Y | No blocking rules triggered.	executed	409600	2026-08-28 13:33:39.940654+00
-61	61	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	398500	2026-08-28 13:33:39.940654+00
-62	62	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	471400	2026-08-28 13:33:39.940654+00
-63	63	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	231500	2026-08-28 13:33:39.940654+00
-64	64	BLOCKED	system	Pre-debit notification < 24h. RBI compliance block.	blocked	0	2026-08-28 13:33:39.940654+00
-65	65	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 13:33:39.940654+00
-66	66	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 13:33:39.940654+00
-67	67	UPI_COLLECT	system	Mechanism Swap: OTP→UPI Collect. Link: https://rzp.io/rzp/NvQjyADo | No blocking rules triggered.	executed	264200	2026-08-28 13:33:39.940654+00
-68	68	UPI_COLLECT	system	Mechanism Swap: OTP→UPI Collect. Link: https://rzp.io/l/revive-fallback | No blocking rules triggered.	executed	126000	2026-08-28 13:33:39.940654+00
-69	69	BLOCKED	system	Repeated failures. Spamming will cause churn.	blocked	0	2026-08-28 13:33:39.940654+00
-70	70	UPI_COLLECT	system	Mechanism Swap: OTP→UPI Collect. Link: https://rzp.io/l/revive-fallback | No blocking rules triggered.	executed	349200	2026-08-28 13:33:39.940654+00
-71	71	BLOCKED	system	Repeated failures. Spamming will cause churn.	blocked	0	2026-08-28 13:33:39.940654+00
-72	72	BLOCKED	system	Repeated failures. Spamming will cause churn.	blocked	0	2026-08-28 13:33:39.940654+00
-73	73	RETRY_LINK	system	No blocking rules triggered.	executed	170300	2026-08-28 13:33:39.940654+00
-74	74	UPI_COLLECT	system	Mechanism Swap: OTP→UPI Collect. Link: https://rzp.io/l/revive-fallback | No blocking rules triggered.	executed	32300	2026-08-28 13:33:39.940654+00
-75	75	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 13:33:39.940654+00
-76	76	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 13:33:39.940654+00
-77	77	UPI_COLLECT	system	Mechanism Swap: OTP→UPI Collect. Link: https://rzp.io/l/revive-fallback | No blocking rules triggered.	executed	242000	2026-08-28 13:33:39.940654+00
-78	78	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 13:33:39.940654+00
-79	79	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 13:33:39.940654+00
-80	80	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	57800	2026-08-28 13:33:39.940654+00
-81	81	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	405000	2026-08-28 13:33:39.940654+00
-82	82	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 13:33:39.940654+00
-83	83	RETRY_LINK	system	No blocking rules triggered.	executed	261900	2026-08-28 13:33:39.940654+00
-84	84	RETRY_LINK	system	No blocking rules triggered.	executed	364100	2026-08-28 13:33:39.940654+00
-85	85	BLOCKED	system	Repeated failures. Spamming will cause churn.	blocked	0	2026-08-28 13:33:39.940654+00
-86	86	RETRY_LINK	system	No blocking rules triggered.	executed	494400	2026-08-28 13:33:39.940654+00
-87	87	RETRY_LINK	system	No blocking rules triggered.	executed	256400	2026-08-28 13:33:39.940654+00
-88	88	BLOCKED	system	Repeated failures. Spamming will cause churn.	blocked	0	2026-08-28 13:33:39.940654+00
-89	89	BLOCKED	system	Repeated failures. Spamming will cause churn.	blocked	0	2026-08-28 13:33:39.940654+00
-90	90	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	364500	2026-08-28 13:33:39.940654+00
-91	91	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	69800	2026-08-28 13:33:39.940654+00
-92	92	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	320100	2026-08-28 13:33:39.940654+00
-93	93	BLOCKED	system	Repeated failures. Spamming will cause churn.	blocked	0	2026-08-28 13:33:39.940654+00
-94	94	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	304500	2026-08-28 13:33:39.940654+00
-95	95	BLOCKED	system	Repeated failures. Spamming will cause churn.	blocked	0	2026-08-28 13:33:39.940654+00
-96	96	RETRY_LINK	system	No blocking rules triggered.	executed	141600	2026-08-28 13:33:39.940654+00
-97	97	RETRY_LINK	system	No blocking rules triggered.	executed	470500	2026-08-28 13:33:39.940654+00
-98	98	BLOCKED	system	Pre-debit notification < 24h. RBI compliance block.	blocked	0	2026-08-28 13:33:39.940654+00
-99	99	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 13:33:39.940654+00
-100	100	UPI_COLLECT	system	Mechanism Swap: OTP→UPI Collect. Link: https://rzp.io/l/revive-fallback | No blocking rules triggered.	executed	19900	2026-08-28 13:33:39.940654+00
-101	101	RETRY_LINK	system	No blocking rules triggered.	executed	131100	2026-08-28 13:33:39.940654+00
-102	102	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	323000	2026-08-28 13:33:39.940654+00
-103	103	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	270100	2026-08-28 13:33:39.940654+00
-104	104	RETRY_LINK	system	No blocking rules triggered.	executed	84400	2026-08-28 13:33:39.940654+00
-105	105	RETRY_LINK	system	No blocking rules triggered.	executed	81700	2026-08-28 13:33:39.940654+00
-106	106	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 13:33:39.940654+00
-107	107	UPI_COLLECT	system	Mechanism Swap: OTP→UPI Collect. Link: https://rzp.io/l/revive-fallback | No blocking rules triggered.	executed	297600	2026-08-28 13:33:39.940654+00
-108	108	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 13:33:39.940654+00
-109	109	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 13:33:39.940654+00
-110	110	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	224200	2026-08-28 13:33:39.940654+00
-111	111	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 13:33:39.940654+00
-112	112	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 13:33:39.940654+00
-113	113	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	372200	2026-08-28 13:33:39.940654+00
-114	114	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	486500	2026-08-28 13:33:39.940654+00
-115	115	BLOCKED	system	Pre-debit notification < 24h. RBI compliance block.	blocked	0	2026-08-28 13:33:39.940654+00
-116	116	RETRY_LINK	system	No blocking rules triggered.	executed	311300	2026-08-28 13:33:39.940654+00
-117	117	RETRY_LINK	system	No blocking rules triggered.	executed	371800	2026-08-28 13:33:39.940654+00
-118	118	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	269000	2026-08-28 13:33:39.940654+00
-119	119	RETRY_LINK	system	No blocking rules triggered.	executed	77400	2026-08-28 13:33:39.940654+00
-120	120	BLOCKED	system	Pre-debit notification < 24h. RBI compliance block.	blocked	0	2026-08-28 13:33:39.940654+00
-121	121	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 13:33:39.940654+00
-122	122	BLOCKED	system	Repeated failures. Spamming will cause churn.	blocked	0	2026-08-28 13:33:39.940654+00
-123	123	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	382600	2026-08-28 13:33:39.940654+00
-124	124	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	375100	2026-08-28 13:33:39.940654+00
-125	125	RETRY_LINK	system	No blocking rules triggered.	executed	499300	2026-08-28 13:33:39.940654+00
-126	126	BLOCKED	system	Pre-debit notification < 24h. RBI compliance block.	blocked	0	2026-08-28 13:33:39.940654+00
-127	127	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	88800	2026-08-28 13:33:39.940654+00
-128	128	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	48500	2026-08-28 13:33:39.940654+00
-129	129	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	425600	2026-08-28 13:33:39.940654+00
-130	130	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 13:33:39.940654+00
-131	131	RETRY_LINK	system	No blocking rules triggered.	executed	374800	2026-08-28 13:33:39.940654+00
-132	132	BLOCKED	system	Pre-debit notification < 24h. RBI compliance block.	blocked	0	2026-08-28 13:33:39.940654+00
-133	133	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 13:33:39.940654+00
-134	134	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	247600	2026-08-28 13:33:39.940654+00
-135	135	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	130700	2026-08-28 13:33:39.940654+00
-136	136	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	84300	2026-08-28 13:33:39.940654+00
-137	137	RETRY_LINK	system	No blocking rules triggered.	executed	446100	2026-08-28 13:33:39.940654+00
-138	138	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	311900	2026-08-28 13:33:39.940654+00
-139	139	BLOCKED	system	Repeated failures. Spamming will cause churn.	blocked	0	2026-08-28 13:33:39.940654+00
-140	140	RETRY_LINK	system	No blocking rules triggered.	executed	97700	2026-08-28 13:33:39.940654+00
-141	141	UPI_COLLECT	system	Mechanism Swap: OTP→UPI Collect. Link: https://rzp.io/l/revive-fallback | No blocking rules triggered.	executed	122200	2026-08-28 13:33:39.940654+00
-142	142	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	150500	2026-08-28 13:33:39.940654+00
-143	143	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	209400	2026-08-28 13:33:39.940654+00
-144	144	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 13:33:39.940654+00
-145	145	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 13:33:39.940654+00
-146	146	BLOCKED	system	Pre-debit notification < 24h. RBI compliance block.	blocked	0	2026-08-28 13:33:39.940654+00
-147	147	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	219700	2026-08-28 13:33:39.940654+00
-148	148	RETRY_LINK	system	No blocking rules triggered.	executed	98900	2026-08-28 13:33:39.940654+00
-149	149	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 13:33:39.940654+00
-150	150	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	196700	2026-08-28 13:33:39.940654+00
-151	151	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 13:33:39.940654+00
-152	152	BLOCKED	system	Pre-debit notification < 24h. RBI compliance block.	blocked	0	2026-08-28 13:33:39.940654+00
-153	153	BLOCKED	system	Repeated failures. Spamming will cause churn.	blocked	0	2026-08-28 13:33:39.940654+00
-154	154	UPI_COLLECT	system	Mechanism Swap: OTP→UPI Collect. Link: https://rzp.io/l/revive-fallback | No blocking rules triggered.	executed	401900	2026-08-28 13:33:39.940654+00
-155	155	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 13:33:39.940654+00
-156	156	BLOCKED	system	Pre-debit notification < 24h. RBI compliance block.	blocked	0	2026-08-28 13:33:39.940654+00
-157	157	BLOCKED	system	Pre-debit notification < 24h. RBI compliance block.	blocked	0	2026-08-28 13:33:39.940654+00
-158	158	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	66300	2026-08-28 13:33:39.940654+00
-159	159	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	437000	2026-08-28 13:33:39.940654+00
-160	160	UPI_COLLECT	system	Mechanism Swap: OTP→UPI Collect. Link: https://rzp.io/l/revive-fallback | No blocking rules triggered.	executed	366500	2026-08-28 13:33:39.940654+00
-161	161	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	168300	2026-08-28 13:33:39.940654+00
-162	162	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	445800	2026-08-28 13:33:39.940654+00
-163	163	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	331800	2026-08-28 13:33:39.940654+00
-164	164	BLOCKED	system	Pre-debit notification < 24h. RBI compliance block.	blocked	0	2026-08-28 13:33:39.940654+00
-165	165	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 13:33:39.940654+00
-166	166	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 13:33:39.940654+00
-167	167	UPI_COLLECT	system	Mechanism Swap: OTP→UPI Collect. Link: https://rzp.io/l/revive-fallback | No blocking rules triggered.	executed	389800	2026-08-28 13:33:39.940654+00
-168	168	UPI_COLLECT	system	Mechanism Swap: OTP→UPI Collect. Link: https://rzp.io/l/revive-fallback | No blocking rules triggered.	executed	49200	2026-08-28 13:33:39.940654+00
-169	169	BLOCKED	system	Repeated failures. Spamming will cause churn.	blocked	0	2026-08-28 13:33:39.940654+00
-170	170	UPI_COLLECT	system	Mechanism Swap: OTP→UPI Collect. Link: https://rzp.io/l/revive-fallback | No blocking rules triggered.	executed	307300	2026-08-28 13:33:39.940654+00
-171	171	BLOCKED	system	Repeated failures. Spamming will cause churn.	blocked	0	2026-08-28 13:33:39.940654+00
-172	172	BLOCKED	system	Repeated failures. Spamming will cause churn.	blocked	0	2026-08-28 13:33:39.940654+00
-173	173	RETRY_LINK	system	No blocking rules triggered.	executed	440200	2026-08-28 13:33:39.940654+00
-174	174	UPI_COLLECT	system	Mechanism Swap: OTP→UPI Collect. Link: https://rzp.io/l/revive-fallback | No blocking rules triggered.	executed	367600	2026-08-28 13:33:39.940654+00
-175	175	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 13:33:39.940654+00
-176	176	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	380100	2026-08-28 13:33:39.940654+00
-177	177	UPI_COLLECT	system	Mechanism Swap: OTP→UPI Collect. Link: https://rzp.io/l/revive-fallback | No blocking rules triggered.	executed	381100	2026-08-28 13:33:39.940654+00
-178	178	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	61800	2026-08-28 13:33:39.940654+00
-179	179	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 13:33:39.940654+00
-180	180	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	208200	2026-08-28 13:33:39.940654+00
-181	181	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	41400	2026-08-28 13:33:39.940654+00
-182	182	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 13:33:39.940654+00
-183	183	RETRY_LINK	system	No blocking rules triggered.	executed	315500	2026-08-28 13:33:39.940654+00
-184	184	RETRY_LINK	system	No blocking rules triggered.	executed	107800	2026-08-28 13:33:39.940654+00
-309	309	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 13:33:39.940654+00
-185	185	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 13:33:39.940654+00
-186	186	RETRY_LINK	system	No blocking rules triggered.	executed	190600	2026-08-28 13:33:39.940654+00
-187	187	RETRY_LINK	system	No blocking rules triggered.	executed	115300	2026-08-28 13:33:39.940654+00
-188	188	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 13:33:39.940654+00
-189	189	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 13:33:39.940654+00
-190	190	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 13:33:39.940654+00
-191	191	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	208800	2026-08-28 13:33:39.940654+00
-192	192	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	483700	2026-08-28 13:33:39.940654+00
-193	193	BLOCKED	system	Repeated failures. Spamming will cause churn.	blocked	0	2026-08-28 13:33:39.940654+00
-194	194	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	351400	2026-08-28 13:33:39.940654+00
-195	195	BLOCKED	system	Repeated failures. Spamming will cause churn.	blocked	0	2026-08-28 13:33:39.940654+00
-196	196	BLOCKED	system	Customer left store. Silent retry blocked to prevent double-charge.	blocked	0	2026-08-28 13:33:39.940654+00
-197	197	RETRY_LINK	system	No blocking rules triggered.	executed	426800	2026-08-28 13:33:39.940654+00
-198	198	BLOCKED	system	Pre-debit notification < 24h. RBI compliance block.	blocked	0	2026-08-28 13:33:39.940654+00
-199	199	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 13:33:39.940654+00
-200	200	UPI_COLLECT	system	Mechanism Swap: OTP→UPI Collect. Link: https://rzp.io/l/revive-fallback | No blocking rules triggered.	executed	239700	2026-08-28 13:33:39.940654+00
-201	201	RETRY_LINK	system	No blocking rules triggered.	executed	426600	2026-08-28 13:33:39.940654+00
-202	202	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 13:33:39.940654+00
-203	203	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	38100	2026-08-28 13:33:39.940654+00
-204	204	RETRY_LINK	system	No blocking rules triggered.	executed	187500	2026-08-28 13:33:39.940654+00
-205	205	RETRY_LINK	system	No blocking rules triggered.	executed	461800	2026-08-28 13:33:39.940654+00
-206	206	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 13:33:39.940654+00
-207	207	UPI_COLLECT	system	Mechanism Swap: OTP→UPI Collect. Link: https://rzp.io/l/revive-fallback | No blocking rules triggered.	executed	375000	2026-08-28 13:33:39.940654+00
-208	208	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 13:33:39.940654+00
-209	209	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 13:33:39.940654+00
-210	210	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 13:33:39.940654+00
-211	211	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 13:33:39.940654+00
-212	212	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 13:33:39.940654+00
-213	213	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 13:33:39.940654+00
-214	214	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	436500	2026-08-28 13:33:39.940654+00
-215	215	BLOCKED	system	Pre-debit notification < 24h. RBI compliance block.	blocked	0	2026-08-28 13:33:39.940654+00
-216	216	RETRY_LINK	system	No blocking rules triggered.	executed	303900	2026-08-28 13:33:39.940654+00
-217	217	RETRY_LINK	system	No blocking rules triggered.	executed	400400	2026-08-28 13:33:39.940654+00
-218	218	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	124600	2026-08-28 13:33:39.940654+00
-219	219	RETRY_LINK	system	No blocking rules triggered.	executed	51900	2026-08-28 13:33:39.940654+00
-220	220	BLOCKED	system	Pre-debit notification < 24h. RBI compliance block.	blocked	0	2026-08-28 13:33:39.940654+00
-221	221	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 13:33:39.940654+00
-222	222	BLOCKED	system	Repeated failures. Spamming will cause churn.	blocked	0	2026-08-28 13:33:39.940654+00
-223	223	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	177900	2026-08-28 13:33:39.940654+00
-224	224	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	46700	2026-08-28 13:33:39.940654+00
-225	225	RETRY_LINK	system	No blocking rules triggered.	executed	389200	2026-08-28 13:33:39.940654+00
-226	226	BLOCKED	system	Pre-debit notification < 24h. RBI compliance block.	blocked	0	2026-08-28 13:33:39.940654+00
-227	227	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	432400	2026-08-28 13:33:39.940654+00
-228	228	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	403900	2026-08-28 13:33:39.940654+00
-229	229	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	356100	2026-08-28 13:33:39.940654+00
-230	230	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 13:33:39.940654+00
-231	231	RETRY_LINK	system	No blocking rules triggered.	executed	408400	2026-08-28 13:33:39.940654+00
-232	232	BLOCKED	system	Pre-debit notification < 24h. RBI compliance block.	blocked	0	2026-08-28 13:33:39.940654+00
-233	233	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 13:33:39.940654+00
-234	234	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	65900	2026-08-28 13:33:39.940654+00
-235	235	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	281100	2026-08-28 13:33:39.940654+00
-236	236	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	156700	2026-08-28 13:33:39.940654+00
-237	237	RETRY_LINK	system	No blocking rules triggered.	executed	411500	2026-08-28 13:33:39.940654+00
-238	238	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	199100	2026-08-28 13:33:39.940654+00
-239	239	BLOCKED	system	Repeated failures. Spamming will cause churn.	blocked	0	2026-08-28 13:33:39.940654+00
-240	240	RETRY_LINK	system	No blocking rules triggered.	executed	114700	2026-08-28 13:33:39.940654+00
-241	241	UPI_COLLECT	system	Mechanism Swap: OTP→UPI Collect. Link: https://rzp.io/l/revive-fallback | No blocking rules triggered.	executed	134800	2026-08-28 13:33:39.940654+00
-242	242	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	377200	2026-08-28 13:33:39.940654+00
-243	243	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	180400	2026-08-28 13:33:39.940654+00
-244	244	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 13:33:39.940654+00
-245	245	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 13:33:39.940654+00
-246	246	BLOCKED	system	Pre-debit notification < 24h. RBI compliance block.	blocked	0	2026-08-28 13:33:39.940654+00
-247	247	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	348200	2026-08-28 13:33:39.940654+00
-248	248	RETRY_LINK	system	No blocking rules triggered.	executed	278000	2026-08-28 13:33:39.940654+00
-249	249	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 13:33:39.940654+00
-250	250	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	158900	2026-08-28 13:33:39.940654+00
-251	251	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 13:33:39.940654+00
-252	252	BLOCKED	system	Pre-debit notification < 24h. RBI compliance block.	blocked	0	2026-08-28 13:33:39.940654+00
-253	253	BLOCKED	system	Repeated failures. Spamming will cause churn.	blocked	0	2026-08-28 13:33:39.940654+00
-254	254	UPI_COLLECT	system	Mechanism Swap: OTP→UPI Collect. Link: https://rzp.io/l/revive-fallback | No blocking rules triggered.	executed	285700	2026-08-28 13:33:39.940654+00
-255	255	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 13:33:39.940654+00
-256	256	BLOCKED	system	Pre-debit notification < 24h. RBI compliance block.	blocked	0	2026-08-28 13:33:39.940654+00
-257	257	BLOCKED	system	Pre-debit notification < 24h. RBI compliance block.	blocked	0	2026-08-28 13:33:39.940654+00
-258	258	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	228500	2026-08-28 13:33:39.940654+00
-259	259	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	262200	2026-08-28 13:33:39.940654+00
-260	260	UPI_COLLECT	system	Mechanism Swap: OTP→UPI Collect. Link: https://rzp.io/l/revive-fallback | No blocking rules triggered.	executed	65700	2026-08-28 13:33:39.940654+00
-261	261	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	347000	2026-08-28 13:33:39.940654+00
-262	262	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	315900	2026-08-28 13:33:39.940654+00
-263	263	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	140300	2026-08-28 13:33:39.940654+00
-264	264	BLOCKED	system	Pre-debit notification < 24h. RBI compliance block.	blocked	0	2026-08-28 13:33:39.940654+00
-265	265	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 13:33:39.940654+00
-266	266	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 13:33:39.940654+00
-267	267	UPI_COLLECT	system	Mechanism Swap: OTP→UPI Collect. Link: https://rzp.io/l/revive-fallback | No blocking rules triggered.	executed	376800	2026-08-28 13:33:39.940654+00
-268	268	UPI_COLLECT	system	Mechanism Swap: OTP→UPI Collect. Link: https://rzp.io/l/revive-fallback | No blocking rules triggered.	executed	89300	2026-08-28 13:33:39.940654+00
-269	269	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 13:33:39.940654+00
-270	270	UPI_COLLECT	system	Mechanism Swap: OTP→UPI Collect. Link: https://rzp.io/l/revive-fallback | No blocking rules triggered.	executed	472600	2026-08-28 13:33:39.940654+00
-271	271	BLOCKED	system	Repeated failures. Spamming will cause churn.	blocked	0	2026-08-28 13:33:39.940654+00
-272	272	BLOCKED	system	Repeated failures. Spamming will cause churn.	blocked	0	2026-08-28 13:33:39.940654+00
-273	273	RETRY_LINK	system	No blocking rules triggered.	executed	64200	2026-08-28 13:33:39.940654+00
-274	274	UPI_COLLECT	system	Mechanism Swap: OTP→UPI Collect. Link: https://rzp.io/l/revive-fallback | No blocking rules triggered.	executed	162300	2026-08-28 13:33:39.940654+00
-275	275	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 13:33:39.940654+00
-276	276	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	123800	2026-08-28 13:33:39.940654+00
-277	277	UPI_COLLECT	system	Mechanism Swap: OTP→UPI Collect. Link: https://rzp.io/l/revive-fallback | No blocking rules triggered.	executed	336800	2026-08-28 13:33:39.940654+00
-278	278	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	33500	2026-08-28 13:33:39.940654+00
-279	279	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 13:33:39.940654+00
-280	280	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	141900	2026-08-28 13:33:39.940654+00
-281	281	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	358300	2026-08-28 13:33:39.940654+00
-282	282	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 13:33:39.940654+00
-283	283	RETRY_LINK	system	No blocking rules triggered.	executed	51100	2026-08-28 13:33:39.940654+00
-284	284	RETRY_LINK	system	No blocking rules triggered.	executed	61100	2026-08-28 13:33:39.940654+00
-285	285	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 13:33:39.940654+00
-286	286	RETRY_LINK	system	No blocking rules triggered.	executed	195900	2026-08-28 13:33:39.940654+00
-287	287	RETRY_LINK	system	No blocking rules triggered.	executed	499500	2026-08-28 13:33:39.940654+00
-288	288	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 13:33:39.940654+00
-289	289	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 13:33:39.940654+00
-290	290	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	165500	2026-08-28 13:33:39.940654+00
-291	291	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	133100	2026-08-28 13:33:39.940654+00
-292	292	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	352900	2026-08-28 13:33:39.940654+00
-293	293	BLOCKED	system	Repeated failures. Spamming will cause churn.	blocked	0	2026-08-28 13:33:39.940654+00
-294	294	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	90600	2026-08-28 13:33:39.940654+00
-295	295	BLOCKED	system	Repeated failures. Spamming will cause churn.	blocked	0	2026-08-28 13:33:39.940654+00
-296	296	RETRY_LINK	system	No blocking rules triggered.	executed	192600	2026-08-28 13:33:39.940654+00
-297	297	RETRY_LINK	system	No blocking rules triggered.	executed	27400	2026-08-28 13:33:39.940654+00
-298	298	BLOCKED	system	Pre-debit notification < 24h. RBI compliance block.	blocked	0	2026-08-28 13:33:39.940654+00
-299	299	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 13:33:39.940654+00
-300	300	UPI_COLLECT	system	Mechanism Swap: OTP→UPI Collect. Link: https://rzp.io/l/revive-fallback | No blocking rules triggered.	executed	434900	2026-08-28 13:33:39.940654+00
-301	301	RETRY_LINK	system	No blocking rules triggered.	executed	181300	2026-08-28 13:33:39.940654+00
-302	302	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 13:33:39.940654+00
-303	303	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	493300	2026-08-28 13:33:39.940654+00
-304	304	RETRY_LINK	system	No blocking rules triggered.	executed	285100	2026-08-28 13:33:39.940654+00
-305	305	RETRY_LINK	system	No blocking rules triggered.	executed	465900	2026-08-28 13:33:39.940654+00
-306	306	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 13:33:39.940654+00
-307	307	UPI_COLLECT	system	Mechanism Swap: OTP→UPI Collect. Link: https://rzp.io/l/revive-fallback | No blocking rules triggered.	executed	414900	2026-08-28 13:33:39.940654+00
-308	308	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 13:33:39.940654+00
-310	310	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 13:33:39.940654+00
-311	311	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 13:33:39.940654+00
-312	312	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 13:33:39.940654+00
-313	313	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 13:33:39.940654+00
-314	314	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	93800	2026-08-28 13:33:39.940654+00
-315	315	BLOCKED	system	Pre-debit notification < 24h. RBI compliance block.	blocked	0	2026-08-28 13:33:39.940654+00
-316	316	RETRY_LINK	system	No blocking rules triggered.	executed	390900	2026-08-28 13:33:39.940654+00
-317	317	RETRY_LINK	system	No blocking rules triggered.	executed	80900	2026-08-28 13:33:39.940654+00
-318	318	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	323800	2026-08-28 13:33:39.940654+00
-319	319	RETRY_LINK	system	No blocking rules triggered.	executed	82600	2026-08-28 13:33:39.940654+00
-320	320	BLOCKED	system	Pre-debit notification < 24h. RBI compliance block.	blocked	0	2026-08-28 13:33:39.940654+00
-321	321	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 13:33:39.940654+00
-322	322	BLOCKED	system	Repeated failures. Spamming will cause churn.	blocked	0	2026-08-28 13:33:39.940654+00
-323	323	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	184600	2026-08-28 13:33:39.940654+00
-324	324	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	260000	2026-08-28 13:33:39.940654+00
-325	325	RETRY_LINK	system	No blocking rules triggered.	executed	286600	2026-08-28 13:33:39.940654+00
-326	326	BLOCKED	system	Pre-debit notification < 24h. RBI compliance block.	blocked	0	2026-08-28 13:33:39.940654+00
-327	327	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	339800	2026-08-28 13:33:39.940654+00
-328	328	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	416800	2026-08-28 13:33:39.940654+00
-329	329	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	167000	2026-08-28 13:33:39.940654+00
-330	330	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 13:33:39.940654+00
-331	331	BLOCKED	system	Customer left store. Silent retry blocked to prevent double-charge.	blocked	0	2026-08-28 13:33:39.940654+00
-332	332	BLOCKED	system	Pre-debit notification < 24h. RBI compliance block.	blocked	0	2026-08-28 13:33:39.940654+00
-333	333	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 13:33:39.940654+00
-334	334	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	382500	2026-08-28 13:33:39.940654+00
-335	335	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	304800	2026-08-28 13:33:39.940654+00
-336	336	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	330400	2026-08-28 13:33:39.940654+00
-337	337	BLOCKED	system	Customer left store. Silent retry blocked to prevent double-charge.	blocked	0	2026-08-28 13:33:39.940654+00
-338	338	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	128600	2026-08-28 13:33:39.940654+00
-339	339	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 13:33:39.940654+00
-340	340	RETRY_LINK	system	No blocking rules triggered.	executed	411500	2026-08-28 13:33:39.940654+00
-341	341	UPI_COLLECT	system	Mechanism Swap: OTP→UPI Collect. Link: https://rzp.io/l/revive-fallback | No blocking rules triggered.	executed	421000	2026-08-28 13:33:39.940654+00
-342	342	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	264400	2026-08-28 13:33:39.940654+00
-343	343	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	284800	2026-08-28 13:33:39.940654+00
-344	344	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 13:33:39.940654+00
-345	345	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 13:33:39.940654+00
-346	346	BLOCKED	system	Pre-debit notification < 24h. RBI compliance block.	blocked	0	2026-08-28 13:33:39.940654+00
-347	347	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	108100	2026-08-28 13:33:39.940654+00
-348	348	RETRY_LINK	system	No blocking rules triggered.	executed	465500	2026-08-28 13:33:39.940654+00
-349	349	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 13:33:39.940654+00
-350	350	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	262900	2026-08-28 13:33:39.940654+00
-351	351	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 13:33:39.940654+00
-352	352	BLOCKED	system	Pre-debit notification < 24h. RBI compliance block.	blocked	0	2026-08-28 13:33:39.940654+00
-353	353	BLOCKED	system	Repeated failures. Spamming will cause churn.	blocked	0	2026-08-28 13:33:39.940654+00
-354	354	UPI_COLLECT	system	Mechanism Swap: OTP→UPI Collect. Link: https://rzp.io/l/revive-fallback | No blocking rules triggered.	executed	151100	2026-08-28 13:33:39.940654+00
-355	355	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 13:33:39.940654+00
-356	356	BLOCKED	system	Pre-debit notification < 24h. RBI compliance block.	blocked	0	2026-08-28 13:33:39.940654+00
-357	357	BLOCKED	system	Pre-debit notification < 24h. RBI compliance block.	blocked	0	2026-08-28 13:33:39.940654+00
-358	358	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	85200	2026-08-28 13:33:39.940654+00
-359	359	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	387900	2026-08-28 13:33:39.940654+00
-360	360	UPI_COLLECT	system	Mechanism Swap: OTP→UPI Collect. Link: https://rzp.io/l/revive-fallback | No blocking rules triggered.	executed	404900	2026-08-28 13:33:39.940654+00
-361	361	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	69900	2026-08-28 13:33:39.940654+00
-362	362	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	295900	2026-08-28 13:33:39.940654+00
-363	363	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	437600	2026-08-28 13:33:39.940654+00
-364	364	BLOCKED	system	Pre-debit notification < 24h. RBI compliance block.	blocked	0	2026-08-28 13:33:39.940654+00
-365	365	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 13:33:39.940654+00
-366	366	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 13:33:39.940654+00
-367	367	UPI_COLLECT	system	Mechanism Swap: OTP→UPI Collect. Link: https://rzp.io/l/revive-fallback | No blocking rules triggered.	executed	242900	2026-08-28 13:33:39.940654+00
-368	368	UPI_COLLECT	system	Mechanism Swap: OTP→UPI Collect. Link: https://rzp.io/l/revive-fallback | No blocking rules triggered.	executed	168000	2026-08-28 13:33:39.940654+00
-369	369	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 13:33:39.940654+00
-433	433	BLOCKED	system	Repeated failures. Spamming will cause churn.	blocked	0	2026-08-28 13:33:39.940654+00
-370	370	UPI_COLLECT	system	Mechanism Swap: OTP→UPI Collect. Link: https://rzp.io/l/revive-fallback | No blocking rules triggered.	executed	336400	2026-08-28 13:33:39.940654+00
-371	371	BLOCKED	system	Repeated failures. Spamming will cause churn.	blocked	0	2026-08-28 13:33:39.940654+00
-372	372	BLOCKED	system	Repeated failures. Spamming will cause churn.	blocked	0	2026-08-28 13:33:39.940654+00
-373	373	RETRY_LINK	system	No blocking rules triggered.	executed	265000	2026-08-28 13:33:39.940654+00
-374	374	UPI_COLLECT	system	Mechanism Swap: OTP→UPI Collect. Link: https://rzp.io/l/revive-fallback | No blocking rules triggered.	executed	333100	2026-08-28 13:33:39.940654+00
-375	375	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 13:33:39.940654+00
-376	376	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	251500	2026-08-28 13:33:39.940654+00
-377	377	UPI_COLLECT	system	Mechanism Swap: OTP→UPI Collect. Link: https://rzp.io/l/revive-fallback | No blocking rules triggered.	executed	58800	2026-08-28 13:33:39.940654+00
-378	378	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	174700	2026-08-28 13:33:39.940654+00
-379	379	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 13:33:39.940654+00
-380	380	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	151900	2026-08-28 13:33:39.940654+00
-381	381	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	41600	2026-08-28 13:33:39.940654+00
-382	382	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 13:33:39.940654+00
-383	383	RETRY_LINK	system	No blocking rules triggered.	executed	484000	2026-08-28 13:33:39.940654+00
-384	384	RETRY_LINK	system	No blocking rules triggered.	executed	458900	2026-08-28 13:33:39.940654+00
-385	385	BLOCKED	system	Repeated failures. Spamming will cause churn.	blocked	0	2026-08-28 13:33:39.940654+00
-386	386	RETRY_LINK	system	No blocking rules triggered.	executed	41300	2026-08-28 13:33:39.940654+00
-387	387	RETRY_LINK	system	No blocking rules triggered.	executed	111000	2026-08-28 13:33:39.940654+00
-388	388	BLOCKED	system	Repeated failures. Spamming will cause churn.	blocked	0	2026-08-28 13:33:39.940654+00
-389	389	BLOCKED	system	Repeated failures. Spamming will cause churn.	blocked	0	2026-08-28 13:33:39.940654+00
-390	390	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	456200	2026-08-28 13:33:39.940654+00
-391	391	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	484000	2026-08-28 13:33:39.940654+00
-392	392	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	242000	2026-08-28 13:33:39.940654+00
-393	393	BLOCKED	system	Repeated failures. Spamming will cause churn.	blocked	0	2026-08-28 13:33:39.940654+00
-394	394	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	415800	2026-08-28 13:33:39.940654+00
-395	395	BLOCKED	system	Repeated failures. Spamming will cause churn.	blocked	0	2026-08-28 13:33:39.940654+00
-396	396	BLOCKED	system	Customer left store. Silent retry blocked to prevent double-charge.	blocked	0	2026-08-28 13:33:39.940654+00
-397	397	RETRY_LINK	system	No blocking rules triggered.	executed	91200	2026-08-28 13:33:39.940654+00
-398	398	BLOCKED	system	Pre-debit notification < 24h. RBI compliance block.	blocked	0	2026-08-28 13:33:39.940654+00
-399	399	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 13:33:39.940654+00
-400	400	UPI_COLLECT	system	Mechanism Swap: OTP→UPI Collect. Link: https://rzp.io/l/revive-fallback | No blocking rules triggered.	executed	54500	2026-08-28 13:33:39.940654+00
-401	401	RETRY_LINK	system	No blocking rules triggered.	executed	116600	2026-08-28 13:33:39.940654+00
-402	402	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 13:33:39.940654+00
-403	403	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	239300	2026-08-28 13:33:39.940654+00
-404	404	RETRY_LINK	system	No blocking rules triggered.	executed	150400	2026-08-28 13:33:39.940654+00
-405	405	RETRY_LINK	system	No blocking rules triggered.	executed	366500	2026-08-28 13:33:39.940654+00
-406	406	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 13:33:39.940654+00
-407	407	UPI_COLLECT	system	Mechanism Swap: OTP→UPI Collect. Link: https://rzp.io/l/revive-fallback | No blocking rules triggered.	executed	440400	2026-08-28 13:33:39.940654+00
-408	408	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 13:33:39.940654+00
-409	409	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 13:33:39.940654+00
-410	410	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 13:33:39.940654+00
-411	411	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 13:33:39.940654+00
-412	412	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 13:33:39.940654+00
-413	413	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 13:33:39.940654+00
-414	414	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	115700	2026-08-28 13:33:39.940654+00
-415	415	BLOCKED	system	Pre-debit notification < 24h. RBI compliance block.	blocked	0	2026-08-28 13:33:39.940654+00
-416	416	RETRY_LINK	system	No blocking rules triggered.	executed	248300	2026-08-28 13:33:39.940654+00
-417	417	RETRY_LINK	system	No blocking rules triggered.	executed	439000	2026-08-28 13:33:39.940654+00
-418	418	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	59600	2026-08-28 13:33:39.940654+00
-419	419	RETRY_LINK	system	No blocking rules triggered.	executed	212300	2026-08-28 13:33:39.940654+00
-420	420	BLOCKED	system	Pre-debit notification < 24h. RBI compliance block.	blocked	0	2026-08-28 13:33:39.940654+00
-421	421	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 13:33:39.940654+00
-422	422	BLOCKED	system	Repeated failures. Spamming will cause churn.	blocked	0	2026-08-28 13:33:39.940654+00
-423	423	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	429900	2026-08-28 13:33:39.940654+00
-424	424	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	454400	2026-08-28 13:33:39.940654+00
-425	425	RETRY_LINK	system	No blocking rules triggered.	executed	79600	2026-08-28 13:33:39.940654+00
-426	426	BLOCKED	system	Pre-debit notification < 24h. RBI compliance block.	blocked	0	2026-08-28 13:33:39.940654+00
-427	427	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	62300	2026-08-28 13:33:39.940654+00
-428	428	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	386300	2026-08-28 13:33:39.940654+00
-429	429	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	25200	2026-08-28 13:33:39.940654+00
-430	430	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 13:33:39.940654+00
-431	431	RETRY_LINK	system	No blocking rules triggered.	executed	235000	2026-08-28 13:33:39.940654+00
-432	432	BLOCKED	system	Pre-debit notification < 24h. RBI compliance block.	blocked	0	2026-08-28 13:33:39.940654+00
-434	434	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	151600	2026-08-28 13:33:39.940654+00
-435	435	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	109300	2026-08-28 13:33:39.940654+00
-436	436	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	52500	2026-08-28 13:33:39.940654+00
-437	437	RETRY_LINK	system	No blocking rules triggered.	executed	43800	2026-08-28 13:33:39.940654+00
-438	438	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	355800	2026-08-28 13:33:39.940654+00
-439	439	BLOCKED	system	Repeated failures. Spamming will cause churn.	blocked	0	2026-08-28 13:33:39.940654+00
-440	440	RETRY_LINK	system	No blocking rules triggered.	executed	52500	2026-08-28 13:33:39.940654+00
-441	441	UPI_COLLECT	system	Mechanism Swap: OTP→UPI Collect. Link: https://rzp.io/l/revive-fallback | No blocking rules triggered.	executed	269400	2026-08-28 13:33:39.940654+00
-442	442	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	317100	2026-08-28 13:33:39.940654+00
-443	443	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	213600	2026-08-28 13:33:39.940654+00
-444	444	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 13:33:39.940654+00
-445	445	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 13:33:39.940654+00
-446	446	BLOCKED	system	Pre-debit notification < 24h. RBI compliance block.	blocked	0	2026-08-28 13:33:39.940654+00
-447	447	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	210000	2026-08-28 13:33:39.940654+00
-448	448	RETRY_LINK	system	No blocking rules triggered.	executed	91100	2026-08-28 13:33:39.940654+00
-449	449	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 13:33:39.940654+00
-450	450	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	124200	2026-08-28 13:33:39.940654+00
-451	451	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 13:33:39.940654+00
-452	452	BLOCKED	system	Pre-debit notification < 24h. RBI compliance block.	blocked	0	2026-08-28 13:33:39.940654+00
-453	453	BLOCKED	system	Repeated failures. Spamming will cause churn.	blocked	0	2026-08-28 13:33:39.940654+00
-454	454	UPI_COLLECT	system	Mechanism Swap: OTP→UPI Collect. Link: https://rzp.io/l/revive-fallback | No blocking rules triggered.	executed	142200	2026-08-28 13:33:39.940654+00
-455	455	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 13:33:39.940654+00
-456	456	BLOCKED	system	Pre-debit notification < 24h. RBI compliance block.	blocked	0	2026-08-28 13:33:39.940654+00
-457	457	BLOCKED	system	Pre-debit notification < 24h. RBI compliance block.	blocked	0	2026-08-28 13:33:39.940654+00
-458	458	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	306300	2026-08-28 13:33:39.940654+00
-459	459	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	157300	2026-08-28 13:33:39.940654+00
-460	460	UPI_COLLECT	system	Mechanism Swap: OTP→UPI Collect. Link: https://rzp.io/l/revive-fallback | No blocking rules triggered.	executed	465500	2026-08-28 13:33:39.940654+00
-461	461	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	114300	2026-08-28 13:33:39.940654+00
-462	462	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	177200	2026-08-28 13:33:39.940654+00
-463	463	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	495000	2026-08-28 13:33:39.940654+00
-464	464	BLOCKED	system	Pre-debit notification < 24h. RBI compliance block.	blocked	0	2026-08-28 13:33:39.940654+00
-465	465	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 13:33:39.940654+00
-466	466	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 13:33:39.940654+00
-467	467	UPI_COLLECT	system	Mechanism Swap: OTP→UPI Collect. Link: https://rzp.io/l/revive-fallback | No blocking rules triggered.	executed	168200	2026-08-28 13:33:39.940654+00
-468	468	UPI_COLLECT	system	Mechanism Swap: OTP→UPI Collect. Link: https://rzp.io/l/revive-fallback | No blocking rules triggered.	executed	216200	2026-08-28 13:33:39.940654+00
-469	469	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 13:33:39.940654+00
-470	470	UPI_COLLECT	system	Mechanism Swap: OTP→UPI Collect. Link: https://rzp.io/l/revive-fallback | No blocking rules triggered.	executed	358300	2026-08-28 13:33:39.940654+00
-471	471	BLOCKED	system	Repeated failures. Spamming will cause churn.	blocked	0	2026-08-28 13:33:39.940654+00
-472	472	BLOCKED	system	Repeated failures. Spamming will cause churn.	blocked	0	2026-08-28 13:33:39.940654+00
-473	473	RETRY_LINK	system	No blocking rules triggered.	executed	36200	2026-08-28 13:33:39.940654+00
-474	474	UPI_COLLECT	system	Mechanism Swap: OTP→UPI Collect. Link: https://rzp.io/l/revive-fallback | No blocking rules triggered.	executed	401300	2026-08-28 13:33:39.940654+00
-475	475	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 13:33:39.940654+00
-476	476	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 13:33:39.940654+00
-477	477	UPI_COLLECT	system	Mechanism Swap: OTP→UPI Collect. Link: https://rzp.io/l/revive-fallback | No blocking rules triggered.	executed	333000	2026-08-28 13:33:39.940654+00
-478	478	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 13:33:39.940654+00
-479	479	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 13:33:39.940654+00
-480	480	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	459000	2026-08-28 13:33:39.940654+00
-481	481	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	60900	2026-08-28 13:33:39.940654+00
-482	482	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 13:33:39.940654+00
-483	483	RETRY_LINK	system	No blocking rules triggered.	executed	160200	2026-08-28 13:33:39.940654+00
-484	484	RETRY_LINK	system	No blocking rules triggered.	executed	495400	2026-08-28 13:33:39.940654+00
-485	485	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 13:33:39.940654+00
-486	486	BLOCKED	system	Customer left store. Silent retry blocked to prevent double-charge.	blocked	0	2026-08-28 13:33:39.940654+00
-487	487	BLOCKED	system	Customer left store. Silent retry blocked to prevent double-charge.	blocked	0	2026-08-28 13:33:39.940654+00
-488	488	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 13:33:39.940654+00
-489	489	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 13:33:39.940654+00
-490	490	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	484100	2026-08-28 13:33:39.940654+00
-491	491	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	195800	2026-08-28 13:33:39.940654+00
-492	492	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	286100	2026-08-28 13:33:39.940654+00
-493	493	BLOCKED	system	Repeated failures. Spamming will cause churn.	blocked	0	2026-08-28 13:33:39.940654+00
-494	494	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	24200	2026-08-28 13:33:39.940654+00
-495	495	BLOCKED	system	Repeated failures. Spamming will cause churn.	blocked	0	2026-08-28 13:33:39.940654+00
-496	496	RETRY_LINK	system	No blocking rules triggered.	executed	331000	2026-08-28 13:33:39.940654+00
-497	497	RETRY_LINK	system	No blocking rules triggered.	executed	325100	2026-08-28 13:33:39.940654+00
-498	498	BLOCKED	system	Pre-debit notification < 24h. RBI compliance block.	blocked	0	2026-08-28 13:33:39.940654+00
-499	499	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 13:33:39.940654+00
-500	500	UPI_COLLECT	system	Mechanism Swap: OTP→UPI Collect. Link: https://rzp.io/l/revive-fallback | No blocking rules triggered.	executed	154200	2026-08-28 13:33:39.940654+00
-501	513	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	49900	2026-08-28 13:43:19.941381+00
-502	513	MESSAGE_DRAFTED	system	[groq] नमस्ते, आपका 499 ₹ का नेटबैंकिंग भुगतान सत्र समाप्ति के कारण पूरा नहीं हो पाया। कृपया पुनः भुगतान करने के लिए इस लिंक पर जाएँ: https://rzp.io/l/revive-fallback. Reply STOP to opt out.	pending_send	0	2026-08-28 13:43:19.941381+00
-503	513	VOICE_SYNTHESIZED	system	Voice: voice_pay_TSOALEUJL823Wr.mp3  [engine: edge-tts]	pending_send	0	2026-08-28 13:43:19.941381+00
+504	73	RETRY_LINK	system	No blocking rules triggered.	executed	170300	2026-08-28 14:12:47.200463+00
+505	140	RETRY_LINK	system	No blocking rules triggered.	executed	97700	2026-08-28 14:12:47.200463+00
+506	158	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	66300	2026-08-28 14:12:47.200463+00
+507	240	RETRY_LINK	system	No blocking rules triggered.	executed	114700	2026-08-28 14:12:47.200463+00
+508	301	RETRY_LINK	system	No blocking rules triggered.	executed	181300	2026-08-28 14:12:47.200463+00
+509	440	RETRY_LINK	system	No blocking rules triggered.	executed	52500	2026-08-28 14:12:47.200463+00
+510	473	RETRY_LINK	system	No blocking rules triggered.	executed	36200	2026-08-28 14:12:47.200463+00
+511	11	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 14:12:47.200463+00
+512	1	RETRY_LINK	system	No blocking rules triggered.	executed	111900	2026-08-28 14:12:47.200463+00
+513	2	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 14:12:47.200463+00
+514	3	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	497000	2026-08-28 14:12:47.200463+00
+515	4	RETRY_LINK	system	No blocking rules triggered.	executed	96100	2026-08-28 14:12:47.200463+00
+516	5	RETRY_LINK	system	No blocking rules triggered.	executed	81400	2026-08-28 14:12:47.200463+00
+517	6	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 14:12:47.200463+00
+518	7	UPI_COLLECT	system	Mechanism Swap: OTP→UPI Collect. Link: https://rzp.io/rzp/0Tr5moGt | No blocking rules triggered.	executed	253400	2026-08-28 14:12:47.200463+00
+519	8	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 14:12:47.200463+00
+520	9	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 14:12:47.200463+00
+521	10	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 14:12:47.200463+00
+522	12	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 14:12:47.200463+00
+523	13	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	373500	2026-08-28 14:12:47.200463+00
+524	14	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	220000	2026-08-28 14:12:47.200463+00
+525	15	BLOCKED	system	Pre-debit notification < 24h. RBI compliance block.	blocked	0	2026-08-28 14:12:47.200463+00
+526	16	RETRY_LINK	system	No blocking rules triggered.	executed	440000	2026-08-28 14:12:47.200463+00
+527	17	RETRY_LINK	system	No blocking rules triggered.	executed	494400	2026-08-28 14:12:47.200463+00
+528	18	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	349400	2026-08-28 14:12:47.200463+00
+529	19	RETRY_LINK	system	No blocking rules triggered.	executed	285000	2026-08-28 14:12:47.200463+00
+530	20	BLOCKED	system	Pre-debit notification < 24h. RBI compliance block.	blocked	0	2026-08-28 14:12:47.200463+00
+531	21	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 14:12:47.200463+00
+532	22	BLOCKED	system	Repeated failures. Spamming will cause churn.	blocked	0	2026-08-28 14:12:47.200463+00
+533	23	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	423200	2026-08-28 14:12:47.200463+00
+534	24	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	233600	2026-08-28 14:12:47.200463+00
+535	25	RETRY_LINK	system	No blocking rules triggered.	executed	411900	2026-08-28 14:12:47.200463+00
+536	26	BLOCKED	system	Pre-debit notification < 24h. RBI compliance block.	blocked	0	2026-08-28 14:12:47.200463+00
+537	27	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	198900	2026-08-28 14:12:47.200463+00
+538	28	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	423100	2026-08-28 14:12:47.200463+00
+539	29	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	410100	2026-08-28 14:12:47.200463+00
+540	30	RETRY_LINK	system	No blocking rules triggered.	executed	329100	2026-08-28 14:12:47.200463+00
+541	31	BLOCKED	system	Customer left store. Silent retry blocked to prevent double-charge.	blocked	0	2026-08-28 14:12:47.200463+00
+542	32	BLOCKED	system	Pre-debit notification < 24h. RBI compliance block.	blocked	0	2026-08-28 14:12:47.200463+00
+543	33	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 14:12:47.200463+00
+544	34	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	323900	2026-08-28 14:12:47.200463+00
+545	35	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	483300	2026-08-28 14:12:47.200463+00
+546	36	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	275500	2026-08-28 14:12:47.200463+00
+547	37	BLOCKED	system	Customer left store. Silent retry blocked to prevent double-charge.	blocked	0	2026-08-28 14:12:47.200463+00
+548	38	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	286800	2026-08-28 14:12:47.200463+00
+549	39	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 14:12:47.200463+00
+550	40	RETRY_LINK	system	No blocking rules triggered.	executed	141300	2026-08-28 14:12:47.200463+00
+551	41	UPI_COLLECT	system	Mechanism Swap: OTP→UPI Collect. Link: https://rzp.io/rzp/gXajwYYR | No blocking rules triggered.	executed	340500	2026-08-28 14:12:47.200463+00
+552	42	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	326200	2026-08-28 14:12:47.200463+00
+553	43	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	70900	2026-08-28 14:12:47.200463+00
+554	44	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 14:12:47.200463+00
+555	45	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 14:12:47.200463+00
+556	46	BLOCKED	system	Pre-debit notification < 24h. RBI compliance block.	blocked	0	2026-08-28 14:12:47.200463+00
+557	47	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	478500	2026-08-28 14:12:47.200463+00
+558	48	RETRY_LINK	system	No blocking rules triggered.	executed	328200	2026-08-28 14:12:47.200463+00
+559	49	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 14:12:47.200463+00
+560	50	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	396000	2026-08-28 14:12:47.200463+00
+561	51	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 14:12:47.200463+00
+562	52	BLOCKED	system	Pre-debit notification < 24h. RBI compliance block.	blocked	0	2026-08-28 14:12:47.200463+00
+563	53	BLOCKED	system	Repeated failures. Spamming will cause churn.	blocked	0	2026-08-28 14:12:47.200463+00
+564	54	UPI_COLLECT	system	Mechanism Swap: OTP→UPI Collect. Link: https://rzp.io/rzp/o1itvmbV | No blocking rules triggered.	executed	339100	2026-08-28 14:12:47.200463+00
+565	55	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 14:12:47.200463+00
+566	56	BLOCKED	system	Pre-debit notification < 24h. RBI compliance block.	blocked	0	2026-08-28 14:12:47.200463+00
+567	57	BLOCKED	system	Pre-debit notification < 24h. RBI compliance block.	blocked	0	2026-08-28 14:12:47.200463+00
+568	58	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	256600	2026-08-28 14:12:47.200463+00
+569	59	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	456700	2026-08-28 14:12:47.200463+00
+570	60	UPI_COLLECT	system	Mechanism Swap: OTP→UPI Collect. Link: https://rzp.io/rzp/qalRyI3 | No blocking rules triggered.	executed	409600	2026-08-28 14:12:47.200463+00
+571	61	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	398500	2026-08-28 14:12:47.200463+00
+572	62	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	471400	2026-08-28 14:12:47.200463+00
+573	63	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	231500	2026-08-28 14:12:47.200463+00
+574	64	BLOCKED	system	Pre-debit notification < 24h. RBI compliance block.	blocked	0	2026-08-28 14:12:47.200463+00
+575	65	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 14:12:47.200463+00
+576	66	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 14:12:47.200463+00
+577	67	UPI_COLLECT	system	Mechanism Swap: OTP→UPI Collect. Link: https://rzp.io/rzp/y1UnZk00 | No blocking rules triggered.	executed	264200	2026-08-28 14:12:47.200463+00
+578	68	UPI_COLLECT	system	Mechanism Swap: OTP→UPI Collect. Link: https://rzp.io/l/revive-fallback | No blocking rules triggered.	executed	126000	2026-08-28 14:12:47.200463+00
+579	69	BLOCKED	system	Repeated failures. Spamming will cause churn.	blocked	0	2026-08-28 14:12:47.200463+00
+580	70	UPI_COLLECT	system	Mechanism Swap: OTP→UPI Collect. Link: https://rzp.io/l/revive-fallback | No blocking rules triggered.	executed	349200	2026-08-28 14:12:47.200463+00
+581	71	BLOCKED	system	Repeated failures. Spamming will cause churn.	blocked	0	2026-08-28 14:12:47.200463+00
+582	72	BLOCKED	system	Repeated failures. Spamming will cause churn.	blocked	0	2026-08-28 14:12:47.200463+00
+583	74	UPI_COLLECT	system	Mechanism Swap: OTP→UPI Collect. Link: https://rzp.io/l/revive-fallback | No blocking rules triggered.	executed	32300	2026-08-28 14:12:47.200463+00
+584	75	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 14:12:47.200463+00
+585	76	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 14:12:47.200463+00
+586	77	UPI_COLLECT	system	Mechanism Swap: OTP→UPI Collect. Link: https://rzp.io/l/revive-fallback | No blocking rules triggered.	executed	242000	2026-08-28 14:12:47.200463+00
+587	78	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 14:12:47.200463+00
+588	79	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 14:12:47.200463+00
+589	80	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	57800	2026-08-28 14:12:47.200463+00
+590	81	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	405000	2026-08-28 14:12:47.200463+00
+591	82	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 14:12:47.200463+00
+592	83	RETRY_LINK	system	No blocking rules triggered.	executed	261900	2026-08-28 14:12:47.200463+00
+593	84	RETRY_LINK	system	No blocking rules triggered.	executed	364100	2026-08-28 14:12:47.200463+00
+594	85	BLOCKED	system	Repeated failures. Spamming will cause churn.	blocked	0	2026-08-28 14:12:47.200463+00
+595	86	RETRY_LINK	system	No blocking rules triggered.	executed	494400	2026-08-28 14:12:47.200463+00
+596	87	RETRY_LINK	system	No blocking rules triggered.	executed	256400	2026-08-28 14:12:47.200463+00
+597	88	BLOCKED	system	Repeated failures. Spamming will cause churn.	blocked	0	2026-08-28 14:12:47.200463+00
+598	89	BLOCKED	system	Repeated failures. Spamming will cause churn.	blocked	0	2026-08-28 14:12:47.200463+00
+599	90	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	364500	2026-08-28 14:12:47.200463+00
+600	91	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	69800	2026-08-28 14:12:47.200463+00
+601	92	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	320100	2026-08-28 14:12:47.200463+00
+602	93	BLOCKED	system	Repeated failures. Spamming will cause churn.	blocked	0	2026-08-28 14:12:47.200463+00
+603	94	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	304500	2026-08-28 14:12:47.200463+00
+604	95	BLOCKED	system	Repeated failures. Spamming will cause churn.	blocked	0	2026-08-28 14:12:47.200463+00
+605	96	RETRY_LINK	system	No blocking rules triggered.	executed	141600	2026-08-28 14:12:47.200463+00
+606	97	RETRY_LINK	system	No blocking rules triggered.	executed	470500	2026-08-28 14:12:47.200463+00
+607	98	BLOCKED	system	Pre-debit notification < 24h. RBI compliance block.	blocked	0	2026-08-28 14:12:47.200463+00
+608	99	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 14:12:47.200463+00
+609	100	UPI_COLLECT	system	Mechanism Swap: OTP→UPI Collect. Link: https://rzp.io/l/revive-fallback | No blocking rules triggered.	executed	19900	2026-08-28 14:12:47.200463+00
+610	101	RETRY_LINK	system	No blocking rules triggered.	executed	131100	2026-08-28 14:12:47.200463+00
+611	102	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	323000	2026-08-28 14:12:47.200463+00
+612	103	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	270100	2026-08-28 14:12:47.200463+00
+613	104	RETRY_LINK	system	No blocking rules triggered.	executed	84400	2026-08-28 14:12:47.200463+00
+614	105	RETRY_LINK	system	No blocking rules triggered.	executed	81700	2026-08-28 14:12:47.200463+00
+615	106	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 14:12:47.200463+00
+616	107	UPI_COLLECT	system	Mechanism Swap: OTP→UPI Collect. Link: https://rzp.io/l/revive-fallback | No blocking rules triggered.	executed	297600	2026-08-28 14:12:47.200463+00
+617	108	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 14:12:47.200463+00
+618	109	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 14:12:47.200463+00
+619	110	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	224200	2026-08-28 14:12:47.200463+00
+620	111	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 14:12:47.200463+00
+621	112	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 14:12:47.200463+00
+622	113	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	372200	2026-08-28 14:12:47.200463+00
+623	114	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	486500	2026-08-28 14:12:47.200463+00
+624	115	BLOCKED	system	Pre-debit notification < 24h. RBI compliance block.	blocked	0	2026-08-28 14:12:47.200463+00
+625	116	RETRY_LINK	system	No blocking rules triggered.	executed	311300	2026-08-28 14:12:47.200463+00
+626	117	RETRY_LINK	system	No blocking rules triggered.	executed	371800	2026-08-28 14:12:47.200463+00
+627	118	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	269000	2026-08-28 14:12:47.200463+00
+628	119	RETRY_LINK	system	No blocking rules triggered.	executed	77400	2026-08-28 14:12:47.200463+00
+629	120	BLOCKED	system	Pre-debit notification < 24h. RBI compliance block.	blocked	0	2026-08-28 14:12:47.200463+00
+630	121	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 14:12:47.200463+00
+631	122	BLOCKED	system	Repeated failures. Spamming will cause churn.	blocked	0	2026-08-28 14:12:47.200463+00
+632	123	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	382600	2026-08-28 14:12:47.200463+00
+633	124	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	375100	2026-08-28 14:12:47.200463+00
+634	125	RETRY_LINK	system	No blocking rules triggered.	executed	499300	2026-08-28 14:12:47.200463+00
+635	126	BLOCKED	system	Pre-debit notification < 24h. RBI compliance block.	blocked	0	2026-08-28 14:12:47.200463+00
+636	127	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	88800	2026-08-28 14:12:47.200463+00
+637	128	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	48500	2026-08-28 14:12:47.200463+00
+638	129	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	425600	2026-08-28 14:12:47.200463+00
+639	130	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 14:12:47.200463+00
+640	131	RETRY_LINK	system	No blocking rules triggered.	executed	374800	2026-08-28 14:12:47.200463+00
+641	132	BLOCKED	system	Pre-debit notification < 24h. RBI compliance block.	blocked	0	2026-08-28 14:12:47.200463+00
+642	133	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 14:12:47.200463+00
+643	134	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	247600	2026-08-28 14:12:47.200463+00
+644	135	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	130700	2026-08-28 14:12:47.200463+00
+645	136	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	84300	2026-08-28 14:12:47.200463+00
+646	137	RETRY_LINK	system	No blocking rules triggered.	executed	446100	2026-08-28 14:12:47.200463+00
+647	138	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	311900	2026-08-28 14:12:47.200463+00
+648	139	BLOCKED	system	Repeated failures. Spamming will cause churn.	blocked	0	2026-08-28 14:12:47.200463+00
+649	141	UPI_COLLECT	system	Mechanism Swap: OTP→UPI Collect. Link: https://rzp.io/l/revive-fallback | No blocking rules triggered.	executed	122200	2026-08-28 14:12:47.200463+00
+650	142	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	150500	2026-08-28 14:12:47.200463+00
+651	143	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	209400	2026-08-28 14:12:47.200463+00
+652	144	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 14:12:47.200463+00
+653	145	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 14:12:47.200463+00
+654	146	BLOCKED	system	Pre-debit notification < 24h. RBI compliance block.	blocked	0	2026-08-28 14:12:47.200463+00
+655	147	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	219700	2026-08-28 14:12:47.200463+00
+656	148	RETRY_LINK	system	No blocking rules triggered.	executed	98900	2026-08-28 14:12:47.200463+00
+657	149	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 14:12:47.200463+00
+658	150	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	196700	2026-08-28 14:12:47.200463+00
+659	151	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 14:12:47.200463+00
+660	152	BLOCKED	system	Pre-debit notification < 24h. RBI compliance block.	blocked	0	2026-08-28 14:12:47.200463+00
+661	153	BLOCKED	system	Repeated failures. Spamming will cause churn.	blocked	0	2026-08-28 14:12:47.200463+00
+662	154	UPI_COLLECT	system	Mechanism Swap: OTP→UPI Collect. Link: https://rzp.io/l/revive-fallback | No blocking rules triggered.	executed	401900	2026-08-28 14:12:47.200463+00
+663	155	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 14:12:47.200463+00
+664	156	BLOCKED	system	Pre-debit notification < 24h. RBI compliance block.	blocked	0	2026-08-28 14:12:47.200463+00
+665	157	BLOCKED	system	Pre-debit notification < 24h. RBI compliance block.	blocked	0	2026-08-28 14:12:47.200463+00
+666	159	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	437000	2026-08-28 14:12:47.200463+00
+667	160	UPI_COLLECT	system	Mechanism Swap: OTP→UPI Collect. Link: https://rzp.io/l/revive-fallback | No blocking rules triggered.	executed	366500	2026-08-28 14:12:47.200463+00
+668	161	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	168300	2026-08-28 14:12:47.200463+00
+669	162	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	445800	2026-08-28 14:12:47.200463+00
+670	163	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	331800	2026-08-28 14:12:47.200463+00
+671	164	BLOCKED	system	Pre-debit notification < 24h. RBI compliance block.	blocked	0	2026-08-28 14:12:47.200463+00
+672	165	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 14:12:47.200463+00
+673	166	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 14:12:47.200463+00
+674	167	UPI_COLLECT	system	Mechanism Swap: OTP→UPI Collect. Link: https://rzp.io/l/revive-fallback | No blocking rules triggered.	executed	389800	2026-08-28 14:12:47.200463+00
+675	168	UPI_COLLECT	system	Mechanism Swap: OTP→UPI Collect. Link: https://rzp.io/l/revive-fallback | No blocking rules triggered.	executed	49200	2026-08-28 14:12:47.200463+00
+676	169	BLOCKED	system	Repeated failures. Spamming will cause churn.	blocked	0	2026-08-28 14:12:47.200463+00
+677	170	UPI_COLLECT	system	Mechanism Swap: OTP→UPI Collect. Link: https://rzp.io/l/revive-fallback | No blocking rules triggered.	executed	307300	2026-08-28 14:12:47.200463+00
+678	171	BLOCKED	system	Repeated failures. Spamming will cause churn.	blocked	0	2026-08-28 14:12:47.200463+00
+679	172	BLOCKED	system	Repeated failures. Spamming will cause churn.	blocked	0	2026-08-28 14:12:47.200463+00
+680	173	RETRY_LINK	system	No blocking rules triggered.	executed	440200	2026-08-28 14:12:47.200463+00
+681	174	UPI_COLLECT	system	Mechanism Swap: OTP→UPI Collect. Link: https://rzp.io/l/revive-fallback | No blocking rules triggered.	executed	367600	2026-08-28 14:12:47.200463+00
+682	175	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 14:12:47.200463+00
+683	176	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	380100	2026-08-28 14:12:47.200463+00
+684	177	UPI_COLLECT	system	Mechanism Swap: OTP→UPI Collect. Link: https://rzp.io/l/revive-fallback | No blocking rules triggered.	executed	381100	2026-08-28 14:12:47.200463+00
+685	178	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	61800	2026-08-28 14:12:47.200463+00
+686	179	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 14:12:47.200463+00
+687	180	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	208200	2026-08-28 14:12:47.200463+00
+688	181	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	41400	2026-08-28 14:12:47.200463+00
+689	182	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 14:12:47.200463+00
+690	183	RETRY_LINK	system	No blocking rules triggered.	executed	315500	2026-08-28 14:12:47.200463+00
+691	184	RETRY_LINK	system	No blocking rules triggered.	executed	107800	2026-08-28 14:12:47.200463+00
+692	185	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 14:12:47.200463+00
+693	186	RETRY_LINK	system	No blocking rules triggered.	executed	190600	2026-08-28 14:12:47.200463+00
+694	187	RETRY_LINK	system	No blocking rules triggered.	executed	115300	2026-08-28 14:12:47.200463+00
+695	188	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 14:12:47.200463+00
+696	189	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 14:12:47.200463+00
+697	190	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 14:12:47.200463+00
+698	191	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	208800	2026-08-28 14:12:47.200463+00
+699	192	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	483700	2026-08-28 14:12:47.200463+00
+700	193	BLOCKED	system	Repeated failures. Spamming will cause churn.	blocked	0	2026-08-28 14:12:47.200463+00
+701	194	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	351400	2026-08-28 14:12:47.200463+00
+702	195	BLOCKED	system	Repeated failures. Spamming will cause churn.	blocked	0	2026-08-28 14:12:47.200463+00
+703	196	BLOCKED	system	Customer left store. Silent retry blocked to prevent double-charge.	blocked	0	2026-08-28 14:12:47.200463+00
+704	197	RETRY_LINK	system	No blocking rules triggered.	executed	426800	2026-08-28 14:12:47.200463+00
+705	198	BLOCKED	system	Pre-debit notification < 24h. RBI compliance block.	blocked	0	2026-08-28 14:12:47.200463+00
+706	199	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 14:12:47.200463+00
+707	200	UPI_COLLECT	system	Mechanism Swap: OTP→UPI Collect. Link: https://rzp.io/l/revive-fallback | No blocking rules triggered.	executed	239700	2026-08-28 14:12:47.200463+00
+708	201	RETRY_LINK	system	No blocking rules triggered.	executed	426600	2026-08-28 14:12:47.200463+00
+709	202	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 14:12:47.200463+00
+710	203	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	38100	2026-08-28 14:12:47.200463+00
+711	204	RETRY_LINK	system	No blocking rules triggered.	executed	187500	2026-08-28 14:12:47.200463+00
+712	205	RETRY_LINK	system	No blocking rules triggered.	executed	461800	2026-08-28 14:12:47.200463+00
+713	206	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 14:12:47.200463+00
+714	207	UPI_COLLECT	system	Mechanism Swap: OTP→UPI Collect. Link: https://rzp.io/l/revive-fallback | No blocking rules triggered.	executed	375000	2026-08-28 14:12:47.200463+00
+715	208	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 14:12:47.200463+00
+716	209	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 14:12:47.200463+00
+717	210	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 14:12:47.200463+00
+718	211	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 14:12:47.200463+00
+719	212	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 14:12:47.200463+00
+720	213	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 14:12:47.200463+00
+721	214	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	436500	2026-08-28 14:12:47.200463+00
+722	215	BLOCKED	system	Pre-debit notification < 24h. RBI compliance block.	blocked	0	2026-08-28 14:12:47.200463+00
+723	216	RETRY_LINK	system	No blocking rules triggered.	executed	303900	2026-08-28 14:12:47.200463+00
+724	217	RETRY_LINK	system	No blocking rules triggered.	executed	400400	2026-08-28 14:12:47.200463+00
+725	218	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	124600	2026-08-28 14:12:47.200463+00
+726	219	RETRY_LINK	system	No blocking rules triggered.	executed	51900	2026-08-28 14:12:47.200463+00
+727	220	BLOCKED	system	Pre-debit notification < 24h. RBI compliance block.	blocked	0	2026-08-28 14:12:47.200463+00
+728	221	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 14:12:47.200463+00
+729	222	BLOCKED	system	Repeated failures. Spamming will cause churn.	blocked	0	2026-08-28 14:12:47.200463+00
+730	223	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	177900	2026-08-28 14:12:47.200463+00
+731	224	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	46700	2026-08-28 14:12:47.200463+00
+732	225	RETRY_LINK	system	No blocking rules triggered.	executed	389200	2026-08-28 14:12:47.200463+00
+733	226	BLOCKED	system	Pre-debit notification < 24h. RBI compliance block.	blocked	0	2026-08-28 14:12:47.200463+00
+734	227	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	432400	2026-08-28 14:12:47.200463+00
+735	228	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	403900	2026-08-28 14:12:47.200463+00
+736	229	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	356100	2026-08-28 14:12:47.200463+00
+737	230	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 14:12:47.200463+00
+738	231	RETRY_LINK	system	No blocking rules triggered.	executed	408400	2026-08-28 14:12:47.200463+00
+739	232	BLOCKED	system	Pre-debit notification < 24h. RBI compliance block.	blocked	0	2026-08-28 14:12:47.200463+00
+740	233	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 14:12:47.200463+00
+741	234	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	65900	2026-08-28 14:12:47.200463+00
+742	235	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	281100	2026-08-28 14:12:47.200463+00
+743	236	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	156700	2026-08-28 14:12:47.200463+00
+744	237	RETRY_LINK	system	No blocking rules triggered.	executed	411500	2026-08-28 14:12:47.200463+00
+745	238	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	199100	2026-08-28 14:12:47.200463+00
+746	239	BLOCKED	system	Repeated failures. Spamming will cause churn.	blocked	0	2026-08-28 14:12:47.200463+00
+747	241	UPI_COLLECT	system	Mechanism Swap: OTP→UPI Collect. Link: https://rzp.io/l/revive-fallback | No blocking rules triggered.	executed	134800	2026-08-28 14:12:47.200463+00
+748	242	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	377200	2026-08-28 14:12:47.200463+00
+749	243	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	180400	2026-08-28 14:12:47.200463+00
+750	244	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 14:12:47.200463+00
+751	245	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 14:12:47.200463+00
+752	246	BLOCKED	system	Pre-debit notification < 24h. RBI compliance block.	blocked	0	2026-08-28 14:12:47.200463+00
+753	247	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	348200	2026-08-28 14:12:47.200463+00
+754	248	RETRY_LINK	system	No blocking rules triggered.	executed	278000	2026-08-28 14:12:47.200463+00
+755	249	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 14:12:47.200463+00
+756	250	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	158900	2026-08-28 14:12:47.200463+00
+757	251	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 14:12:47.200463+00
+758	252	BLOCKED	system	Pre-debit notification < 24h. RBI compliance block.	blocked	0	2026-08-28 14:12:47.200463+00
+759	253	BLOCKED	system	Repeated failures. Spamming will cause churn.	blocked	0	2026-08-28 14:12:47.200463+00
+760	254	UPI_COLLECT	system	Mechanism Swap: OTP→UPI Collect. Link: https://rzp.io/l/revive-fallback | No blocking rules triggered.	executed	285700	2026-08-28 14:12:47.200463+00
+761	255	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 14:12:47.200463+00
+762	256	BLOCKED	system	Pre-debit notification < 24h. RBI compliance block.	blocked	0	2026-08-28 14:12:47.200463+00
+763	257	BLOCKED	system	Pre-debit notification < 24h. RBI compliance block.	blocked	0	2026-08-28 14:12:47.200463+00
+764	258	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	228500	2026-08-28 14:12:47.200463+00
+765	259	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	262200	2026-08-28 14:12:47.200463+00
+766	260	UPI_COLLECT	system	Mechanism Swap: OTP→UPI Collect. Link: https://rzp.io/l/revive-fallback | No blocking rules triggered.	executed	65700	2026-08-28 14:12:47.200463+00
+767	261	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	347000	2026-08-28 14:12:47.200463+00
+768	262	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	315900	2026-08-28 14:12:47.200463+00
+769	263	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	140300	2026-08-28 14:12:47.200463+00
+770	264	BLOCKED	system	Pre-debit notification < 24h. RBI compliance block.	blocked	0	2026-08-28 14:12:47.200463+00
+771	265	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 14:12:47.200463+00
+772	266	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 14:12:47.200463+00
+773	267	UPI_COLLECT	system	Mechanism Swap: OTP→UPI Collect. Link: https://rzp.io/l/revive-fallback | No blocking rules triggered.	executed	376800	2026-08-28 14:12:47.200463+00
+774	268	UPI_COLLECT	system	Mechanism Swap: OTP→UPI Collect. Link: https://rzp.io/l/revive-fallback | No blocking rules triggered.	executed	89300	2026-08-28 14:12:47.200463+00
+775	269	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 14:12:47.200463+00
+776	270	UPI_COLLECT	system	Mechanism Swap: OTP→UPI Collect. Link: https://rzp.io/l/revive-fallback | No blocking rules triggered.	executed	472600	2026-08-28 14:12:47.200463+00
+777	271	BLOCKED	system	Repeated failures. Spamming will cause churn.	blocked	0	2026-08-28 14:12:47.200463+00
+778	272	BLOCKED	system	Repeated failures. Spamming will cause churn.	blocked	0	2026-08-28 14:12:47.200463+00
+779	273	RETRY_LINK	system	No blocking rules triggered.	executed	64200	2026-08-28 14:12:47.200463+00
+780	274	UPI_COLLECT	system	Mechanism Swap: OTP→UPI Collect. Link: https://rzp.io/l/revive-fallback | No blocking rules triggered.	executed	162300	2026-08-28 14:12:47.200463+00
+781	275	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 14:12:47.200463+00
+782	276	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	123800	2026-08-28 14:12:47.200463+00
+783	277	UPI_COLLECT	system	Mechanism Swap: OTP→UPI Collect. Link: https://rzp.io/l/revive-fallback | No blocking rules triggered.	executed	336800	2026-08-28 14:12:47.200463+00
+784	278	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	33500	2026-08-28 14:12:47.200463+00
+785	279	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 14:12:47.200463+00
+786	280	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	141900	2026-08-28 14:12:47.200463+00
+787	281	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	358300	2026-08-28 14:12:47.200463+00
+788	282	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 14:12:47.200463+00
+789	283	RETRY_LINK	system	No blocking rules triggered.	executed	51100	2026-08-28 14:12:47.200463+00
+790	284	RETRY_LINK	system	No blocking rules triggered.	executed	61100	2026-08-28 14:12:47.200463+00
+791	285	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 14:12:47.200463+00
+792	286	RETRY_LINK	system	No blocking rules triggered.	executed	195900	2026-08-28 14:12:47.200463+00
+793	287	RETRY_LINK	system	No blocking rules triggered.	executed	499500	2026-08-28 14:12:47.200463+00
+794	288	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 14:12:47.200463+00
+795	289	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 14:12:47.200463+00
+796	290	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	165500	2026-08-28 14:12:47.200463+00
+797	291	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	133100	2026-08-28 14:12:47.200463+00
+798	292	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	352900	2026-08-28 14:12:47.200463+00
+799	293	BLOCKED	system	Repeated failures. Spamming will cause churn.	blocked	0	2026-08-28 14:12:47.200463+00
+800	294	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	90600	2026-08-28 14:12:47.200463+00
+801	295	BLOCKED	system	Repeated failures. Spamming will cause churn.	blocked	0	2026-08-28 14:12:47.200463+00
+802	296	RETRY_LINK	system	No blocking rules triggered.	executed	192600	2026-08-28 14:12:47.200463+00
+803	297	RETRY_LINK	system	No blocking rules triggered.	executed	27400	2026-08-28 14:12:47.200463+00
+804	298	BLOCKED	system	Pre-debit notification < 24h. RBI compliance block.	blocked	0	2026-08-28 14:12:47.200463+00
+805	299	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 14:12:47.200463+00
+806	300	UPI_COLLECT	system	Mechanism Swap: OTP→UPI Collect. Link: https://rzp.io/l/revive-fallback | No blocking rules triggered.	executed	434900	2026-08-28 14:12:47.200463+00
+807	302	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 14:12:47.200463+00
+808	303	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	493300	2026-08-28 14:12:47.200463+00
+809	304	RETRY_LINK	system	No blocking rules triggered.	executed	285100	2026-08-28 14:12:47.200463+00
+810	305	RETRY_LINK	system	No blocking rules triggered.	executed	465900	2026-08-28 14:12:47.200463+00
+811	306	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 14:12:47.200463+00
+812	307	UPI_COLLECT	system	Mechanism Swap: OTP→UPI Collect. Link: https://rzp.io/l/revive-fallback | No blocking rules triggered.	executed	414900	2026-08-28 14:12:47.200463+00
+813	308	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 14:12:47.200463+00
+814	309	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 14:12:47.200463+00
+815	310	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 14:12:47.200463+00
+816	311	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 14:12:47.200463+00
+817	312	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 14:12:47.200463+00
+818	313	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 14:12:47.200463+00
+819	314	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	93800	2026-08-28 14:12:47.200463+00
+820	315	BLOCKED	system	Pre-debit notification < 24h. RBI compliance block.	blocked	0	2026-08-28 14:12:47.200463+00
+821	316	RETRY_LINK	system	No blocking rules triggered.	executed	390900	2026-08-28 14:12:47.200463+00
+822	317	RETRY_LINK	system	No blocking rules triggered.	executed	80900	2026-08-28 14:12:47.200463+00
+823	318	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	323800	2026-08-28 14:12:47.200463+00
+824	319	RETRY_LINK	system	No blocking rules triggered.	executed	82600	2026-08-28 14:12:47.200463+00
+825	320	BLOCKED	system	Pre-debit notification < 24h. RBI compliance block.	blocked	0	2026-08-28 14:12:47.200463+00
+826	321	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 14:12:47.200463+00
+827	322	BLOCKED	system	Repeated failures. Spamming will cause churn.	blocked	0	2026-08-28 14:12:47.200463+00
+828	323	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	184600	2026-08-28 14:12:47.200463+00
+829	324	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	260000	2026-08-28 14:12:47.200463+00
+830	325	RETRY_LINK	system	No blocking rules triggered.	executed	286600	2026-08-28 14:12:47.200463+00
+831	326	BLOCKED	system	Pre-debit notification < 24h. RBI compliance block.	blocked	0	2026-08-28 14:12:47.200463+00
+832	327	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	339800	2026-08-28 14:12:47.200463+00
+833	328	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	416800	2026-08-28 14:12:47.200463+00
+834	329	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	167000	2026-08-28 14:12:47.200463+00
+835	330	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 14:12:47.200463+00
+836	331	BLOCKED	system	Customer left store. Silent retry blocked to prevent double-charge.	blocked	0	2026-08-28 14:12:47.200463+00
+837	332	BLOCKED	system	Pre-debit notification < 24h. RBI compliance block.	blocked	0	2026-08-28 14:12:47.200463+00
+838	333	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 14:12:47.200463+00
+839	334	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	382500	2026-08-28 14:12:47.200463+00
+840	335	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	304800	2026-08-28 14:12:47.200463+00
+841	336	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	330400	2026-08-28 14:12:47.200463+00
+842	337	BLOCKED	system	Customer left store. Silent retry blocked to prevent double-charge.	blocked	0	2026-08-28 14:12:47.200463+00
+843	338	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	128600	2026-08-28 14:12:47.200463+00
+844	339	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 14:12:47.200463+00
+845	340	RETRY_LINK	system	No blocking rules triggered.	executed	411500	2026-08-28 14:12:47.200463+00
+846	341	UPI_COLLECT	system	Mechanism Swap: OTP→UPI Collect. Link: https://rzp.io/l/revive-fallback | No blocking rules triggered.	executed	421000	2026-08-28 14:12:47.200463+00
+847	342	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	264400	2026-08-28 14:12:47.200463+00
+848	343	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	284800	2026-08-28 14:12:47.200463+00
+849	344	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 14:12:47.200463+00
+850	345	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 14:12:47.200463+00
+851	346	BLOCKED	system	Pre-debit notification < 24h. RBI compliance block.	blocked	0	2026-08-28 14:12:47.200463+00
+852	347	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	108100	2026-08-28 14:12:47.200463+00
+853	348	RETRY_LINK	system	No blocking rules triggered.	executed	465500	2026-08-28 14:12:47.200463+00
+854	349	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 14:12:47.200463+00
+855	350	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	262900	2026-08-28 14:12:47.200463+00
+856	351	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 14:12:47.200463+00
+857	352	BLOCKED	system	Pre-debit notification < 24h. RBI compliance block.	blocked	0	2026-08-28 14:12:47.200463+00
+858	353	BLOCKED	system	Repeated failures. Spamming will cause churn.	blocked	0	2026-08-28 14:12:47.200463+00
+859	354	UPI_COLLECT	system	Mechanism Swap: OTP→UPI Collect. Link: https://rzp.io/l/revive-fallback | No blocking rules triggered.	executed	151100	2026-08-28 14:12:47.200463+00
+860	355	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 14:12:47.200463+00
+861	356	BLOCKED	system	Pre-debit notification < 24h. RBI compliance block.	blocked	0	2026-08-28 14:12:47.200463+00
+862	357	BLOCKED	system	Pre-debit notification < 24h. RBI compliance block.	blocked	0	2026-08-28 14:12:47.200463+00
+863	358	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	85200	2026-08-28 14:12:47.200463+00
+864	359	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	387900	2026-08-28 14:12:47.200463+00
+865	360	UPI_COLLECT	system	Mechanism Swap: OTP→UPI Collect. Link: https://rzp.io/l/revive-fallback | No blocking rules triggered.	executed	404900	2026-08-28 14:12:47.200463+00
+866	361	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	69900	2026-08-28 14:12:47.200463+00
+867	362	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	295900	2026-08-28 14:12:47.200463+00
+868	363	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	437600	2026-08-28 14:12:47.200463+00
+869	458	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	306300	2026-08-28 14:12:47.200463+00
+870	364	BLOCKED	system	Pre-debit notification < 24h. RBI compliance block.	blocked	0	2026-08-28 14:12:47.200463+00
+871	365	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 14:12:47.200463+00
+872	366	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 14:12:47.200463+00
+873	367	UPI_COLLECT	system	Mechanism Swap: OTP→UPI Collect. Link: https://rzp.io/l/revive-fallback | No blocking rules triggered.	executed	242900	2026-08-28 14:12:47.200463+00
+874	368	UPI_COLLECT	system	Mechanism Swap: OTP→UPI Collect. Link: https://rzp.io/l/revive-fallback | No blocking rules triggered.	executed	168000	2026-08-28 14:12:47.200463+00
+875	369	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 14:12:47.200463+00
+876	370	UPI_COLLECT	system	Mechanism Swap: OTP→UPI Collect. Link: https://rzp.io/l/revive-fallback | No blocking rules triggered.	executed	336400	2026-08-28 14:12:47.200463+00
+877	371	BLOCKED	system	Repeated failures. Spamming will cause churn.	blocked	0	2026-08-28 14:12:47.200463+00
+878	372	BLOCKED	system	Repeated failures. Spamming will cause churn.	blocked	0	2026-08-28 14:12:47.200463+00
+879	373	RETRY_LINK	system	No blocking rules triggered.	executed	265000	2026-08-28 14:12:47.200463+00
+880	374	UPI_COLLECT	system	Mechanism Swap: OTP→UPI Collect. Link: https://rzp.io/l/revive-fallback | No blocking rules triggered.	executed	333100	2026-08-28 14:12:47.200463+00
+881	375	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 14:12:47.200463+00
+882	376	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	251500	2026-08-28 14:12:47.200463+00
+883	377	UPI_COLLECT	system	Mechanism Swap: OTP→UPI Collect. Link: https://rzp.io/l/revive-fallback | No blocking rules triggered.	executed	58800	2026-08-28 14:12:47.200463+00
+884	378	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	174700	2026-08-28 14:12:47.200463+00
+885	379	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 14:12:47.200463+00
+886	380	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	151900	2026-08-28 14:12:47.200463+00
+887	381	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	41600	2026-08-28 14:12:47.200463+00
+888	382	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 14:12:47.200463+00
+889	383	RETRY_LINK	system	No blocking rules triggered.	executed	484000	2026-08-28 14:12:47.200463+00
+890	384	RETRY_LINK	system	No blocking rules triggered.	executed	458900	2026-08-28 14:12:47.200463+00
+891	385	BLOCKED	system	Repeated failures. Spamming will cause churn.	blocked	0	2026-08-28 14:12:47.200463+00
+892	386	RETRY_LINK	system	No blocking rules triggered.	executed	41300	2026-08-28 14:12:47.200463+00
+893	387	RETRY_LINK	system	No blocking rules triggered.	executed	111000	2026-08-28 14:12:47.200463+00
+894	388	BLOCKED	system	Repeated failures. Spamming will cause churn.	blocked	0	2026-08-28 14:12:47.200463+00
+895	389	BLOCKED	system	Repeated failures. Spamming will cause churn.	blocked	0	2026-08-28 14:12:47.200463+00
+896	390	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	456200	2026-08-28 14:12:47.200463+00
+897	391	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	484000	2026-08-28 14:12:47.200463+00
+898	392	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	242000	2026-08-28 14:12:47.200463+00
+899	393	BLOCKED	system	Repeated failures. Spamming will cause churn.	blocked	0	2026-08-28 14:12:47.200463+00
+900	394	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	415800	2026-08-28 14:12:47.200463+00
+901	395	BLOCKED	system	Repeated failures. Spamming will cause churn.	blocked	0	2026-08-28 14:12:47.200463+00
+902	396	BLOCKED	system	Customer left store. Silent retry blocked to prevent double-charge.	blocked	0	2026-08-28 14:12:47.200463+00
+903	397	RETRY_LINK	system	No blocking rules triggered.	executed	91200	2026-08-28 14:12:47.200463+00
+904	398	BLOCKED	system	Pre-debit notification < 24h. RBI compliance block.	blocked	0	2026-08-28 14:12:47.200463+00
+905	399	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 14:12:47.200463+00
+906	400	UPI_COLLECT	system	Mechanism Swap: OTP→UPI Collect. Link: https://rzp.io/l/revive-fallback | No blocking rules triggered.	executed	54500	2026-08-28 14:12:47.200463+00
+907	401	RETRY_LINK	system	No blocking rules triggered.	executed	116600	2026-08-28 14:12:47.200463+00
+908	402	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 14:12:47.200463+00
+909	403	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	239300	2026-08-28 14:12:47.200463+00
+910	404	RETRY_LINK	system	No blocking rules triggered.	executed	150400	2026-08-28 14:12:47.200463+00
+911	405	RETRY_LINK	system	No blocking rules triggered.	executed	366500	2026-08-28 14:12:47.200463+00
+912	406	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 14:12:47.200463+00
+913	407	UPI_COLLECT	system	Mechanism Swap: OTP→UPI Collect. Link: https://rzp.io/l/revive-fallback | No blocking rules triggered.	executed	440400	2026-08-28 14:12:47.200463+00
+914	408	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 14:12:47.200463+00
+915	409	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 14:12:47.200463+00
+916	410	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 14:12:47.200463+00
+917	411	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 14:12:47.200463+00
+918	412	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 14:12:47.200463+00
+919	413	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 14:12:47.200463+00
+920	414	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	115700	2026-08-28 14:12:47.200463+00
+921	415	BLOCKED	system	Pre-debit notification < 24h. RBI compliance block.	blocked	0	2026-08-28 14:12:47.200463+00
+922	416	RETRY_LINK	system	No blocking rules triggered.	executed	248300	2026-08-28 14:12:47.200463+00
+923	417	RETRY_LINK	system	No blocking rules triggered.	executed	439000	2026-08-28 14:12:47.200463+00
+924	418	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	59600	2026-08-28 14:12:47.200463+00
+925	419	RETRY_LINK	system	No blocking rules triggered.	executed	212300	2026-08-28 14:12:47.200463+00
+926	420	BLOCKED	system	Pre-debit notification < 24h. RBI compliance block.	blocked	0	2026-08-28 14:12:47.200463+00
+927	421	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 14:12:47.200463+00
+928	422	BLOCKED	system	Repeated failures. Spamming will cause churn.	blocked	0	2026-08-28 14:12:47.200463+00
+929	423	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	429900	2026-08-28 14:12:47.200463+00
+930	424	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	454400	2026-08-28 14:12:47.200463+00
+931	425	RETRY_LINK	system	No blocking rules triggered.	executed	79600	2026-08-28 14:12:47.200463+00
+932	426	BLOCKED	system	Pre-debit notification < 24h. RBI compliance block.	blocked	0	2026-08-28 14:12:47.200463+00
+933	427	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	62300	2026-08-28 14:12:47.200463+00
+934	428	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	386300	2026-08-28 14:12:47.200463+00
+935	429	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	25200	2026-08-28 14:12:47.200463+00
+936	430	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 14:12:47.200463+00
+937	431	RETRY_LINK	system	No blocking rules triggered.	executed	235000	2026-08-28 14:12:47.200463+00
+938	432	BLOCKED	system	Pre-debit notification < 24h. RBI compliance block.	blocked	0	2026-08-28 14:12:47.200463+00
+939	433	BLOCKED	system	Repeated failures. Spamming will cause churn.	blocked	0	2026-08-28 14:12:47.200463+00
+940	434	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	151600	2026-08-28 14:12:47.200463+00
+941	435	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	109300	2026-08-28 14:12:47.200463+00
+942	436	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	52500	2026-08-28 14:12:47.200463+00
+943	437	RETRY_LINK	system	No blocking rules triggered.	executed	43800	2026-08-28 14:12:47.200463+00
+944	438	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	355800	2026-08-28 14:12:47.200463+00
+945	439	BLOCKED	system	Repeated failures. Spamming will cause churn.	blocked	0	2026-08-28 14:12:47.200463+00
+946	441	UPI_COLLECT	system	Mechanism Swap: OTP→UPI Collect. Link: https://rzp.io/l/revive-fallback | No blocking rules triggered.	executed	269400	2026-08-28 14:12:47.200463+00
+947	442	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	317100	2026-08-28 14:12:47.200463+00
+948	443	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	213600	2026-08-28 14:12:47.200463+00
+949	444	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 14:12:47.200463+00
+950	445	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 14:12:47.200463+00
+951	446	BLOCKED	system	Pre-debit notification < 24h. RBI compliance block.	blocked	0	2026-08-28 14:12:47.200463+00
+952	447	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	210000	2026-08-28 14:12:47.200463+00
+953	448	RETRY_LINK	system	No blocking rules triggered.	executed	91100	2026-08-28 14:12:47.200463+00
+954	449	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 14:12:47.200463+00
+955	450	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	124200	2026-08-28 14:12:47.200463+00
+956	451	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 14:12:47.200463+00
+957	452	BLOCKED	system	Pre-debit notification < 24h. RBI compliance block.	blocked	0	2026-08-28 14:12:47.200463+00
+958	453	BLOCKED	system	Repeated failures. Spamming will cause churn.	blocked	0	2026-08-28 14:12:47.200463+00
+959	454	UPI_COLLECT	system	Mechanism Swap: OTP→UPI Collect. Link: https://rzp.io/l/revive-fallback | No blocking rules triggered.	executed	142200	2026-08-28 14:12:47.200463+00
+960	455	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 14:12:47.200463+00
+961	456	BLOCKED	system	Pre-debit notification < 24h. RBI compliance block.	blocked	0	2026-08-28 14:12:47.200463+00
+962	457	BLOCKED	system	Pre-debit notification < 24h. RBI compliance block.	blocked	0	2026-08-28 14:12:47.200463+00
+963	459	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	157300	2026-08-28 14:12:47.200463+00
+964	460	UPI_COLLECT	system	Mechanism Swap: OTP→UPI Collect. Link: https://rzp.io/l/revive-fallback | No blocking rules triggered.	executed	465500	2026-08-28 14:12:47.200463+00
+965	461	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	114300	2026-08-28 14:12:47.200463+00
+966	462	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	177200	2026-08-28 14:12:47.200463+00
+967	463	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	495000	2026-08-28 14:12:47.200463+00
+968	464	BLOCKED	system	Pre-debit notification < 24h. RBI compliance block.	blocked	0	2026-08-28 14:12:47.200463+00
+969	465	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 14:12:47.200463+00
+970	466	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 14:12:47.200463+00
+971	467	UPI_COLLECT	system	Mechanism Swap: OTP→UPI Collect. Link: https://rzp.io/l/revive-fallback | No blocking rules triggered.	executed	168200	2026-08-28 14:12:47.200463+00
+972	468	UPI_COLLECT	system	Mechanism Swap: OTP→UPI Collect. Link: https://rzp.io/l/revive-fallback | No blocking rules triggered.	executed	216200	2026-08-28 14:12:47.200463+00
+973	469	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 14:12:47.200463+00
+974	470	UPI_COLLECT	system	Mechanism Swap: OTP→UPI Collect. Link: https://rzp.io/l/revive-fallback | No blocking rules triggered.	executed	358300	2026-08-28 14:12:47.200463+00
+975	471	BLOCKED	system	Repeated failures. Spamming will cause churn.	blocked	0	2026-08-28 14:12:47.200463+00
+976	472	BLOCKED	system	Repeated failures. Spamming will cause churn.	blocked	0	2026-08-28 14:12:47.200463+00
+977	474	UPI_COLLECT	system	Mechanism Swap: OTP→UPI Collect. Link: https://rzp.io/l/revive-fallback | No blocking rules triggered.	executed	401300	2026-08-28 14:12:47.200463+00
+978	475	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 14:12:47.200463+00
+979	476	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 14:12:47.200463+00
+980	477	UPI_COLLECT	system	Mechanism Swap: OTP→UPI Collect. Link: https://rzp.io/l/revive-fallback | No blocking rules triggered.	executed	333000	2026-08-28 14:12:47.200463+00
+981	478	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 14:12:47.200463+00
+982	479	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 14:12:47.200463+00
+983	480	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	459000	2026-08-28 14:12:47.200463+00
+984	481	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	60900	2026-08-28 14:12:47.200463+00
+985	482	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 14:12:47.200463+00
+986	483	RETRY_LINK	system	No blocking rules triggered.	executed	160200	2026-08-28 14:12:47.200463+00
+987	484	RETRY_LINK	system	No blocking rules triggered.	executed	495400	2026-08-28 14:12:47.200463+00
+988	485	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 14:12:47.200463+00
+989	486	BLOCKED	system	Customer left store. Silent retry blocked to prevent double-charge.	blocked	0	2026-08-28 14:12:47.200463+00
+990	487	BLOCKED	system	Customer left store. Silent retry blocked to prevent double-charge.	blocked	0	2026-08-28 14:12:47.200463+00
+991	488	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 14:12:47.200463+00
+992	489	DEFERRED	system	Deferred to salary day. Insufficient funds. Deferred to salary day.	scheduled	0	2026-08-28 14:12:47.200463+00
+993	490	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	484100	2026-08-28 14:12:47.200463+00
+994	491	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	195800	2026-08-28 14:12:47.200463+00
+995	492	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	286100	2026-08-28 14:12:47.200463+00
+996	493	BLOCKED	system	Repeated failures. Spamming will cause churn.	blocked	0	2026-08-28 14:12:47.200463+00
+997	494	RETRY_LINK	system	Transient technical failure. Safe to retry.	executed	24200	2026-08-28 14:12:47.200463+00
+998	495	BLOCKED	system	Repeated failures. Spamming will cause churn.	blocked	0	2026-08-28 14:12:47.200463+00
+999	496	RETRY_LINK	system	No blocking rules triggered.	executed	331000	2026-08-28 14:12:47.200463+00
+1000	497	RETRY_LINK	system	No blocking rules triggered.	executed	325100	2026-08-28 14:12:47.200463+00
+1001	498	BLOCKED	system	Pre-debit notification < 24h. RBI compliance block.	blocked	0	2026-08-28 14:12:47.200463+00
+1002	499	BLOCKED	system	Hidden fees caused abandonment. Do not retry.	blocked	0	2026-08-28 14:12:47.200463+00
+1003	500	UPI_COLLECT	system	Mechanism Swap: OTP→UPI Collect. Link: https://rzp.io/l/revive-fallback | No blocking rules triggered.	executed	154200	2026-08-28 14:12:47.200463+00
 \.
 
 
@@ -3749,7 +3745,7 @@ COPY public.recovery_actions (id, failure_id, action_type, actor, reasoning, sta
 -- Name: audit_logs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.audit_logs_id_seq', 1001, true);
+SELECT pg_catalog.setval('public.audit_logs_id_seq', 1501, true);
 
 
 --
@@ -3770,14 +3766,14 @@ SELECT pg_catalog.setval('public.diagnoses_id_seq', 501, true);
 -- Name: gate_decisions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.gate_decisions_id_seq', 1001, true);
+SELECT pg_catalog.setval('public.gate_decisions_id_seq', 1501, true);
 
 
 --
 -- Name: jobs_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.jobs_id_seq', 58, true);
+SELECT pg_catalog.setval('public.jobs_id_seq', 116, true);
 
 
 --
@@ -3805,7 +3801,7 @@ SELECT pg_catalog.setval('public.promises_to_pay_id_seq', 1, true);
 -- Name: recovery_actions_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.recovery_actions_id_seq', 503, true);
+SELECT pg_catalog.setval('public.recovery_actions_id_seq', 1003, true);
 
 
 --
@@ -4002,5 +3998,5 @@ ALTER TABLE ONLY public.recovery_actions
 -- PostgreSQL database dump complete
 --
 
-\unrestrict 5YWrLDp5MAbaVIzgiZrHfTcYfgQLim9stcO8HKKei0YzGGP84BtFpzps2fZ5Pbh
+\unrestrict Pu49m1ivVGED8bwNH9RS0WGd7RsB2cNnAwZx6t5bA1qgdV74YtQiNYgOxvbKRgN
 
