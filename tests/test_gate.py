@@ -1,7 +1,8 @@
 """Unit tests for the deterministic Consent Gate (R-01..R-07)."""
 from app.core.gate import evaluate_consent, Verdict
 from app.core.gate import (R01_RBI_MANDATE, R02_FEE_SHOCK, R03_STRUCTURAL_STOP,
-                           R05_TECH_RETRY, R06_DEFAULT_ALLOW, R07_OFFLINE_QR_TRAP)
+                           R04_LIQUIDITY_DEFER, R05_TECH_RETRY, R06_DEFAULT_ALLOW,
+                           R07_OFFLINE_QR_TRAP)
 from app.core.diagnosis import DiagnosisOut
 from app.db.models import PaymentFailure
 from app.db.database import SessionLocal
@@ -49,3 +50,19 @@ def test_r05_technical_retry_allowed():
 
 def test_r06_default_allow():
     run_test("intent", "customer_temp", "in_session_online", Verdict.ALLOW, R06_DEFAULT_ALLOW)
+
+def test_r04_liquidity_defers():
+    from app.db.models import CustomerPaymentHistory
+    db = SessionLocal()
+    try:
+        for _ in range(3):
+            db.add(CustomerPaymentHistory(
+                customer_id="cust_t", day_of_month=1,
+                amount_paise=10000, status="captured"))
+        db.commit()
+        v, r, _ = evaluate_consent(db, mk(), d("affordability", "customer_temp"))
+        assert (v, r) == (Verdict.DEFER, R04_LIQUIDITY_DEFER)
+    finally:
+        db.query(CustomerPaymentHistory).filter_by(customer_id="cust_t").delete()
+        db.commit()
+        db.close()
