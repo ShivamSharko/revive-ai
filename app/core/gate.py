@@ -27,15 +27,15 @@ def evaluate_consent(db: Session, failure: PaymentFailure, diag: DiagnosisOut):
 
     # LAW 1: RBI Mandate Compliance
     if diag.archetype == "lifecycle" and diag.owner == "merchant":
-        return Verdict.BLOCK, "R01_RBI_MANDATE", "Pre-debit notification < 24h. RBI compliance block."
+        return Verdict.BLOCK, R01_RBI_MANDATE, "Pre-debit notification < 24h. RBI compliance block."
 
     # LAW 2: Fee Shock Prevention
     if diag.archetype == "intent" and diag.owner == "merchant":
-        return Verdict.BLOCK, "R02_FEE_SHOCK", "Hidden fees caused abandonment. Do not retry."
+        return Verdict.BLOCK, R02_FEE_SHOCK, "Hidden fees caused abandonment. Do not retry."
 
     # LAW 3: Structural Stop (Don't spam broken customers)
     if diag.owner == "customer_structural":
-        return Verdict.BLOCK, "R03_STRUCTURAL_STOP", "Repeated failures. Spamming will cause churn."
+        return Verdict.BLOCK, R03_STRUCTURAL_STOP, "Repeated failures. Spamming will cause churn."
 
     # LAW 4: Liquidity Deferral (Wait for salary day)
     if diag.archetype == "affordability" and diag.owner == "customer_temp":
@@ -49,11 +49,11 @@ def evaluate_consent(db: Session, failure: PaymentFailure, diag: DiagnosisOut):
     # ★ THE DEMO STAR: Offline QR Consent Trap (R-07) ★
     # Customer left physical store. Silent retry = double charge.
     if diag.archetype == "technical" and failure.context == "post_session_offline":
-        return Verdict.BLOCK, "R07_OFFLINE_QR_TRAP", "Customer left store. Silent retry blocked to prevent double-charge."
+        return Verdict.BLOCK, R07_OFFLINE_QR_TRAP, "Customer left store. Silent retry blocked to prevent double-charge."
 
     # LAW 5: Technical / Infra / Merchant Config -> Safe to retry
     if diag.archetype == "technical":
-        return Verdict.ALLOW, "R05_TECH_RETRY", "Transient technical failure. Safe to retry."
+        return Verdict.ALLOW, R05_TECH_RETRY, "Transient technical failure. Safe to retry."
 
     # Default
-    return Verdict.ALLOW, "R06_DEFAULT_ALLOW", "No blocking rules triggered."
+    return Verdict.ALLOW, R06_DEFAULT_ALLOW, "No blocking rules triggered."
