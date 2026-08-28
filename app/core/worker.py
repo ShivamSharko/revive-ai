@@ -15,7 +15,10 @@ def process_failure(failure_id: int):
 
         # 1. Diagnose
         try:
-            (diag, model), = diagnose_batch([f])
+            results = diagnose_batch([f])
+            if not results:
+                raise RuntimeError('diagnose_batch returned empty result')
+            diag, model = results[0]
         except Exception as e:
             db.add(AuditLog(
                 entity_type="failure", entity_id=f.id,
