@@ -32,26 +32,28 @@ Blindly retrying these failures double-charges customers who already paid cash, 
 
 ## 📈 The Numbers (Fresh 500-Batch, Test-Mode Evidence)
 
-| Metric| Value|
-| ---| ---|
-| Failures processed| 512 (500 synthetic + live test payments)|
-| Diagnosis accuracy (held-out, n=40)| **98% archetype / 95% owner** |
-| Retries blocked by Consent Gate| **165 (32%)**|
-| Safe retries executed (ALLOW)| **277**|
-| Deferred to salary day (DEFER)| **58**|
-| Revenue safely recaptured| **₹7,21,182**|
-| Customer goodwill protected| **₹5,72,511** (₹4,29,877 blocked + ₹1,42,634 deferred)|
+| Metric | Value |
+|---|---|
+| Failures processed | 513 (500 synthetic + live test payments) |
+| Diagnosis accuracy (held-out, n=40, seeded) | **98% archetype / 95% owner** |
+| Retries blocked by Consent Gate | **165 (32%)** |
+| Safe retries executed (ALLOW) | **277** |
+| Deferred to salary day (DEFER) | **58** |
+| Revenue safely recaptured | **₹7,21,681** (incl. 1 real Razorpay test payment) |
+| Customer goodwill protected | **₹5,72,511** (₹4,29,877 blocked + ₹1,42,634 deferred) |
 
 ### The Money Slide (generated live by `scripts/generate_money_slide.py`)
 
 ```text
-512 failures (₹12,99,681 At Risk)
-├── Technical:     ₹3,74,913 recovered (silent retries, invisible recovery)
+513 failures (₹13,00,180 At Risk)
+├── Technical:     ₹3,75,412 recovered (silent retries, invisible recovery)
 ├── Intent:        ₹2,50,458 recovered (mechanism swaps & nudges)
 ├── Affordability: ₹0 now · ₹1,42,634 scheduled (Deferred EV to salary day)
-└── Lifecycle:     ₹95,811 recovered (card updates) · ₹1,37,251 protected (mandate compliance enforced)
+├── Lifecycle:     ₹95,811 recovered (card updates) · ₹1,37,251 protected (mandate compliance)
+└── In-flight:     ₹5,988 promised / live-test / human escalation
 
-Total: ₹7,21,182 recovered · ₹4,29,877 protected · ₹1,42,634 deferred
+Total: ₹7,21,681 recovered · ₹4,29,877 protected · ₹1,42,634 deferred
+Plus:  ₹5,988 in-flight / promised / escalated
 
 "Customer-structural recovery = Rs.0. That's intentional. (Hotel 'Walk' Protocol)"
 ```
@@ -145,7 +147,7 @@ streamlit run app/dashboard.py           # Dashboard on :8501
 
 ### Demo Scripts
 ```bash
-python -m app.data.evaluate              # held-out accuracy (95% / 92%)
+python -m app.data.evaluate              # held-out accuracy (98% / 95%, seeded)
 python -m scripts.send_test_webhook      # HMAC-verified real webhook + tamper rejection
 python -m scripts.simulate_dropoffs      # Flow B: merchant insights
 python -m scripts.simulate_b2b           # Flow D: dispute halt + payment plans

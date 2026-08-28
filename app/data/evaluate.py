@@ -1,5 +1,7 @@
 """Held-out eval: 40 stratified samples. Reads directly from the pure-LLM DB state."""
 import random
+random.seed(42)
+import random
 from collections import defaultdict
 
 from app.db.database import SessionLocal
