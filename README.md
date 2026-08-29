@@ -1,4 +1,3 @@
-```markdown
 # Revive AI — Consent-First Payment Recovery Agent
 
 > ### 🎯 Headline result — ₹7,21,681 recovered · 165 double-charges blocked · 98% diagnosis accuracy
