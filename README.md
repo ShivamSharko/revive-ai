@@ -2,13 +2,14 @@
 
 > ### 🎯 Headline result — ₹7,21,681 recovered · 165 double-charges blocked · 98% diagnosis accuracy
 >
-> A consent-gated recovery agent that diagnoses every failure, passes it through a deterministic 7-rule Consent Gate, and only then acts. Built for the **Razorpay Buildathon 2026 · Track 03: AI Revenue Recovery**.
+> A consent-gated recovery agent that diagnoses every failure, passes it through a deterministic 8-rule Consent Gate, and only then acts. Built for the **Razorpay Buildathon 2026 · Track 03: AI Revenue Recovery**.
 
 ---
 
 > *"140 million payments fail in India every month. Most recovery systems are spam engines. We studied airlines, hospitals, and logistics to build a recovery system based on dignity, operational design, and strict consent."*
 
 ---
+
 ## The Problem (2026 Reality)
 
 | Metric | Value | Source |
@@ -31,6 +32,7 @@ With 23.6 billion monthly UPI transactions and ~140 million failures, blindly re
 |---|---|
 | **Live Command Center** | [revive-ai-production-3535.up.railway.app](https://revive-ai-production-3535.up.railway.app/) |
 | **Interactive Playground** | [revive-ai-production-3535.up.railway.app/#play](https://revive-ai-production-3535.up.railway.app/#play) |
+| **Chat with the Agent** | Click the 💬 button on the live site — Hinglish + English, grounded ledger lookups |
 | **Live API Overview** | [revive-ai-production-3535.up.railway.app/api/overview](https://revive-ai-production-3535.up.railway.app/api/overview) |
 | **Full Audit Trail** | [revive-ai-production-3535.up.railway.app/api/audit](https://revive-ai-production-3535.up.railway.app/api/audit) |
 | **Streamlit Dashboard** | [revive-ai-shxvy4uyvqydxucqxbqyin.streamlit.app](https://revive-ai-shxvy4uyvqydxucqxbqyin.streamlit.app) |
@@ -45,21 +47,21 @@ With 23.6 billion monthly UPI transactions and ~140 million failures, blindly re
 |---|---|---|
 | **Payment degradation + root cause** | ✅✅✅ | `diagnosis.py` + `health.py` (Redis) + `ev_optimizer.py` |
 | **Checkout drop-off recovery** | ✅✅✅ | Mechanism Swap + `dropoff_funnel.py` + `poll_orders.py` |
-| **Failed subscription recovery** | ✅✅ | `/webhooks/razorpay/subscriptions` + mandate gate |
-| **B2B receivables recovery** | ✅✅ | `receivables.py`: dispute halt + payment-plan splitting |
-| **Mandate expiry assurance** | ✅✅ | `audit.py` (RBI 24h pre-debit) + R-01 |
-| **Hinglish voice recovery** | ✅ | `voice.py`: ElevenLabs → edge-tts → text fallback |
-| **Drop-to-pay flow tracker** | ✅ | `dropoff_funnel.py` |
-| **Promise-to-pay tracker** | ✅ | `app/core/promise.py`: auto-retry or human escalate |
+| **Failed subscription recovery** | ✅✅✅ | `/webhooks/razorpay/subscriptions` + mandate gate + sequencer |
+| **B2B receivables recovery** | ✅✅✅ | `receivables.py`: dispute halt + payment-plan splitting |
+| **Mandate expiry assurance** | ✅✅✅ | `audit.py` (RBI 24h pre-debit) + R-01 + Mandate Sequencer |
+| **Hinglish voice recovery** | ✅✅✅ | `voice.py`: ElevenLabs → edge-tts → text fallback, opt-in voice replies |
+| **Drop-to-pay flow tracker** | ✅✅✅ | `dropoff_funnel.py` + `/api/funnel` live endpoint |
+| **Promise-to-pay tracker** | ✅✅✅ | `app/db/models.py:Promise` + fulfillment stats |
 
 ---
 
 ## 🚀 Quick Start for Reviewers (3 minutes)
 
 1. **Open the Command Center** → [revive-ai-production-3535.up.railway.app](https://revive-ai-production-3535.up.railway.app/)
-2. **Try the Playground** → pick the **🏪 Offline QR trap (R-07 ★)** preset → press **Run the agent** → watch it diagnose + gate + act in real time
-3. **Click the API** → `/api/overview` returns 513 failures, ₹7,21,681 recovered
-4. **Listen to Hinglish voice** → play any of the 4 audio players
+2. **Try the Playground** → pick the **🏪 Offline QR trap (R-07 ★)** preset → tick "Include Hinglish voice reply" → press **Run the agent** → watch it diagnose + gate + act + speak
+3. **Open the Chat widget (💬)** → type *"mere paise kat gaye par merchant ko nahi mile"* → get an instant Hinglish reply. Type `pay_sim_0499` → get a grounded ledger lookup
+4. **Click the API** → `/api/overview` returns 513 failures, ₹7,21,681 recovered
 5. **Run the audit** → `/api/audit` shows every decision logged end-to-end
 
 ---
@@ -117,6 +119,41 @@ Plus:  ₹5,988 in-flight / promised / escalated
 
 ---
 
+## 📊 12 Live Telemetry Panels (on the Command Center)
+
+Every decision is visible, replayable, and measurable:
+
+| Panel | What it Shows |
+|---|---|
+| **Failure Feed** | Every failed payment with archetype, owner, verdict, rule, status |
+| **Deferred Jobs** | Queued salary-day retries and liquidity deferrals |
+| **Merchant Audit** | Merchant-specific failure patterns and insights |
+| **Recovery Economics** | Attempt cost, net recovered, cost per ₹ recovered, retry budget |
+| **Reconciliation / Limbo Watch** | Deducted-but-not-settled payments, NPCI T+48h auto-reversal window |
+| **Mechanism Selector** | Success-rate routing: which channel wins (UPI vs Card vs eMandate) |
+| **Mandate Sequencer** | T-24h notice → T+0 gated retry → T+48h human escalation jobs |
+| **Promise-to-Pay Tracker** | Customer commitments with pending / fulfilled / escalated stats |
+| **B2B Receivables** | Dispute halts, payment plans, gentle reminders |
+| **Drop-off Funnel** | Orders → fee-shock drops → OTP drops → attempted → recovered |
+| **Verdicts (chart)** | ALLOW / DEFER / BLOCK distribution |
+| **Archetypes (chart)** | Technical / Intent / Affordability / Lifecycle split |
+
+---
+
+## 💬 The Agent Talks (Chat Widget)
+
+A full conversational agent on the live site — not a canned FAQ:
+
+- **Language-aware**: auto-detects Hinglish vs English and replies in the same language
+- **Intent routing**: 13 regex-matched intents with human-tone replies
+- **Consent protection**: hard-blocks on "I don't want to pay this way" (Law 1)
+- **Double-charge guard**: catches "paise kat gaye par merchant ko nahi mile" and prevents retry
+- **Grounded ledger lookups**: paste a `pay_…` ID → agent queries the real database and explains that specific payment
+- **Engine fallback**: for anything untrained, runs the real diagnosis + gate and explains the result
+- **Opt-in voice**: toggle 🔊 to hear every reply spoken in natural Hinglish
+
+---
+
 ## 🧱 Architecture & The Consent Gate
 
 ```text
@@ -129,13 +166,16 @@ Razorpay Webhook / Orders API / Synthetic Generator
 [Diagnosis Engine] ──→ Groq gpt-oss-120b + Gemini failover + Pydantic + rule fallback
      │
      ▼
-[Consent Gate] ──→ deterministic rules R-01..R-07
+[Consent Gate] ──→ deterministic rules R-01..R-08
      ├─→ ALLOW  → Recovery Engine (EV Optimizer + Health Graph + Mechanism Swap)
      ├─→ DEFER  → Jobs table (Liquidity Curve → modal salary day)
      └─→ BLOCK  → Audit log (double-charge prevented)
      │
      ▼
-[AuditLog + Bilingual Messages + Hinglish Voice] → [Command Center + Streamlit + REST API]
+[AuditLog + Bilingual Messages + Hinglish Voice + Chat Agent]
+     │
+     ▼
+[Command Center + Streamlit + REST API + /api/explain ledger lookup]
 ```
 
 | Rule | Trigger | Verdict |
@@ -147,6 +187,24 @@ Razorpay Webhook / Orders API / Synthetic Generator
 | **R-05** Tech Retry | Transient infra failure | ALLOW (silent retry) |
 | **R-06** Default Allow | Safe path | ALLOW |
 | **R-07** Offline QR Trap ⭐ | `context=post_session_offline` | BLOCK (prevents double-charge) |
+| **R-08** Retry Budget | 3+ safe attempts per customer | BLOCK (stopping rules over spam) |
+
+---
+
+## 🏗️ Production-Grade Recovery Infrastructure
+
+| Module | Implementation |
+|---|---|
+| **Retry budget enforcement** | R-08: 3 safe attempts per customer, then hard stop |
+| **Reconciliation engine** | `app/core/reconciliation.py`: limbo detection + REFUND_SLA jobs, NPCI T+48h window |
+| **Cost observability** | Attempt cost, net recovered, cost per ₹ recovered |
+| **Mechanism selector** | Success-rate routing: retries via the highest-success channel |
+| **Mandate sequencer** | T-24h notice → T+0 gated retry → T+48h human escalation |
+| **Tokenized method refs** | Card-update links carry opaque tokens — zero PAN storage |
+| **Connector seam** | `app/connectors/`: processor-agnostic interface, Razorpay implementation shipped |
+| **Chat agent** | Language-aware, intent-routed, grounded ledger lookups, opt-in voice |
+
+*Revive AI is not a switch replacement — it is the intelligence layer that sits on top of any switch. When the transaction fails, that's when Revive AI wakes up.*
 
 ---
 
@@ -156,7 +214,7 @@ Razorpay Webhook / Orders API / Synthetic Generator
 docker compose up -d
 python -m venv venv && venv\Scripts\activate
 pip install -r requirements.txt
-python -m scripts.wipe_and_init          # 9 tables
+python -m scripts.wipe_and_init          # 12 tables (incl. promises)
 python -m app.data.generator             # 500 labeled failures
 python -m app.data.simulate              # diagnose + gate (500/500 pure-LLM)
 python -m app.data.recover               # execute actions
@@ -172,26 +230,28 @@ python -m scripts.send_test_webhook      # HMAC-verified real webhook + tamper r
 python -m scripts.simulate_dropoffs      # Flow B: merchant insights
 python -m scripts.simulate_b2b           # Flow D: dispute halt + payment plans
 python -m scripts.simulate_promise       # Promise-to-Pay tracker
+python -m scripts.simulate_promises      # seed 10 demo promises
 python -m scripts.voice_demo             # Hinglish TTS (ElevenLabs)
 python -m scripts.generate_money_slide   # dynamic per-archetype money slide
 python -m scripts.dropoff_funnel         # drop-to-pay flow tracker
+python -m scripts.simulate_mandate_sequence  # RBI-compliant dunning sequencer
 pytest tests                             # 7 unit tests (R-01..R-07 full coverage)
-python -m scripts.simulate_promises    # seed 10 demo promises
 ```
+
 ---
-## 🏗️ Production-Grade Recovery Infrastructure
 
-| Module | Implementation |
-|---|---|
-| **Retry budget enforcement** | R-08: 3 safe attempts per customer, then hard stop |
-| **Reconciliation engine** | `app/core/reconciliation.py`: limbo detection + REFUND_SLA jobs, NPCI T+48h window |
-| **Cost observability** | Attempt cost, net recovered, cost per ₹ recovered |
-| **Mechanism selector** | Success-rate routing: retries via the highest-success channel |
-| **Mandate sequencer** | T-24h notice → T+0 gated retry → T+48h human escalation |
-| **Tokenized method refs** | Card-update links carry opaque tokens — zero PAN storage |
-| **Connector seam** | `app/connectors/`: processor-agnostic interface, Razorpay implementation shipped |
+## 🎥 Video Demo
 
-*Revive AI is not a switch replacement — it is the intelligence layer that sits on top of any switch. When the transaction fails, that's when Revive AI wakes up.*
+A 3-minute walkthrough is available here: **[YouTube Unlisted Link — add after recording]**
+
+The demo covers:
+1. Command Center hero + stats count-up
+2. Playground: Offline QR trap (R-07) with Hinglish voice reply
+3. Chat widget: double-charge guard + payment-ID ledger lookup
+4. Gate rules + Audit trail walkthrough
+5. Closing: *"Never remind. Resolve."*
+
+---
 
 ## 🙏 Honesty & Assumptions
 
@@ -199,7 +259,8 @@ python -m scripts.simulate_promises    # seed 10 demo promises
 - Synthetic batch is labeled ground truth; accuracy measured on held-out sample (n=40, stratified, seeded).
 - `failure_journal.md` logs every break, fix, and "aha" moment — including the day Groq retired our model mid-build.
 - Accuracy is computed only over rows holding a pure-LLM diagnosis; rules-fallback rows (none in the shipped batch — verify via `scripts/verify_numbers.py`) are excluded from the calculation.
-- Playground runs never pollute the money-slide numbers — rows are deleted after the response.
+- Playground and chat runs never pollute the money-slide numbers — rows are deleted after the response.
+
+---
 
 **Revive AI. Never remind. Resolve. No money moves without consent.**
-```
