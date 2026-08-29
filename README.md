@@ -9,9 +9,6 @@
 > *"140 million payments fail in India every month. Most recovery systems are spam engines. We studied airlines, hospitals, and logistics to build a recovery system based on dignity, operational design, and strict consent."*
 
 ---
-
-## The Problem (2026 Reality)
-
 ## The Problem (2026 Reality)
 
 | Metric | Value | Source |
