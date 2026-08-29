@@ -31,7 +31,7 @@ def overview():
         # Recovery economics — Hyperswitch-style cost observability
         allow_n, defer_n = verdicts.get("ALLOW", 0), verdicts.get("DEFER", 0)
         attempt_cost = round(allow_n * 2 + defer_n * 0.5, 2)
-        recovered_rupees = round((totals.recovered or 0) / 100, 2)
+        recovered_rupees = round(float(totals.recovered or 0) / 100, 2)
         economics = {
             "attempt_cost_rupees": attempt_cost,
             "net_recovered_rupees": round(recovered_rupees - attempt_cost, 2),
@@ -41,9 +41,9 @@ def overview():
 
         return {
             "failures_total": totals.count or 0,
-            "amount_at_risk_rupees": round((totals.at_risk or 0) / 100, 2),
+            "amount_at_risk_rupees": round(float(totals.at_risk or 0) / 100, 2),
             "amount_recovered_rupees": recovered_rupees,
-            "amount_protected_rupees": round((totals.protected or 0) / 100, 2),
+            "amount_protected_rupees": round(float(totals.protected or 0) / 100, 2),
             "verdicts": verdicts,
             "archetypes": archetypes,
             "economics": economics,
