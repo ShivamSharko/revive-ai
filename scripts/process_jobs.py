@@ -13,7 +13,7 @@ def process_due_jobs():
     print(f"{len(due)} due job(s) | next queued: " +
           (", ".join(f"job {j.id} @ {j.run_at:%d-%b}" for j in upcoming) or "none"))
     for job in due:
-        f = db.query(PaymentFailure).get(job.failure_id)
+        f = db.get(PaymentFailure, job.failure_id)
         if not f:
             job.status = "skipped"; continue
         bank = (f.method or "DEFAULT").upper()
@@ -31,9 +31,9 @@ def process_due_jobs():
     db.commit(); db.close()
 
 def process_due_promises():
-    """Fulfill promises that came due; audit every action."""
+    """Fulfill promises that came due; recover revenue and audit every action."""
     from datetime import datetime
-    from app.db.models import Promise, AuditLog
+    from app.db.models import Promise, AuditLog, PaymentFailure
     db = SessionLocal()
     try:
         now = datetime.now()
@@ -41,9 +41,13 @@ def process_due_promises():
             Promise.status == "pending", Promise.promised_at <= now).all()
         for p in due:
             p.status = "fulfilled"
+            f = db.query(PaymentFailure).filter_by(id=p.failure_id).first()
+            if f and f.status != "recovered":
+                f.status = "recovered"
+                f.amount_recovered_paise = f.amount_paise
             db.add(AuditLog(entity_type="promise", entity_id=p.id, actor="worker",
                             action="PROMISE_DUE",
-                            reasoning=f"Promise came due; auto-retry executed for {p.customer_id}."))
+                            reasoning=f"Promise came due; auto-retry executed for {p.customer_id}. Revenue marked recovered."))
         db.commit()
         print(f"Processed {len(due)} due promises.")
     finally:
