@@ -10,4 +10,5 @@ pandas
 edge-tts
 redis
 requests
-pytestopenai
+pytest
+openai
