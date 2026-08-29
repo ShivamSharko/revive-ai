@@ -262,6 +262,10 @@ footer{border-top:1.5px solid var(--ink);padding:32px 40px;color:var(--muted);fo
         </div>
       </div>
     </div>
+    <div class="row">
+      <div class="panel reveal"><h3>B2B receivables · dispute halt + payment plans</h3><div class="feed" id="recv"></div></div>
+      <div class="panel reveal"><h3>Drop-off funnel · drop-to-pay tracker</h3><div class="feed" id="funnel"></div></div>
+    </div>
   </section>
 
   <section id="voice">
@@ -310,6 +314,7 @@ promises=document.getElementById('promises'),
 promisePending=document.getElementById('promise-pending'),
 promiseFulfilled=document.getElementById('promise-fulfilled'),
 promiseEscalated=document.getElementById('promise-escalated'),
+recv=document.getElementById('recv'),funnel=document.getElementById('funnel'),
 donut=document.getElementById('donut'),bars=document.getElementById('bars');
 
 const INR=n=>'₹'+Number(Math.round(n)).toLocaleString('en-IN');
@@ -402,6 +407,26 @@ async function load(){
       promiseFulfilled.textContent=fulfilled;
       promiseEscalated.textContent=escalated;
     }catch(e){promises.innerHTML='<div>Endpoint not available</div>';}
+
+    try{
+      const rv=await (await fetch('/api/receivables')).json();
+      if(recv)recv.innerHTML=(rv||[]).map(r=>{
+        const badge=r.action==='HALT_AND_ESCALATE'?'BLOCK':r.action==='PAYMENT_PLAN'?'DEFER':'ALLOW';
+        return `<div><b>${r.invoice}</b> · <span class="badge ${badge}">${r.action}</span><br>${r.reason||''}</div>`;
+      }).join('')||'<div>No receivables</div>';
+    }catch(e){if(recv)recv.innerHTML='<div>Receivables unavailable</div>';}
+    try{
+      const fn=await (await fetch('/api/funnel')).json();
+      if(funnel&&fn.orders)funnel.innerHTML=
+        `<div><b>Orders created:</b> ${fn.orders}</div>
+         <div><b>Dropped at fee reveal:</b> ${fn.dropped_fees} · merchant-owned price shock</div>
+         <div><b>Dropped at OTP:</b> ${fn.dropped_otp} · Mechanism Swap target</div>
+         <div><b>Payment attempted:</b> ${fn.attempted}</div>
+         <div><b>Recovered by Revive AI:</b> ${fn.recovered}</div>
+         <div><b>Biggest leak:</b> ${fn.leak} orders never reached payment attempt</div>`;
+      else if(funnel)funnel.innerHTML='<div>No funnel data</div>';
+    }catch(e){if(funnel)funnel.innerHTML='<div>Funnel unavailable</div>';}
+
     const au=await (await fetch('/api/audit')).json();
     audit.innerHTML=au.map(a=>`<div><b>${a.actor}</b> · ${a.action} · ${a.entity}#${a.entity_id}<br>${(a.reasoning||'').slice(0,140)}</div>`).join('');
   }catch(e){console.error('load() failed:',e);}

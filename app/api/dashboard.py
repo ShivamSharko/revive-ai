@@ -313,3 +313,33 @@ def mandate_jobs():
         return out
     finally:
         db.close()
+
+@router.get("/receivables")
+def receivables():
+    import random
+    from app.core.receivables import process_receivables
+    random.seed(7)
+    invoices = [{"id": f"INV-2026-{i:03d}",
+                 "amount_inr": random.choice([15000, 42000, 80000, 120000]),
+                 "dispute_raised": i % 5 == 2,
+                 "cashflow_issue": i % 3 == 0 and i % 5 != 2,
+                 "history_days": random.choice([[1, 1, 5], [15, 15, 20], [5, 10, 15]])}
+                for i in range(12)]
+    return process_receivables(invoices)
+
+
+@router.get("/funnel")
+def funnel():
+    db = SessionLocal()
+    try:
+        rows = db.query(PaymentFailure).filter_by(source="synthetic").all()
+        orders = len(rows)
+        dropped_otp = sum(1 for r in rows if r.dropped_step == "otp")
+        dropped_fees = sum(1 for r in rows if r.dropped_step == "fees")
+        attempted = sum(1 for r in rows if r.session_active)
+        recovered = sum(1 for r in rows if r.status == "recovered")
+        return {"orders": orders, "dropped_fees": dropped_fees, "dropped_otp": dropped_otp,
+                "attempted": attempted, "recovered": recovered,
+                "leak": dropped_otp + dropped_fees}
+    finally:
+        db.close()
