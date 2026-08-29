@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Revive AI — Consent-First Payment Recovery</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+:root{--bg:#02060c;--card:#0a1424;--line:#16263f;--text:#eaf2ff;--muted:#8fa3c0;
+--blue:#3395ff;--violet:#7c5cff;--green:#22c55e;--amber:#f59e0b;--red:#f87171}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--text);font-family:Inter,'Segoe UI',system-ui,sans-serif;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;
+background:radial-gradient(600px 300px at 70% -50px,rgba(51,149,255,.16),transparent),
+radial-gradient(500px 260px at 20% 0,rgba(124,92,255,.10),transparent)}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px;position:relative}
+header{border-bottom:1px solid var(--line);padding:16px 0;position:sticky;top:0;
+background:rgba(2,6,12,.86);backdrop-filter:blur(10px);z-index:9}
+.nav{display:flex;justify-content:space-between;align-items:center}
+.logo{font-weight:800;font-size:18px;letter-spacing:.3px}
+.logo span{background:linear-gradient(90deg,var(--blue),var(--violet));-webkit-background-clip:text;background-clip:text;color:transparent}
+.nav a{color:var(--muted);text-decoration:none;margin-left:18px;font-size:13px}
+.nav a:hover{color:var(--blue)}
+.pill{border:1px solid var(--line);border-radius:20px;padding:4px 12px;font-size:11px;color:var(--green)}
+.tag{color:var(--blue);font-size:11px;letter-spacing:3px;text-transform:uppercase;font-weight:700}
+h1{font-size:44px;line-height:1.08;margin:14px 0 12px;letter-spacing:-1px}
+h1 .grad{background:linear-gradient(90deg,var(--blue),var(--violet));-webkit-background-clip:text;background-clip:text;color:transparent}
+.sub{color:var(--muted);font-size:15px;max-width:660px;line-height:1.6}
+.hero{padding:64px 0 8px}
+.btns{margin:22px 0 6px}
+.btn{display:inline-block;background:var(--blue);color:#04101f;border-radius:8px;padding:11px 20px;
+font-weight:700;font-size:14px;text-decoration:none;margin-right:10px}
+.btn.ghost{background:transparent;border:1px solid #2a4a7f;color:#cfe1ff}
+h2{font-size:22px;letter-spacing:-.4px;margin:44px 0 16px}
+h2 small{color:var(--muted);font-size:12px;letter-spacing:2px;text-transform:uppercase;display:block;margin-bottom:6px;font-weight:700}
+.cards{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin:20px 0}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;transition:border-color .2s}
+.card:hover{border-color:var(--blue)}
+.card .k{color:var(--muted);font-size:11px;letter-spacing:1.5px;text-transform:uppercase;font-weight:700}
+.card .v{font-size:24px;font-weight:800;margin-top:8px}
+.card .v.blue{color:var(--blue)}.card .v.green{color:var(--green)}.card .v.red{color:var(--red)}.card .v.amber{color:var(--amber)}
+.agents{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.agent{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;transition:transform .15s,border-color .2s}
+.agent:hover{transform:translateY(-3px);border-color:var(--blue)}
+.agent .ic{font-size:20px}
+.agent b{display:block;margin:10px 0 6px;font-size:14px}
+.agent p{color:var(--muted);font-size:12px;line-height:1.5}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px}
+.panel h3{font-size:12px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:14px;font-weight:700}
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+th{color:var(--muted);text-align:left;font-weight:600;padding:7px 8px;border-bottom:1px solid var(--line)}
+td{padding:8px;border-bottom:1px solid #0d1a2e}
+.badge{padding:2px 9px;border-radius:20px;font-size:11px;font-weight:700}
+.ALLOW{background:rgba(34,197,94,.15);color:var(--green)}
+.DEFER{background:rgba(245,158,11,.15);color:var(--amber)}
+.BLOCK{background:rgba(248,113,113,.15);color:var(--red)}
+.gates{display:grid;grid-template-columns:repeat(7,1fr);gap:10px;margin-bottom:14px}
+.gate{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px;font-size:11px}
+.gate b{display:block;font-size:12px;margin-bottom:6px}
+.gate .v{font-weight:800}
+.feed{max-height:260px;overflow-y:auto;font-size:12px}
+.feed div{padding:8px 0;border-bottom:1px solid #0d1a2e;color:var(--muted)}
+.feed b{color:var(--text)}
+audio{width:100%;margin:6px 0 14px;height:36px}
+blockquote{border-left:3px solid var(--blue);margin:36px 0;padding:6px 0 6px 20px;color:var(--muted);
+font-size:17px;line-height:1.6;max-width:760px}
+blockquote b{color:var(--text)}
+footer{border-top:1px solid var(--line);margin-top:44px;padding:24px 0;color:var(--muted);font-size:12px}
+@media(max-width:960px){.cards,.agents{grid-template-columns:repeat(2,1fr)}.row,.gates{grid-template-columns:1fr}h1{font-size:32px}}
+
+:root{color-scheme:dark}
+*{scrollbar-width:thin;scrollbar-color:#20344f #0a1424}
+::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-track{background:#0a1424}
+::-webkit-scrollbar-thumb{background:#20344f;border-radius:8px;border:2px solid #0a1424}
+::-webkit-scrollbar-thumb:hover{background:#3395ff}
+audio{color-scheme:dark;border-radius:8px}
+
+.chartbox{height:280px;position:relative}
+
+</style>
+</head>
+<body>
+<header><div class="wrap nav">
+  <div class="logo">Revive<span>AI</span></div>
+  <div>
+    <span class="pill">● LIVE</span>
+    <a href="https://github.com/ShivamSharko/revive-ai" target="_blank">GitHub</a>
+    <a href="/api/overview" target="_blank">API</a>
+    <a href="https://revive-ai-shxvy4uyvqydxucqxbqyin.streamlit.app" target="_blank">Streamlit</a>
+  </div>
+</div></header>
+
+<div class="wrap">
+  <div class="hero">
+    <div class="tag">Track 03 · AI Revenue Recovery · Razorpay Buildathon 2026</div>
+    <h1>Recover revenue.<br><span class="grad">Never remind. Resolve.</span></h1>
+    <p class="sub">Revive AI detects failed payments, diagnoses root cause with LLMs (98% archetype / 95% owner),
+    and executes bounded recovery workflows — every action gated by a deterministic 7-rule Consent Gate
+    and logged end-to-end.</p>
+    <div class="btns">
+      <a class="btn" href="#stats">See it work ↓</a>
+      <a class="btn ghost" href="https://github.com/ShivamSharko/revive-ai" target="_blank">View the code</a>
+    </div>
+  </div>
+
+  <blockquote>"We didn't study other payment gateways. We studied <b>airlines, hospitals, hotels and logistics</b>
+  to build a recovery system on decades of proven operational design."</blockquote>
+
+  <h2 id="stats"><small>Measured on one 513-failure batch</small>The money slide, live</h2>
+  <div class="cards">
+    <div class="card"><div class="k">Failures Processed</div><div class="v" id="c-total">—</div></div>
+    <div class="card"><div class="k">At Risk</div><div class="v amber" id="c-risk">—</div></div>
+    <div class="card"><div class="k">Recovered</div><div class="v green" id="c-rec">—</div></div>
+    <div class="card"><div class="k">Goodwill Protected</div><div class="v blue" id="c-prot">—</div></div>
+    <div class="card"><div class="k">Retries Blocked</div><div class="v red" id="c-block">—</div></div>
+  </div>
+
+  <h2><small>Inspired by Agent Studio</small>Your autonomous recovery agent stack</h2>
+  <div class="agents">
+    <div class="agent"><div class="ic">🧠</div><b>Diagnosis Agent</b><p>Classifies every failure into archetype + owner via Groq/Gemini, strict-JSON + Pydantic + rule fallback.</p></div>
+    <div class="agent"><div class="ic">🛡️</div><b>Consent Gate</b><p>7 deterministic laws. BLOCKs unsafe retries before money moves. Safety is rules, not AI.</p></div>
+    <div class="agent"><div class="ic">✈️</div><b>EV Optimizer</b><p>Airline-style expected value: (P × amount) − cost. Retry now, defer, or never.</p></div>
+    <div class="agent"><div class="ic">🏥</div><b>Liquidity Scheduler</b><p>Hospital triage: affordability failures deferred to the customer's modal salary day.</p></div>
+    <div class="agent"><div class="ic">🔁</div><b>Mechanism Swap</b><p>Logistics-style alternate mechanism: OTP fails → silent UPI Collect request.</p></div>
+    <div class="agent"><div class="ic">🏨</div><b>Graceful Exit</b><p>Hotel "Walk" protocol: structural churn gets a dignified pause — ₹0 chased, on purpose.</p></div>
+    <div class="agent"><div class="ic">🎙️</div><b>Voice Agent</b><p>Hinglish ElevenLabs explanations with edge-tts and text fallback. Never pressure, always explain.</p></div>
+    <div class="agent"><div class="ic">🤝</div><b>Promise Tracker</b><p>Records promise-to-pay dates; auto-retries on the day or escalates to a human.</p></div>
+  </div>
+
+  <h2><small>Deterministic stopping rules</small>The Consent Gate (R-01 → R-07)</h2>
+  <div class="gates" id="gates"></div>
+
+  <div class="row">
+    <div class="panel"><h3>Gate Verdicts</h3><div class="chartbox"><canvas id="donut"></canvas></div></div>
+    <div class="panel"><h3>Diagnosis Archetypes</h3><div class="chartbox"><canvas id="bars"></canvas></div></div>
+  </div>
+
+  <div class="panel" style="margin-bottom:14px"><h3>Live failure feed — ingestion → diagnosis → gate → action</h3>
+    <table><thead><tr><th>Payment</th><th>₹</th><th>Archetype</th><th>Owner</th><th>Verdict</th><th>Rule</th><th>Status</th></tr></thead>
+    <tbody id="ftable"></tbody></table>
+  </div>
+
+  <div class="row">
+    <div class="panel"><h3>Deferred jobs (salary-day queue)</h3><div class="feed" id="jobs"></div></div>
+    <div class="panel"><h3>Merchant compliance audit (RBI 24h)</h3><div class="feed" id="merch"></div></div>
+  </div>
+
+  <div class="panel" style="margin-bottom:14px"><h3>Hinglish voice recovery — press play</h3>
+    <b style="font-size:12px;color:var(--muted)">Technical</b><audio controls src="/voice/voice_technical.mp3"></audio>
+    <b style="font-size:12px;color:var(--muted)">Affordability</b><audio controls src="/voice/voice_affordability.mp3"></audio>
+    <b style="font-size:12px;color:var(--muted)">Intent</b><audio controls src="/voice/voice_intent.mp3"></audio>
+    <b style="font-size:12px;color:var(--muted)">Lifecycle</b><audio controls src="/voice/voice_lifecycle.mp3"></audio>
+  </div>
+
+  <div class="panel"><h3>Audit trail — every decision logged</h3><div class="feed" id="audit"></div></div>
+
+  <footer>
+    <b style="color:var(--text)">The 5 Laws:</b> 1. No money moves without valid consent ·
+    2. Never remind. Resolve · 3. The best recovery is invisible · 4. Safety is rules, not AI ·
+    5. Assign ownership before acting.<br><br>
+    Revive AI — built for Razorpay Buildathon 2026 · Track 03: AI Revenue Recovery
+  </footer>
+</div>
+
+<script>
+const c_total = document.getElementById('c-total');
+const c_risk  = document.getElementById('c-risk');
+const c_rec   = document.getElementById('c-rec');
+const c_prot  = document.getElementById('c-prot');
+const c_block = document.getElementById('c-block');
+const ftable  = document.getElementById('ftable');
+const jobs    = document.getElementById('jobs');
+const merch   = document.getElementById('merch');
+const audit   = document.getElementById('audit');
+const gates   = document.getElementById('gates');
+const donut   = document.getElementById('donut');
+const bars    = document.getElementById('bars');
+
+const INR = n => '₹' + Number(n).toLocaleString('en-IN');
+const RULES = [
+ ['R-01','RBI Mandate','BLOCK','Pre-debit notice < 24h'],
+ ['R-02','Fee Shock','BLOCK','Hidden fees at checkout'],
+ ['R-03','Structural Stop','BLOCK','Chronic affordability'],
+ ['R-04','Liquidity Defer','DEFER','Wait for salary day'],
+ ['R-05','Tech Retry','ALLOW','Transient infra failure'],
+ ['R-06','Default Allow','ALLOW','Safe path'],
+ ['R-07','Offline QR Trap','BLOCK','★ Double-charge guard']];
+
+async function load(){
+  try {
+    const o = await (await fetch('/api/overview')).json();
+    c_total.textContent = o.failures_total;
+    c_risk.textContent  = INR(o.amount_at_risk_rupees);
+    c_rec.textContent   = INR(o.amount_recovered_rupees);
+    c_prot.textContent  = INR(o.amount_protected_rupees);
+    c_block.textContent = (o.verdicts.BLOCK||0) + ' (' + Math.round((o.verdicts.BLOCK||0)/Math.max(o.failures_total,1)*100) + '%)';
+
+    if (window.Chart){
+      if (window.d1) {
+        window.d1.data.datasets[0].data = [o.verdicts.ALLOW||0,o.verdicts.DEFER||0,o.verdicts.BLOCK||0]; window.d1.update();
+        window.d2.data.datasets[0].data = ['technical','intent','affordability','lifecycle'].map(a=>o.archetypes[a]||0); window.d2.update();
+      } else {
+        window.d1 = new Chart(donut,{type:'doughnut',data:{labels:['ALLOW','DEFER','BLOCK'],
+          datasets:[{data:[o.verdicts.ALLOW||0,o.verdicts.DEFER||0,o.verdicts.BLOCK||0],
+          backgroundColor:['#22c55e','#f59e0b','#f87171']}]},options:{maintainAspectRatio:false,plugins:{legend:{labels:{color:'#8fa3c0'}}}}});
+        window.d2 = new Chart(bars,{type:'bar',data:{labels:['technical','intent','affordability','lifecycle'],
+          datasets:[{data:['technical','intent','affordability','lifecycle'].map(a=>o.archetypes[a]||0),
+          backgroundColor:'#3395ff'}]},options:{maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#8fa3c0'}},y:{ticks:{color:'#8fa3c0'}}}}});
+      }
+    }
+
+    const fs = await (await fetch('/api/failures?limit=25')).json();
+    fs.sort((a,b)=>((b.verdict?1:0)-(a.verdict?1:0)));
+    ftable.innerHTML = fs.map(f => `<tr>
+      <td>${(f.payment_id||'').slice(0,18)}</td><td>${INR(f.rupees)}</td>
+      <td>${f.diagnosis?f.diagnosis.archetype:'<span style="color:var(--muted)">awaiting diagnosis</span>'}</td>
+      <td>${f.diagnosis?f.diagnosis.owner:'<span style="color:var(--muted)">queued from Orders API</span>'}</td>
+      <td>${f.verdict?`<span class="badge ${f.verdict}">${f.verdict}</span>`:'<span class="badge DEFER">QUEUED</span>'}</td>
+      <td>${f.rule_id||'<span style="color:var(--muted)">next cycle</span>'}</td>
+      <td>${f.status}</td></tr>`).join('');
+
+    const js = await (await fetch('/api/jobs')).json();
+    jobs.innerHTML = js.length ? js.map(j=>`<div><b>${j.payment_id.slice(0,18)}</b> → ${j.kind} @ ${String(j.run_at).slice(0,16)}</div>`).join('') : '<div>No queued jobs.</div>';
+
+    const ms = await (await fetch('/api/merchants')).json();
+    merch.innerHTML = (Array.isArray(ms)?ms:[ms]).map(m=>`<div><pre style="white-space:pre-wrap;color:var(--muted)">${JSON.stringify(m,null,1)}</pre></div>`).join('');
+
+    const au = await (await fetch('/api/audit')).json();
+    audit.innerHTML = au.map(a=>`<div><b>${a.actor}</b> · ${a.action} · ${a.entity}#${a.entity_id}<br>${(a.reasoning||'').slice(0,140)}</div>`).join('');
+  } catch (err) { console.error('load() failed:', err); }
+}
+
+gates.innerHTML = RULES.map(r=>`<div class="gate"><b>${r[0]}</b>${r[1]}<br><span class="v" style="color:${r[2]==='ALLOW'?'var(--green)':r[2]==='DEFER'?'var(--amber)':'var(--red)'}">${r[2]}</span><br><span style="color:var(--muted)">${r[3]}</span></div>`).join('');
+
+load(); setInterval(load, 30000);
+</script>
+</body>
+</html>
