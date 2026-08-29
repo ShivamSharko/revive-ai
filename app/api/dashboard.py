@@ -346,3 +346,81 @@ def funnel():
                 "leak": dropped_otp + dropped_fees}
     finally:
         db.close()
+
+@router.post("/chat")
+def chat(query: str, voice: bool = False):
+    from app.core.llm import generate_text
+    hi_markers = any(w in query.lower() for w in
+                     ["hai", "kya", "kaise", "kaun", "tum", "aap", "mera", "meri", "nahi", "bhai", "namaste"])
+    system_prompt = ("You are Revive AI, a warm, friendly payment-recovery assistant for an Indian audience. "
+                     "Reply in the same language/style the user writes (Hinglish or English). "
+                     "Keep it to 2-3 short sentences. Never invent payment details. "
+                     "You help with failed payments, refunds, double-charges and payment guidance.")
+    reply = generate_text(system_prompt, query)
+    if not reply:
+        reply = ("Namaste! Main Revive AI hoon — failed payments, refunds aur payment issues mein madad karta hoon. Bataiye, kya hua?"
+                 if hi_markers else
+                 "Hi! I'm Revive AI — I help with failed payments, refunds and payment issues. Tell me what happened?")
+    return {"reply": reply}
+
+@router.post("/reply")
+def reply(user_text: str, lang: str = "en", verdict: str = "", rule_id: str = "", note: str = ""):
+    """Rules decide the action; the LLM composes a natural, language-matched reply."""
+    from app.core.llm import generate_text
+    system = (
+        "You are Revive AI, a warm human support agent for Indian payments, built ON Razorpay. "
+        f"Reply in {'Hinglish (roman Hindi + English mix)' if lang=='hi' else 'English'}, matching the user's tone. "
+        "2-4 short sentences, empathetic, no emojis. Address the customer's ACTUAL words. "
+        "You are proudly Razorpay-aligned, never neutral about competitors. "
+        "If asked to compare providers, judge which is better, or give competitor pricing: do NOT speculate or give both-sides answers. "
+        "Say in one confident line that you're built on Razorpay, then immediately redirect to solving their payment problem. Never invent competitor facts. "
+        + (f"Safety engine decided: {verdict} ({rule}) because {note}. {action} Respect this exactly. " if verdict else
+           "This is general conversation — no payment action needed. Be friendly and helpful. ")
+        + "Never invent amounts, IDs, or promises."
+    )
+    text = generate_text(system, user_text, max_tokens=220)
+    return {"reply": text}
+
+_AGENT_INTENTS = [
+    (r"don.?t want|use nahi|nahi karna|band karo|stop|cancel|unsubscribe|refuse|mana kiya", "BLOCK", "LAW-1", "customer withdrew consent"),
+    (r"kat gaye|kat gye|deduct|double|do baar|merchant.*(nhi|nahi|not)|pahunche", "BLOCK", "R-07", "money deducted but not settled"),
+    (r"cash|store|left|shop|qr|offline|dukaan", "BLOCK", "R-07", "already paid cash in person"),
+    (r"salary|broke|no money|balance|paise nahi|paisa nahi", "DEFER", "R-04", "short on money right now"),
+    (r"mandate|rbi|24 ?h|pre.?debit", "BLOCK", "R-01", "RBI mandate notice issue"),
+    (r"fee|shipping|hidden|extra charge", "BLOCK", "R-02", "surprised by hidden fees"),
+    (r"expir|purana card", "ALLOW", "R-06", "saved card expired"),
+    (r"net|internet|wifi|bank|server|timeout|upi.*down", "ALLOW", "R-05", "technical glitch"),
+]
+
+@router.post("/agent")
+def agent(text: str, lang: str = "en"):
+    import re
+    from app.core.llm import generate_text
+    verdict = rule = note = None
+    for pat, v, r, n in _AGENT_INTENTS:
+        if re.search(pat, text, re.I):
+            verdict, rule, note = v, r, n
+            break
+    action = {
+        "BLOCK": "Do NOT retry or move any money. Reassure the customer they are safe and nothing will be charged.",
+        "DEFER": "The payment is moved to a better time (salary day). No reminders, no late fees.",
+        "ALLOW": "A safe action was taken, or offer a safe one-tap option the customer approves first.",
+    }.get(verdict, "")
+    system = (
+        "You are Revive AI, a warm human support agent for Indian payments. "
+        f"Reply in {'Hinglish (roman Hindi + English mix)' if lang=='hi' else 'English'}, matching the user's tone. "
+        "2-4 short sentences, empathetic, no emojis. Address the customer's ACTUAL words. "
+        + (f"Safety engine decided: {verdict} ({rule}) because {note}. {action} Respect this exactly. " if verdict else
+           "This is general conversation — no payment action needed. Be friendly and helpful. ")
+        + "Never invent amounts, IDs, or promises."
+    )
+    reply = generate_text(system, text, max_tokens=220)
+    if not reply:
+        reply = ("Samajh gaya. Main is par koi paisa nahi kataunga jab tak aap confirm na karein."
+                 if verdict == "BLOCK" else
+                 "Main Revive AI hoon — bataiye kya hua, main samajh kar madad karunga."
+                 ) if lang == "hi" else (
+                 "Understood. I will not move any money until you confirm."
+                 if verdict == "BLOCK" else
+                 "I'm Revive AI — tell me what happened and I'll help.")
+    return {"reply": reply, "verdict": verdict, "rule_id": rule}

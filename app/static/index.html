@@ -298,8 +298,8 @@ footer{border-top:1.5px solid var(--ink);padding:32px 40px;color:var(--muted);fo
   <div class="chips">
     <button>Maine cash se pay kar diya tha</button>
     <button>My money was deducted but merchant didn't get it</button>
-    <button>Salary aane do, tab pay karunga</button>
-    <button>I don't want to pay this way</button>
+    <button>Who are you?</button>
+    <button>What can you help me with?</button>
   </div>
   <div class="chatInput"><input id="chatIn" placeholder="e.g. my card expired…"><button id="chatSend">➤</button></div>
 </div>
@@ -533,10 +533,11 @@ function lang(t){
   if(/\b(mera|meri|mereko|muje|mujhe|nahi|nhi|tha|thi|hai|gaya|gayi|gye|karna|karo|paise|paisa|bhai|yaar|chahiye|kya|mein|par|pr|aur|kat|salary|dena|mat|raha|rahi|ho)\b/i.test(t))return 'hi';
   return 'en';
 }
-function renderKB(k,l){
-  let html=`<div style="margin-bottom:8px;font-size:14px;line-height:1.6">${k[l]||k.hi}</div>`;
+function renderKBText(body,k){
+  let html=`<div style="margin-bottom:8px;font-size:14px;line-height:1.6">${body}</div>`;
   if(k.v) html+=`<div style="margin-top:6px;padding:6px 10px;background:var(--bg);border-radius:8px;font-size:11px;color:var(--muted)"><span class="badge ${k.v}" style="margin-right:4px">${k.v}</span> ${k.r} · ${k.note}</div>`;
   return html;}
+function renderKB(k,l){return renderKBText(k[l]||k.hi,k);}
 function explain(o,l){
   const a=(o.diagnosis&&o.diagnosis.archetype)||'technical', v=o.verdict||'ALLOW';
   const M={
@@ -585,28 +586,20 @@ async function ask(text){
       const r=await fetch('/api/explain?payment_id='+encodeURIComponent(m[0]));
       const o=await r.json();
       th.querySelector('.bub').innerHTML=`<div style="font-size:14px;line-height:1.6">${
-        o.found?lookupReply(o,l):(l==='hi'?'Mujhe ye payment system mein nahi mili. ID check karo ya poora likho.':'I could not find this payment in the system. Please check the ID or write it in full.')
+        o.found?lookupReply(o,l):(l==='hi'?'Mujhe ye payment system mein nahi mili.':'I could not find this payment.')
       }</div>`;
     }catch(e){th.querySelector('.bub').textContent='Agent error: '+e;}
     chatLog.scrollTop=chatLog.scrollHeight;return;
   }
-  const k=KB.find(x=>x.re.test(text));
-  if(k){addMsg('agent',renderKB(k,l));return;}
   const thinking=addMsg('agent',l==='hi'?'Soch raha hoon…':'Thinking…');
-  const ctx=/cash|store|left|shop|offline/i.test(text)?'post_session_offline':'in_session_online';
   try{
-    const r=await fetch('/api/playground',{method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({amount_rupees:499,method:'upi',context:ctx,voice:voiceOn,
-        failure_code:'CHAT_QUERY',failure_description:text,merchant_id:'merch_001'})});
+    const r=await fetch(`/api/agent?text=${encodeURIComponent(text)}&lang=${l}`,{method:'POST'});
     const o=await r.json();
-    thinking.querySelector('.bub').innerHTML=
-      `<div style="font-size:14px;line-height:1.6;margin-bottom:8px">${explain(o,l)}</div>`+
-      `<div style="padding:6px 10px;background:var(--bg);border-radius:8px;font-size:11px;color:var(--muted)">Engine: <span class="badge ${o.verdict||''}">${o.verdict||'—'}</span> ${o.rule_id||''} · ${o.diagnosis?(o.diagnosis.archetype+' / '+o.diagnosis.owner):''}</div>`+
-      (o.voice_url?`<audio controls src="${o.voice_url}" style="width:100%;margin-top:6px;height:34px"></audio>`:'');
+    let html=`<div style="font-size:14px;line-height:1.6">${o.reply||''}</div>`;
+    if(o.verdict)html+=`<div style="margin-top:6px;padding:6px 10px;background:var(--bg);border-radius:8px;font-size:11px;color:var(--muted)"><span class="badge ${o.verdict}" style="margin-right:4px">${o.verdict}</span> ${o.rule_id||''}</div>`;
+    thinking.querySelector('.bub').innerHTML=html;
   }catch(e){
-    thinking.querySelector('.bub').textContent=l==='hi'
-      ?'Maaf karna, abhi system se connection nahi ho paaya. Thodi der baad try karo, ya human team se baat karo.'
-      :'Sorry, I could not reach the system right now. Please try again in a moment, or contact our human team.';
+    thinking.querySelector('.bub').textContent=l==='hi'?'Maaf karna, abhi connect nahi ho paya.':'Sorry, I could not connect right now.';
   }
   chatLog.scrollTop=chatLog.scrollHeight;
 }
