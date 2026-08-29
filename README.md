@@ -1,3 +1,4 @@
+```markdown
 # Revive AI — Consent-First Payment Recovery Agent
 
 > ### 🎯 Headline result — ₹7,21,681 recovered · 165 double-charges blocked · 98% diagnosis accuracy
@@ -10,6 +11,20 @@
 
 ---
 
+## The Problem (2026 Reality)
+
+| Metric | 2026 Value | Source |
+|---|---|---|
+| Monthly UPI transactions | **23.6 billion** (July 2026) | NPCI |
+| Annual digital transactions | **24,162 crore** (FY 2025-26) | PIB |
+| Conservative failure rate | **0.3%** = **54 crore failures/year** (~1.5 crore/day) | Industry estimates |
+| Global revenue leakage | **$47B/year** — 1 in 5 e-commerce orders affected | Optimus |
+| RBI Digital Payments E-Mandate Framework | **21 April 2026** — mandatory 24h pre-debit alerts; no AFA up to ₹15,000 | RBI |
+
+Blindly retrying these failures double-charges customers who already paid cash, spams salary-day shortages, and compounds mandate fines. **Revive AI diagnoses every failure, passes it through a deterministic Consent Gate, and only then acts.**
+
+---
+
 ## 📦 All Artifacts in One Table
 
 | Artifact | Link |
@@ -19,7 +34,6 @@
 | **Live API Overview** | [revive-ai-production-3535.up.railway.app/api/overview](https://revive-ai-production-3535.up.railway.app/api/overview) |
 | **Full Audit Trail** | [revive-ai-production-3535.up.railway.app/api/audit](https://revive-ai-production-3535.up.railway.app/api/audit) |
 | **Streamlit Dashboard** | [revive-ai-shxvy4uyvqydxucqxbqyin.streamlit.app](https://revive-ai-shxvy4uyvqydxucqxbqyin.streamlit.app) |
-| **GitHub Repo** | [github.com/ShivamSharko/revive-ai](https://github.com/ShivamSharko/revive-ai) |
 | **Failure Journal** | [`failure_journal.md`](failure_journal.md) |
 | **Hinglish Voice Sample** | [`voice_technical.mp3`](voice_technical.mp3) |
 
@@ -47,20 +61,6 @@
 3. **Click the API** → `/api/overview` returns 513 failures, ₹7,21,681 recovered
 4. **Listen to Hinglish voice** → play any of the 4 audio players
 5. **Run the audit** → `/api/audit` shows every decision logged end-to-end
-
----
-
-## The Problem (2026 Reality)
-
-| Metric | 2026 Value | Source |
-|---|---|---|
-| Monthly UPI transactions | **23.6 billion** (July 2026) | NPCI |
-| Annual digital transactions | **24,162 crore** (FY 2025-26) | PIB |
-| Conservative failure rate | **0.3%** = **54 crore failures/year** (~1.5 crore/day) | Industry estimates |
-| Global revenue leakage | **$47B/year** — 1 in 5 e-commerce orders affected | Optimus |
-| RBI Digital Payments E-Mandate Framework | **21 April 2026** — mandatory 24h pre-debit alerts; no AFA up to ₹15,000 | RBI |
-
-Blindly retrying these failures double-charges customers who already paid cash, spams salary-day shortages, and compounds mandate fines. **Revive AI diagnoses every failure, passes it through a deterministic Consent Gate, and only then acts.**
 
 ---
 
