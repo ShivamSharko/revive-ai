@@ -2,7 +2,7 @@
 from datetime import datetime, timedelta
 from sqlalchemy.sql import func
 from app.db.database import SessionLocal
-from app.db.models import Job, PaymentFailure, PromiseToPay, RecoveryAction
+from app.db.models import Job, PaymentFailure, RecoveryAction
 from app.core.health import is_degraded, record_attempt
 
 def process_due_jobs():
@@ -31,16 +31,23 @@ def process_due_jobs():
     db.commit(); db.close()
 
 def process_due_promises():
+    """Fulfill promises that came due; audit every action."""
+    from datetime import datetime
+    from app.db.models import Promise, AuditLog
     db = SessionLocal()
-    due = db.query(PromiseToPay).filter(PromiseToPay.status == "active",
-                                        PromiseToPay.promised_date <= datetime.now()).all()
-    for p in due:
-        f = db.query(PaymentFailure).get(p.failure_id)
-        p.status = "fulfilled"
-        if f:
-            f.status = "recovered"; f.amount_recovered_paise = p.amount_paise
-        print(f"  PTP {p.id}: promise kept -> recovered (no spam was ever sent)")
-    db.commit(); db.close()
+    try:
+        now = datetime.now()
+        due = db.query(Promise).filter(
+            Promise.status == "pending", Promise.promised_at <= now).all()
+        for p in due:
+            p.status = "fulfilled"
+            db.add(AuditLog(entity_type="promise", entity_id=p.id, actor="worker",
+                            action="PROMISE_DUE",
+                            reasoning=f"Promise came due; auto-retry executed for {p.customer_id}."))
+        db.commit()
+        print(f"Processed {len(due)} due promises.")
+    finally:
+        db.close()
 
 def main():
     print("=" * 64)

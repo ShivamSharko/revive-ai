@@ -107,16 +107,6 @@ class MerchantConfig(Base):
     billing_day = Column(Integer)
     fee_reveal_at_checkout = Column(Boolean, default=False)
 
-
-class PromiseToPay(Base):
-    __tablename__ = "promises_to_pay"
-    id = Column(Integer, primary_key=True)
-    failure_id = Column(Integer, ForeignKey("payment_failures.id"), index=True)
-    promised_date = Column(DateTime(timezone=True), nullable=False)
-    amount_paise = Column(BigInteger, nullable=False)
-    status = Column(String(16), default="active")
-    created_at = Column(DateTime(timezone=True), server_default=func.now())
-
 class Promise(Base):
     __tablename__ = "promises"
     id = Column(Integer, primary_key=True, autoincrement=True)

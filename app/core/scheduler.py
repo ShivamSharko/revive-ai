@@ -25,11 +25,15 @@ async def run_job_processor():
                 failure = db.query(PaymentFailure).get(job.failure_id)
                 if failure and failure.status == "deferred":
                     fid = failure.id
-                    job.status = "completed"
+                    job.status = "processing"
                     db.commit()
-                    # FIX: heavy LLM + recovery work runs in a thread,
-                    # so the FastAPI event loop never blocks
-                    await asyncio.to_thread(process_failure, fid)
+                    try:
+                        await asyncio.to_thread(process_failure, fid)
+                        job.status = "completed"
+                    except Exception as e:
+                        job.status = "failed"
+                        job.last_error = str(e)[:500]
+                    db.commit()
                 else:
                     job.status = "cancelled"
                     db.commit()

@@ -5,7 +5,7 @@ from app.core.diagnosis import DiagnosisOut
 from sqlalchemy.orm import Session
 from app.core.liquidity import liquidity_curve
 
-# THE 7 LAWS OF THE CONSENT GATE
+# THE 8 RULES OF THE CONSENT GATE
 R01_RBI_MANDATE = "R01_RBI_MANDATE"
 R02_FEE_SHOCK = "R02_FEE_SHOCK"
 R03_STRUCTURAL_STOP = "R03_STRUCTURAL_STOP"

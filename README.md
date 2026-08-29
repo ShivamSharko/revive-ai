@@ -260,6 +260,7 @@ The demo covers:
 - `failure_journal.md` logs every break, fix, and "aha" moment — including the day Groq retired our model mid-build.
 - Accuracy is computed only over rows holding a pure-LLM diagnosis; rules-fallback rows (none in the shipped batch — verify via `scripts/verify_numbers.py`) are excluded from the calculation.
 - Playground and chat runs never pollute the money-slide numbers — rows are deleted after the response.
+- The B2B receivables panel is a deterministic simulation (seed=7) of the Flow D engine — it demonstrates dispute-halt and payment-plan logic, not live invoicing data.
 
 ---
 

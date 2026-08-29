@@ -102,7 +102,7 @@ h1 em{font-style:normal;background:linear-gradient(transparent 64%,rgba(82,139,2
 .ALLOW{background:var(--greenbg);color:var(--green)}
 .DEFER{background:var(--amberbg);color:var(--amber)}
 .BLOCK{background:var(--redbg);color:var(--red)}
-.gategrid{display:grid;grid-template-columns:repeat(7,1fr);gap:12px;margin-bottom:24px}
+.gategrid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px}
 .gc{background:var(--card);border:1.5px solid var(--ink);border-radius:16px;padding:14px;text-align:center;transition:.25s}
 .gc:hover{transform:translate(-3px,-3px);box-shadow:5px 5px 0 rgba(11,92,255,.2)}
 .gc b{display:block;font-size:13px;margin-bottom:4px;font-family:'Space Grotesk'}
@@ -173,7 +173,7 @@ footer{border-top:1.5px solid var(--ink);padding:32px 40px;color:var(--muted);fo
     <div class="badge-track">Track 03 · AI Revenue Recovery</div>
     <h1><span class="w" style="--d:0s">Recover</span> <span class="w" style="--d:.1s">revenue.</span><br>
     <span class="w" style="--d:.2s"><em>Never remind.</em></span> <span class="w" style="--d:.3s"><em>Resolve.</em></span></h1>
-    <p class="herosub">Every failed payment is diagnosed, passed through a deterministic 7-rule Consent Gate, and only then acted on. 98% archetype accuracy. 32% of retries blocked. Zero spam.</p>
+    <p class="herosub">Every failed payment is diagnosed, passed through a deterministic 8-rule Consent Gate, and only then acted on. 98% archetype accuracy. 32% of retries blocked. Zero spam.</p>
     <div class="cta">
       <a class="btn primary" href="#play">Try the agent →</a>
       <a class="btn secondary" href="https://github.com/ShivamSharko/revive-ai" target="_blank"><span class="pl">▶</span> View source</a>
@@ -181,7 +181,7 @@ footer{border-top:1.5px solid var(--ink);padding:32px 40px;color:var(--muted);fo
     <div class="journey reveal">
       <div class="jstep"><i></i><b>Ingest</b><span>webhooks + Orders API</span></div><div class="jline"></div>
       <div class="jstep"><i></i><b>Diagnose</b><span>Groq + Gemini · 98%</span></div><div class="jline"></div>
-      <div class="jstep"><i></i><b>Gate</b><span>7 deterministic rules</span></div><div class="jline"></div>
+      <div class="jstep"><i></i><b>Gate</b><span>8 deterministic rules</span></div><div class="jline"></div>
       <div class="jstep"><i></i><b>Act</b><span>retry · defer · protect</span></div>
     </div>
   </div>
@@ -228,7 +228,7 @@ footer{border-top:1.5px solid var(--ink);padding:32px 40px;color:var(--muted);fo
   </section>
 
   <section id="gate">
-    <div class="sh reveal"><small>Deterministic safety</small><h2>The Consent Gate</h2><p>7 rules. No AI. Every retry must pass before money moves.</p></div>
+    <div class="sh reveal"><small>Deterministic safety</small><h2>The Consent Gate</h2><p>8 rules. No AI. Every retry must pass before money moves.</p><div>
     <div class="gategrid reveal" id="gates"></div>
     <div class="row">
       <div class="panel reveal"><h3>Verdicts</h3><div class="chartbox"><canvas id="donut"></canvas></div></div>
@@ -335,7 +335,8 @@ const RULES=[
  ['R-04','Liquidity','DEFER','Salary day'],
  ['R-05','Tech Retry','ALLOW','Infra failure'],
  ['R-06','Default','ALLOW','Safe path'],
- ['R-07','QR Trap','BLOCK','★ Double-charge']];
+ ['R-07','QR Trap','BLOCK','★ Double-charge'],
+ ['R-08','Retry Budget','BLOCK','3 attempts max']];
 gates.innerHTML=RULES.map(r=>`<div class="gc"><b>${r[0]}</b><span class="name">${r[1]}</span><span class="badge ${r[2]}">${r[2]}</span><span class="desc">${r[3]}</span></div>`).join('');
 
 let counted=false;
@@ -589,7 +590,7 @@ async function ask(text){
     }catch(e){th.querySelector('.bub').textContent='Agent error: '+e;}
     chatLog.scrollTop=chatLog.scrollHeight;return;
   }
-  const k=!voiceOn?KB.find(x=>x.re.test(text)):null;
+  const k=KB.find(x=>x.re.test(text));
   if(k){addMsg('agent',renderKB(k,l));return;}
   const thinking=addMsg('agent',l==='hi'?'Soch raha hoon…':'Thinking…');
   const ctx=/cash|store|left|shop|offline/i.test(text)?'post_session_offline':'in_session_online';

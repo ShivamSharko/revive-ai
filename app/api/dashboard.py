@@ -4,7 +4,7 @@ from sqlalchemy import func
 
 from app.core.audit import audit_merchant_compliance
 from app.db.database import SessionLocal
-from app.db.models import (AuditLog, Diagnosis, GateDecision, Job, PaymentFailure)
+from app.db.models import (AuditLog, Diagnosis, GateDecision, RecoveryAction, Job, PaymentFailure)
 
 from pydantic import BaseModel
 
@@ -214,6 +214,8 @@ def playground(inp: PlaygroundInput):
         }
 
         # Clean up so playground runs NEVER pollute the money slide
+        db.query(GateDecision).filter_by(failure_id=f.id).delete()
+        db.query(RecoveryAction).filter_by(failure_id=f.id).delete()
         db.query(Diagnosis).filter_by(failure_id=f.id).delete()
         db.query(PaymentFailure).filter_by(id=f.id).delete()
         db.commit()
@@ -332,7 +334,8 @@ def receivables():
 def funnel():
     db = SessionLocal()
     try:
-        rows = db.query(PaymentFailure).filter_by(source="synthetic").all()
+        rows = db.query(PaymentFailure).filter(
+            PaymentFailure.source.in_(["synthetic", "orders_api"])).all()
         orders = len(rows)
         dropped_otp = sum(1 for r in rows if r.dropped_step == "otp")
         dropped_fees = sum(1 for r in rows if r.dropped_step == "fees")

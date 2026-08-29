@@ -13,6 +13,11 @@ def process_failure(failure_id: int):
         if not f:
             return
 
+        # Idempotency: never double-process a failure (scheduler re-runs deferred jobs)
+        if db.query(Diagnosis).filter_by(failure_id=f.id).first() and \
+            db.query(GateDecision).filter_by(failure_id=f.id).first():
+            return
+
         # 1. Diagnose
         try:
             results = diagnose_batch([f])
