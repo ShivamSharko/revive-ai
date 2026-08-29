@@ -50,7 +50,7 @@ With 23.6 billion monthly UPI transactions and ~140 million failures, blindly re
 | **Mandate expiry assurance** | ✅✅ | `audit.py` (RBI 24h pre-debit) + R-01 |
 | **Hinglish voice recovery** | ✅ | `voice.py`: ElevenLabs → edge-tts → text fallback |
 | **Drop-to-pay flow tracker** | ✅ | `dropoff_funnel.py` |
-| **Promise-to-pay tracker** | ✅ | `promise.py`: auto-retry or human escalate |
+| **Promise-to-pay tracker** | ✅ | `app/core/promise.py`: auto-retry or human escalate |
 
 ---
 
@@ -176,6 +176,7 @@ python -m scripts.voice_demo             # Hinglish TTS (ElevenLabs)
 python -m scripts.generate_money_slide   # dynamic per-archetype money slide
 python -m scripts.dropoff_funnel         # drop-to-pay flow tracker
 pytest tests                             # 7 unit tests (R-01..R-07 full coverage)
+python -m scripts.simulate_promises    # seed 10 demo promises
 ```
 ---
 ## 🏗️ Production-Grade Recovery Infrastructure

@@ -267,3 +267,26 @@ def mechanisms():
         return mechanism_success_rates(db)
     finally:
         db.close()
+
+@router.get("/promises")
+def promises():
+    from app.core.promise import Promise
+    db = SessionLocal()
+    try:
+        rows = db.query(Promise).order_by(Promise.created_at.desc()).limit(20).all()
+        return [{"id": p.id, "customer_id": p.customer_id,
+                 "promised_at": p.promised_at.isoformat() if p.promised_at else None,
+                 "status": p.status, "notes": p.notes} for p in rows]
+    finally:
+        db.close()
+
+
+@router.post("/promises")
+def create_promise_endpoint(failure_id: int, customer_id: str, promised_date: str):
+    from app.core.promise import create_promise
+    db = SessionLocal()
+    try:
+        p = create_promise(db, failure_id, customer_id, promised_date)
+        return {"id": p.id, "status": p.status, "promised_at": p.promised_at.isoformat()}
+    finally:
+        db.close()

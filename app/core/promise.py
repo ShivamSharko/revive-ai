@@ -1,49 +1,43 @@
-"""Promise-to-Pay: customer commits to pay on a specific date. No spam after."""
-from datetime import datetime
-from sqlalchemy.orm import Session
-from app.db.models import PaymentFailure, PromiseToPay
+"""Promise-to-Pay tracker — customer commits to a date, we auto-fulfill or escalate."""
+from datetime import datetime, timedelta
+from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, Text
+from sqlalchemy.orm import declarative_base
+from app.db.database import Base
 
 
-def register_promise(db: Session, failure_id: int, promised_date: datetime, amount_paise: int):
-    """Attach a PTP to a failure. Idempotent: skips if PTP already exists."""
-    existing = db.query(PromiseToPay).filter_by(failure_id=failure_id, status="active").first()
-    if existing:
-        return existing
+class Promise(Base):
+    __tablename__ = "promises"
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    failure_id = Column(Integer, ForeignKey("payment_failures.id"))
+    customer_id = Column(String(64))
+    promised_at = Column(DateTime)
+    created_at = Column(DateTime, default=datetime.now)
+    status = Column(String(16), default="pending")  # pending, fulfilled, broken, escalated
+    notes = Column(Text)
 
-    f = db.query(PaymentFailure).get(failure_id)
-    if not f:
-        return None
 
-    ptp = PromiseToPay(
-        failure_id=failure_id,
-        promised_date=promised_date,
-        amount_paise=amount_paise,
-        status="active"
-    )
-    db.add(ptp)
-    f.status = "promised"
+def create_promise(db, failure_id, customer_id, promised_date_str):
+    """Parse date and create promise."""
+    try:
+        promised_at = datetime.fromisoformat(promised_date_str)
+    except:
+        promised_at = datetime.now() + timedelta(days=7)
+    
+    p = Promise(failure_id=failure_id, customer_id=customer_id,
+                promised_at=promised_at, status="pending")
+    db.add(p)
     db.commit()
-    db.refresh(ptp)
-    return ptp
+    return p
 
 
-def check_promises(db: Session, horizon_date: datetime = None):
-    """Return active promises due on or before horizon_date (defaults to now)."""
-    target = horizon_date or datetime.now()
-    return (db.query(PromiseToPay)
-            .filter(PromiseToPay.status == "active")
-            .filter(PromiseToPay.promised_date <= target)
-            .order_by(PromiseToPay.promised_date)
-            .all())
-
-
-def break_promise(db: Session, ptp_id: int):
-    """Mark a promise as broken (customer didn't pay). Escalate, don't spam."""
-    ptp = db.query(PromiseToPay).get(ptp_id)
-    if ptp:
-        ptp.status = "broken"
-        f = db.query(PaymentFailure).get(ptp.failure_id)
-        if f:
-            f.status = "escalate_human"
-        db.commit()
-    return ptp
+def check_broken_promises(db):
+    """Find promises past their date that weren't fulfilled."""
+    now = datetime.now()
+    broken = db.query(Promise).filter(
+        Promise.status == "pending",
+        Promise.promised_at < now
+    ).all()
+    for p in broken:
+        p.status = "escalated"
+    db.commit()
+    return len(broken)
