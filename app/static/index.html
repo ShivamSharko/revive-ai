@@ -130,7 +130,7 @@ footer{border-top:1.5px solid var(--ink);padding:32px 40px;color:var(--muted);fo
 #chatBtn:hover{transform:translate(-2px,-2px)}
 #chatPanel{position:fixed;right:22px;bottom:88px;width:350px;max-width:calc(100vw - 44px);background:#fff;border:1.5px solid var(--ink);border-radius:18px;box-shadow:8px 8px 0 rgba(10,15,26,.12);z-index:50;display:none;flex-direction:column;overflow:hidden}
 #chatPanel.open{display:flex}
-.chatHead{background:var(--ink);color:#fff;padding:12px 16px;font-weight:700;font-size:13px}
+.chatHead{background:var(--ink);color:#fff;padding:12px 16px;font-weight:700;font-size:13px;display:flex;justify-content:space-between;align-items:center}
 #chatLog{padding:14px;height:300px;overflow-y:auto;font-size:13px;line-height:1.6}
 .msg{margin-bottom:10px;animation:fadeUp .4s both}
 .msg.user{text-align:right}
@@ -143,13 +143,10 @@ footer{border-top:1.5px solid var(--ink);padding:32px 40px;color:var(--muted);fo
 .chatInput{display:flex;border-top:1.5px solid var(--line)}
 .chatInput input{flex:1;border:none;padding:12px;font-size:13px;outline:none}
 .chatInput button{background:var(--blue);color:#fff;border:none;padding:0 18px;font-weight:700;cursor:pointer}
-@media(max-width:960px){.stats,.trio{grid-template-columns:repeat(2,1fr)}.play,.row,.gategrid,.voicegrid{grid-template-columns:1fr}.hero{padding:48px 0 32px}.nlinks a:not(.navcta){display:none}.deco{display:none}}
-
 #chatBtn{display:flex;align-items:center;justify-content:center}
-.chatHead{display:flex;justify-content:space-between;align-items:center}
 #voiceTgl{background:rgba(255,255,255,.15);border:none;color:#fff;border-radius:999px;padding:4px 10px;font-size:11px;cursor:pointer}
 #voiceTgl.on{background:var(--blue)}
-
+@media(max-width:960px){.stats,.trio{grid-template-columns:repeat(2,1fr)}.play,.row,.gategrid,.voicegrid{grid-template-columns:1fr}.hero{padding:48px 0 32px}.nlinks a:not(.navcta){display:none}.deco{display:none}}
 </style>
 </head>
 <body>
@@ -251,6 +248,10 @@ footer{border-top:1.5px solid var(--ink);padding:32px 40px;color:var(--muted);fo
       <div class="panel reveal"><h3>Recovery economics · cost observability</h3><div class="feed" id="econ"></div></div>
       <div class="panel reveal"><h3>Reconciliation · limbo watch</h3><div class="feed" id="recon"></div></div>
     </div>
+    <div class="row">
+      <div class="panel reveal"><h3>Mechanism selector · success-rate routing</h3><div class="feed" id="mech"></div></div>
+      <div class="panel reveal"><h3>Mandate sequencer · compliant dunning</h3><div class="feed" id="mandate"></div></div>
+    </div>
   </section>
 
   <section id="voice">
@@ -275,7 +276,6 @@ footer{border-top:1.5px solid var(--ink);padding:32px 40px;color:var(--muted);fo
   Revive AI — Razorpay Buildathon 2026 · Track 03
 </footer>
 
-<!-- Chat widget MUST exist before the script runs -->
 <button id="chatBtn" title="Ask the agent"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 3a7 7 0 0 0-7 7v4a3 3 0 0 0 3 3h1v-6H7v-1a5 5 0 0 1 10 0v1h-2v6h1a3 3 0 0 0 3-3v-4a7 7 0 0 0-7-7z" fill="#fff"/></svg></button>
 <div id="chatPanel">
   <div class="chatHead"><span>💁 Customer experience preview</span><button id="voiceTgl">🔇 voice off</button></div>
@@ -295,6 +295,7 @@ c_rec=document.getElementById('c-rec'),c_prot=document.getElementById('c-prot'),
 ftable=document.getElementById('ftable'),jobs=document.getElementById('jobs'),merch=document.getElementById('merch'),
 audit=document.getElementById('auditfeed'),gates=document.getElementById('gates'),
 econ=document.getElementById('econ'),reconEl=document.getElementById('recon'),
+mech=document.getElementById('mech'),mandate=document.getElementById('mandate'),
 donut=document.getElementById('donut'),bars=document.getElementById('bars');
 
 const INR=n=>'₹'+Number(Math.round(n)).toLocaleString('en-IN');
@@ -364,7 +365,14 @@ async function load(){
     const rc=await (await fetch('/api/recon')).json();
     reconEl.innerHTML=`<div><b>Refund SLA jobs opened:</b> ${rc.refund_jobs_opened||0}</div>`+
       ((rc.limbo&&rc.limbo.length)?rc.limbo.map(x=>`<div>${x.payment_id} · ${INR(x.rupees)} · auto-reversal T+48h</div>`).join('')
-      :'<div>Ledger clean — no deducted-not-settled payments.</div>');    
+      :'<div>Ledger clean — no deducted-not-settled payments.</div>');
+    try{
+      const mr=await (await fetch('/api/mechanisms')).json();
+      mech.innerHTML=(mr||[]).map(m=>`<div><b>${m.method}</b> · ${Math.round(m.success_rate*100)}% success · ${m.attempts} attempts</div>`).join('')||'<div>No data.</div>';
+    }catch(e){mech.innerHTML='<div>Endpoint not available yet</div>';}
+    mandate.innerHTML=(js||[]).filter(j=>(j.kind||'').startsWith('MANDATE')).slice(0,8)
+      .map(j=>`<div><b>${j.payment_id.slice(0,18)}</b> · ${j.kind} @ ${String(j.run_at).slice(0,16)}</div>`).join('')
+      ||'<div>Run: python -m scripts.simulate_mandate_sequence</div>';
     const au=await (await fetch('/api/audit')).json();
     audit.innerHTML=au.map(a=>`<div><b>${a.actor}</b> · ${a.action} · ${a.entity}#${a.entity_id}<br>${(a.reasoning||'').slice(0,140)}</div>`).join('');
   }catch(e){console.error('load() failed:',e);}
@@ -398,7 +406,9 @@ document.getElementById('p-run').addEventListener('click',async()=>{
       `<b>3 · Reasoning:</b> ${o.reasoning||'—'}`,
       `<b>4 · Action:</b> ${o.action}`,
       `<b>5 · Customer receives:</b> "${o.customer_message||''}"` +
-      (o.voice_url?`<audio controls src="${o.voice_url}" style="width:100%;margin-top:8px;height:36px"></audio>`:'')
+      (o.voice_url?`<audio controls src="${o.voice_url}" style="width:100%;margin-top:8px;height:36px"></audio>`:''),
+      `<b>6 · Recovery channel:</b> routed via <b>${o.mechanism||'upi'}</b> (highest observed success rate)` +
+      (o.update_link?`<br><b>7 · Card update:</b> <span style="color:var(--blue)">${o.update_link.slice(0,52)}…</span> (tokenized, zero PAN storage)`:'')
     ].map((s,i)=>`<div class="step" style="animation-delay:${i*.15}s">${s}</div>`).join('');
   }catch(e){out.innerHTML='<div class="step">Error: '+e+'</div>';}
   btn.textContent='Run the agent ▸';btn.disabled=false;

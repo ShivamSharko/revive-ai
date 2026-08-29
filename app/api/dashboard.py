@@ -172,6 +172,10 @@ def playground(inp: PlaygroundInput):
         }
         # What the customer actually receives: Hinglish message + on-the-fly voice
         import asyncio, os, edge_tts
+
+        from app.core.mechanism import choose_mechanism
+        from app.core.vault import tokenize, card_update_link
+
         ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
         MSG = {
             ("technical", "ALLOW"): "Bank mein temporary problem thi, ab fix ho gayi hai. Humne dobara try kiya — payment successful. Koi action needed nahi.",
@@ -204,6 +208,9 @@ def playground(inp: PlaygroundInput):
             "action": actions.get(verdict, "Diagnosis unavailable."),
             "customer_message": customer_message,
             "voice_url": voice_url,
+            "mechanism": choose_mechanism(db),
+            "update_link": (card_update_link(tokenize("card", "4242"))
+                            if diag and diag.archetype == "lifecycle" else None),
         }
 
         # Clean up so playground runs NEVER pollute the money slide
@@ -249,5 +256,14 @@ def recon():
         return {"refund_jobs_opened": opened,
                 "limbo": [{"payment_id": f.external_payment_id,
                            "rupees": round((f.amount_paise or 0) / 100, 2)} for f in rows]}
+    finally:
+        db.close()
+
+@router.get("/mechanisms")
+def mechanisms():
+    from app.core.mechanism import mechanism_success_rates
+    db = SessionLocal()
+    try:
+        return mechanism_success_rates(db)
     finally:
         db.close()
