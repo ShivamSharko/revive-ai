@@ -1,6 +1,52 @@
 # Revive AI — Consent-First Payment Recovery Agent
 
+> ### 🎯 Headline result — ₹7,21,681 recovered · 165 double-charges blocked · 98% diagnosis accuracy
+>
+> A consent-gated recovery agent that diagnoses every failure, passes it through a deterministic 7-rule Consent Gate, and only then acts. Built for the **Razorpay Buildathon 2026 · Track 03: AI Revenue Recovery**.
+
+---
+
 > *"140 million payments fail in India every month. Most recovery systems are spam engines. We studied airlines, hospitals, and logistics to build a recovery system based on dignity, operational design, and strict consent."*
+
+---
+
+## 📦 All Artifacts in One Table
+
+| Artifact | Link |
+|---|---|
+| **Live Command Center** | [revive-ai-production-3535.up.railway.app](https://revive-ai-production-3535.up.railway.app/) |
+| **Interactive Playground** | [revive-ai-production-3535.up.railway.app/#play](https://revive-ai-production-3535.up.railway.app/#play) |
+| **Live API Overview** | [revive-ai-production-3535.up.railway.app/api/overview](https://revive-ai-production-3535.up.railway.app/api/overview) |
+| **Full Audit Trail** | [revive-ai-production-3535.up.railway.app/api/audit](https://revive-ai-production-3535.up.railway.app/api/audit) |
+| **Streamlit Dashboard** | [revive-ai-shxvy4uyvqydxucqxbqyin.streamlit.app](https://revive-ai-shxvy4uyvqydxucqxbqyin.streamlit.app) |
+| **GitHub Repo** | [github.com/ShivamSharko/revive-ai](https://github.com/ShivamSharko/revive-ai) |
+| **Failure Journal** | [`failure_journal.md`](failure_journal.md) |
+| **Hinglish Voice Sample** | [`voice_technical.mp3`](voice_technical.mp3) |
+
+---
+
+## 🎯 Track 03 Theme Alignment
+
+| Track 03 Direction | Fit | Implementation |
+|---|---|---|
+| **Payment degradation + root cause** | ✅✅✅ | `diagnosis.py` + `health.py` (Redis) + `ev_optimizer.py` |
+| **Checkout drop-off recovery** | ✅✅✅ | Mechanism Swap + `dropoff_funnel.py` + `poll_orders.py` |
+| **Failed subscription recovery** | ✅✅ | `/webhooks/razorpay/subscriptions` + mandate gate |
+| **B2B receivables recovery** | ✅✅ | `receivables.py`: dispute halt + payment-plan splitting |
+| **Mandate expiry assurance** | ✅✅ | `audit.py` (RBI 24h pre-debit) + R-01 |
+| **Hinglish voice recovery** | ✅ | `voice.py`: ElevenLabs → edge-tts → text fallback |
+| **Drop-to-pay flow tracker** | ✅ | `dropoff_funnel.py` |
+| **Promise-to-pay tracker** | ✅ | `promise.py`: auto-retry or human escalate |
+
+---
+
+## 🚀 Quick Start for Reviewers (3 minutes)
+
+1. **Open the Command Center** → [revive-ai-production-3535.up.railway.app](https://revive-ai-production-3535.up.railway.app/)
+2. **Try the Playground** → pick the **🏪 Offline QR trap (R-07 ★)** preset → press **Run the agent** → watch it diagnose + gate + act in real time
+3. **Click the API** → `/api/overview` returns 513 failures, ₹7,21,681 recovered
+4. **Listen to Hinglish voice** → play any of the 4 audio players
+5. **Run the audit** → `/api/audit` shows every decision logged end-to-end
 
 ---
 
@@ -18,19 +64,7 @@ Blindly retrying these failures double-charges customers who already paid cash, 
 
 ---
 
-## 🌐 Live Demo (Internet-Deployed)
-
-| Endpoint | URL |
-|---|---|
-| 🖥️ **Command Center** | [Streamlit Dashboard](https://revive-ai-shxvy4uyvqydxucqxbqyin.streamlit.app) |
-| 📊 **Live API Overview** | [revive-ai-production-3535.up.railway.app/api/overview](https://revive-ai-production-3535.up.railway.app/api/overview) |
-| 📜 **Full Audit Trail** | [revive-ai-production-3535.up.railway.app/api/audit](https://revive-ai-production-3535.up.railway.app/api/audit) |
-| 💓 **Health Check** | [revive-ai-production-3535.up.railway.app/health](https://revive-ai-production-3535.up.railway.app/health) |
-| 🎙️ **Hinglish Voice Sample** | [`voice_technical.mp3`](voice_technical.mp3) — ElevenLabs multilingual TTS |
-
----
-
-## 📈 The Numbers (Fresh 500-Batch, Test-Mode Evidence)
+## 📈 The Numbers (Fresh 513-Batch, Test-Mode Evidence)
 
 | Metric | Value |
 |---|---|
@@ -65,7 +99,7 @@ Plus:  ₹5,988 in-flight / promised / escalated
 ## ⚖️ The 5 Laws (The Conscience)
 
 1. **No money moves without valid consent.** (Protects against the Offline QR trap)
-2. **Never remind. Resolve.** (A message must encode the diagnosis. "Bank was down, it's fixed now" &gt; "Your cart is saved!")
+2. **Never remind. Resolve.** (A message must encode the diagnosis. "Bank was down, it's fixed now" > "Your cart is saved!")
 3. **The best recovery is invisible.** (Silent retries for technical failures)
 4. **Safety is rules, not AI.** (The Consent Gate and stopping rules are deterministic code, never probabilistic LLMs)
 5. **Assign ownership before acting.** (Never sell debt as recovery. Check if infra, merchant, or customer owns the failure)
@@ -101,7 +135,7 @@ Razorpay Webhook / Orders API / Synthetic Generator
      └─→ BLOCK  → Audit log (double-charge prevented)
      │
      ▼
-[AuditLog + Bilingual Messages + Hinglish Voice] → [Streamlit + REST API]
+[AuditLog + Bilingual Messages + Hinglish Voice] → [Command Center + Streamlit + REST API]
 ```
 
 | Rule | Trigger | Verdict |
@@ -116,21 +150,6 @@ Razorpay Webhook / Orders API / Synthetic Generator
 
 ---
 
-## 🎯 Track 03 Coverage (Zero Scope Cut)
-
-| Example Direction | Implementation |
-|---|---|
-| Payment degradation + root cause | `diagnosis.py` + `health.py` (Redis) + `ev_optimizer.py` |
-| Checkout drop-off recovery | Mechanism Swap + `dropoff_funnel.py` + `poll_orders.py` |
-| Failed subscription recovery | `/webhooks/razorpay/subscriptions` + mandate gate |
-| B2B receivables recovery | `receivables.py`: dispute halt + payment-plan splitting |
-| Mandate expiry assurance | `audit.py` (RBI 24h pre-debit) + R-01 |
-| Hinglish voice recovery | `voice.py`: ElevenLabs → edge-tts → text fallback |
-| Drop-to-pay flow tracker | `dropoff_funnel.py` |
-| Promise-to-pay tracker | `promise.py`: customer commits to date, auto-retry or human escalate |
-
----
-
 ## 🛠️ Run Locally
 
 ```bash
@@ -141,11 +160,12 @@ python -m scripts.wipe_and_init          # 9 tables
 python -m app.data.generator             # 500 labeled failures
 python -m app.data.simulate              # diagnose + gate (500/500 pure-LLM)
 python -m app.data.recover               # execute actions
-uvicorn app.main:app --reload            # API on :8000
+uvicorn app.main:app --reload            # API on :8000 + Command Center on /
 streamlit run app/dashboard.py           # Dashboard on :8501
 ```
 
 ### Demo Scripts
+
 ```bash
 python -m app.data.evaluate              # held-out accuracy (98% / 95%, seeded)
 python -m scripts.send_test_webhook      # HMAC-verified real webhook + tamper rejection
@@ -155,6 +175,7 @@ python -m scripts.simulate_promise       # Promise-to-Pay tracker
 python -m scripts.voice_demo             # Hinglish TTS (ElevenLabs)
 python -m scripts.generate_money_slide   # dynamic per-archetype money slide
 python -m scripts.dropoff_funnel         # drop-to-pay flow tracker
+pytest tests                             # 7 unit tests (R-01..R-07 full coverage)
 ```
 
 ---
@@ -162,8 +183,10 @@ python -m scripts.dropoff_funnel         # drop-to-pay flow tracker
 ## 🙏 Honesty & Assumptions
 
 - Simulation treats ALLOW retries as successful; production would track real Razorpay retry outcomes per attempt.
-- Synthetic batch is labeled ground truth; accuracy measured on held-out sample (n=40, stratified).
+- Synthetic batch is labeled ground truth; accuracy measured on held-out sample (n=40, stratified, seeded).
 - `failure_journal.md` logs every break, fix, and "aha" moment — including the day Groq retired our model mid-build.
 - Accuracy is computed only over rows holding a pure-LLM diagnosis; rules-fallback rows (none in the shipped batch — verify via `scripts/verify_numbers.py`) are excluded from the calculation.
+- Playground runs never pollute the money-slide numbers — rows are deleted after the response.
 
 **Revive AI. Never remind. Resolve. No money moves without consent.**
+```
