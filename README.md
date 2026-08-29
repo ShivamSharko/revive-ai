@@ -177,7 +177,18 @@ python -m scripts.generate_money_slide   # dynamic per-archetype money slide
 python -m scripts.dropoff_funnel         # drop-to-pay flow tracker
 pytest tests                             # 7 unit tests (R-01..R-07 full coverage)
 ```
+## 🏗️ Production-Grade Recovery Infrastructure
 
+| Module | Implementation |
+|---|---|
+| **Retry budget enforcement** | **R-08**: 3 safe attempts per customer, then hard stop — stopping rules over spam |
+| **Reconciliation engine** | `app/core/reconciliation.py`: limbo detection + REFUND_SLA jobs on NPCI T+48h window |
+| **Cost observability** | Recovery economics: attempt cost, net recovered, cost per ₹ recovered |
+| **Mechanism selector** | Routes to highest-success method per bank from Health Graph (coming) |
+| **Mandate sequencer** | T-24h notice → T+0 retry → T+48h human escalation (coming) |
+| **Tokenized storage** | Zero PAN storage, tokenized method refs for card-update links (coming) |
+
+*Revive AI is not a payment switch replacement — it is the intelligence layer that sits on top of any switch. When the transaction fails, that's when Revive AI wakes up.*
 ---
 
 ## 🙏 Honesty & Assumptions

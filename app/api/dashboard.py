@@ -28,13 +28,25 @@ def overview():
         archetypes = dict(db.query(Diagnosis.archetype, func.count(Diagnosis.id))
                           .group_by(Diagnosis.archetype).all())
 
+        # Recovery economics — Hyperswitch-style cost observability
+        allow_n, defer_n = verdicts.get("ALLOW", 0), verdicts.get("DEFER", 0)
+        attempt_cost = round(allow_n * 2 + defer_n * 0.5, 2)
+        recovered_rupees = round((totals.recovered or 0) / 100, 2)
+        economics = {
+            "attempt_cost_rupees": attempt_cost,
+            "net_recovered_rupees": round(recovered_rupees - attempt_cost, 2),
+            "cost_per_rupee_recovered": round(attempt_cost / max(recovered_rupees, 1), 4),
+            "retry_budget_per_customer": 3,
+        }
+
         return {
             "failures_total": totals.count or 0,
             "amount_at_risk_rupees": round((totals.at_risk or 0) / 100, 2),
-            "amount_recovered_rupees": round((totals.recovered or 0) / 100, 2),
+            "amount_recovered_rupees": recovered_rupees,
             "amount_protected_rupees": round((totals.protected or 0) / 100, 2),
             "verdicts": verdicts,
             "archetypes": archetypes,
+            "economics": economics,
         }
     finally:
         db.close()
@@ -145,6 +157,13 @@ def playground(inp: PlaygroundInput):
         verdict = rule_id = reasoning = None
         if diag:
             verdict, rule_id, reasoning = evaluate_consent(db, f, diag)
+            # Deterministic safety override: NEVER retry a deducted-but-unsettled payment
+            import re as _re
+            if _re.search(r"kat gay|kat gye|deduct|double|do baar|dubara|merchant.{0,20}(nhi|nahi|not)|pahunche|refund",
+                          inp.failure_description, _re.I):
+                verdict, rule_id, reasoning = ("BLOCK", "DOUBLE_CHARGE_GUARD",
+                    "Customer reports deduction without settlement — a retry would double-charge. "
+                    "Reconciliation + auto-refund instead.")
 
         actions = {
             "ALLOW": "Silent retry via Health Graph + Mechanism Swap (invisible recovery).",
@@ -192,5 +211,43 @@ def playground(inp: PlaygroundInput):
         db.query(PaymentFailure).filter_by(id=f.id).delete()
         db.commit()
         return out
+    finally:
+        db.close()
+
+@router.get("/explain")
+def explain(payment_id: str):
+    """Grounded lookup: return the REAL stored diagnosis + gate decision for a payment."""
+    db = SessionLocal()
+    try:
+        f = db.query(PaymentFailure).filter(
+            PaymentFailure.external_payment_id.ilike(f"%{payment_id}%")).first()
+        if not f:
+            return {"found": False}
+        diag = db.query(Diagnosis).filter_by(failure_id=f.id).first()
+        gate = db.query(GateDecision).filter_by(failure_id=f.id).first()
+        return {
+            "found": True,
+            "payment_id": f.external_payment_id,
+            "rupees": round((f.amount_paise or 0) / 100, 2),
+            "status": f.status,
+            "archetype": diag.archetype if diag else None,
+            "owner": diag.owner if diag else None,
+            "verdict": gate.verdict if gate else None,
+            "rule_id": gate.rule_id if gate else None,
+            "reasoning": getattr(gate, "reasoning", None) if gate else None,
+        }
+    finally:
+        db.close()
+
+@router.get("/recon")
+def recon():
+    from app.core.reconciliation import run_reconciliation, find_limbo
+    db = SessionLocal()
+    try:
+        opened = run_reconciliation(db)
+        rows = find_limbo(db)
+        return {"refund_jobs_opened": opened,
+                "limbo": [{"payment_id": f.external_payment_id,
+                           "rupees": round((f.amount_paise or 0) / 100, 2)} for f in rows]}
     finally:
         db.close()

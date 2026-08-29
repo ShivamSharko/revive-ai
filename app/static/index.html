@@ -247,6 +247,10 @@ footer{border-top:1.5px solid var(--ink);padding:32px 40px;color:var(--muted);fo
       <div class="panel reveal"><h3>Deferred jobs</h3><div class="feed" id="jobs"></div></div>
       <div class="panel reveal"><h3>Merchant audit</h3><div class="feed" id="merch"></div></div>
     </div>
+    <div class="row">
+      <div class="panel reveal"><h3>Recovery economics · cost observability</h3><div class="feed" id="econ"></div></div>
+      <div class="panel reveal"><h3>Reconciliation · limbo watch</h3><div class="feed" id="recon"></div></div>
+    </div>
   </section>
 
   <section id="voice">
@@ -277,10 +281,10 @@ footer{border-top:1.5px solid var(--ink);padding:32px 40px;color:var(--muted);fo
   <div class="chatHead"><span>💁 Customer experience preview</span><button id="voiceTgl">🔇 voice off</button></div>
   <div id="chatLog"></div>
   <div class="chips">
-    <button>Mera payment fail ho gaya</button>
     <button>Maine cash se pay kar diya tha</button>
+    <button>My money was deducted but merchant didn't get it</button>
     <button>Salary aane do, tab pay karunga</button>
-    <button>Card expire ho gaya hai</button>
+    <button>I don't want to pay this way</button>
   </div>
   <div class="chatInput"><input id="chatIn" placeholder="e.g. my card expired…"><button id="chatSend">➤</button></div>
 </div>
@@ -290,6 +294,7 @@ const c_total=document.getElementById('c-total'),c_risk=document.getElementById(
 c_rec=document.getElementById('c-rec'),c_prot=document.getElementById('c-prot'),c_block=document.getElementById('c-block'),
 ftable=document.getElementById('ftable'),jobs=document.getElementById('jobs'),merch=document.getElementById('merch'),
 audit=document.getElementById('auditfeed'),gates=document.getElementById('gates'),
+econ=document.getElementById('econ'),reconEl=document.getElementById('recon'),
 donut=document.getElementById('donut'),bars=document.getElementById('bars');
 
 const INR=n=>'₹'+Number(Math.round(n)).toLocaleString('en-IN');
@@ -351,6 +356,15 @@ async function load(){
     jobs.innerHTML=js.length?js.map(j=>`<div><b>${j.payment_id.slice(0,18)}</b> → ${j.kind} @ ${String(j.run_at).slice(0,16)}</div>`).join(''):'<div>No queued jobs.</div>';
     const ms=await (await fetch('/api/merchants')).json();
     merch.innerHTML=(Array.isArray(ms)?ms:[ms]).map(m=>`<div><pre style="white-space:pre-wrap;color:var(--muted)">${JSON.stringify(m,null,1)}</pre></div>`).join('');
+    const ec=o.economics||{};
+    econ.innerHTML=`<div><b>Attempt cost:</b> ${INR(ec.attempt_cost_rupees||0)}</div>
+      <div><b>Net recovered:</b> ${INR(ec.net_recovered_rupees||0)}</div>
+      <div><b>Cost per ₹ recovered:</b> ₹${ec.cost_per_rupee_recovered||0}</div>
+      <div><b>Retry budget:</b> ${ec.retry_budget_per_customer||3} attempts / customer (R-08)</div>`;
+    const rc=await (await fetch('/api/recon')).json();
+    reconEl.innerHTML=`<div><b>Refund SLA jobs opened:</b> ${rc.refund_jobs_opened||0}</div>`+
+      ((rc.limbo&&rc.limbo.length)?rc.limbo.map(x=>`<div>${x.payment_id} · ${INR(x.rupees)} · auto-reversal T+48h</div>`).join('')
+      :'<div>Ledger clean — no deducted-not-settled payments.</div>');    
     const au=await (await fetch('/api/audit')).json();
     audit.innerHTML=au.map(a=>`<div><b>${a.actor}</b> · ${a.action} · ${a.entity}#${a.entity_id}<br>${(a.reasoning||'').slice(0,140)}</div>`).join('');
   }catch(e){console.error('load() failed:',e);}
@@ -399,50 +413,123 @@ chatBtn.onclick=()=>chatPanel.classList.toggle('open');
 function addMsg(who,html){const d=document.createElement('div');d.className='msg '+who;
   d.innerHTML=`<span class="bub">${html}</span>`;chatLog.appendChild(d);chatLog.scrollTop=chatLog.scrollHeight;return d;}
 const KB=[
- {re:/net|internet|wifi|wi-?fi|mobile data|kate|kat[ae]|deduct|cut nahi/i,v:'ALLOW',r:'R-05',
-  reply:'Aapka net band tha, isliye payment attempt fail hui — aur <b>koi paisa deduct nahi hua</b>. ✅ Paise bilkul safe hain. Jab aap ready ho, main ek one-tap UPI Collect request bhej dunga — <b>bina aapke approval ke kuch nahi katega</b>. Koi jaldi nahi, koi pressure nahi.',
-  note:'Customer-side failure → NO silent deduction. Mechanism Swap: one-tap collect request, customer approves first.'},
- 
+ {re:/return(ed)?|refund|wapas|paise.*kab|when.*(get|will)|mil.*ega|milenge|kitne.*din/i,v:null,r:'REFUND-SLA',
+  hi:'Samajh gaya — aapne item return kiya hai aur refund ka intezaar hai. Merchant refund initiate karta hai, aur RBI guidelines ke hisaab se initiate hone ke baad paise aapke original payment method mein 5-7 working days mein aa jate hain. Maine aapki request note kar li hai aur team isse track karegi. Agar is window mein paise na aayein toh hum turant escalate karenge. Chaaho toh payment ID bhejo, main exact status bata dunga.',
+  en:'Got it — you returned the item and are waiting on the refund. The merchant initiates it, and once initiated, RBI guidelines say it reaches your original payment method within 5-7 working days. I have noted your request and our team will track it. If it does not arrive within that window, we will escalate immediately. If you share the payment ID, I can check the exact status for you.',
+  note:'Refund SLA: merchant-initiated, RBI T+5–7 working days. Offers payment-ID lookup.'},
+ {re:/kat gaye|kat gye|kat gayi|deduct|double|do baar|dubara|merchant.*(nhi|nahi|not)|pahunche|pahucha/i,v:'BLOCK',r:'DOUBLE-CHARGE GUARD',
+  hi:'Arre, samajh sakta hoon tension ho rahi hogi. Aapke paise kate hain par merchant tak nahi pahunche, matlab amount abhi hold mein hai. Main is par dobara retry nahi karunga, warna do baar katne ka risk hai. NPCI ke rule se ye paisa aam taur par 24-48 ghante mein apne aap wapas aa jata hai. Maine ek reconciliation case bhi khol diya hai, agar time par wapas na aaye toh hamari team turant refund kar degi. Aapko kuch karne ki zaroorat nahi.',
+  en:'I completely understand the worry. Your money was deducted but never reached the merchant, so the amount is currently on hold. I will not retry this payment, because that risks charging you twice. Under NPCI rules this money usually reverses on its own within 24-48 hours. I have also opened a reconciliation case, so if it does not come back in time, our team will refund you immediately. You do not need to do anything.',
+  note:'Deduction-without-settlement → retry BLOCKED. Reconciliation + auto-refund T+1–T+2, human SLA.'},
  {re:/use nahi|use nhi|nahi karna|nhi krna|band karo|stop|cancel|unsubscribe|refuse|mana kiya|don.?t want/i,v:'BLOCK',r:'LAW-1',
-  reply:'Bilkul samajh gaya! 🙏 Aapne is method se pay karne se mana kiya hai — maine retry turant BLOCK kar diya hai. <b>No money moves without valid consent.</b> Chaaho toh baad mein koi dusra payment method choose kar lena. Koi pressure nahi.',
+  hi:'Bilkul, samajh gaya. Aapne is tarike se pay karne se mana kiya hai, toh maine retry abhi rok diya hai. Aapki marzi ke bina koi paisa nahi katega. Chaaho toh baad mein koi dusra payment method choose kar lena, koi pressure nahi.',
+  en:'Absolutely, I hear you. You have said you do not want to pay this way, so I have stopped any retry right now. No money moves without your say-so. If you ever want, you can pick a different payment method later. No pressure at all.',
   note:'Consent withdrawn → hard block. Law 1 enforced.'},
-
-  {re:/payment.*fail|fail.*gaya|fail.*gayi|payment.*nahi.*hua/i,v:null,r:null,
-  reply:'Oh no! 😔 Koi tension nahi — main samajh jaunga kya hua. Bas thoda batao: "mera net nhi chal rha tha", "maine cash de diya tha", "balance kam tha", ya "card expire hai"?',
+ {re:/payment.*fail|fail.*gaya|fail.*gayi|payment.*nahi.*hua/i,v:null,r:null,
+  hi:'Sorry sunke. Koi tension nahi, main dekh leta hoon kya hua tha. Bas thoda bataoge ki kya hua tha, jaise "mera net nhi chal rha tha", "maine cash de diya tha", "balance kam tha" ya "card expire hai"?',
+  en:'Sorry to hear that. Do not worry, I will figure out what happened. Could you tell me a bit more, like "my internet was down", "I already paid cash", "I had low balance" or "my card expired"?',
   note:null},
  {re:/cash|store|left|shop|qr|offline|dukaan/i,v:'BLOCK',r:'R-07',
-  reply:'Arey nahi nahi! 🙏 Aapne store par already cash se pay kar diya tha na — toh humne wo QR payment cancel kar di hai. Dobara charge bilkul nahi hoga. Aap tension mat lo.',
+  hi:'Arre nahi nahi, aapne store par cash se payment kar di thi na, toh humne wo QR payment cancel kar diya hai. Dobara kuch nahi katega. Aap bilkul tension mat lo.',
+  en:'No no, you already paid cash at the store, so we have cancelled that QR payment. Nothing will be charged again. Please do not worry at all.',
   note:'Double-charge prevented. Gate blocked the retry.'},
  {re:/salary|broke|no money|balance|can.?t pay|paise nahi|paisa nahi/i,v:'DEFER',r:'R-04',
-  reply:'Koi baat nahi! 😊 Humne aapki payment salary day tak shift kar di hai. Tab tak koi reminder nahi aayega, koi late fee nahi lagegi. Jab paise aa jayein, automatically process ho jayega.',
+  hi:'Koi baat nahi. Maine aapki payment salary aane tak aage badha di hai. Tab tak na koi reminder aayega na koi late fee. Jab salary aa jaye, payment apne aap ho jayegi.',
+  en:'That is completely fine. I have moved your payment to your salary day. Until then there will be no reminders and no late fees. Once your salary comes in, it will go through automatically.',
   note:'Deferred to modal salary day via Liquidity Curve.'},
+ {re:/net|internet|wifi|wi-?fi|mobile data|kate nahi|nahi kate|cut nahi/i,v:'ALLOW',r:'R-05',
+  hi:'Koi baat nahi. Aapka net band tha isliye payment poori nahi ho paayi, aur koi paisa nahi kata hai, paise bilkul safe hain. Jab aap ready ho, main ek one-tap request bhej dunga jo aap approve karoge tabhi paisa katega. Koi jaldi nahi hai.',
+  en:'No problem at all. Your internet was down, so the payment did not go through, and nothing was deducted. Your money is completely safe. Whenever you are ready, I will send a one-tap request that only charges after you approve it. No rush at all.',
+  note:'Customer-side failure → NO silent deduction. One-tap collect request, customer approves first.'},
  {re:/bank|server|timeout|upi.*down/i,v:'ALLOW',r:'R-05',
-  reply:'Aapki galti nahi thi — aap payment kar hi rahe the ki bank ke server mein thodi der ki problem aa gayi. 🔧 Aap purchase kar hi rahe the (intent clear tha), isliye bank recover hote hi humne silently retry kiya aur order confirm ho gaya. Aapko kuch karne ki zaroorat nahi.',
-  note:'Invisible recovery (Law 3): silent retry ONLY because customer was mid-purchase with clear intent.'},
- {re:/expir|card.*old|purana card/i,v:'ALLOW',r:'R-06',
-  reply:'Aapka saved card expire ho gaya hai, isliye payment nahi ho paayi. 💳 Jab aapko convenient lage, naya card update kar dijiye — koi jaldi nahi hai, koi pressure nahi.',
-  note:'Card-update link sent instead of retrying dead instrument.'},
+  hi:'Isme aapki koi galti nahi hai. Aap payment kar hi rahe the ki bank ke server mein thodi der ki dikkat aa gayi. Bank theek hote hi humne chupke se dobara koshish ki aur aapka order confirm ho gaya. Aapko kuch karne ki zaroorat nahi.',
+  en:'This was not your fault at all. You were mid-payment when the bank servers had a brief issue. As soon as the bank recovered, we quietly retried and your order is now confirmed. You do not need to do anything.',
+  note:'Invisible recovery (Law 3): silent retry only because customer was mid-purchase with clear intent.'},
+ {re:/expir|purana card/i,v:'ALLOW',r:'R-06',
+  hi:'Aapka saved card expire ho gaya hai, isliye payment nahi ho paayi. Jab bhi aapko sahi lage, naya card update kar dena. Koi jaldi nahi, koi pressure nahi.',
+  en:'Your saved card has expired, which is why the payment did not go through. Whenever it is convenient for you, just update your new card. No rush and no pressure.',
+  note:'Card-update link sent instead of retrying a dead instrument.'},
  {re:/fee|shipping|hidden|extra charge/i,v:'BLOCK',r:'R-02',
-  reply:'Humne dekha ki checkout pe unexpected fees dikhne ki wajah se aapne payment chhod di. 🛒 Hum aapko dobara spam nahi karenge — yeh feedback merchant ko bhej diya gaya hai taaki wo fix karein.',
+  hi:'Humne dekha ki last moment par extra fees dikhne ki wajah se aapne payment chhod di. Hum aapko dobara pareshan nahi karenge. Ye feedback humne merchant ko bhej diya hai taaki wo ise sahi kare.',
+  en:'We noticed you left the checkout because extra fees appeared at the last moment. We will not bother you again. We have sent this feedback to the merchant so they can fix it.',
   note:'Merchant insight generated instead of customer retry.'},
  {re:/mandate|24 ?h|notification|pre.?debit|rbi/i,v:'BLOCK',r:'R-01',
-  reply:'Yeh payment RBI ke rules ke hisaab se abhi process nahi ho sakti — pre-debit notification time poora nahi hua tha. 🏛️ Aapke rights protected hain. Jab sab compliant hoga, tab hi charge hoga.',
+  hi:'Ye payment abhi process nahi ho sakti kyunki RBI ke rule ke hisaab se 24 ghante pehle notification dena zaroori tha, jo nahi hua. Aapke paise aur aapke rights dono safe hain. Jab sab sahi ho jayega, tabhi payment hogi.',
+  en:'This payment cannot be processed right now because RBI rules require a 24-hour pre-debit notice, which was not given. Your money and your rights are both protected. The payment will only happen once everything is compliant.',
   note:'RBI e-mandate 24h pre-debit rule enforced.'},
- {re:/help|kya kar sakte|who are you|kaun ho|what do you do/i,v:null,r:null,
-  reply:'Main Revive AI hoon! 👋 Jab aapki payment fail hoti hai, main samajhta hoon kyun hui, aur sirf tabhi retry karta hoon jab aapke liye safe ho. Kuch try karein:\n\n• "Maine cash se pay kar diya tha"\n• "Salary aane do"\n• "Bank server down tha"',
-  note:null},
  {re:/otp|abandon|chhod diya/i,v:'BLOCK',r:'R-02',
-  reply:'Lagta hai aapne OTP step pe payment chhod di thi. 📵 Koi baat nahi — humne UPI Collect request bhej di hai, ek tap se approve kar sakte ho jab ready ho. Koi spam nahi.',
-  note:'Mechanism swap: OTP flow → UPI Collect Request.'}];
-function renderKB(k){
-  let html=`<div style="margin-bottom:8px;font-size:14px;line-height:1.6">${k.reply.replace(/\n/g,'<br>')}</div>`;
+  hi:'Lagta hai OTP wale step par payment ruk gayi thi. Koi baat nahi. Maine ek UPI Collect request bhej di hai, jab ready ho ek tap mein approve kar dena. Koi spam nahi hoga.',
+  en:'It looks like the payment stopped at the OTP step. No problem. I have sent a UPI Collect request, and whenever you are ready you can approve it with one tap. There will be no spam.',
+  note:'Mechanism swap: OTP flow → UPI Collect Request.'},
+ {re:/help|kya kar sakte|who are you|kaun ho|what do you do/i,v:null,r:null,
+  hi:'Main Revive AI hoon. Jab payment fail hoti hai, main pehle samajhta hoon ki kyun hui, aur sirf tab action leta hoon jab aapke liye safe ho. Kuch try karke dekho: "maine cash se pay kar diya tha", "salary aane do", "bank server down tha".',
+  en:'I am Revive AI. When a payment fails, I first understand why it failed, and I only act when it is safe for you. Try things like: "I already paid cash", "let me pay on salary day", "the bank server was down".',
+  note:null}];
+function lang(t){
+  if(/[\u0900-\u097F]/.test(t))return 'hi';
+  if(/\b(mera|meri|mereko|muje|mujhe|nahi|nhi|tha|thi|hai|gaya|gayi|gye|karna|karo|paise|paisa|bhai|yaar|chahiye|kya|mein|par|pr|aur|kat|salary|dena|mat|raha|rahi|ho)\b/i.test(t))return 'hi';
+  return 'en';
+}
+function renderKB(k,l){
+  let html=`<div style="margin-bottom:8px;font-size:14px;line-height:1.6">${k[l]||k.hi}</div>`;
   if(k.v) html+=`<div style="margin-top:6px;padding:6px 10px;background:var(--bg);border-radius:8px;font-size:11px;color:var(--muted)"><span class="badge ${k.v}" style="margin-right:4px">${k.v}</span> ${k.r} · ${k.note}</div>`;
   return html;}
+function explain(o,l){
+  const a=(o.diagnosis&&o.diagnosis.archetype)||'technical', v=o.verdict||'ALLOW';
+  const M={
+   hi:{
+    technical:{ALLOW:'Aapki payment mein technical dikkat aayi thi jo ab theek ho chuki hai, isliye humne safely dobara koshish ki aur wo poori ho gayi. Aapko kuch karne ki zaroorat nahi.',
+               BLOCK:'Aapki payment technical wajah se atki thi, par humne is par dobara retry nahi kiya kyunki ye aapke liye safe nahi tha. Hamari team isse dekh rahi hai.',
+               DEFER:'Technical dikkat ki wajah se humne aapki payment thode baad ke liye shift kar di hai, taaki wo sahi time par poori ho.'},
+    intent:{ALLOW:'Lagta hai payment beech mein ruk gayi thi, isliye humne aapko ek aasaan one-tap option bheja hai jo aap jab chaaho approve kar sakte ho.',
+            BLOCK:'Humne dekha ki checkout mein kuch gadbad thi isliye aapne payment roki. Hum aapko dobara pareshan nahi karenge; ye feedback merchant ko bhej diya gaya hai.',
+            DEFER:'Humne aapki payment aapke liye behtar samay par shift kar di hai, taaki aapko koi dikkat na ho.'},
+    affordability:{ALLOW:'Aapke account mein us waqt balance kam tha, par ab payment safely poori kar di gayi hai.',
+            BLOCK:'Humne dekha ki lagatar payment ki dikkat aa rahi hai, isliye humne retry roka diya hai taaki aapko pareshani na ho. Koi late fee nahi lagegi.',
+            DEFER:'Koi baat nahi. Humne aapki payment salary aane tak aage badha di hai. Tab tak na reminder na late fee; salary aate hi payment apne aap ho jayegi.'},
+    lifecycle:{ALLOW:'Aapka saved card expire ho gaya tha; humne aapko naya card update karne ka secure link bheja hai taaki aapki service na ruke.',
+            BLOCK:'Aapke payment method mein dikkat hai aur humne retry roka diya hai. Jab aap naya method update karoge tabhi aage badhenge.',
+            DEFER:'Aapke payment method ki dikkat ki wajah se humne payment aage badha di hai jab tak wo update nahi hota.'}},
+   en:{
+    technical:{ALLOW:'Your payment hit a technical issue that has since been fixed, so we safely retried and it completed. You do not need to do anything.',
+               BLOCK:'Your payment was stuck due to a technical issue, but we did not retry it because that was not safe for you. Our team is looking into it.',
+               DEFER:'Because of a technical issue, we shifted your payment to a later time so it completes at the right moment.'},
+    intent:{ALLOW:'It looks like your payment stopped midway, so we sent you a simple one-tap option you can approve whenever ready.',
+            BLOCK:'We noticed something was off at checkout, which is why you stopped the payment. We will not bother you again; the feedback has gone to the merchant.',
+            DEFER:'We moved your payment to a better time for you, so you face no trouble.'},
+    affordability:{ALLOW:'Your balance was low at that moment, but the payment has now been completed safely.',
+            BLOCK:'We saw repeated payment trouble, so we stopped retries to spare you stress. No late fees will apply.',
+            DEFER:'That is completely fine. We moved your payment to your salary day. No reminders, no late fees; it completes automatically once your salary arrives.'},
+    lifecycle:{ALLOW:'Your saved card had expired; we sent a secure link to update your new card so your service never stops.',
+            BLOCK:'There is an issue with your payment method, so we paused retries. We will only proceed once you update a new method.',
+            DEFER:'Due to a payment-method issue, we pushed the payment forward until it is updated.'}}};
+  return (M[l][a]&&M[l][a][v])||(l==='hi'?'Humne aapki situation samajh li hai aur safe tarike se handle kar li hai.':'We understood your situation and handled it safely.');
+}
+function lookupReply(o,l){
+  const v=o.verdict||'—';
+  const hi={ALLOW:'humne ise safely dobara process kiya tha',BLOCK:'humne is par retry nahi kiya tha taaki aap safe raho',DEFER:'humne ise sahi time par process karne ke liye shift kiya tha'}[v]||'humne is par karwai ki thi';
+  const en={ALLOW:'we safely reprocessed it',BLOCK:'we did not retry it, to keep you safe',DEFER:'we shifted it to the right time'}[v]||'we handled it';
+  if(l==='hi')return `Maine aapki payment ${o.payment_id} check ki. ₹${o.rupees} ki ye payment "${o.archetype||'technical'}" wajah se atki thi, aur ${hi}. Abhi iska status "${o.status}" hai. Koi aur sawaal ho toh batao.`;
+  return `I checked your payment ${o.payment_id}. This ₹${o.rupees} payment got stuck due to "${o.archetype||'technical'}", and ${en}. Its current status is "${o.status}". Let me know if you have any other question.`;
+}
 async function ask(text){
   addMsg('user',text);
+  const l=lang(text);
+  const m=text.match(/(pay|order)_[a-zA-Z0-9]+/i);
+  if(m){
+    const th=addMsg('agent',l==='hi'?'Payment dhundh raha hoon…':'Looking up your payment…');
+    try{
+      const r=await fetch('/api/explain?payment_id='+encodeURIComponent(m[0]));
+      const o=await r.json();
+      th.querySelector('.bub').innerHTML=`<div style="font-size:14px;line-height:1.6">${
+        o.found?lookupReply(o,l):(l==='hi'?'Mujhe ye payment system mein nahi mili. ID check karo ya poora likho.':'I could not find this payment in the system. Please check the ID or write it in full.')
+      }</div>`;
+    }catch(e){th.querySelector('.bub').textContent='Agent error: '+e;}
+    chatLog.scrollTop=chatLog.scrollHeight;return;
+  }
   const k=!voiceOn?KB.find(x=>x.re.test(text)):null;
-  if(k){addMsg('agent',renderKB(k));return;}
-  const thinking=addMsg('agent','🧠 Thinking…');
+  if(k){addMsg('agent',renderKB(k,l));return;}
+  const thinking=addMsg('agent',l==='hi'?'Soch raha hoon…':'Thinking…');
   const ctx=/cash|store|left|shop|offline/i.test(text)?'post_session_offline':'in_session_online';
   try{
     const r=await fetch('/api/playground',{method:'POST',headers:{'Content-Type':'application/json'},
@@ -450,10 +537,14 @@ async function ask(text){
         failure_code:'CHAT_QUERY',failure_description:text,merchant_id:'merch_001'})});
     const o=await r.json();
     thinking.querySelector('.bub').innerHTML=
-      `<div style="font-size:14px;line-height:1.6;margin-bottom:8px">Yeh situation meri training mein nahi thi 🙈 Main kuch banao-banai nahi bolunga — isliye maine case <b>human team</b> ko forward kar diya hai. Jab tak human confirm nahi karta, <b>koi retry nahi hogi</b>. No money moves without consent!</div>`+
-      `<div style="padding:6px 10px;background:var(--bg);border-radius:8px;font-size:11px;color:var(--muted)">Engine read: <span class="badge ${o.verdict||''}">${o.verdict||'—'}</span> ${o.rule_id||''} · ${o.diagnosis?(o.diagnosis.archetype+' / '+o.diagnosis.owner):''}</div>`+
+      `<div style="font-size:14px;line-height:1.6;margin-bottom:8px">${explain(o,l)}</div>`+
+      `<div style="padding:6px 10px;background:var(--bg);border-radius:8px;font-size:11px;color:var(--muted)">Engine: <span class="badge ${o.verdict||''}">${o.verdict||'—'}</span> ${o.rule_id||''} · ${o.diagnosis?(o.diagnosis.archetype+' / '+o.diagnosis.owner):''}</div>`+
       (o.voice_url?`<audio controls src="${o.voice_url}" style="width:100%;margin-top:6px;height:34px"></audio>`:'');
-  }catch(e){thinking.querySelector('.bub').textContent='Agent error: '+e;}
+  }catch(e){
+    thinking.querySelector('.bub').textContent=l==='hi'
+      ?'Maaf karna, abhi system se connection nahi ho paaya. Thodi der baad try karo, ya human team se baat karo.'
+      :'Sorry, I could not reach the system right now. Please try again in a moment, or contact our human team.';
+  }
   chatLog.scrollTop=chatLog.scrollHeight;
 }
 document.getElementById('chatSend').onclick=()=>{const t=chatIn.value.trim();if(t){chatIn.value='';ask(t);}};

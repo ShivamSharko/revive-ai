@@ -1,6 +1,6 @@
 """The Consent Gate: applies business rules and RBI compliance before any action."""
 from collections import Counter
-from app.db.models import PaymentFailure, MerchantConfig, CustomerPaymentHistory
+from app.db.models import PaymentFailure, MerchantConfig, CustomerPaymentHistory, GateDecision
 from app.core.diagnosis import DiagnosisOut
 from sqlalchemy.orm import Session
 from app.core.liquidity import liquidity_curve
@@ -13,6 +13,7 @@ R04_LIQUIDITY_DEFER = "R04_LIQUIDITY_DEFER"
 R05_TECH_RETRY = "R05_TECH_RETRY"
 R06_DEFAULT_ALLOW = "R06_DEFAULT_ALLOW"
 R07_OFFLINE_QR_TRAP = "R07_OFFLINE_QR_TRAP"
+R08_RETRY_BUDGET = "R08_RETRY_BUDGET"
 
 class Verdict:
     ALLOW = "ALLOW"
@@ -22,8 +23,13 @@ class Verdict:
 def evaluate_consent(db: Session, failure: PaymentFailure, diag: DiagnosisOut):
     """Returns (verdict, rule_id, reasoning)"""
     
-    # Fetch context
-    history = db.query(CustomerPaymentHistory).filter_by(customer_id=failure.customer_id).all()
+    # LAW 8: Retry budget — stopping rules over spam
+    prior_allows = db.query(GateDecision).join(
+        PaymentFailure, PaymentFailure.id == GateDecision.failure_id).filter(
+        PaymentFailure.customer_id == failure.customer_id,
+        GateDecision.verdict == "ALLOW").count()
+    if prior_allows >= 3:
+        return Verdict.BLOCK, R08_RETRY_BUDGET, "Retry budget exhausted (3 safe attempts). Stopping rules over spam."
 
     # LAW 1: RBI Mandate Compliance
     if diag.archetype == "lifecycle" and diag.owner == "merchant":
