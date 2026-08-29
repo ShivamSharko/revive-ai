@@ -12,15 +12,19 @@
 
 ## The Problem (2026 Reality)
 
-| Metric | 2026 Value | Source |
+## The Problem (2026 Reality)
+
+| Metric | Value | Source |
 |---|---|---|
 | Monthly UPI transactions | **23.6 billion** (July 2026) | NPCI |
-| Annual digital transactions | **24,162 crore** (FY 2025-26) | PIB |
-| Conservative failure rate | **0.3%** = **54 crore failures/year** (~1.5 crore/day) | Industry estimates |
+| Conservative failure rate | **~0.6%** (technical + business) | Industry estimates |
+| Monthly payment failures | **~140 million** (~14 crore) | Calculated |
+| Daily payment failures | **~4.6 million** (~46 lakh) | Calculated |
+| Annualized failure volume | **~168 crore** | Calculated |
 | Global revenue leakage | **$47B/year** — 1 in 5 e-commerce orders affected | Optimus |
 | RBI Digital Payments E-Mandate Framework | **21 April 2026** — mandatory 24h pre-debit alerts; no AFA up to ₹15,000 | RBI |
 
-Blindly retrying these failures double-charges customers who already paid cash, spams salary-day shortages, and compounds mandate fines. **Revive AI diagnoses every failure, passes it through a deterministic Consent Gate, and only then acts.**
+With 23.6 billion monthly UPI transactions and ~140 million failures, blindly retrying these double-charges customers who already paid cash, spams salary-day shortages, and compounds mandate fines. **Revive AI diagnoses every failure, passes it through a deterministic Consent Gate, and only then acts.**
 
 ---
 
