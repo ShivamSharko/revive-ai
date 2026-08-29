@@ -348,12 +348,19 @@ _AGENT_INTENTS = [
     (r"net|internet|wifi|bank|server|timeout|upi.*down", "ALLOW", "R-05", "technical glitch"),
 ]
 
+class AgentInput(BaseModel):
+    text: str
+    lang: str = "en"
+    history: list = []
+
 @router.post("/agent")
-def agent(text: str, lang: str = "en"):
+def agent(inp: AgentInput):
     """Block only brand-reputation risks; answer everything else naturally."""
     import re
     from datetime import datetime
     from app.core.llm import generate_text
+
+    text, lang = inp.text, inp.lang
 
     # 1) Brand guard: competitor questions → confident redirect
     if re.search(r"\b(justpay|juspay|stripe|paytm|phonepe|cashfree|gpay|google pay|amazon pay|competitor)\b|compare|which is better|\bvs\b", text, re.I):
@@ -366,7 +373,7 @@ def agent(text: str, lang: str = "en"):
             "verdict": None, "rule_id": None,
         }
 
-    # 2) Reputation guard: politics/religion/medical/legal/investment → neutral deflect, NO opinion
+    # 2) Reputation guard: politics/religion/medical/legal/investment → neutral deflect
     if re.search(r"politic|election|religion|communal|caste|medical|medicine|doctor|legal|lawyer|lawsuit|stock|share market|crypto|bitcoin|\binvest\b", text, re.I):
         return {
             "reply": ("Main sirf payments mein madad karta hoon — is topic par main koi ray nahi deta. Aapki payment ki baat karein?"
@@ -375,7 +382,7 @@ def agent(text: str, lang: str = "en"):
             "verdict": None, "rule_id": None,
         }
 
-    # 3) Everything else → natural AI (small talk, date, greetings, payments)
+    # 3) Intent detection for safety verdicts
     verdict = rule = note = None
     for pat, v, r, n in _AGENT_INTENTS:
         if re.search(pat, text, re.I):
@@ -395,10 +402,11 @@ def agent(text: str, lang: str = "en"):
         "2-4 short sentences, empathetic, no emojis. Address the customer's ACTUAL words. "
         "For harmless small talk or simple facts (date, time, greetings), answer briefly and friendly, then gently steer to payments. "
         "Never mention competitor brands. Never give political, religious, medical, legal, or investment opinions. "
+        "You can see the recent conversation — use it to stay consistent and refer back to earlier messages when relevant. "
         + (f"Safety engine decided: {verdict} ({rule}) because {note}. {action} Respect this exactly. " if verdict else "")
         + "Never invent amounts, IDs, or promises."
     )
-    reply = generate_text(system, text, max_tokens=220)
+    reply = generate_text(system, text, max_tokens=220, history=inp.history)
     if not reply:
         if lang == "hi":
             reply = ("Samajh gaya. Main is par koi paisa nahi kataunga jab tak aap confirm na karein."

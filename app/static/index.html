@@ -147,6 +147,31 @@ footer{border-top:1.5px solid var(--ink);padding:32px 40px;color:var(--muted);fo
 #voiceTgl{background:rgba(255,255,255,.15);border:none;color:#fff;border-radius:999px;padding:4px 10px;font-size:11px;cursor:pointer}
 #voiceTgl.on{background:var(--blue)}
 @media(max-width:960px){.stats,.trio{grid-template-columns:repeat(2,1fr)}.play,.row,.gategrid,.voicegrid{grid-template-columns:1fr}.hero{padding:48px 0 32px}.nlinks a:not(.navcta){display:none}.deco{display:none}}
+
+@media(max-width:640px){
+  .wrap{padding:0 16px}
+  nav{padding:0 10px}
+  .nb{padding:8px 8px 8px 16px}
+  .livebadge{display:none}
+  section{padding:40px 0}
+  .hero{padding:44px 0 28px}
+  h1{letter-spacing:-1px}
+  .stats{grid-template-columns:repeat(2,1fr);gap:10px}
+  .stat{padding:14px}.stat .num{font-size:19px}
+  .sh h2{font-size:24px}
+  .gategrid{grid-template-columns:repeat(2,1fr)}
+  .panel{padding:16px}
+  .panel table{display:block;overflow-x:auto}
+  th,td{padding:6px 8px}
+  .presult{min-height:160px;padding:16px}
+  #chatBtn{right:14px;bottom:14px;width:50px;height:50px}
+  #chatPanel{left:10px;right:10px;bottom:74px;width:auto;max-width:none}
+  #chatLog{height:46vh}
+  .chips{flex-wrap:nowrap;overflow-x:auto;padding-bottom:8px}
+  .chips button{flex:0 0 auto}
+  .voicegrid{grid-template-columns:1fr}
+}
+
 </style>
 </head>
 <body>
@@ -471,6 +496,7 @@ const chatBtn=document.getElementById('chatBtn'),chatPanel=document.getElementBy
 chatLog=document.getElementById('chatLog'),chatIn=document.getElementById('chatIn'),
 voiceTgl=document.getElementById('voiceTgl');
 let voiceOn=false;
+const chatHistory=[];
 voiceTgl.onclick=()=>{voiceOn=!voiceOn;voiceTgl.textContent=voiceOn?'🔊 voice on':'🔇 voice off';voiceTgl.classList.toggle('on',voiceOn);};
 chatBtn.onclick=()=>chatPanel.classList.toggle('open');
 function addMsg(who,html){const d=document.createElement('div');d.className='msg '+who;
@@ -579,6 +605,9 @@ function lookupReply(o,l){
 async function ask(text){
   addMsg('user',text);
   const l=lang(text);
+  const hist=chatHistory.slice(-8);
+  chatHistory.push({role:'user',content:text});
+  if(chatHistory.length>24)chatHistory.splice(0,chatHistory.length-24);
   const m=text.match(/(pay|order)_[a-zA-Z0-9]+/i);
   if(m){
     const th=addMsg('agent',l==='hi'?'Payment dhundh raha hoon…':'Looking up your payment…');
@@ -593,8 +622,10 @@ async function ask(text){
   }
   const thinking=addMsg('agent',l==='hi'?'Soch raha hoon…':'Thinking…');
   try{
-    const r=await fetch(`/api/agent?text=${encodeURIComponent(text)}&lang=${l}`,{method:'POST'});
+    const r=await fetch('/api/agent',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({text,lang:l,history:hist})});
     const o=await r.json();
+    if(o.reply)chatHistory.push({role:'assistant',content:o.reply});
     let html=`<div style="font-size:14px;line-height:1.6">${o.reply||''}</div>`;
     if(o.verdict)html+=`<div style="margin-top:6px;padding:6px 10px;background:var(--bg);border-radius:8px;font-size:11px;color:var(--muted)"><span class="badge ${o.verdict}" style="margin-right:4px">${o.verdict}</span> ${o.rule_id||''}</div>`;
     thinking.querySelector('.bub').innerHTML=html;
