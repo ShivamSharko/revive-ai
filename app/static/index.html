@@ -159,6 +159,7 @@ footer{border-top:1.5px solid var(--ink);padding:32px 40px;color:var(--muted);fo
     <a href="#proof">Proof</a>
     <a href="#gate">Consent Gate</a>
     <a href="#feed">Telemetry</a>
+    <a href="#audit">Audit</a>
     <a href="#voice">Voice</a>
     <a class="navcta" href="#play">Try the agent</a>
   </div>
@@ -393,21 +394,19 @@ async function load(){
       const mj=await (await fetch('/api/mandate_jobs')).json();
       if(mandate)mandate.innerHTML=(mj||[]).map(j=>`<div><b>${(j.payment_id||'').slice(0,18)}</b> · ${j.kind} @ ${String(j.run_at).slice(0,16)}</div>`).join('')||'<div>No mandate sequences yet</div>';
     }catch(e){if(mandate)mandate.innerHTML='<div>Mandate endpoint unavailable</div>';}
-        try{
+    try{
       const pr=await (await fetch('/api/promises')).json();
       promises.innerHTML=(pr||[]).map(p=>{
         const badge=p.status==='fulfilled'?'ALLOW':p.status==='escalated'?'BLOCK':'DEFER';
         return `<div><b>${p.customer_id}</b> · <span class="badge ${badge}">${p.status}</span> · ${p.promised_at?p.promised_at.slice(0,10):'—'}<br>${p.notes||''}</div>`;
       }).join('')||'<div>No promises tracked</div>';
-      
       const pending=(pr||[]).filter(p=>p.status==='pending').length;
       const fulfilled=(pr||[]).filter(p=>p.status==='fulfilled').length;
       const escalated=(pr||[]).filter(p=>p.status==='escalated').length;
       promisePending.textContent=pending;
       promiseFulfilled.textContent=fulfilled;
       promiseEscalated.textContent=escalated;
-    }catch(e){promises.innerHTML='<div>Endpoint not available</div>';}
-
+    }catch(e){if(promises)promises.innerHTML='<div>Promises unavailable</div>';}
     try{
       const rv=await (await fetch('/api/receivables')).json();
       if(recv)recv.innerHTML=(rv||[]).map(r=>{
@@ -426,7 +425,6 @@ async function load(){
          <div><b>Biggest leak:</b> ${fn.leak} orders never reached payment attempt</div>`;
       else if(funnel)funnel.innerHTML='<div>No funnel data</div>';
     }catch(e){if(funnel)funnel.innerHTML='<div>Funnel unavailable</div>';}
-
     const au=await (await fetch('/api/audit')).json();
     audit.innerHTML=au.map(a=>`<div><b>${a.actor}</b> · ${a.action} · ${a.entity}#${a.entity_id}<br>${(a.reasoning||'').slice(0,140)}</div>`).join('');
   }catch(e){console.error('load() failed:',e);}
