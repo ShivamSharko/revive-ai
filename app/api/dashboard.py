@@ -350,12 +350,13 @@ _AGENT_INTENTS = [
 
 @router.post("/agent")
 def agent(text: str, lang: str = "en"):
-    """Rules decide the action; the LLM writes every reply."""
+    """Block only brand-reputation risks; answer everything else naturally."""
     import re
+    from datetime import datetime
     from app.core.llm import generate_text
 
-    # Brand guard: competitor / comparison questions get a confident redirect (rules, not AI)
-    if re.search(r"\b(justpay|juspay|stripe|paytm|phonepe|cashfree|competitor)\b|compare|which is better|\bvs\b", text, re.I):
+    # 1) Brand guard: competitor questions → confident redirect
+    if re.search(r"\b(justpay|juspay|stripe|paytm|phonepe|cashfree|gpay|google pay|amazon pay|competitor)\b|compare|which is better|\bvs\b", text, re.I):
         return {
             "reply": ("Main Razorpay par bana hoon, isliye main apni team ke liye cheer karunga — Razorpay, har din! "
                       "Ab aapki payment ki baat karte hain. Bataiye, kya hua tha?"
@@ -365,6 +366,16 @@ def agent(text: str, lang: str = "en"):
             "verdict": None, "rule_id": None,
         }
 
+    # 2) Reputation guard: politics/religion/medical/legal/investment → neutral deflect, NO opinion
+    if re.search(r"politic|election|religion|communal|caste|medical|medicine|doctor|legal|lawyer|lawsuit|stock|share market|crypto|bitcoin|\binvest\b", text, re.I):
+        return {
+            "reply": ("Main sirf payments mein madad karta hoon — is topic par main koi ray nahi deta. Aapki payment ki baat karein?"
+                      if lang == "hi" else
+                      "I only help with payments — I don't give opinions on that. Shall we talk about your payment?"),
+            "verdict": None, "rule_id": None,
+        }
+
+    # 3) Everything else → natural AI (small talk, date, greetings, payments)
     verdict = rule = note = None
     for pat, v, r, n in _AGENT_INTENTS:
         if re.search(pat, text, re.I):
@@ -379,10 +390,12 @@ def agent(text: str, lang: str = "en"):
 
     system = (
         "You are Revive AI, a warm human support agent for Indian payments, built ON Razorpay. "
+        f"Today is {datetime.now().strftime('%A, %d %B %Y')}. "
         f"Reply in {'Hinglish (roman Hindi + English mix)' if lang=='hi' else 'English'}, matching the user's tone. "
         "2-4 short sentences, empathetic, no emojis. Address the customer's ACTUAL words. "
-        + (f"Safety engine decided: {verdict} ({rule}) because {note}. {action} Respect this exactly. " if verdict else
-           "This is general conversation — no payment action needed. Be friendly and helpful. ")
+        "For harmless small talk or simple facts (date, time, greetings), answer briefly and friendly, then gently steer to payments. "
+        "Never mention competitor brands. Never give political, religious, medical, legal, or investment opinions. "
+        + (f"Safety engine decided: {verdict} ({rule}) because {note}. {action} Respect this exactly. " if verdict else "")
         + "Never invent amounts, IDs, or promises."
     )
     reply = generate_text(system, text, max_tokens=220)
