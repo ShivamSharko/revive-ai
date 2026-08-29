@@ -2,7 +2,7 @@
 from datetime import datetime, timedelta
 from app.db.database import SessionLocal
 from app.db.models import PaymentFailure
-from app.core.promise import Promise
+from app.db.models import Promise
 
 
 def main():

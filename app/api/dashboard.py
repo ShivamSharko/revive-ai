@@ -270,7 +270,7 @@ def mechanisms():
 
 @router.get("/promises")
 def promises():
-    from app.core.promise import Promise
+    from app.db.models import Promise
     db = SessionLocal()
     try:
         rows = db.query(Promise).order_by(Promise.created_at.desc()).limit(20).all()
@@ -283,10 +283,33 @@ def promises():
 
 @router.post("/promises")
 def create_promise_endpoint(failure_id: int, customer_id: str, promised_date: str):
-    from app.core.promise import create_promise
+    from datetime import datetime, timedelta
+    from app.db.models import Promise
     db = SessionLocal()
     try:
-        p = create_promise(db, failure_id, customer_id, promised_date)
+        try:
+            promised_at = datetime.fromisoformat(promised_date)
+        except Exception:
+            promised_at = datetime.now() + timedelta(days=7)
+        p = Promise(failure_id=failure_id, customer_id=customer_id,
+                    promised_at=promised_at, status="pending")
+        db.add(p)
+        db.commit()
         return {"id": p.id, "status": p.status, "promised_at": p.promised_at.isoformat()}
+    finally:
+        db.close()
+
+@router.get("/mandate_jobs")
+def mandate_jobs():
+    db = SessionLocal()
+    try:
+        rows = db.query(Job).filter(Job.kind.like("MANDATE%")).order_by(Job.id.desc()).limit(12).all()
+        out = []
+        for j in rows:
+            f = db.query(PaymentFailure).filter_by(id=j.failure_id).first()
+            out.append({"payment_id": f.external_payment_id if f else "?",
+                        "kind": j.kind,
+                        "run_at": j.run_at.isoformat() if j.run_at else None})
+        return out
     finally:
         db.close()

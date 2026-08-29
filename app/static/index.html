@@ -108,7 +108,7 @@ h1 em{font-style:normal;background:linear-gradient(transparent 64%,rgba(82,139,2
 .gc b{display:block;font-size:13px;margin-bottom:4px;font-family:'Space Grotesk'}
 .gc .name{color:var(--muted);font-size:11px;display:block;margin-bottom:8px}
 .gc .desc{color:var(--muted);font-size:10px;margin-top:8px;display:block}
-.row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
 .panel{background:var(--card);border:1.5px solid var(--ink);border-radius:20px;padding:22px;transition:.25s}
 .panel:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 rgba(11,92,255,.15)}
 .panel h3{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:16px;font-weight:800}
@@ -249,6 +249,10 @@ footer{border-top:1.5px solid var(--ink);padding:32px 40px;color:var(--muted);fo
       <div class="panel reveal"><h3>Reconciliation · limbo watch</h3><div class="feed" id="recon"></div></div>
     </div>
     <div class="row">
+      <div class="panel reveal"><h3>Mechanism selector · success-rate routing</h3><div class="feed" id="mech"></div></div>
+      <div class="panel reveal"><h3>Mandate sequencer · compliant dunning</h3><div class="feed" id="mandate"></div></div>
+    </div>
+    <div class="row">
       <div class="panel reveal"><h3>Promise-to-Pay tracker</h3><div class="feed" id="promises"></div></div>
       <div class="panel reveal"><h3>Promise fulfillment</h3>
         <div class="feed" id="promise-stats">
@@ -379,10 +383,11 @@ async function load(){
     try{
       const mr=await (await fetch('/api/mechanisms')).json();
       mech.innerHTML=(mr||[]).map(m=>`<div><b>${m.method}</b> · ${Math.round(m.success_rate*100)}% success · ${m.attempts} attempts</div>`).join('')||'<div>No data.</div>';
-    }catch(e){mech.innerHTML='<div>Endpoint not available yet</div>';}
-    mandate.innerHTML=(js||[]).filter(j=>(j.kind||'').startsWith('MANDATE')).slice(0,8)
-      .map(j=>`<div><b>${j.payment_id.slice(0,18)}</b> · ${j.kind} @ ${String(j.run_at).slice(0,16)}</div>`).join('')
-      ||'<div>Run: python -m scripts.simulate_mandate_sequence</div>';
+    }catch(e){if(mech)mech.innerHTML='<div>Endpoint not available yet</div>';}
+    try{
+      const mj=await (await fetch('/api/mandate_jobs')).json();
+      if(mandate)mandate.innerHTML=(mj||[]).map(j=>`<div><b>${(j.payment_id||'').slice(0,18)}</b> · ${j.kind} @ ${String(j.run_at).slice(0,16)}</div>`).join('')||'<div>No mandate sequences yet</div>';
+    }catch(e){if(mandate)mandate.innerHTML='<div>Mandate endpoint unavailable</div>';}
         try{
       const pr=await (await fetch('/api/promises')).json();
       promises.innerHTML=(pr||[]).map(p=>{

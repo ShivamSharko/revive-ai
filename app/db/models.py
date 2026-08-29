@@ -1,3 +1,4 @@
+from datetime import datetime
 from sqlalchemy import (BigInteger, Boolean, Column, DateTime, Float,
                         ForeignKey, Integer, String, Text, JSON)
 from sqlalchemy.sql import func
@@ -115,3 +116,13 @@ class PromiseToPay(Base):
     amount_paise = Column(BigInteger, nullable=False)
     status = Column(String(16), default="active")
     created_at = Column(DateTime(timezone=True), server_default=func.now())
+
+class Promise(Base):
+    __tablename__ = "promises"
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    failure_id = Column(Integer, ForeignKey("payment_failures.id"))
+    customer_id = Column(String(64))
+    promised_at = Column(DateTime)
+    created_at = Column(DateTime, default=datetime.now)
+    status = Column(String(16), default="pending")
+    notes = Column(Text)
