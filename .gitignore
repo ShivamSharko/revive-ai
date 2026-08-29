@@ -2,4 +2,4 @@ venv/
 __pycache__/
 *.pyc
 .env
-.vscode/
+.vscode/voice_play_*.mp3

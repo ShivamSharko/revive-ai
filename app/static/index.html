@@ -126,7 +126,30 @@ tr{transition:background .15s}tr:hover{background:var(--tint)}
 .vcard b{font-size:13px}
 audio{width:100%;margin-top:10px;height:40px}
 footer{border-top:1.5px solid var(--ink);padding:32px 40px;color:var(--muted);font-size:12px;text-align:center;max-width:1100px;margin:0 auto}
+#chatBtn{position:fixed;right:22px;bottom:22px;width:54px;height:54px;border-radius:50%;background:var(--blue);color:#fff;font-size:22px;border:1.5px solid var(--ink);cursor:pointer;box-shadow:5px 5px 0 rgba(11,92,255,.25);z-index:50;transition:.2s}
+#chatBtn:hover{transform:translate(-2px,-2px)}
+#chatPanel{position:fixed;right:22px;bottom:88px;width:350px;max-width:calc(100vw - 44px);background:#fff;border:1.5px solid var(--ink);border-radius:18px;box-shadow:8px 8px 0 rgba(10,15,26,.12);z-index:50;display:none;flex-direction:column;overflow:hidden}
+#chatPanel.open{display:flex}
+.chatHead{background:var(--ink);color:#fff;padding:12px 16px;font-weight:700;font-size:13px}
+#chatLog{padding:14px;height:300px;overflow-y:auto;font-size:13px;line-height:1.6}
+.msg{margin-bottom:10px;animation:fadeUp .4s both}
+.msg.user{text-align:right}
+.msg .bub{display:inline-block;border-radius:12px;padding:8px 12px;text-align:left;max-width:90%}
+.msg.user .bub{background:var(--blue);color:#fff}
+.msg.agent .bub{background:var(--tint);border:1.5px solid var(--line)}
+.chips{display:flex;gap:6px;flex-wrap:wrap;padding:0 14px 10px}
+.chips button{border:1.5px solid var(--line);background:#fff;border-radius:999px;padding:4px 10px;font-size:11px;cursor:pointer;transition:.2s}
+.chips button:hover{border-color:var(--ink)}
+.chatInput{display:flex;border-top:1.5px solid var(--line)}
+.chatInput input{flex:1;border:none;padding:12px;font-size:13px;outline:none}
+.chatInput button{background:var(--blue);color:#fff;border:none;padding:0 18px;font-weight:700;cursor:pointer}
 @media(max-width:960px){.stats,.trio{grid-template-columns:repeat(2,1fr)}.play,.row,.gategrid,.voicegrid{grid-template-columns:1fr}.hero{padding:48px 0 32px}.nlinks a:not(.navcta){display:none}.deco{display:none}}
+
+#chatBtn{display:flex;align-items:center;justify-content:center}
+.chatHead{display:flex;justify-content:space-between;align-items:center}
+#voiceTgl{background:rgba(255,255,255,.15);border:none;color:#fff;border-radius:999px;padding:4px 10px;font-size:11px;cursor:pointer}
+#voiceTgl.on{background:var(--blue)}
+
 </style>
 </head>
 <body>
@@ -197,6 +220,9 @@ footer{border-top:1.5px solid var(--ink);padding:32px 40px;color:var(--muted);fo
         <label>Amount (₹)</label><input id="p-amt" type="number" value="499">
         <label>Method</label><select id="p-method"><option>upi</option><option>card</option><option>emandate</option></select>
         <label>Context</label><select id="p-ctx"><option>in_session_online</option><option>post_session_online</option><option>post_session_offline</option><option>recurring</option></select>
+        <label style="display:flex;align-items:center;gap:8px;margin-top:14px;font-size:12px;font-weight:700;color:var(--muted);cursor:pointer">
+          <input type="checkbox" id="p-voice" style="width:auto;accent-color:var(--blue)"> 🔊 Include Hinglish voice reply
+        </label>
         <button class="btn primary" id="p-run">Run the agent ▸</button>
       </div>
       <div class="presult" id="p-result">Select a scenario and press <b>Run the agent</b>.</div>
@@ -244,6 +270,20 @@ footer{border-top:1.5px solid var(--ink);padding:32px 40px;color:var(--muted);fo
   <b style="color:var(--ink)">The 5 Laws:</b> No money without consent · Never remind, resolve · Best recovery is invisible · Safety is rules, not AI · Assign ownership first<br><br>
   Revive AI — Razorpay Buildathon 2026 · Track 03
 </footer>
+
+<!-- Chat widget MUST exist before the script runs -->
+<button id="chatBtn" title="Ask the agent"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 3a7 7 0 0 0-7 7v4a3 3 0 0 0 3 3h1v-6H7v-1a5 5 0 0 1 10 0v1h-2v6h1a3 3 0 0 0 3-3v-4a7 7 0 0 0-7-7z" fill="#fff"/></svg></button>
+<div id="chatPanel">
+  <div class="chatHead"><span>💁 Customer experience preview</span><button id="voiceTgl">🔇 voice off</button></div>
+  <div id="chatLog"></div>
+  <div class="chips">
+    <button>Mera payment fail ho gaya</button>
+    <button>Maine cash se pay kar diya tha</button>
+    <button>Salary aane do, tab pay karunga</button>
+    <button>Card expire ho gaya hai</button>
+  </div>
+  <div class="chatInput"><input id="chatIn" placeholder="e.g. my card expired…"><button id="chatSend">➤</button></div>
+</div>
 
 <script>
 const c_total=document.getElementById('c-total'),c_risk=document.getElementById('c-risk'),
@@ -335,17 +375,90 @@ document.getElementById('p-run').addEventListener('click',async()=>{
     const r=await fetch('/api/playground',{method:'POST',headers:{'Content-Type':'application/json'},
       body:JSON.stringify({amount_rupees:+document.getElementById('p-amt').value||499,
         method:document.getElementById('p-method').value,context:document.getElementById('p-ctx').value,
-        failure_code:p.code,failure_description:p.desc,merchant_id:p.merch})});
+        failure_code:p.code,failure_description:p.desc,merchant_id:p.merch,
+        voice:document.getElementById('p-voice').checked})});
     const o=await r.json(),d=o.diagnosis;
     out.innerHTML=[
       `<b>1 · Diagnosis:</b> ${d?d.archetype+' / '+d.owner+' (conf '+d.confidence+', via '+d.model+')':'unavailable'}`,
       `<b>2 · Consent Gate:</b> <span class="badge ${o.verdict||''}">${o.verdict||'—'}</span> ${o.rule_id||''}`,
       `<b>3 · Reasoning:</b> ${o.reasoning||'—'}`,
-      `<b>4 · Action:</b> ${o.action}`
+      `<b>4 · Action:</b> ${o.action}`,
+      `<b>5 · Customer receives:</b> "${o.customer_message||''}"` +
+      (o.voice_url?`<audio controls src="${o.voice_url}" style="width:100%;margin-top:8px;height:36px"></audio>`:'')
     ].map((s,i)=>`<div class="step" style="animation-delay:${i*.15}s">${s}</div>`).join('');
   }catch(e){out.innerHTML='<div class="step">Error: '+e+'</div>';}
   btn.textContent='Run the agent ▸';btn.disabled=false;
 });
+
+const chatBtn=document.getElementById('chatBtn'),chatPanel=document.getElementById('chatPanel'),
+chatLog=document.getElementById('chatLog'),chatIn=document.getElementById('chatIn'),
+voiceTgl=document.getElementById('voiceTgl');
+let voiceOn=false;
+voiceTgl.onclick=()=>{voiceOn=!voiceOn;voiceTgl.textContent=voiceOn?'🔊 voice on':'🔇 voice off';voiceTgl.classList.toggle('on',voiceOn);};
+chatBtn.onclick=()=>chatPanel.classList.toggle('open');
+function addMsg(who,html){const d=document.createElement('div');d.className='msg '+who;
+  d.innerHTML=`<span class="bub">${html}</span>`;chatLog.appendChild(d);chatLog.scrollTop=chatLog.scrollHeight;return d;}
+const KB=[
+ {re:/net|internet|wifi|wi-?fi|mobile data|kate|kat[ae]|deduct|cut nahi/i,v:'ALLOW',r:'R-05',
+  reply:'Aapka net band tha, isliye payment attempt fail hui — aur <b>koi paisa deduct nahi hua</b>. ✅ Paise bilkul safe hain. Jab aap ready ho, main ek one-tap UPI Collect request bhej dunga — <b>bina aapke approval ke kuch nahi katega</b>. Koi jaldi nahi, koi pressure nahi.',
+  note:'Customer-side failure → NO silent deduction. Mechanism Swap: one-tap collect request, customer approves first.'},
+ 
+ {re:/use nahi|use nhi|nahi karna|nhi krna|band karo|stop|cancel|unsubscribe|refuse|mana kiya|don.?t want/i,v:'BLOCK',r:'LAW-1',
+  reply:'Bilkul samajh gaya! 🙏 Aapne is method se pay karne se mana kiya hai — maine retry turant BLOCK kar diya hai. <b>No money moves without valid consent.</b> Chaaho toh baad mein koi dusra payment method choose kar lena. Koi pressure nahi.',
+  note:'Consent withdrawn → hard block. Law 1 enforced.'},
+
+  {re:/payment.*fail|fail.*gaya|fail.*gayi|payment.*nahi.*hua/i,v:null,r:null,
+  reply:'Oh no! 😔 Koi tension nahi — main samajh jaunga kya hua. Bas thoda batao: "mera net nhi chal rha tha", "maine cash de diya tha", "balance kam tha", ya "card expire hai"?',
+  note:null},
+ {re:/cash|store|left|shop|qr|offline|dukaan/i,v:'BLOCK',r:'R-07',
+  reply:'Arey nahi nahi! 🙏 Aapne store par already cash se pay kar diya tha na — toh humne wo QR payment cancel kar di hai. Dobara charge bilkul nahi hoga. Aap tension mat lo.',
+  note:'Double-charge prevented. Gate blocked the retry.'},
+ {re:/salary|broke|no money|balance|can.?t pay|paise nahi|paisa nahi/i,v:'DEFER',r:'R-04',
+  reply:'Koi baat nahi! 😊 Humne aapki payment salary day tak shift kar di hai. Tab tak koi reminder nahi aayega, koi late fee nahi lagegi. Jab paise aa jayein, automatically process ho jayega.',
+  note:'Deferred to modal salary day via Liquidity Curve.'},
+ {re:/bank|server|timeout|upi.*down/i,v:'ALLOW',r:'R-05',
+  reply:'Aapki galti nahi thi — aap payment kar hi rahe the ki bank ke server mein thodi der ki problem aa gayi. 🔧 Aap purchase kar hi rahe the (intent clear tha), isliye bank recover hote hi humne silently retry kiya aur order confirm ho gaya. Aapko kuch karne ki zaroorat nahi.',
+  note:'Invisible recovery (Law 3): silent retry ONLY because customer was mid-purchase with clear intent.'},
+ {re:/expir|card.*old|purana card/i,v:'ALLOW',r:'R-06',
+  reply:'Aapka saved card expire ho gaya hai, isliye payment nahi ho paayi. 💳 Jab aapko convenient lage, naya card update kar dijiye — koi jaldi nahi hai, koi pressure nahi.',
+  note:'Card-update link sent instead of retrying dead instrument.'},
+ {re:/fee|shipping|hidden|extra charge/i,v:'BLOCK',r:'R-02',
+  reply:'Humne dekha ki checkout pe unexpected fees dikhne ki wajah se aapne payment chhod di. 🛒 Hum aapko dobara spam nahi karenge — yeh feedback merchant ko bhej diya gaya hai taaki wo fix karein.',
+  note:'Merchant insight generated instead of customer retry.'},
+ {re:/mandate|24 ?h|notification|pre.?debit|rbi/i,v:'BLOCK',r:'R-01',
+  reply:'Yeh payment RBI ke rules ke hisaab se abhi process nahi ho sakti — pre-debit notification time poora nahi hua tha. 🏛️ Aapke rights protected hain. Jab sab compliant hoga, tab hi charge hoga.',
+  note:'RBI e-mandate 24h pre-debit rule enforced.'},
+ {re:/help|kya kar sakte|who are you|kaun ho|what do you do/i,v:null,r:null,
+  reply:'Main Revive AI hoon! 👋 Jab aapki payment fail hoti hai, main samajhta hoon kyun hui, aur sirf tabhi retry karta hoon jab aapke liye safe ho. Kuch try karein:\n\n• "Maine cash se pay kar diya tha"\n• "Salary aane do"\n• "Bank server down tha"',
+  note:null},
+ {re:/otp|abandon|chhod diya/i,v:'BLOCK',r:'R-02',
+  reply:'Lagta hai aapne OTP step pe payment chhod di thi. 📵 Koi baat nahi — humne UPI Collect request bhej di hai, ek tap se approve kar sakte ho jab ready ho. Koi spam nahi.',
+  note:'Mechanism swap: OTP flow → UPI Collect Request.'}];
+function renderKB(k){
+  let html=`<div style="margin-bottom:8px;font-size:14px;line-height:1.6">${k.reply.replace(/\n/g,'<br>')}</div>`;
+  if(k.v) html+=`<div style="margin-top:6px;padding:6px 10px;background:var(--bg);border-radius:8px;font-size:11px;color:var(--muted)"><span class="badge ${k.v}" style="margin-right:4px">${k.v}</span> ${k.r} · ${k.note}</div>`;
+  return html;}
+async function ask(text){
+  addMsg('user',text);
+  const k=!voiceOn?KB.find(x=>x.re.test(text)):null;
+  if(k){addMsg('agent',renderKB(k));return;}
+  const thinking=addMsg('agent','🧠 Thinking…');
+  const ctx=/cash|store|left|shop|offline/i.test(text)?'post_session_offline':'in_session_online';
+  try{
+    const r=await fetch('/api/playground',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({amount_rupees:499,method:'upi',context:ctx,voice:voiceOn,
+        failure_code:'CHAT_QUERY',failure_description:text,merchant_id:'merch_001'})});
+    const o=await r.json();
+    thinking.querySelector('.bub').innerHTML=
+      `<div style="font-size:14px;line-height:1.6;margin-bottom:8px">Yeh situation meri training mein nahi thi 🙈 Main kuch banao-banai nahi bolunga — isliye maine case <b>human team</b> ko forward kar diya hai. Jab tak human confirm nahi karta, <b>koi retry nahi hogi</b>. No money moves without consent!</div>`+
+      `<div style="padding:6px 10px;background:var(--bg);border-radius:8px;font-size:11px;color:var(--muted)">Engine read: <span class="badge ${o.verdict||''}">${o.verdict||'—'}</span> ${o.rule_id||''} · ${o.diagnosis?(o.diagnosis.archetype+' / '+o.diagnosis.owner):''}</div>`+
+      (o.voice_url?`<audio controls src="${o.voice_url}" style="width:100%;margin-top:6px;height:34px"></audio>`:'');
+  }catch(e){thinking.querySelector('.bub').textContent='Agent error: '+e;}
+  chatLog.scrollTop=chatLog.scrollHeight;
+}
+document.getElementById('chatSend').onclick=()=>{const t=chatIn.value.trim();if(t){chatIn.value='';ask(t);}};
+chatIn.addEventListener('keydown',e=>{if(e.key==='Enter'){const t=chatIn.value.trim();if(t){chatIn.value='';ask(t);}}});
+document.querySelectorAll('.chips button').forEach(b=>b.onclick=()=>ask(b.textContent));
 
 load();setInterval(load,30000);
 </script>

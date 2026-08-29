@@ -108,6 +108,7 @@ class PlaygroundInput(BaseModel):
     failure_code: str = "BANK_TIMEOUT"
     failure_description: str = "UPI transaction failed due to bank server timeout"
     merchant_id: str = "merch_001"
+    voice: bool = False    
 
 
 @router.post("/playground")
@@ -150,6 +151,31 @@ def playground(inp: PlaygroundInput):
             "DEFER": "Deferred to salary day via Liquidity Curve (watchful waiting).",
             "BLOCK": "Retry BLOCKED. Customer protected. No money moves without consent.",
         }
+        # What the customer actually receives: Hinglish message + on-the-fly voice
+        import asyncio, os, edge_tts
+        ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        MSG = {
+            ("technical", "ALLOW"): "Bank mein temporary problem thi, ab fix ho gayi hai. Humne dobara try kiya — payment successful. Koi action needed nahi.",
+            ("technical", "BLOCK"): "Aapne store par cash se payment kar di thi — humne QR dobara charge nahi kiya. Double-charge prevented.",
+            ("intent", "ALLOW"): "OTP mein problem ho gayi thi. Ab humne UPI Collect request bheji hai — one tap se approve kar sakte ho.",
+            ("affordability", "DEFER"): "Koi baat nahi! Humne payment aapke salary day tak shift kar di hai. Tab tak koi reminder nahi, koi late fee nahi.",
+            ("lifecycle", "BLOCK"): "Aapka card expire ho gaya tha, isliye payment nahi hui. Jab convenient ho, naya card update karein. Koi jaldi nahi.",
+        }
+        key = (diag.archetype, verdict) if diag else (None, None)
+        customer_message = MSG.get(key, "Humne payment issue samajh liya hai aur safely handle kar rahe hain. Aapko spam nahi karenge.")
+
+        voice_url = None
+        if inp.voice:
+            voice_file = f"voice_play_{ext_id}.mp3"
+            try:
+                async def _tts():
+                    comm = edge_tts.Communicate(customer_message, "hi-IN-MadhurNeural")
+                    await comm.save(os.path.join(ROOT, voice_file))
+                asyncio.run(_tts())
+                voice_url = "/voice/" + voice_file
+            except Exception:
+                voice_url = None
+
         out = {
             "payment_id": ext_id,
             "diagnosis": {"archetype": diag.archetype, "owner": diag.owner,
@@ -157,6 +183,8 @@ def playground(inp: PlaygroundInput):
                           "model": model} if diag else None,
             "verdict": verdict, "rule_id": rule_id, "reasoning": reasoning,
             "action": actions.get(verdict, "Diagnosis unavailable."),
+            "customer_message": customer_message,
+            "voice_url": voice_url,
         }
 
         # Clean up so playground runs NEVER pollute the money slide
