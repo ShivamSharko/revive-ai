@@ -6,6 +6,8 @@ from app.core.audit import audit_merchant_compliance
 from app.db.database import SessionLocal
 from app.db.models import (AuditLog, Diagnosis, GateDecision, Job, PaymentFailure)
 
+from pydantic import BaseModel
+
 router = APIRouter(prefix="/api")
 
 @router.get("/overview")
@@ -96,5 +98,71 @@ def audit():
         return [{"id": a.id, "entity": a.entity_type, "entity_id": a.entity_id,
                  "actor": a.actor, "action": a.action, "reasoning": a.reasoning}
                 for a in rows]
+    finally:
+        db.close()
+
+class PlaygroundInput(BaseModel):
+    amount_rupees: float = 499
+    method: str = "upi"
+    context: str = "in_session_online"
+    failure_code: str = "BANK_TIMEOUT"
+    failure_description: str = "UPI transaction failed due to bank server timeout"
+    merchant_id: str = "merch_001"
+
+
+@router.post("/playground")
+def playground(inp: PlaygroundInput):
+    """Interactive: send a failure, watch the agent diagnose -> gate -> act."""
+    from datetime import datetime
+    import uuid
+    from app.core.diagnosis import diagnose_batch
+    from app.core.gate import evaluate_consent
+    from app.db.models import Diagnosis
+
+    db = SessionLocal()
+    try:
+        ext_id = "play_" + uuid.uuid4().hex[:10]
+        f = PaymentFailure(
+            external_payment_id=ext_id, source="playground",
+            amount_paise=int(inp.amount_rupees * 100), currency="INR",
+            method=inp.method, failure_code=inp.failure_code,
+            failure_description=inp.failure_description,
+            customer_id="cust_play", merchant_id=inp.merchant_id,
+            context=inp.context,
+            session_active=inp.context.startswith("in_session"),
+            status="pending", occurred_at=datetime.now())
+        db.add(f); db.commit(); db.refresh(f)
+
+        diag = model = None
+        try:
+            res = diagnose_batch([f])
+            if res:
+                diag, model = res[0]
+        except Exception:
+            diag = None
+
+        verdict = rule_id = reasoning = None
+        if diag:
+            verdict, rule_id, reasoning = evaluate_consent(db, f, diag)
+
+        actions = {
+            "ALLOW": "Silent retry via Health Graph + Mechanism Swap (invisible recovery).",
+            "DEFER": "Deferred to salary day via Liquidity Curve (watchful waiting).",
+            "BLOCK": "Retry BLOCKED. Customer protected. No money moves without consent.",
+        }
+        out = {
+            "payment_id": ext_id,
+            "diagnosis": {"archetype": diag.archetype, "owner": diag.owner,
+                          "confidence": round(getattr(diag, "confidence", 0) or 0, 2),
+                          "model": model} if diag else None,
+            "verdict": verdict, "rule_id": rule_id, "reasoning": reasoning,
+            "action": actions.get(verdict, "Diagnosis unavailable."),
+        }
+
+        # Clean up so playground runs NEVER pollute the money slide
+        db.query(Diagnosis).filter_by(failure_id=f.id).delete()
+        db.query(PaymentFailure).filter_by(id=f.id).delete()
+        db.commit()
+        return out
     finally:
         db.close()

@@ -79,6 +79,15 @@ audio{color-scheme:dark;border-radius:8px}
 
 .chartbox{height:280px;position:relative}
 
+.play-grid{display:grid;grid-template-columns:320px 1fr;gap:20px}
+.play-grid label{display:block;color:var(--muted);font-size:11px;letter-spacing:1px;text-transform:uppercase;margin:10px 0 4px;font-weight:700}
+.play-grid select,.play-grid input{width:100%;background:#0d1a2e;border:1px solid var(--line);color:var(--text);border-radius:8px;padding:9px 10px;font-size:13px}
+.play-grid .btn{margin-top:16px;cursor:pointer;border:none}
+.p-result{background:#0d1a2e;border:1px solid var(--line);border-radius:12px;padding:18px;font-size:13px;line-height:1.7;color:var(--muted);min-height:220px}
+.p-result .step{margin-bottom:10px}
+.p-result .step b{color:var(--text)}
+@media(max-width:960px){.play-grid{grid-template-columns:1fr}}
+
 </style>
 </head>
 <body>
@@ -127,6 +136,24 @@ audio{color-scheme:dark;border-radius:8px}
     <div class="agent"><div class="ic">🏨</div><b>Graceful Exit</b><p>Hotel "Walk" protocol: structural churn gets a dignified pause — ₹0 chased, on purpose.</p></div>
     <div class="agent"><div class="ic">🎙️</div><b>Voice Agent</b><p>Hinglish ElevenLabs explanations with edge-tts and text fallback. Never pressure, always explain.</p></div>
     <div class="agent"><div class="ic">🤝</div><b>Promise Tracker</b><p>Records promise-to-pay dates; auto-retries on the day or escalates to a human.</p></div>
+  </div>
+
+  <h2><small>Interactive</small>Try the agent — send it a live failure</h2>
+  <div class="panel" style="margin-bottom:14px">
+    <div class="play-grid">
+      <div>
+        <label>Scenario preset</label>
+        <select id="preset"></select>
+        <label>Amount (₹)</label>
+        <input id="p-amt" type="number" value="499">
+        <label>Method</label>
+        <select id="p-method"><option>upi</option><option>card</option><option>emandate</option></select>
+        <label>Context</label>
+        <select id="p-ctx"><option>in_session_online</option><option>post_session_online</option><option>post_session_offline</option><option>recurring</option></select>
+        <button class="btn" id="p-run">Run the agent ▸</button>
+      </div>
+      <div class="p-result" id="p-result">Pick a scenario and press <b>Run the agent</b>. The agent will diagnose it, pass it through the Consent Gate, and tell you exactly what it does — and why.</div>
+    </div>
   </div>
 
   <h2><small>Deterministic stopping rules</small>The Consent Gate (R-01 → R-07)</h2>
@@ -233,6 +260,48 @@ async function load(){
 }
 
 gates.innerHTML = RULES.map(r=>`<div class="gate"><b>${r[0]}</b>${r[1]}<br><span class="v" style="color:${r[2]==='ALLOW'?'var(--green)':r[2]==='DEFER'?'var(--amber)':'var(--red)'}">${r[2]}</span><br><span style="color:var(--muted)">${r[3]}</span></div>`).join('');
+
+const PRESETS = [
+ {name:'🏦 Bank server timeout (Technical)', code:'BANK_TIMEOUT', desc:'UPI transaction failed due to bank server timeout at PSP', method:'upi', ctx:'in_session_online', merch:'merch_001'},
+ {name:'💸 Insufficient balance (Affordability)', code:'INSUFFICIENT_BALANCE', desc:'Auto-debit failed due to insufficient balance in customer account', method:'upi', ctx:'post_session_online', merch:'merch_001'},
+ {name:'📵 OTP abandoned (Intent)', code:'ABANDONED_AT_OTP', desc:'Customer reached UPI PIN page but abandoned before approving OTP', method:'upi', ctx:'in_session_online', merch:'merch_001'},
+ {name:'💳 Card expired (Lifecycle)', code:'CARD_EXPIRED', desc:'Recurring charge failed because the saved card has expired', method:'card', ctx:'post_session_online', merch:'merch_001'},
+ {name:'🏪 Offline QR trap (R-07 star)', code:'QR_TIMEOUT', desc:'Customer scanned QR at physical store, app hung, customer left and paid cash', method:'upi', ctx:'post_session_offline', merch:'merch_001'},
+ {name:'🛒 Fee shock (Intent/Merchant)', code:'ABANDONED_AT_FEES', desc:'Customer abandoned checkout when hidden shipping fees appeared at final step', method:'card', ctx:'in_session_online', merch:'merch_001'},
+ {name:'⚖️ Mandate breach (Lifecycle/Merchant)', code:'MANDATE_NOTIFICATION_BREACH', desc:'Subscription charge failed; pre-debit notification sent only 12h before debit, RBI requires 24h', method:'emandate', ctx:'recurring', merch:'merch_002'},
+];
+const presetSel = document.getElementById('preset');
+presetSel.innerHTML = PRESETS.map((p,i)=>`<option value="${i}">${p.name}</option>`).join('');
+function applyPreset(){
+  const p = PRESETS[+presetSel.value];
+  document.getElementById('p-method').value = p.method;
+  document.getElementById('p-ctx').value = p.ctx;
+}
+presetSel.addEventListener('change', applyPreset); applyPreset();
+
+document.getElementById('p-run').addEventListener('click', async () => {
+  const p = PRESETS[+presetSel.value];
+  const btn = document.getElementById('p-run');
+  const out_el = document.getElementById('p-result');
+  btn.textContent = 'Thinking…'; btn.disabled = true;
+  out_el.innerHTML = '<div class="step">🧠 Diagnosing…</div>';
+  try {
+    const r = await fetch('/api/playground', {method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({
+        amount_rupees: +document.getElementById('p-amt').value || 499,
+        method: document.getElementById('p-method').value,
+        context: document.getElementById('p-ctx').value,
+        failure_code: p.code, failure_description: p.desc, merchant_id: p.merch })});
+    const o = await r.json();
+    const d = o.diagnosis;
+    out_el.innerHTML = `
+      <div class="step"><b>1 · Diagnosis:</b> ${d ? `${d.archetype} / ${d.owner} (conf ${d.confidence}, via ${d.model})` : 'unavailable'}</div>
+      <div class="step"><b>2 · Consent Gate:</b> <span class="badge ${o.verdict||''}">${o.verdict||'—'}</span> · ${o.rule_id||'—'}</div>
+      <div class="step"><b>3 · Reasoning:</b> ${o.reasoning||'—'}</div>
+      <div class="step"><b>4 · Action:</b> ${o.action}</div>`;
+  } catch(e){ out_el.innerHTML = '<div class="step">Agent error: '+e+'</div>'; }
+  btn.textContent = 'Run the agent ▸'; btn.disabled = false;
+});
 
 load(); setInterval(load, 30000);
 </script>
