@@ -13,3 +13,4 @@ requests
 pytest
 openai
 google-genai
+google-generativeai
