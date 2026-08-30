@@ -12,4 +12,4 @@ redis
 requests
 pytest
 openai
-google-generativeai
+google-genai
