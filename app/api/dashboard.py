@@ -182,13 +182,16 @@ def playground(inp: PlaygroundInput):
 
         voice_url = None
         if inp.voice:
-            voice_file = f"voice_play_{ext_id}.mp3"
             try:
+                import base64, io
                 async def _tts():
+                    buf = io.BytesIO()
                     comm = edge_tts.Communicate(customer_message, "hi-IN-MadhurNeural")
-                    await comm.save(os.path.join(ROOT, voice_file))
-                asyncio.run(_tts())
-                voice_url = "/voice/" + voice_file
+                    async for chunk in comm.stream():
+                        if chunk["type"] == "audio":
+                            buf.write(chunk["data"])
+                    return base64.b64encode(buf.getvalue()).decode()
+                voice_url = "data:audio/mpeg;base64," + asyncio.run(_tts())
             except Exception:
                 voice_url = None
 
