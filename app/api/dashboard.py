@@ -352,35 +352,51 @@ class AgentInput(BaseModel):
     text: str
     lang: str = "en"
     history: list = []
+    voice: bool = False
 
 @router.post("/agent")
 def agent(inp: AgentInput):
-    """Block only brand-reputation risks; answer everything else naturally."""
-    import re
+    """Block only brand-reputation risks; answer everything else naturally, with memory + voice."""
+    import re, asyncio, base64, io
     from datetime import datetime
     from app.core.llm import generate_text
 
     text, lang = inp.text, inp.lang
 
+    def speak(reply_text):
+        """On-the-fly TTS returned as base64 data URI (no static files needed)."""
+        if not inp.voice or not reply_text:
+            return None
+        try:
+            import edge_tts
+            has_devanagari = bool(re.search(r"[ऀ-ॿ]", reply_text))
+            voice_name = "hi-IN-SwaraNeural" if has_devanagari else "en-IN-NeerjaNeural"
+            async def _tts():
+                buf = io.BytesIO()
+                comm = edge_tts.Communicate(reply_text, voice_name)
+                async for chunk in comm.stream():
+                    if chunk["type"] == "audio":
+                        buf.write(chunk["data"])
+                return base64.b64encode(buf.getvalue()).decode()
+            return "data:audio/mpeg;base64," + asyncio.run(_tts())
+        except Exception:
+            return None
+
     # 1) Brand guard: competitor questions → confident redirect
     if re.search(r"\b(justpay|juspay|stripe|paytm|phonepe|cashfree|gpay|google pay|amazon pay|competitor)\b|compare|which is better|\bvs\b", text, re.I):
-        return {
-            "reply": ("Main Razorpay par bana hoon, isliye main apni team ke liye cheer karunga — Razorpay, har din! "
-                      "Ab aapki payment ki baat karte hain. Bataiye, kya hua tha?"
-                      if lang == "hi" else
-                      "I'm built on Razorpay, so I'll cheer for my own team — Razorpay, every day! "
-                      "Now let's fix your payment. What went wrong?"),
-            "verdict": None, "rule_id": None,
-        }
+        reply = ("Main Razorpay par bana hoon, isliye main apni team ke liye cheer karunga — Razorpay, har din! "
+                 "Ab aapki payment ki baat karte hain. Bataiye, kya hua tha?"
+                 if lang == "hi" else
+                 "I'm built on Razorpay, so I'll cheer for my own team — Razorpay, every day! "
+                 "Now let's fix your payment. What went wrong?")
+        return {"reply": reply, "verdict": None, "rule_id": None, "voice_data": speak(reply)}
 
     # 2) Reputation guard: politics/religion/medical/legal/investment → neutral deflect
     if re.search(r"politic|election|religion|communal|caste|medical|medicine|doctor|legal|lawyer|lawsuit|stock|share market|crypto|bitcoin|\binvest\b", text, re.I):
-        return {
-            "reply": ("Main sirf payments mein madad karta hoon — is topic par main koi ray nahi deta. Aapki payment ki baat karein?"
-                      if lang == "hi" else
-                      "I only help with payments — I don't give opinions on that. Shall we talk about your payment?"),
-            "verdict": None, "rule_id": None,
-        }
+        reply = ("Main sirf payments mein madad karta hoon — is topic par main koi ray nahi deta. Aapki payment ki baat karein?"
+                 if lang == "hi" else
+                 "I only help with payments — I don't give opinions on that. Shall we talk about your payment?")
+        return {"reply": reply, "verdict": None, "rule_id": None, "voice_data": speak(reply)}
 
     # 3) Intent detection for safety verdicts
     verdict = rule = note = None
@@ -416,7 +432,7 @@ def agent(inp: AgentInput):
             reply = ("Understood. I will not move any money until you confirm."
                      if verdict == "BLOCK" else
                      "I'm Revive AI — tell me what happened and I'll help.")
-    return {"reply": reply, "verdict": verdict, "rule_id": rule}
+    return {"reply": reply, "verdict": verdict, "rule_id": rule, "voice_data": speak(reply)}
 
 @router.post("/chat")
 def chat(query: str, voice: bool = False):
@@ -454,3 +470,27 @@ def reply(user_text: str, lang: str = "en", verdict: str = "", rule_id: str = ""
     )
     text = generate_text(system, user_text, max_tokens=220)
     return {"reply": text}
+
+@router.get("/explain_latest")
+def explain_latest(customer_id: str = "cust_live_001"):
+    """Grounded lookup for the 'logged in' user's most recent payment."""
+    db = SessionLocal()
+    try:
+        f = db.query(PaymentFailure).filter_by(customer_id=customer_id) \
+               .order_by(PaymentFailure.id.desc()).first()
+        if not f:
+            return {"found": False}
+        diag = db.query(Diagnosis).filter_by(failure_id=f.id).first()
+        gate = db.query(GateDecision).filter_by(failure_id=f.id).first()
+        return {
+            "found": True,
+            "payment_id": f.external_payment_id,
+            "rupees": round((f.amount_paise or 0) / 100, 2),
+            "status": f.status,
+            "archetype": diag.archetype if diag else None,
+            "owner": diag.owner if diag else None,
+            "verdict": gate.verdict if gate else None,
+            "rule_id": gate.rule_id if gate else None,
+        }
+    finally:
+        db.close()

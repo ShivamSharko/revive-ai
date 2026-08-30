@@ -608,6 +608,19 @@ async function ask(text){
   const hist=chatHistory.slice(-8);
   chatHistory.push({role:'user',content:text});
   if(chatHistory.length>24)chatHistory.splice(0,chatHistory.length-24);
+  // "Check my last payment" -> lookup latest transaction for mock logged-in user
+  if(/\b(last|latest|recent|pichla|aakhri)\b.*\b(payment|transaction|order|paisa)\b/i.test(text) || 
+     /\b(payment|transaction|order)\b.*\b(last|latest|recent|pichla|aakhri)\b/i.test(text)){
+    const th=addMsg('agent',l==='hi'?'Aapki aakhri payment dhundh raha hoon…':'Looking up your latest payment…');
+    try{
+      const r=await fetch('/api/explain_latest?customer_id=cust_live_001');
+      const o=await r.json();
+      th.querySelector('.bub').innerHTML=`<div style="font-size:14px;line-height:1.6">${
+        o.found?lookupReply(o,l):(l==='hi'?'Aapki koi recent payment system mein nahi mili.':'I could not find any recent payments for your account.')
+      }</div>`;
+    }catch(e){th.querySelector('.bub').textContent='Agent error: '+e;}
+    chatLog.scrollTop=chatLog.scrollHeight;return;
+  }
   const m=text.match(/(pay|order)_[a-zA-Z0-9]+/i);
   if(m){
     const th=addMsg('agent',l==='hi'?'Payment dhundh raha hoon…':'Looking up your payment…');
@@ -623,10 +636,11 @@ async function ask(text){
   const thinking=addMsg('agent',l==='hi'?'Soch raha hoon…':'Thinking…');
   try{
     const r=await fetch('/api/agent',{method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({text,lang:l,history:hist})});
+      body:JSON.stringify({text,lang:l,history:hist,voice:voiceOn})});
     const o=await r.json();
     if(o.reply)chatHistory.push({role:'assistant',content:o.reply});
-    let html=`<div style="font-size:14px;line-height:1.6">${o.reply||''}</div>`;
+    let html=`<div style="font-size:14px;line-height:1.6">${o.reply||''}</div>`+
+      (o.voice_data?`<audio controls autoplay src="${o.voice_data}" style="width:100%;margin-top:6px;height:34px"></audio>`:'');
     if(o.verdict)html+=`<div style="margin-top:6px;padding:6px 10px;background:var(--bg);border-radius:8px;font-size:11px;color:var(--muted)"><span class="badge ${o.verdict}" style="margin-right:4px">${o.verdict}</span> ${o.rule_id||''}</div>`;
     thinking.querySelector('.bub').innerHTML=html;
   }catch(e){
