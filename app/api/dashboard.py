@@ -189,13 +189,15 @@ def playground(inp: PlaygroundInput):
             from app.core.llm import generate_text
             system = (
                 "You are Revive AI, a warm human support agent for Indian payments. "
-                "Write a 2-3 sentence Hinglish (roman Hindi + English mix) message to the customer. "
+                "Write a SHORT Hinglish (roman Hindi + English mix) message of at most 2 sentences (under 45 words). "
+                "Always end with a complete sentence — never cut off mid-sentence. "
+                "Speak as a team using 'hum/humne' (we) forms ONLY — never 'main chahta hoon/chahti hoon' — so it matches any voice gender. "
                 "Empathetic, natural, no emojis, no robotic templates. "
                 f"The failure type is '{diag.archetype if diag else 'unknown'}' and the safety engine decided {verdict}. {action_hint} "
                 f"The customer's situation: {inp.failure_description}. "
                 "Never invent amounts or payment IDs."
             )
-            customer_message = generate_text(system, inp.failure_description, max_tokens=150) or fallback
+            customer_message = generate_text(system, inp.failure_description, max_tokens=250) or fallback
         except Exception:
             customer_message = fallback
 
@@ -442,6 +444,7 @@ def agent(inp: AgentInput):
         f"Today is {datetime.now().strftime('%A, %d %B %Y')}. "
         f"Reply in {'Hinglish (roman Hindi + English mix)' if lang=='hi' else 'English'}, matching the user's tone. "
         "2-4 short sentences, empathetic, no emojis. Address the customer's ACTUAL words. "
+        "Speak as a team using 'hum/humne' (we) forms ONLY — never 'main chahta hoon/sochta hoon' — so the female voice sounds natural. Always finish every sentence completely. "
         "For harmless small talk or simple facts (date, time, greetings), answer briefly and friendly, then gently steer to payments. "
         "Never mention competitor brands. Never give political, religious, medical, legal, or investment opinions. "
         "You can see the recent conversation — use it to stay consistent and refer back to earlier messages when relevant. "
