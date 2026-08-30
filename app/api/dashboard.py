@@ -178,7 +178,26 @@ def playground(inp: PlaygroundInput):
             ("lifecycle", "BLOCK"): "Aapka card expire ho gaya tha, isliye payment nahi hui. Jab convenient ho, naya card update karein. Koi jaldi nahi.",
         }
         key = (diag.archetype, verdict) if diag else (None, None)
-        customer_message = MSG.get(key, "Humne payment issue samajh liya hai aur safely handle kar rahe hain. Aapko spam nahi karenge.")
+        fallback = MSG.get(key, "Humne payment issue samajh liya hai aur safely handle kar rahe hain. Aapko spam nahi karenge.")
+        # Rules decide the action; the AI writes the customer message (never robotic)
+        action_hint = {
+            "ALLOW": "A safe action was taken quietly. Reassure warmly, no jargon.",
+            "DEFER": "The payment is moved to a better time (salary day). No reminders, no late fees.",
+            "BLOCK": "Do NOT retry or move any money. Reassure the customer they are safe and nothing will be charged.",
+        }.get(verdict, "")
+        try:
+            from app.core.llm import generate_text
+            system = (
+                "You are Revive AI, a warm human support agent for Indian payments. "
+                "Write a 2-3 sentence Hinglish (roman Hindi + English mix) message to the customer. "
+                "Empathetic, natural, no emojis, no robotic templates. "
+                f"The failure type is '{diag.archetype if diag else 'unknown'}' and the safety engine decided {verdict}. {action_hint} "
+                f"The customer's situation: {inp.failure_description}. "
+                "Never invent amounts or payment IDs."
+            )
+            customer_message = generate_text(system, inp.failure_description, max_tokens=150) or fallback
+        except Exception:
+            customer_message = fallback
 
         voice_url = None
         if inp.voice:
@@ -186,7 +205,9 @@ def playground(inp: PlaygroundInput):
                 import base64, io
                 async def _tts():
                     buf = io.BytesIO()
-                    comm = edge_tts.Communicate(customer_message, "hi-IN-MadhurNeural")
+                    import re as _re3
+                    _v = "hi-IN-SwaraNeural" if _re3.search(r"[ऀ-ॿ]", customer_message) else "en-IN-NeerjaNeural"
+                    comm = edge_tts.Communicate(customer_message, _v)
                     async for chunk in comm.stream():
                         if chunk["type"] == "audio":
                             buf.write(chunk["data"])
