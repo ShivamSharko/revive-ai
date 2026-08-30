@@ -253,7 +253,7 @@ footer{border-top:1.5px solid var(--ink);padding:32px 40px;color:var(--muted);fo
   </section>
 
   <section id="gate">
-    <div class="sh reveal"><small>Deterministic safety</small><h2>The Consent Gate</h2><p>8 rules. No AI. Every retry must pass before money moves.</p>
+    <div class="sh reveal"><small>Deterministic safety</small><h2>The Consent Gate</h2><p>8 rules. No AI. Every retry must pass before money moves.</p></div>
     <div class="gategrid reveal" id="gates"></div>
     <div class="row">
       <div class="panel reveal"><h3>Verdicts</h3><div class="chartbox"><canvas id="donut"></canvas></div></div>
@@ -318,7 +318,12 @@ footer{border-top:1.5px solid var(--ink);padding:32px 40px;color:var(--muted);fo
 
 <button id="chatBtn" title="Ask the agent"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 3a7 7 0 0 0-7 7v4a3 3 0 0 0 3 3h1v-6H7v-1a5 5 0 0 1 10 0v1h-2v6h1a3 3 0 0 0 3-3v-4a7 7 0 0 0-7-7z" fill="#fff"/></svg></button>
 <div id="chatPanel">
-  <div class="chatHead"><span>💁 Customer experience preview</span><button id="voiceTgl">🔇 voice off</button></div>
+  <div class="chatHead"><span>💁 Customer experience preview</span>
+    <div style="display:flex;gap:6px;align-items:center">
+      <button id="voiceTgl">🔇 voice off</button>
+      <button id="chatClose" title="Close" style="background:transparent;border:none;color:#fff;font-size:15px;cursor:pointer;padding:2px 6px;">✕</button>
+    </div>
+  </div>
   <div id="chatLog"></div>
   <div class="chips">
     <button>Maine cash se pay kar diya tha</button>
@@ -365,6 +370,19 @@ const RULES=[
 gates.innerHTML=RULES.map(r=>`<div class="gc"><b>${r[0]}</b><span class="name">${r[1]}</span><span class="badge ${r[2]}">${r[2]}</span><span class="desc">${r[3]}</span></div>`).join('');
 
 let counted=false;
+
+async function sendNudge(type){
+  const res = document.getElementById('nudge-result');
+  if(res) res.textContent = 'Sending UPI Collect Requests...';
+  try{
+    const r = await fetch('/api/send_nudges?leak_type='+type, {method:'POST'});
+    const o = await r.json();
+    if(res) res.textContent = `Sent ${o.sent} nudges via ${o.channel}. Estimated recovery: ${o.estimated_recovery_count} orders.`;
+  }catch(e){
+    if(res) res.textContent = 'Error sending nudges.';
+  }
+}
+
 async function load(){
   try{
     const o=await (await fetch('/api/overview')).json();
@@ -442,13 +460,15 @@ async function load(){
     }catch(e){if(recv)recv.innerHTML='<div>Receivables unavailable</div>';}
     try{
       const fn=await (await fetch('/api/funnel')).json();
-      if(funnel&&fn.orders)funnel.innerHTML=
-        `<div><b>Orders created:</b> ${fn.orders}</div>
-         <div><b>Dropped at fee reveal:</b> ${fn.dropped_fees} · merchant-owned price shock</div>
-         <div><b>Dropped at OTP:</b> ${fn.dropped_otp} · Mechanism Swap target</div>
+      if(funnel&&fn.orders){
+        let html = `<div><b>Orders created:</b> ${fn.orders}</div>
+         <div><b>Dropped at fee reveal:</b> ${fn.dropped_fees} <button onclick="sendNudge('fees')" style="margin-left:8px;font-size:10px;padding:2px 8px;">Send Nudge</button></div>
+         <div><b>Dropped at OTP:</b> ${fn.dropped_otp} <button onclick="sendNudge('otp')" style="margin-left:8px;font-size:10px;padding:2px 8px;">Send Nudge</button></div>
          <div><b>Payment attempted:</b> ${fn.attempted}</div>
          <div><b>Recovered by Revive AI:</b> ${fn.recovered}</div>
-         <div><b>Biggest leak:</b> ${fn.leak} orders never reached payment attempt</div>`;
+         <div id="nudge-result" style="margin-top:8px;color:var(--blue);font-weight:700;"></div>`;
+        funnel.innerHTML = html;
+      }
       else if(funnel)funnel.innerHTML='<div>No funnel data</div>';
     }catch(e){if(funnel)funnel.innerHTML='<div>Funnel unavailable</div>';}
     const au=await (await fetch('/api/audit')).json();
@@ -486,7 +506,8 @@ document.getElementById('p-run').addEventListener('click',async()=>{
       `<b>5 · Customer receives:</b> "${o.customer_message||''}"` +
       (o.voice_url?`<audio controls src="${o.voice_url}" style="width:100%;margin-top:8px;height:36px"></audio>`:''),
       `<b>6 · Recovery channel:</b> routed via <b>${o.mechanism||'upi'}</b> (highest observed success rate)` +
-      (o.update_link?`<br><b>7 · Card update:</b> <span style="color:var(--blue)">${o.update_link.slice(0,52)}…</span> (tokenized, zero PAN storage)`:'')
+      (o.update_link?`<br><b>7 · Card update:</b> <span style="color:var(--blue)">${o.update_link.slice(0,52)}…</span> (tokenized, zero PAN storage)`:'') +
+      (o.upi_autopay_link?`<br><b>8 · UPI Autopay:</b> <a href="${o.upi_autopay_link}" target="_blank" style="color:var(--green);font-weight:700;">Set up UPI Autopay mandate</a> (high success, permanent fix)`:'')
     ].map((s,i)=>`<div class="step" style="animation-delay:${i*.15}s">${s}</div>`).join('');
   }catch(e){out.innerHTML='<div class="step">Error: '+e+'</div>';}
   btn.textContent='Run the agent ▸';btn.disabled=false;
@@ -498,7 +519,12 @@ voiceTgl=document.getElementById('voiceTgl');
 let voiceOn=false;
 const chatHistory=[];
 voiceTgl.onclick=()=>{voiceOn=!voiceOn;voiceTgl.textContent=voiceOn?'🔊 voice on':'🔇 voice off';voiceTgl.classList.toggle('on',voiceOn);};
-chatBtn.onclick=()=>chatPanel.classList.toggle('open');
+document.getElementById('chatClose').onclick=()=>chatPanel.classList.remove('open');
+document.addEventListener('click',e=>{
+  if(chatPanel.classList.contains('open')&&!chatPanel.contains(e.target)&&!chatBtn.contains(e.target)){
+    chatPanel.classList.remove('open');
+  }
+});
 function addMsg(who,html){const d=document.createElement('div');d.className='msg '+who;
   d.innerHTML=`<span class="bub">${html}</span>`;chatLog.appendChild(d);chatLog.scrollTop=chatLog.scrollHeight;return d;}
 const KB=[

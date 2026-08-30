@@ -204,6 +204,8 @@ def playground(inp: PlaygroundInput):
             "mechanism": choose_mechanism(db),
             "update_link": (card_update_link(tokenize("card", "4242"))
                             if diag and diag.archetype == "lifecycle" else None),
+            "upi_autopay_link": (f"https://rzp.io/autopay/{uuid.uuid4().hex[:12]}"
+                                 if diag and diag.archetype == "lifecycle" else None),
         }
 
         db.query(GateDecision).filter_by(failure_id=f.id).delete()
@@ -491,6 +493,42 @@ def explain_latest(customer_id: str = "cust_live_001"):
             "owner": diag.owner if diag else None,
             "verdict": gate.verdict if gate else None,
             "rule_id": gate.rule_id if gate else None,
+        }
+    finally:
+        db.close()
+
+@router.post("/upi_autopay_link")
+def upi_autopay_link(customer_id: str = "cust_play", merchant_id: str = "merch_001", amount: int = 499):
+    """Generates a mock Razorpay UPI Autopay mandate link for lifecycle/card failures."""
+    import hashlib, time
+    token = hashlib.sha256(f"{customer_id}{merchant_id}{time.time()}".encode()).hexdigest()[:16]
+    return {
+        "link": f"https://rzp.io/autopay/{token}",
+        "mandate_type": "upi_autopay",
+        "frequency": "as_presented",
+        "max_amount": amount * 5,
+        "reasoning": "Card failed repeatedly. Migrating customer to high-success UPI Autopay mandate."
+    }
+
+@router.post("/send_nudges")
+def send_nudges(leak_type: str = "otp"):
+    """Simulates sending recovery nudges (UPI Collect) to drop-off customers."""
+    # In a real system, this would query the funnel and send via Razorpay/WhatsApp
+    db = SessionLocal()
+    try:
+        from app.db.models import PaymentFailure
+        if leak_type == "otp":
+            count = db.query(PaymentFailure).filter(PaymentFailure.dropped_step == "otp").count()
+        else:
+            count = db.query(PaymentFailure).filter(PaymentFailure.dropped_step == "fees").count()
+        
+        # Simulate a 15% success rate on nudges
+        estimated_recovery = count * 0.15
+        return {
+            "sent": count, 
+            "channel": "upi_collect_request", 
+            "estimated_recovery_count": int(estimated_recovery),
+            "success_rate": 0.15
         }
     finally:
         db.close()
