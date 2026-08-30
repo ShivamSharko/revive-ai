@@ -67,6 +67,7 @@ h1 em{font-style:normal;background:linear-gradient(transparent 64%,rgba(82,139,2
 .sh h2::after{content:'';display:block;width:0;height:4px;background:var(--blue);border-radius:2px;margin-top:10px;transition:width .9s cubic-bezier(.2,.7,.3,1) .25s}
 .sh.in h2::after{width:64px}
 .sh p{color:var(--muted);font-size:14px;margin-top:10px;max-width:520px}
+#gate .sh{margin-bottom:18px}
 .stats{display:grid;grid-template-columns:repeat(5,1fr);gap:16px}
 .stat{background:var(--card);border:1.5px solid var(--ink);border-radius:18px;padding:22px;text-align:center;transition:.25s}
 .stat:hover{transform:translate(-3px,-3px);box-shadow:6px 6px 0 rgba(11,92,255,.2)}
@@ -170,6 +171,13 @@ footer{border-top:1.5px solid var(--ink);padding:32px 40px;color:var(--muted);fo
   .chips{flex-wrap:nowrap;overflow-x:auto;padding-bottom:8px}
   .chips button{flex:0 0 auto}
   .voicegrid{grid-template-columns:1fr}
+}
+
+@media (hover:none){
+  .stat:hover,.tcard:hover,.panel:hover,.gc:hover,.vcard:hover,
+  .btn:hover,#chatBtn:hover,.chips button:hover,.nlinks a:hover,
+  .subpills span:hover,.stack span:hover{transform:none;box-shadow:none}
+  .tcard:hover .arrow{transform:none;background:var(--tint);color:var(--ink)}
 }
 
 </style>
@@ -519,6 +527,7 @@ voiceTgl=document.getElementById('voiceTgl');
 let voiceOn=false;
 const chatHistory=[];
 voiceTgl.onclick=()=>{voiceOn=!voiceOn;voiceTgl.textContent=voiceOn?'🔊 voice on':'🔇 voice off';voiceTgl.classList.toggle('on',voiceOn);};
+chatBtn.onclick=()=>chatPanel.classList.toggle('open');
 document.getElementById('chatClose').onclick=()=>chatPanel.classList.remove('open');
 document.addEventListener('click',e=>{
   if(chatPanel.classList.contains('open')&&!chatPanel.contains(e.target)&&!chatBtn.contains(e.target)){
