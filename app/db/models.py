@@ -116,3 +116,11 @@ class Promise(Base):
     created_at = Column(DateTime, default=datetime.now)
     status = Column(String(16), default="pending")
     notes = Column(Text)
+
+class Receivable(Base):
+    __tablename__ = "receivables"
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    invoice = Column(String(32))
+    action = Column(String(32))
+    reason = Column(Text)
+    created_at = Column(DateTime, default=datetime.now)

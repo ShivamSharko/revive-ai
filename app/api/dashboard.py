@@ -152,12 +152,6 @@ def playground(inp: PlaygroundInput):
         verdict = rule_id = reasoning = None
         if diag:
             verdict, rule_id, reasoning = evaluate_consent(db, f, diag)
-            import re as _re
-            if _re.search(r"kat gay|kat gye|deduct|double|do baar|dubara|merchant.{0,20}(nhi|nahi|not)|pahunche|refund",
-                          inp.failure_description, _re.I):
-                verdict, rule_id, reasoning = ("BLOCK", "DOUBLE_CHARGE_GUARD",
-                    "Customer reports deduction without settlement — a retry would double-charge. "
-                    "Reconciliation + auto-refund instead.")
 
         actions = {
             "ALLOW": "Silent retry via Health Graph + Mechanism Swap (invisible recovery).",
@@ -337,16 +331,29 @@ def mandate_jobs():
 
 @router.get("/receivables")
 def receivables():
-    import random
-    from app.core.receivables import process_receivables
-    random.seed(7)
-    invoices = [{"id": f"INV-2026-{i:03d}",
-                 "amount_inr": random.choice([15000, 42000, 80000, 120000]),
-                 "dispute_raised": i % 5 == 2,
-                 "cashflow_issue": i % 3 == 0 and i % 5 != 2,
-                 "history_days": random.choice([[1, 1, 5], [15, 15, 20], [5, 10, 15]])}
-                for i in range(12)]
-    return process_receivables(invoices)
+    """Seeded once, then served from the database — stable across refreshes."""
+    from app.db.models import Receivable
+    db = SessionLocal()
+    try:
+        rows = db.query(Receivable).all()
+        if not rows:
+            import random
+            from app.core.receivables import process_receivables
+            random.seed(7)
+            invoices = [{"id": f"INV-2026-{i:03d}",
+                         "amount_inr": random.choice([15000, 42000, 80000, 120000]),
+                         "dispute_raised": i % 5 == 2,
+                         "cashflow_issue": i % 3 == 0 and i % 5 != 2,
+                         "history_days": random.choice([[1, 1, 5], [15, 15, 20], [5, 10, 15]])}
+                        for i in range(12)]
+            for r in process_receivables(invoices):
+                db.add(Receivable(invoice=r.get("invoice") or r.get("id"),
+                                  action=r.get("action"), reason=r.get("reason", "")))
+            db.commit()
+            rows = db.query(Receivable).all()
+        return [{"invoice": r.invoice, "action": r.action, "reason": r.reason} for r in rows]
+    finally:
+        db.close()
 
 @router.get("/funnel")
 def funnel():
@@ -559,3 +566,30 @@ def send_nudges(leak_type: str = "otp"):
         }
     finally:
         db.close()
+
+_VOICE_SCRIPTS = {
+    "technical": "Bank mein temporary problem thi, ab fix ho gayi hai. Humne dobara koshish ki aur payment successful ho gayi. Aapko kuch karne ki zaroorat nahi.",
+    "affordability": "Koi baat nahi! Humne payment aapke salary day tak shift kar di hai. Tab tak koi reminder nahi, koi late fee nahi.",
+    "intent": "OTP mein problem ho gayi thi. Ab humne UPI Collect request bheji hai — one tap se approve kar sakte ho.",
+    "lifecycle": "Aapka card expire ho gaya tha. Jab convenient ho, naya card update karein ya UPI Autopay set karein. Koi jaldi nahi.",
+}
+_voice_cache = {}
+
+@router.get("/voice_stream")
+def voice_stream(archetype: str = "technical"):
+    """Live TTS showcase — synthesized on demand, cached in memory, zero files."""
+    import asyncio, io, re
+    import edge_tts
+    from fastapi.responses import Response
+    if archetype not in _voice_cache:
+        text = _VOICE_SCRIPTS.get(archetype, _VOICE_SCRIPTS["technical"])
+        voice = "hi-IN-SwaraNeural" if re.search(r"[ऀ-ॿ]", text) else "en-IN-NeerjaNeural"
+        async def _tts():
+            buf = io.BytesIO()
+            comm = edge_tts.Communicate(text, voice)
+            async for chunk in comm.stream():
+                if chunk["type"] == "audio":
+                    buf.write(chunk["data"])
+            return buf.getvalue()
+        _voice_cache[archetype] = asyncio.run(_tts())
+    return Response(content=_voice_cache[archetype], media_type="audio/mpeg")

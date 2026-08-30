@@ -61,5 +61,13 @@ def evaluate_consent(db: Session, failure: PaymentFailure, diag: DiagnosisOut):
     if diag.archetype == "technical":
         return Verdict.ALLOW, R05_TECH_RETRY, "Transient technical failure. Safe to retry."
 
+    # Customer-report guard (deterministic): deduction without settlement → never retry
+    import re as _re
+    if _re.search(r"kat gay|kat gye|deduct|double|do baar|dubara|merchant.{0,20}(nhi|nahi|not)|pahunche|refund",
+                  failure.failure_description or "", _re.I):
+        return Verdict.BLOCK, "DOUBLE_CHARGE_GUARD", \
+            "Customer reports deduction without settlement — a retry would double-charge. " \
+            "Reconciliation + auto-refund instead."
+
     # Default
     return Verdict.ALLOW, R06_DEFAULT_ALLOW, "No blocking rules triggered."
