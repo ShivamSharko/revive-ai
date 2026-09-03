@@ -320,6 +320,7 @@ footer{border-top:1.5px solid var(--ink);padding:32px 40px;color:var(--muted);fo
       </div>
       <div class="panel reveal"><h3>Channel performance · India open rates</h3><div class="feed" id="wachannel"></div></div>
     </div>
+    <div class="panel reveal" style="margin-bottom:16px"><h3>Merchant checkout-leak insights · your free product consultant</h3><div class="feed" id="minsights" style="max-height:320px"></div></div>
   </section>
 
   <section id="voice">
@@ -375,7 +376,7 @@ promiseFulfilled=document.getElementById('promise-fulfilled'),
 promiseEscalated=document.getElementById('promise-escalated'),
 recv=document.getElementById('recv'),funnel=document.getElementById('funnel'),
 policy=document.getElementById('policy'),channelsEl=document.getElementById('channels'),
-wachannel=document.getElementById('wachannel'),
+wachannel=document.getElementById('wachannel'),minsights=document.getElementById('minsights'),
 donut=document.getElementById('donut'),bars=document.getElementById('bars');
 
 const INR=n=>'₹'+Number(Math.round(n)).toLocaleString('en-IN');
@@ -528,6 +529,11 @@ async function load(){
         <div><b>SMS</b> · 12% open · 3% conversion</div>
         <div><b>Email</b> · 8% open · 2% conversion</div>
         <div style="color:var(--green);font-weight:700">In India, WhatsApp recovers ~6× more than SMS.</div>`;
+      const mi=await (await fetch('/api/merchant_insights')).json();
+      if(minsights)minsights.innerHTML=(mi||[]).map(m=>
+        `<div style="margin-bottom:12px"><b>${m.merchant}</b> · recoverable <span style="color:var(--green);font-weight:800">${INR(m.total_save)}</span> per batch`+
+        m.insights.map(i=>`<div style="margin-left:14px;margin-top:4px">• ${i.issue} → <b>${i.action}</b> <span style="color:var(--green)">(+${INR(i.save)})</span></div>`).join('')+
+        `</div>`).join('')||'<div>No insights yet.</div>';
     }catch(e){}
     const au=await (await fetch('/api/audit')).json();
     audit.innerHTML=au.map(a=>`<div><b>${a.actor}</b> · ${a.action} · ${a.entity}#${a.entity_id}<br>${(a.reasoning||'').slice(0,140)}</div>`).join('');

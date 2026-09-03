@@ -776,3 +776,48 @@ def whatsapp():
         "voice_url": f"/api/voice_stream?archetype={archetype}",
         "cta": ctas.get(archetype, ctas["affordability"]),
     }
+
+@router.get("/merchant_insights")
+def merchant_insights():
+    """Revive AI as free product consultant: money-valued checkout fixes per merchant."""
+    rows = None
+    db = SessionLocal()
+    try:
+        rows = (db.query(PaymentFailure.merchant_id,
+                         PaymentFailure.dropped_step,
+                         PaymentFailure.true_archetype,
+                         func.count(PaymentFailure.id).label("n"),
+                         func.sum(PaymentFailure.amount_paise).label("amt"))
+                .filter(PaymentFailure.source.in_(["synthetic", "orders_api"]))
+                .group_by(PaymentFailure.merchant_id,
+                          PaymentFailure.dropped_step,
+                          PaymentFailure.true_archetype).all())
+    finally:
+        db.close()
+
+    merchants = {}
+    for m, step, arch, n, amt in rows:
+        key = "fees" if step == "fees" else "otp" if step == "otp" else (arch or "other")
+        e = merchants.setdefault(m, {}).setdefault(key, {"n": 0, "amt": 0.0})
+        e["n"] += n
+        e["amt"] += float(amt or 0) / 100
+
+    plan = [
+        ("fees", 0.30, "dropped at fee reveal", "Show ALL fees on the cart page, not at checkout"),
+        ("otp", 0.45, "stuck at OTP step", "Swap OTP flow to UPI Collect (1-tap approve)"),
+        ("lifecycle", 0.50, "expired-card failures", "Offer UPI Autopay migration at first card failure"),
+        ("affordability", 0.60, "low-balance failures", "Enable salary-day defer + Promise-to-Pay"),
+    ]
+    out = []
+    for m, d in merchants.items():
+        ins = []
+        for key, rate, issue, action in plan:
+            if key in d and d[key]["n"]:
+                ins.append({"issue": f"{d[key]['n']} customers {issue}",
+                            "action": action,
+                            "save": round(d[key]["amt"] * rate)})
+        if ins:
+            out.append({"merchant": m, "insights": ins,
+                        "total_save": sum(i["save"] for i in ins)})
+    out.sort(key=lambda x: -x["total_save"])
+    return out
