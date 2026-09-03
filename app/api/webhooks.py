@@ -10,6 +10,8 @@ from app.core.worker import process_failure
 
 router = APIRouter()
 
+_SEEN_EVENTS = set()  # webhook replay protection (idempotency)
+
 @router.post("/webhooks/razorpay")
 async def razorpay_webhook(request: Request, background_tasks: BackgroundTasks):
     body = await request.body()
@@ -22,11 +24,19 @@ async def razorpay_webhook(request: Request, background_tasks: BackgroundTasks):
     if event.get("event") != "payment.failed":
         return {"status": "ignored"}
 
+    # Idempotency: reject replayed events (same event.id delivered twice)
+    evt_id = event.get("id") or ""
+    if evt_id and evt_id in _SEEN_EVENTS:
+        return {"status": "duplicate_ignored", "event_id": evt_id}
+
     p = event["payload"]["payment"]["entity"]
     db = SessionLocal()
     try:
         f = db.query(PaymentFailure).filter_by(external_payment_id=p["id"]).first()
-        if not f:
+        if f:
+            # Replay protection: known payment → ignore duplicate webhook deliveries
+            return {"status": "duplicate_ignored", "payment_id": p["id"], "failure_id": f.id}
+        else:
             f = PaymentFailure(
                 external_payment_id=p["id"], source="live",
                 amount_paise=p["amount"], currency=p.get("currency", "INR"),
@@ -42,10 +52,8 @@ async def razorpay_webhook(request: Request, background_tasks: BackgroundTasks):
             db.refresh(f)
 
         # QUEUE for async processing — returns immediately
-        already = db.query(GateDecision).filter_by(failure_id=f.id).first()
-        if already:
-            return {"status": "duplicate_ignored", "payment_id": p["id"], "failure_id": f.id}
-
+        if evt_id:
+            _SEEN_EVENTS.add(evt_id)
         background_tasks.add_task(process_failure, f.id)
         return {"status": "queued", "payment_id": p["id"], "failure_id": f.id}
     finally:
@@ -62,6 +70,10 @@ async def subscription_webhook(request: Request, background_tasks: BackgroundTas
     event = json.loads(body)
     if event.get("event") != "subscription.charged.failed":
         return {"status": "ignored"}
+
+    evt_id = event.get("id") or ""
+    if evt_id and evt_id in _SEEN_EVENTS:
+        return {"status": "duplicate_ignored", "event_id": evt_id}
 
     p = event["payload"]["subscription"]["entity"]
     ext_id = p.get("id", "sub_unknown")
@@ -102,6 +114,8 @@ async def subscription_webhook(request: Request, background_tasks: BackgroundTas
         db.commit()
         db.refresh(f)
 
+        if evt_id:
+            _SEEN_EVENTS.add(evt_id)
         background_tasks.add_task(process_failure, f.id)
         return {"status": "queued", "subscription_id": ext_id}
     finally:

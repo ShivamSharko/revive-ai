@@ -343,7 +343,8 @@ footer{border-top:1.5px solid var(--ink);padding:32px 40px;color:var(--muted);fo
   </section>
 
   <section id="audit">
-    <div class="sh reveal"><small>Compliance</small><h2>Audit trail</h2></div>
+    <div class="sh reveal"><small>Compliance</small><h2>Audit trail + security posture</h2></div>
+    <div class="panel reveal" style="margin-bottom:16px"><h3>Security posture · proactive controls</h3><div class="feed" id="secposture"></div></div>
     <div class="panel reveal"><div class="feed" id="auditfeed"></div></div>
   </section>
 
@@ -699,6 +700,16 @@ async function ask(text){
 document.getElementById('chatSend').onclick=()=>{const t=chatIn.value.trim();if(t){chatIn.value='';ask(t);}};
 chatIn.addEventListener('keydown',e=>{if(e.key==='Enter'){const t=chatIn.value.trim();if(t){chatIn.value='';ask(t);}}});
 document.querySelectorAll('.chips button').forEach(b=>b.onclick=()=>ask(b.textContent));
+
+const SEC=[
+ ['HMAC webhook verification','Every Razorpay webhook is signature-checked; tampered payloads rejected (send_test_webhook)'],
+ ['Zero PAN storage','Card refs are opaque tokens (vault.tokenize) — no card data ever persisted'],
+ ['Deterministic Consent Gate','Financial actions decided by rules R-01..R-08, never by the LLM'],
+ ['Prompt-injection guard','SEC-INJECT blocks attempts to override safety rules'],
+ ['Message validator','AI-drafted messages checked for pressure, fake promises, invented amounts'],
+ ['Quiet hours + promise halt','TRAI DND 21:00–07:00 and active-promise outreach pauses'],
+];
+document.getElementById('secposture').innerHTML=SEC.map(s=>`<div><b style="color:var(--green)">✓</b> <b>${s[0]}</b> — ${s[1]}</div>`).join('');
 
 load();setInterval(load,30000);
 </script>
