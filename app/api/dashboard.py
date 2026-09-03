@@ -889,6 +889,7 @@ def _recovery_score(f, gate):
 def recovery_center(limit: int = 20):
     """Ranked queue of recoverable failures — highest score first."""
     db = SessionLocal()
+    MIN_INTERVENTION_VALUE = 100  # Don't recover payments under ₹100
     try:
         rows = (db.query(PaymentFailure, GateDecision)
                 .join(GateDecision, GateDecision.failure_id == PaymentFailure.id)
@@ -898,11 +899,15 @@ def recovery_center(limit: int = 20):
                 .limit(50).all())
         scored = []
         for f, gate in rows:
+            rupees = (f.amount_paise or 0) / 100
+            if rupees < MIN_INTERVENTION_VALUE:
+                continue  # Skip sub-economic interventions
+            
             s = _recovery_score(f, gate)
             if s > 0:
                 scored.append({
                     "payment_id": f.external_payment_id,
-                    "rupees": round((f.amount_paise or 0) / 100, 2),
+                    "rupees": round(rupees, 2),
                     "verdict": gate.verdict,
                     "rule_id": gate.rule_id,
                     "score": s,

@@ -226,6 +226,17 @@ Razorpay Webhook / Orders API / Synthetic Generator
 | **AI vs Fallback Transparency** | Playground badge | Shows when message came from live AI vs deterministic fallback |
 | **Deliberate Abstention** | BLOCK verdicts + quiet hours + promise halts | 165 cases where intervention was wrong → we did nothing (Law 1) |
 
+## 🛡️ Adversarial Testing
+
+Proven robustness under failure conditions:
+
+- **Concurrent Webhooks**: 10 simultaneous requests → exactly 1 succeeds
+- **Economic Floor**: Interventions <₹100 are automatically skipped
+- **Idempotency**: Duplicate payment_ids rejected at database level
+- **Stale Recovery**: Crashes during LLM evaluation don't cause hangs
+
+Run tests: `python scripts/stress_test.py`
+
 ---
 
 ## 🛠️ Run Locally

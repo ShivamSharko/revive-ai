@@ -86,9 +86,9 @@ async def subscription_webhook(request: Request, background_tasks: BackgroundTas
     db = SessionLocal()
     try:
         # Idempotency: if Razorpay retries the webhook, ignore duplicates
-        existing = db.query(PaymentFailure).filter_by(external_payment_id=ext_id).first()
+        existing = db.query(PaymentFailure).filter_by(external_payment_id=payment_id).first()
         if existing:
-            return {"status": "duplicate_ignored", "subscription_id": ext_id}
+            return {"error": "Duplicate payment_id"}, 409
 
         merchant_id = p.get("merchant_id", "merch_002")
         merchant = db.query(MerchantConfig).filter_by(merchant_id=merchant_id).first()
