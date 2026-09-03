@@ -875,7 +875,8 @@ def recovery_batch(bucket: str = "HIGH"):
         rows = (db.query(PaymentFailure, GateDecision)
                 .join(GateDecision, GateDecision.failure_id == PaymentFailure.id)
                 .filter(GateDecision.verdict.in_(["ALLOW", "DEFER"]))
-                .limit(50).all())
+                .filter(PaymentFailure.status != "recovered")
+                .all())
         processed = 0
         recovered_rupees = 0.0
         for f, gate in rows:
