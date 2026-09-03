@@ -542,7 +542,8 @@ document.getElementById('p-run').addEventListener('click',async()=>{
       (o.voice_url?`<audio controls src="${o.voice_url}" style="width:100%;margin-top:8px;height:36px"></audio>`:''),
       `<b>6 · Recovery channel:</b> routed via <b>${o.mechanism||'upi'}</b> (highest observed success rate)` +
       (o.update_link?`<br><b>7 · Card update:</b> <span style="color:var(--blue)">${o.update_link.slice(0,52)}…</span> (tokenized, zero PAN storage)`:'') +
-      (o.upi_autopay_link?`<br><b>8 · UPI Autopay:</b> <a href="${o.upi_autopay_link}" target="_blank" style="color:var(--green);font-weight:700;">Set up UPI Autopay mandate</a> (high success, permanent fix)`:'')
+      (o.upi_autopay_link?`<br><b>8 · UPI Autopay:</b> <a href="${o.upi_autopay_link}" target="_blank" style="color:var(--green);font-weight:700;">Set up UPI Autopay mandate</a> (high success, permanent fix)`:'') +
+      (o.reschedule_link?`<br><b>9 · Reschedule:</b> <a href="/api/reschedule/${o.reschedule_link}" target="_blank" style="color:var(--amber);font-weight:700;">Pick your own payment day</a> (customer chooses, 100% consent)`:'')
     ].map((s,i)=>`<div class="step" style="animation-delay:${i*.15}s">${s}</div>`).join('');
   }catch(e){out.innerHTML='<div class="step">Error: '+e+'</div>';}
   btn.textContent='Run the agent ▸';btn.disabled=false;

@@ -1,5 +1,6 @@
 """Read-only dashboard API: the agent's brain state as clean JSON."""
 from fastapi import APIRouter
+from fastapi.responses import HTMLResponse
 from sqlalchemy import func
 
 from app.core.audit import audit_merchant_compliance
@@ -235,6 +236,7 @@ def playground(inp: PlaygroundInput):
                             if diag and diag.archetype == "lifecycle" else None),
             "upi_autopay_link": (f"https://rzp.io/autopay/{uuid.uuid4().hex[:12]}"
                                  if diag and diag.archetype == "lifecycle" else None),
+            "reschedule_link": (_reschedule_token(f.id) if verdict == "DEFER" else None),
         }
 
         db.query(GateDecision).filter_by(failure_id=f.id).delete()
@@ -634,5 +636,106 @@ def channels():
             ("lifecycle", "Email + tokenized card-update link"),
         ]
         return [{"archetype": a, "channel": c, "cases": counts.get(a, 0)} for a, c in plan]
+    finally:
+        db.close()
+
+import hashlib
+
+def _reschedule_token(failure_id: int) -> str:
+    sig = hashlib.sha256(f"revive:{failure_id}".encode()).hexdigest()[:8]
+    return f"{failure_id}-{sig}"
+
+def _verify_token(token: str):
+    try:
+        fid, sig = token.split("-", 1)
+        fid = int(fid)
+    except Exception:
+        return None
+    if hashlib.sha256(f"revive:{fid}".encode()).hexdigest()[:8] == sig:
+        return fid
+    return None
+
+RESCHEDULE_HTML = """<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Pick your payment day — Revive AI</title>
+<style>body{font-family:Inter,system-ui,sans-serif;background:#f4f7fc;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0}
+.card{background:#fff;border:1.5px solid #0a0f1a;border-radius:20px;padding:32px;max-width:420px;width:92%;box-shadow:8px 8px 0 rgba(11,92,255,.2)}
+h1{font-size:22px;margin:0 0 6px}p{color:#6b7a90;font-size:14px;line-height:1.6}
+.amt{font-size:30px;font-weight:800;color:#0b5cff;margin:12px 0}
+input[type=range]{width:100%;accent-color:#0b5cff}
+.day{font-size:40px;font-weight:800;text-align:center;color:#0a0f1a;margin:8px 0}
+button{width:100%;background:#0b5cff;color:#fff;border:none;border-radius:999px;padding:14px;font-weight:700;font-size:15px;cursor:pointer;margin-top:12px}
+button:hover{background:#0a0f1a}.ok{color:#149a52;font-weight:700;text-align:center;margin-top:12px}
+small{color:#6b7a90}</style></head><body><div class="card">
+<h1>When do you get paid?</h1>
+<p>No pressure. Pick a day that works for you and we'll quietly retry then — no reminders, no late fees.</p>
+<div class="amt">₹__RUPEES__</div>
+<div class="day" id="d">5</div>
+<input type="range" min="1" max="30" value="5" id="r" oninput="document.getElementById('d').textContent=this.value">
+<button onclick="go()">Confirm my day ▸</button>
+<div class="ok" id="ok"></div>
+<small>100% your choice · Law 1: no money without consent</small>
+</div><script>
+function go(){var day=document.getElementById('r').value;
+fetch('/api/reschedule',{method:'POST',headers:{'Content-Type':'application/json'},
+body:JSON.stringify({failure_id:__FID__,day:+day})}).then(r=>r.json()).then(o=>{
+document.getElementById('ok').textContent=o.ok?('Done! We\\'ll retry on day '+day+'. No reminders until then.'):'Something went wrong.';});}
+</script></body></html>"""
+
+@router.get("/reschedule/{token}", response_class=HTMLResponse)
+def reschedule_page(token: str):
+    from fastapi.responses import HTMLResponse as _H
+    fid = _verify_token(token)
+    if fid is None:
+        return _H("<h1>Invalid or expired link.</h1>", status_code=404)
+    db = SessionLocal()
+    try:
+        f = db.query(PaymentFailure).filter_by(id=fid).first()
+        if not f:
+            return _H("<h1>Payment not found.</h1>", status_code=404)
+        rupees = round((f.amount_paise or 0) / 100, 2)
+    finally:
+        db.close()
+    return _H(RESCHEDULE_HTML.replace("__FID__", str(fid)).replace("__RUPEES__", str(rupees)))
+
+class RescheduleInput(BaseModel):
+    failure_id: int
+    day: int
+
+@router.post("/reschedule")
+def reschedule(inp: RescheduleInput):
+    from datetime import datetime
+    from app.core.policy import next_allowed_slot
+    from app.db.models import Promise
+    db = SessionLocal()
+    try:
+        f = db.query(PaymentFailure).filter_by(id=inp.failure_id).first()
+        if not f:
+            return {"ok": False}
+        now = datetime.now()
+        day = max(1, min(30, inp.day))
+        try:
+            target = now.replace(day=day, hour=9, minute=0, second=0, microsecond=0)
+        except ValueError:
+            target = now.replace(day=30, hour=9, minute=0, second=0, microsecond=0)
+        if target <= now:
+            target = target.replace(month=now.month + 1) if now.month < 12 else target.replace(year=now.year + 1, month=1)
+        target = next_allowed_slot(target)
+        p = db.query(Promise).filter_by(failure_id=f.id, status="pending").first()
+        if not p:
+            p = Promise(failure_id=f.id, customer_id=f.customer_id, status="pending")
+            db.add(p)
+        p.promised_at = target
+        p.notes = f"Customer self-served reschedule to day {day}."
+        f.status = "deferred"
+        job = db.query(Job).filter_by(failure_id=f.id, status="queued").first()
+        if not job:
+            job = Job(failure_id=f.id, kind="RETRY", run_at=target, status="queued")
+            db.add(job)
+        else:
+            job.run_at = target
+        db.add(AuditLog(entity_type="promise", entity_id=f.id, actor="cust",
+                        action="RESCHED", reasoning=f"Customer chose day {day} via self-serve portal. Retry at {target}."))
+        db.commit()
+        return {"ok": True, "scheduled": target.strftime("%d %b, %H:%M")}
     finally:
         db.close()
