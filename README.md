@@ -206,9 +206,11 @@ Razorpay Webhook / Orders API / Synthetic Generator
 
 *Revive AI is not a switch replacement — it is the intelligence layer that sits on top of any switch. When the transaction fails, that's when Revive AI wakes up.*
 
-## 🆕 Final-Build Upgrades
+---
 
-| Feature | Where | Why it matters |
+## 🆕 Final-Build Upgrades (Production Maturity)
+
+| Feature | Where | Why It Matters |
 |---|---|---|
 | **Smart Policy Engine** | `app/core/policy.py` + Telemetry panel | TRAI quiet hours (21:00–07:00) pause outreach; promise-active halt (`P_HALT`) stops dunning mid-promise |
 | **Customer Self-Serve Reschedule Portal** | `/api/reschedule/{token}` | Law 1 in action — customer drags a slider to pick the retry day; tokenized, no login |
@@ -218,6 +220,11 @@ Razorpay Webhook / Orders API / Synthetic Generator
 | **Expected Recovery Value (ERV)** | Economics panel | Forward-looking ₹ metric weighted by live mechanism success rates |
 | **Live TTS Showcase** | `/api/voice_stream` | edge-tts synthesized on demand, cached in memory, zero files on disk |
 | **Groq → Gemini 3.x failover** | `app/core/llm.py` | Dual-SDK failover with truncation guard — no robotic fallbacks |
+| **Deterministic Message Validator** | `app/core/validator.py` | AI drafts customer messages, rules reject pressure/fake promises/invented amounts |
+| **Prompt-Injection Guard** | `/api/agent` SEC-INJECT | Blocks attempts to override safety rules; gate is code, not AI |
+| **Webhook Replay Protection** | `app/api/webhooks.py` | HMAC signature + event-id + payment-id dedupe (RazorGuard-style) |
+| **AI vs Fallback Transparency** | Playground badge | Shows when message came from live AI vs deterministic fallback |
+| **Deliberate Abstention** | BLOCK verdicts + quiet hours + promise halts | 165 cases where intervention was wrong → we did nothing (Law 1) |
 
 ---
 
