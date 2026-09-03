@@ -747,9 +747,9 @@ document.getElementById('callBtn').onclick=async()=>{
   const o=await (await fetch('/api/simulate_call',{method:'POST'})).json();
   if(!o.ok){log.innerHTML+='<div>No affordability case to call right now.</div>';return;}
   const steps=[
-    ['agent',`Namaste! ₹${o.rupees} ki payment ke liye — koi baat nahi. Kab pay kar sakte ho?`,o.voice_url],
+    ['agent',`Namaste! ₹${o.rupees} ki payment ke liye — koi baat nahi. Kab pay kar sakte ho?`],
     ['cust','Kal shaam tak pakka kar dunga.'],
-    ['agent',`Done! ${o.promised} se pehle — koi reminder nahi, koi late fee nahi.`]
+    ['agent',`Done! ${o.promised} se pehle — koi reminder nahi, koi late fee nahi.`,o.voice_url]
   ];
   for(const s of steps){
     await new Promise(r=>setTimeout(r,900));
