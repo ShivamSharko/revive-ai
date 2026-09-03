@@ -190,6 +190,7 @@ def playground(inp: PlaygroundInput):
             "DEFER": "The payment is moved to a better time (salary day). No reminders, no late fees.",
             "BLOCK": "Do NOT retry or move any money. Reassure the customer they are safe and nothing will be charged.",
         }.get(verdict, "")
+        message_source = "deterministic-fallback"
         try:
             from app.core.llm import generate_text
             system = (
@@ -202,11 +203,17 @@ def playground(inp: PlaygroundInput):
                 f"The customer's situation: {inp.failure_description}. "
                 "Never invent amounts or payment IDs."
             )
-            customer_message = generate_text(system, inp.failure_description, max_tokens=250) or fallback
-            from app.core.validator import validate_customer_message
-            ok, why = validate_customer_message(customer_message, inp.amount_rupees)
-            if not ok:
-                customer_message = fallback  # AI drafted, rules rejected → deterministic template
+            ai = generate_text(system, inp.failure_description, max_tokens=250)
+            if ai:
+                from app.core.validator import validate_customer_message
+                ok, why = validate_customer_message(ai, inp.amount_rupees)
+                if ok:
+                    customer_message = ai
+                    message_source = "live-ai"
+                else:
+                    customer_message = fallback
+            else:
+                customer_message = fallback
         except Exception:
             customer_message = fallback
 
@@ -235,6 +242,7 @@ def playground(inp: PlaygroundInput):
             "verdict": verdict, "rule_id": rule_id, "reasoning": reasoning,
             "action": actions.get(verdict, "Diagnosis unavailable."),
             "customer_message": customer_message,
+            "message_source": message_source,
             "voice_url": voice_url,
             "mechanism": choose_mechanism(db),
             "update_link": (card_update_link(tokenize("card", "4242"))

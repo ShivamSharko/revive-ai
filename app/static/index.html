@@ -610,7 +610,7 @@ document.getElementById('p-run').addEventListener('click',async()=>{
       `<b>2 · Consent Gate:</b> <span class="badge ${o.verdict||''}">${o.verdict||'—'}</span> ${o.rule_id||''}`,
       `<b>3 · Reasoning:</b> ${o.reasoning||'—'}`,
       `<b>4 · Action:</b> ${o.action}`,
-      `<b>5 · Customer receives:</b> "${o.customer_message||''}"` +
+      `<b>5 · Customer receives:</b> "${o.customer_message||''}" <span class="badge ${o.message_source==='live-ai'?'ALLOW':'DEFER'}">${o.message_source==='live-ai'?'live AI':'deterministic fallback'}</span>` +
       (o.voice_url?`<audio controls src="${o.voice_url}" style="width:100%;margin-top:8px;height:36px"></audio>`:''),
       `<b>6 · Recovery channel:</b> routed via <b>${o.mechanism||'upi'}</b> (highest observed success rate)` +
       (o.update_link?`<br><b>7 · Card update:</b> <span style="color:var(--blue)">${o.update_link.slice(0,52)}…</span> (tokenized, zero PAN storage)`:'') +
