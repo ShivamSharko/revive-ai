@@ -342,6 +342,7 @@ footer{border-top:1.5px solid var(--ink);padding:32px 40px;color:var(--muted);fo
       <div class="panel reveal"><h3>Strategy benchmark · no action vs spam-all vs revive ai</h3><div class="feed" id="bench"></div></div>
       <div class="panel reveal"><h3>Manual review queue · compliance blocks → humans</h3><div class="feed" id="mreview"></div></div>
     </div>
+    <div class="panel reveal" style="margin-bottom:16px"><h3>Zombie subscription guard · pause billed-but-inactive before chargebacks</h3><div class="feed" id="zombies"></div></div>
       </div>
     </div>
   </section>
@@ -590,9 +591,13 @@ async function load(){
       if(bench)bench.innerHTML=`<div><b>No action:</b> ${INR(bk.no_action.recovered_rupees)} · 0 contacts · 0 double-charges</div>
         <div><b>Spam-all reminders:</b> ${INR(bk.spam_all.recovered_rupees)} · ${bk.spam_all.contacts} contacts · <span style="color:var(--red);font-weight:800">${bk.spam_all.double_charges} double-charges</span></div>
         <div style="color:var(--green);font-weight:800"><b>Revive AI:</b> ${INR(bk.revive_ai.recovered_rupees)} · ${bk.revive_ai.contacts} contacts · 0 double-charges ✓</div>
-        <div style="margin-top:6px">Attribution: recovered only on two matching signals (capture + link-paid) within ${at.window_minutes} min · live two-signal: ${at.live_two_signal} · simulated dual-signal: ${at.simulated_dual_signal}</div>`;
+        <div style="margin-top:6px">Attribution: recovered only on two matching signals (capture + link-paid) within ${at.window_minutes} min · live two-signal: ${at.live_two_signal} · simulated dual-signal: ${at.simulated_dual_signal} · malformed dropped: ${at.malformed_dropped||0}</div>`;
       const mrq=await (await fetch('/api/manual_review')).json();
       if(mreview)mreview.innerHTML=(mrq||[]).map(r=>`<div><b>${(r.payment_id||'').slice(0,18)}</b> · ${INR(r.rupees)} · ${r.rule} → human review, no auto outreach</div>`).join('')||'<div>No manual review cases.</div>';
+      const zb=await (await fetch('/api/zombies')).json();
+      const zEl=document.getElementById('zombies');
+      if(zEl)zEl.innerHTML=`<div style="color:var(--green);font-weight:800">Monthly leakage stopped: ${INR(zb.monthly_savings)} · chargebacks prevented</div>`+
+        (zb.rows||[]).map(z=>`<div><b>${z.sub_id}</b> · ${INR(z.monthly)}/mo · billed ${z.months}mo · idle ${z.idle_days}d · <span class="badge ${z.zombie?(z.action==='AUTO_PAUSE'?'BLOCK':'DEFER'):'ALLOW'}">${z.action}</span></div>`).join('');
     }catch(e){}
     const au=await (await fetch('/api/audit')).json();
     audit.innerHTML=au.map(a=>`<div><b>${a.actor}</b> · ${a.action} · ${a.entity}#${a.entity_id}<br>${(a.reasoning||'').slice(0,140)}</div>`).join('');
@@ -743,10 +748,11 @@ async function loadUplift(){
   document.getElementById('sim-boost-v').textContent=(+boost).toFixed(2);
   const o=await (await fetch(`/api/uplift?cost=${cost}&boost=${boost}`)).json();
   document.getElementById('uplift').innerHTML=(o.rows||[]).map(r=>{
-    const b=r.decision==='ACT'?'ALLOW':'BLOCK';
-    return `<div><b>${(r.payment_id||'').slice(0,18)}</b> · ${INR(r.rupees)} · natural ${Math.round(r.p_natural*100)}% → treat ${Math.round(r.p_treat*100)}% · <span class="badge ${b}">${r.decision}${r.decision==='ACT'?' +'+INR(r.incremental_ev):''}</span></div>`;
+    const b=r.decision==='ACT'?'ALLOW':r.decision==='CONFIRM'?'DEFER':'BLOCK';
+    const extra=r.decision==='ABSTAIN'?'':r.decision==='CONFIRM'?' >₹5k → human':' +'+INR(r.incremental_ev);
+    return `<div><b>${(r.payment_id||'').slice(0,18)}</b> · ${INR(r.rupees)} · natural ${Math.round(r.p_natural*100)}% → treat ${Math.round(r.p_treat*100)}% · <span class="badge ${b}">${r.decision}${extra}</span></div>`;
   }).join('')||'<div>No recoverable rows.</div>';
-  document.getElementById('simout').innerHTML=`<div><b>Act:</b> ${o.act} · <b>Abstain:</b> ${o.abstain}</div>
+  document.getElementById('simout').innerHTML=`<div><b>Act:</b> ${o.act} · <b>Human confirm (&gt;₹5k):</b> ${o.confirm||0} · <b>Abstain:</b> ${o.abstain}</div>
     <div><b>Predicted incremental EV:</b> <span style="color:var(--green);font-weight:800">${INR(o.total_incremental_ev)}</span></div>
     <div><b>Waste avoided (no spam):</b> ${INR(o.waste_avoided)}</div>`;
 }

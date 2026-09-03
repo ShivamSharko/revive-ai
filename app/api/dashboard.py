@@ -965,7 +965,7 @@ def uplift(cost: float = 2.0, boost: float = 1.0, limit: int = 15):
         rates = {m["method"]: m["success_rate"] for m in mechanism_success_rates(db)}
     finally:
         db.close()
-    out, tot_ev, act_n, abs_n, waste = [], 0.0, 0, 0, 0.0
+    out, tot_ev, act_n, conf_n, abs_n, waste = [], 0.0, 0, 0, 0, 0.0
     for f, d in rows:
         rupees = (f.amount_paise or 0) / 100
         p_nat = NATURAL_P.get((d.archetype, bool(f.session_active)), 0.3)
@@ -973,15 +973,17 @@ def uplift(cost: float = 2.0, boost: float = 1.0, limit: int = 15):
         up = max(0.0, p_treat - p_nat)
         ev = up * rupees - cost
         if ev > 0:
+            decision = "ACT" if rupees <= 5000 else "CONFIRM"  # hard stop: >₹5k needs human
+            if decision == "CONFIRM": conf_n += 1
             act_n += 1; tot_ev += ev
         else:
-            abs_n += 1; waste += cost
+            decision = "ABSTAIN"; abs_n += 1; waste += cost
         out.append({"payment_id": f.external_payment_id, "rupees": round(rupees, 2),
                     "archetype": d.archetype, "p_natural": p_nat, "p_treat": round(p_treat, 2),
                     "uplift": round(up, 2), "incremental_ev": round(ev, 2),
-                    "decision": "ACT" if ev > 0 else "ABSTAIN"})
+                    "decision": decision})
     out.sort(key=lambda r: -r["incremental_ev"])
-    return {"rows": out[:limit], "act": act_n, "abstain": abs_n,
+    return {"rows": out[:limit], "act": act_n, "confirm": conf_n, "abstain": abs_n,
             "total_incremental_ev": round(tot_ev, 2), "waste_avoided": round(waste, 2)}
 
 @router.post("/simulate_call")
@@ -1061,6 +1063,25 @@ def attribution():
         live = db.query(func.count(PaymentFailure.id)).filter_by(status="recovered", source="live").scalar() or 0
         sim = db.query(func.count(PaymentFailure.id)).filter_by(status="recovered") \
                 .filter(PaymentFailure.source != "live").scalar() or 0
-        return {"window_minutes": 30, "live_two_signal": live, "simulated_dual_signal": sim}
+        return {"window_minutes": 30, "live_two_signal": live,
+                "simulated_dual_signal": sim, "malformed_dropped": _DROPPED["count"]}
     finally:
         db.close()
+
+@router.get("/zombies")
+def zombies():
+    """Zombie subscription guard: pause billed-but-inactive users BEFORE chargebacks."""
+    import random
+    random.seed(11)
+    rows, saved = [], 0
+    for i in range(12):
+        monthly = random.choice([199, 499, 999, 1499])
+        months = random.choice([1, 2, 4, 6, 8])
+        idle = random.choice([5, 20, 45, 75, 120, 160])
+        zombie = idle > 60 and months >= 3
+        action = ("PAUSE + CONFIRM" if monthly > 500 else "AUTO_PAUSE") if zombie else "HEALTHY"
+        if zombie:
+            saved += monthly
+        rows.append({"sub_id": f"sub_{i+1:03d}", "monthly": monthly, "months_billed": months,
+                     "idle_days": idle, "zombie": zombie, "action": action})
+    return {"rows": rows, "monthly_savings": saved}

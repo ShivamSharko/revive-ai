@@ -11,6 +11,7 @@ from app.core.worker import process_failure
 router = APIRouter()
 
 _SEEN_EVENTS = set()  # webhook replay protection (idempotency)
+_DROPPED = {"count": 0}  # malformed records dropped gracefully, batch never crashes
 
 @router.post("/webhooks/razorpay")
 async def razorpay_webhook(request: Request, background_tasks: BackgroundTasks):
@@ -29,7 +30,11 @@ async def razorpay_webhook(request: Request, background_tasks: BackgroundTasks):
     if evt_id and evt_id in _SEEN_EVENTS:
         return {"status": "duplicate_ignored", "event_id": evt_id}
 
-    p = event["payload"]["payment"]["entity"]
+    try:
+        p = event["payload"]["payment"]["entity"]
+    except KeyError:
+        _DROPPED["count"] += 1
+        return {"status": "dropped_malformed"}
     db = SessionLocal()
     try:
         f = db.query(PaymentFailure).filter_by(external_payment_id=p["id"]).first()
