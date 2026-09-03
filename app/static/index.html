@@ -343,6 +343,7 @@ footer{border-top:1.5px solid var(--ink);padding:32px 40px;color:var(--muted);fo
       <div class="panel reveal"><h3>Manual review queue · compliance blocks → humans</h3><div class="feed" id="mreview"></div></div>
     </div>
     <div class="panel reveal" style="margin-bottom:16px"><h3>Zombie subscription guard · pause billed-but-inactive before chargebacks</h3><div class="feed" id="zombies"></div></div>
+    <div class="panel reveal" style="margin-bottom:16px"><h3>Human approval queue · above merchant auto-limit (₹3,000) a human decides</h3><div class="feed" id="cqueue"></div></div>
       </div>
     </div>
   </section>
@@ -440,6 +441,11 @@ async function sendNudge(type){
   }catch(e){
     if(res) res.textContent = 'Error sending nudges.';
   }
+}
+
+async function confirmAct(id,approve){
+  await fetch(`/api/confirm_action?failure_id=${id}&approve=${approve}`,{method:'POST'});
+  load();
 }
 
 async function batchRecover(){
@@ -598,6 +604,9 @@ async function load(){
       const zEl=document.getElementById('zombies');
       if(zEl)zEl.innerHTML=`<div style="color:var(--green);font-weight:800">Monthly leakage stopped: ${INR(zb.monthly_savings)} · chargebacks prevented</div>`+
         (zb.rows||[]).map(z=>`<div><b>${z.sub_id}</b> · ${INR(z.monthly)}/mo · billed ${z.months}mo · idle ${z.idle_days}d · <span class="badge ${z.zombie?(z.action==='AUTO_PAUSE'?'BLOCK':'DEFER'):'ALLOW'}">${z.action}</span></div>`).join('');
+      const cq=await (await fetch('/api/confirm_queue')).json();
+      const cqEl=document.getElementById('cqueue');
+      if(cqEl)cqEl.innerHTML=(cq||[]).map(r=>`<div style="display:flex;gap:8px;align-items:center"><b>${(r.payment_id||'').slice(0,18)}</b><span>${INR(r.rupees)}</span><span class="badge ALLOW">${r.rule}</span><span style="flex:1"></span><button onclick="confirmAct(${r.id},true)" style="background:var(--green);color:#fff;border:none;border-radius:999px;padding:4px 12px;font-weight:700;cursor:pointer">Approve</button><button onclick="confirmAct(${r.id},false)" style="background:var(--red);color:#fff;border:none;border-radius:999px;padding:4px 12px;font-weight:700;cursor:pointer">Reject</button></div>`).join('')||'<div>Queue empty — nothing above the auto-limit right now.</div>';
     }catch(e){}
     const au=await (await fetch('/api/audit')).json();
     audit.innerHTML=au.map(a=>`<div><b>${a.actor}</b> · ${a.action} · ${a.entity}#${a.entity_id}<br>${(a.reasoning||'').slice(0,140)}</div>`).join('');

@@ -1085,3 +1085,40 @@ def zombies():
         rows.append({"sub_id": f"sub_{i+1:03d}", "monthly": monthly, "months_billed": months,
                      "idle_days": idle, "zombie": zombie, "action": action})
     return {"rows": rows, "monthly_savings": saved}
+
+@router.get("/confirm_queue")
+def confirm_queue():
+    """High-value recoveries above the merchant auto-limit wait for a human."""
+    db = SessionLocal()
+    try:
+        rows = (db.query(PaymentFailure, GateDecision)
+                .join(GateDecision, GateDecision.failure_id == PaymentFailure.id)
+                .filter(GateDecision.verdict == "ALLOW")
+                .filter(PaymentFailure.amount_paise > 300000)
+                .filter(PaymentFailure.status.in_(["pending", "deferred"]))
+                .order_by(PaymentFailure.amount_paise.desc()).limit(20).all())
+        return [{"id": f.id, "payment_id": f.external_payment_id,
+                 "rupees": round((f.amount_paise or 0) / 100, 2), "rule": g.rule_id} for f, g in rows]
+    finally:
+        db.close()
+
+@router.post("/confirm_action")
+def confirm_action(failure_id: int, approve: bool):
+    db = SessionLocal()
+    try:
+        f = db.query(PaymentFailure).filter_by(id=failure_id).first()
+        if not f:
+            return {"ok": False}
+        if approve:
+            f.status = "recovered"
+            f.amount_recovered_paise = f.amount_paise
+            action, why = "APPROVE", f"Human approved high-value recovery of ₹{round((f.amount_paise or 0)/100,2)}."
+        else:
+            f.status = "protected"
+            action, why = "REJECT", f"Human rejected auto-recovery of ₹{round((f.amount_paise or 0)/100,2)}; customer protected."
+        db.add(AuditLog(entity_type="failure", entity_id=f.id, actor="human",
+                        action=action, reasoning=why))
+        db.commit()
+        return {"ok": True, "approved": approve}
+    finally:
+        db.close()
