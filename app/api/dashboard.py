@@ -941,3 +941,76 @@ def recovery_batch(bucket: str = "HIGH"):
         return {"processed": processed, "bucket": bucket, "recovered_rupees": round(recovered_rupees, 2)}
     finally:
         db.close()
+
+NATURAL_P = {
+    ("technical", True): 0.85, ("technical", False): 0.55,
+    ("intent", True): 0.45, ("intent", False): 0.30,
+    ("affordability", True): 0.35, ("affordability", False): 0.22,
+    ("lifecycle", True): 0.20, ("lifecycle", False): 0.12,
+}
+
+@router.get("/uplift")
+def uplift(cost: float = 2.0, boost: float = 1.0, limit: int = 15):
+    """Incremental uplift: act only when intervention creates value beyond natural recovery."""
+    from app.core.mechanism import mechanism_success_rates
+    db = SessionLocal()
+    try:
+        rows = (db.query(PaymentFailure, Diagnosis)
+                .join(Diagnosis, Diagnosis.failure_id == PaymentFailure.id)
+                .join(GateDecision, GateDecision.failure_id == PaymentFailure.id)
+                .filter(GateDecision.verdict.in_(["ALLOW", "DEFER"]))
+                .filter(PaymentFailure.status != "recovered")
+                .order_by(PaymentFailure.amount_paise.desc())
+                .limit(300).all())
+        rates = {m["method"]: m["success_rate"] for m in mechanism_success_rates(db)}
+    finally:
+        db.close()
+    out, tot_ev, act_n, abs_n, waste = [], 0.0, 0, 0, 0.0
+    for f, d in rows:
+        rupees = (f.amount_paise or 0) / 100
+        p_nat = NATURAL_P.get((d.archetype, bool(f.session_active)), 0.3)
+        p_treat = min(0.95, rates.get(f.method, 0.5) * 1.15 * boost)
+        up = max(0.0, p_treat - p_nat)
+        ev = up * rupees - cost
+        if ev > 0:
+            act_n += 1; tot_ev += ev
+        else:
+            abs_n += 1; waste += cost
+        out.append({"payment_id": f.external_payment_id, "rupees": round(rupees, 2),
+                    "archetype": d.archetype, "p_natural": p_nat, "p_treat": round(p_treat, 2),
+                    "uplift": round(up, 2), "incremental_ev": round(ev, 2),
+                    "decision": "ACT" if ev > 0 else "ABSTAIN"})
+    out.sort(key=lambda r: -r["incremental_ev"])
+    return {"rows": out[:limit], "act": act_n, "abstain": abs_n,
+            "total_incremental_ev": round(tot_ev, 2), "waste_avoided": round(waste, 2)}
+
+@router.post("/simulate_call")
+def simulate_call():
+    from datetime import datetime, timedelta
+    from app.db.models import Promise
+    db = SessionLocal()
+    try:
+        row = (db.query(PaymentFailure, Diagnosis)
+               .join(Diagnosis, Diagnosis.failure_id == PaymentFailure.id)
+               .filter(Diagnosis.archetype == "affordability")
+               .filter(PaymentFailure.status != "recovered")
+               .order_by(PaymentFailure.id.desc()).first())
+        if not row:
+            return {"ok": False}
+        f, d = row
+        promised = (datetime.now() + timedelta(days=1)).replace(hour=17, minute=0, second=0, microsecond=0)
+        p = db.query(Promise).filter_by(failure_id=f.id, status="pending").first()
+        if not p:
+            p = Promise(failure_id=f.id, customer_id=f.customer_id, status="pending")
+            db.add(p)
+        p.promised_at = promised
+        p.notes = "Promise captured via simulated voice call."
+        db.add(AuditLog(entity_type="promise", entity_id=f.id, actor="voice",
+                        action="CALL", reasoning=f"Voice call captured promise-to-pay for {f.customer_id} at {promised}."))
+        db.commit()
+        return {"ok": True, "customer": f.customer_id,
+                "rupees": round((f.amount_paise or 0) / 100, 2),
+                "promised": promised.strftime("%d %b, %I:%M %p"),
+                "voice_url": "/api/voice_stream?archetype=affordability"}
+    finally:
+        db.close()
