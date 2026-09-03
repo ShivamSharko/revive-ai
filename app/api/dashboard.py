@@ -739,3 +739,34 @@ def reschedule(inp: RescheduleInput):
         return {"ok": True, "scheduled": target.strftime("%d %b, %H:%M")}
     finally:
         db.close()
+
+@router.get("/whatsapp")
+def whatsapp():
+    """Mock WhatsApp recovery conversation: Hinglish text + voice note + 1-tap Razorpay link."""
+    from app.db.models import Diagnosis
+    db = SessionLocal()
+    try:
+        f = (db.query(PaymentFailure)
+             .filter(PaymentFailure.status.in_(["deferred", "pending", "recovered"]))
+             .order_by(PaymentFailure.id.desc()).first())
+        diag = db.query(Diagnosis).filter_by(failure_id=f.id).first() if f else None
+        archetype = diag.archetype if diag else "affordability"
+        rupees = round((f.amount_paise or 0) / 100, 2) if f else 499
+        pay_id = f.external_payment_id if f else "pay_demo000"
+    finally:
+        db.close()
+    scripts = {
+        "technical": "bank server mein thodi der ki dikkat thi, ab fix ho gayi hai. Aapko kuch karne ki zaroorat nahi.",
+        "affordability": "koi baat nahi! Payment aapke salary day tak shift kar di hai. Chaaho toh abhi 1-tap se pay kar sakte ho.",
+        "intent": "OTP par atak gayi thi payment — UPI Collect request bheji hai, 1 tap mein approve kar do.",
+        "lifecycle": "aapka card expire ho gaya tha. Naya card update karo ya 1-tap UPI Autopay set karo.",
+    }
+    return {
+        "customer": "+91 ••••• 4821",
+        "merchant": "ShopKart",
+        "rupees": rupees,
+        "payment_id": pay_id,
+        "text": scripts.get(archetype, scripts["affordability"]),
+        "voice_url": f"/api/voice_stream?archetype={archetype}",
+        "pay_link": f"https://rzp.io/r/{pay_id[-6:]}",
+    }
