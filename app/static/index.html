@@ -313,7 +313,8 @@ footer{border-top:1.5px solid var(--ink);padding:32px 40px;color:var(--muted);fo
           <div style="padding:14px;display:flex;flex-direction:column;gap:8px">
             <div style="background:#fff;border-radius:10px;padding:10px 12px;font-size:12px;line-height:1.5;max-width:88%" id="wa-text"></div>
             <div style="background:#fff;border-radius:10px;padding:10px 12px;max-width:88%"><audio controls id="wa-voice" style="height:34px;width:210px;margin:0"></audio><div style="font-size:10px;color:var(--muted);margin-top:4px">Voice note · Hinglish</div></div>
-            <div style="background:#dcf8c6;border-radius:10px;padding:10px 12px;font-size:12px;max-width:88%"><a id="wa-link" target="_blank" style="color:#075E55;font-weight:800">Pay ₹<span id="wa-amt"></span> via Razorpay →</a><div style="font-size:10px;color:var(--muted);margin-top:4px;text-align:right">✓✓ 10:24</div></div>
+            <div id="wa-cta" style="background:#dcf8c6;border-radius:10px;padding:10px 12px;font-size:12px;max-width:88%"><a id="wa-link" target="_blank" style="color:#075E55;font-weight:800"></a><div style="font-size:10px;color:var(--muted);margin-top:4px;text-align:right">✓✓ 10:24</div></div>
+            <div id="wa-done" style="display:none;background:#dcf8c6;border-radius:10px;padding:10px 12px;font-size:12px;max-width:88%;color:#075E55;font-weight:700">Payment successful ✓ Order confirmed. Dhanyavaad!<div style="font-size:10px;color:var(--muted);margin-top:4px;text-align:right">✓✓ 10:24</div></div>
           </div>
         </div>
       </div>
@@ -514,8 +515,15 @@ async function load(){
       document.getElementById('wa-cust').textContent=wa.customer;
       document.getElementById('wa-text').innerHTML=`Namaste! <b>${wa.merchant}</b> ki ₹${wa.rupees} payment ke liye — ${wa.text}`;
       document.getElementById('wa-voice').src=wa.voice_url;
-      document.getElementById('wa-link').href=wa.pay_link;
-      document.getElementById('wa-amt').textContent=wa.rupees;
+      if(wa.cta){
+        document.getElementById('wa-cta').style.display='';
+        document.getElementById('wa-done').style.display='none';
+        document.getElementById('wa-link').href=wa.cta.url;
+        document.getElementById('wa-link').textContent=wa.cta.label;
+      }else{
+        document.getElementById('wa-cta').style.display='none';
+        document.getElementById('wa-done').style.display='';
+      }
       if(wachannel)wachannel.innerHTML=`<div><b>WhatsApp</b> · 78% open · 32% conversion</div>
         <div><b>SMS</b> · 12% open · 3% conversion</div>
         <div><b>Email</b> · 8% open · 2% conversion</div>

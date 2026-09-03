@@ -761,6 +761,12 @@ def whatsapp():
         "intent": "OTP par atak gayi thi payment — UPI Collect request bheji hai, 1 tap mein approve kar do.",
         "lifecycle": "aapka card expire ho gaya tha. Naya card update karo ya 1-tap UPI Autopay set karo.",
     }
+    ctas = {
+        "technical": None,  # already recovered — never ask for money again
+        "affordability": {"label": f"Pay ₹{rupees} now (1-tap) →", "url": f"https://rzp.io/r/{pay_id[-6:]}"},
+        "intent": {"label": "Approve UPI Collect (1-tap) →", "url": f"https://rzp.io/r/{pay_id[-6:]}"},
+        "lifecycle": {"label": "Set up UPI Autopay →", "url": f"https://rzp.io/autopay/{pay_id[-6:]}"},
+    }
     return {
         "customer": "+91 ••••• 4821",
         "merchant": "ShopKart",
@@ -768,5 +774,5 @@ def whatsapp():
         "payment_id": pay_id,
         "text": scripts.get(archetype, scripts["affordability"]),
         "voice_url": f"/api/voice_stream?archetype={archetype}",
-        "pay_link": f"https://rzp.io/r/{pay_id[-6:]}",
+        "cta": ctas.get(archetype, ctas["affordability"]),
     }
