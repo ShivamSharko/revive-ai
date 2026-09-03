@@ -164,6 +164,19 @@ def playground(inp: PlaygroundInput):
         if diag:
             verdict, rule_id, reasoning = evaluate_consent(db, f, diag)
 
+        # Adversarial reasoning: Devil's Advocate challenges the gate decision
+        adversarial = None
+        if diag and verdict:
+            from app.core.adversarial import challenge_decision
+            adversarial = challenge_decision(
+                diag.archetype, verdict, rule_id, reasoning, inp.amount_rupees
+            )
+            if adversarial["escalate"]:
+                # Strong counter-argument → force human review
+                verdict = "BLOCK"
+                rule_id = "ADVERSARIAL_ESCALATE"
+                reasoning = f"Adversarial agent found critical flaw: {adversarial['counter']}"
+
         actions = {
             "ALLOW": "Silent retry via Health Graph + Mechanism Swap (invisible recovery).",
             "DEFER": "Deferred to salary day via Liquidity Curve (watchful waiting).",
@@ -234,11 +247,20 @@ def playground(inp: PlaygroundInput):
             except Exception:
                 voice_url = None
 
+        confidence_level = "LOW"
+        if diag and diag.confidence:
+            if diagnosis.confidence >= 0.85:
+                confidence_level = "HIGH"
+            elif diagnosis.confidence >= 0.65:
+                confidence_level = "MED"
+
         out = {
+            "adversarial": adversarial,
             "payment_id": ext_id,
             "diagnosis": {"archetype": diag.archetype, "owner": diag.owner,
                           "confidence": round(getattr(diag, "confidence", 0) or 0, 2),
                           "model": model} if diag else None,
+            "confidence_level": confidence_level,
             "verdict": verdict, "rule_id": rule_id, "reasoning": reasoning,
             "action": actions.get(verdict, "Diagnosis unavailable."),
             "customer_message": customer_message,
@@ -256,6 +278,16 @@ def playground(inp: PlaygroundInput):
         db.query(RecoveryAction).filter_by(failure_id=f.id).delete()
         db.query(Diagnosis).filter_by(failure_id=f.id).delete()
         db.query(PaymentFailure).filter_by(id=f.id).delete()
+
+        if adversarial and adversarial["counter"]:
+            db.add(AuditLog(
+                entity_type="playground",
+                entity_id=f.id,
+                actor="adversarial",
+                action=f"CHALLENGE_{adversarial['confidence']}",
+                reasoning=f"Devil's Advocate: {adversarial['counter']}"
+            ))
+
         db.commit()
         return out
     finally:
