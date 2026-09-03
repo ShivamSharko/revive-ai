@@ -35,7 +35,9 @@ def overview():
             "net_recovered_rupees": round(recovered_rupees - attempt_cost, 2),
             "cost_per_rupee_recovered": round(attempt_cost / max(recovered_rupees, 1), 4),
             "retry_budget_per_customer": 3,
+        }
 
+        # ERV calculation: expected value of unrecovered payments weighted by success rates
         per_method = db.query(PaymentFailure.method, func.sum(PaymentFailure.amount_paise)) \
             .filter(PaymentFailure.status.notin_(["recovered", "protected"])) \
             .group_by(PaymentFailure.method).all()
@@ -43,7 +45,6 @@ def overview():
         rates = {m["method"]: m["success_rate"] for m in mechanism_success_rates(db)}
         economics["expected_recovery_value_rupees"] = round(
             sum(float(amt or 0) / 100 * rates.get(m, 0.5) for m, amt in per_method), 2)
-        }
 
         return {
             "failures_total": totals.count or 0,
