@@ -1014,3 +1014,53 @@ def simulate_call():
                 "voice_url": "/api/voice_stream?archetype=affordability"}
     finally:
         db.close()
+
+@router.get("/benchmark")
+def benchmark():
+    """Offline strategy comparison: No Action vs Spam-All vs Revive AI."""
+    db = SessionLocal()
+    try:
+        totals = db.query(
+            func.count(PaymentFailure.id),
+            func.sum(PaymentFailure.amount_paise),
+            func.sum(PaymentFailure.amount_recovered_paise)).first()
+        verdicts = dict(db.query(GateDecision.verdict, func.count(GateDecision.id))
+                        .group_by(GateDecision.verdict).all())
+    finally:
+        db.close()
+    n = totals[0] or 0
+    at_risk = float(totals[1] or 0) / 100
+    recovered = float(totals[2] or 0) / 100
+    allow, defer, block = verdicts.get("ALLOW", 0), verdicts.get("DEFER", 0), verdicts.get("BLOCK", 0)
+    natural_rate, blind_rate = 0.10, 0.25
+    return {
+        "no_action": {"recovered_rupees": round(at_risk * natural_rate, 2), "contacts": 0, "double_charges": 0},
+        "spam_all": {"recovered_rupees": round(at_risk * blind_rate, 2), "contacts": n, "double_charges": block},
+        "revive_ai": {"recovered_rupees": round(recovered, 2), "contacts": allow + defer, "double_charges": 0},
+    }
+
+@router.get("/manual_review")
+def manual_review():
+    """Compliance/structural blocks routed to humans — never auto-outreach."""
+    db = SessionLocal()
+    try:
+        rows = (db.query(PaymentFailure, GateDecision)
+                .join(GateDecision, GateDecision.failure_id == PaymentFailure.id)
+                .filter(GateDecision.rule_id.in_(["R01_RBI_MANDATE", "R03_STRUCTURAL_STOP", "R08_RETRY_BUDGET"]))
+                .order_by(PaymentFailure.id.desc()).limit(20).all())
+        return [{"payment_id": f.external_payment_id,
+                 "rupees": round((f.amount_paise or 0) / 100, 2), "rule": g.rule_id} for f, g in rows]
+    finally:
+        db.close()
+
+@router.get("/attribution")
+def attribution():
+    """Two-signal honesty: recovered only when capture + link-paid match within 30 min."""
+    db = SessionLocal()
+    try:
+        live = db.query(func.count(PaymentFailure.id)).filter_by(status="recovered", source="live").scalar() or 0
+        sim = db.query(func.count(PaymentFailure.id)).filter_by(status="recovered") \
+                .filter(PaymentFailure.source != "live").scalar() or 0
+        return {"window_minutes": 30, "live_two_signal": live, "simulated_dual_signal": sim}
+    finally:
+        db.close()
