@@ -13,6 +13,16 @@ def process_failure(failure_id: int):
         if not f:
             return
 
+        # Policy halt: skip if customer has an active promise-to-pay
+        from app.core.policy import has_active_promise
+        if has_active_promise(db, f.customer_id):
+            db.add(AuditLog(entity_type="policy", entity_id=f.id, actor="policy",
+                            action="P_HALT",
+                            reasoning="Active promise-to-pay exists — outreach halted until promise resolves."))
+            db.commit()
+            print(f"Policy halt: {f.customer_id} has active promise, skipping retry.")
+            return
+
         # Idempotency: never double-process a failure (scheduler re-runs deferred jobs)
         if db.query(Diagnosis).filter_by(failure_id=f.id).first() and \
             db.query(GateDecision).filter_by(failure_id=f.id).first():

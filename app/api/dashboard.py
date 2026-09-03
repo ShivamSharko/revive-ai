@@ -35,6 +35,14 @@ def overview():
             "net_recovered_rupees": round(recovered_rupees - attempt_cost, 2),
             "cost_per_rupee_recovered": round(attempt_cost / max(recovered_rupees, 1), 4),
             "retry_budget_per_customer": 3,
+
+        per_method = db.query(PaymentFailure.method, func.sum(PaymentFailure.amount_paise)) \
+            .filter(PaymentFailure.status.notin_(["recovered", "protected"])) \
+            .group_by(PaymentFailure.method).all()
+        from app.core.mechanism import mechanism_success_rates
+        rates = {m["method"]: m["success_rate"] for m in mechanism_success_rates(db)}
+        economics["expected_recovery_value_rupees"] = round(
+            sum(float(amt or 0) / 100 * rates.get(m, 0.5) for m, amt in per_method), 2)
         }
 
         return {
@@ -593,3 +601,37 @@ def voice_stream(archetype: str = "technical"):
             return buf.getvalue()
         _voice_cache[archetype] = asyncio.run(_tts())
     return Response(content=_voice_cache[archetype], media_type="audio/mpeg")
+
+@router.get("/policy")
+def policy():
+    from app.core.policy import in_quiet_hours, next_allowed_slot
+    from datetime import datetime
+    from app.db.models import Promise, AuditLog
+    db = SessionLocal()
+    try:
+        now = datetime.now()
+        return {
+            "quiet_window": "21:00 – 07:00 (TRAI DND)",
+            "in_quiet_hours": in_quiet_hours(now),
+            "next_allowed_slot": next_allowed_slot(now).strftime("%d %b, %H:%M"),
+            "active_promises": db.query(Promise).filter_by(status="pending").count(),
+            "promise_halts": db.query(AuditLog).filter_by(action="P_HALT").count(),
+        }
+    finally:
+        db.close()
+
+@router.get("/channels")
+def channels():
+    db = SessionLocal()
+    try:
+        counts = dict(db.query(Diagnosis.archetype, func.count(Diagnosis.id))
+                      .group_by(Diagnosis.archetype).all())
+        plan = [
+            ("technical", "Silent retry — zero outreach (Law 3)"),
+            ("intent", "WhatsApp + UPI Collect one-tap"),
+            ("affordability", "Hinglish voice call + Promise-to-Pay"),
+            ("lifecycle", "Email + tokenized card-update link"),
+        ]
+        return [{"archetype": a, "channel": c, "cases": counts.get(a, 0)} for a, c in plan]
+    finally:
+        db.close()

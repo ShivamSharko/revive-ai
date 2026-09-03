@@ -19,7 +19,7 @@ def run_reconciliation(db):
             db.add(Job(failure_id=f.id, kind="REFUND_SLA",
                        run_at=datetime.now() + timedelta(hours=48), status="queued"))
             db.add(AuditLog(entity_type="reconciliation", entity_id=f.id,
-                            actor="recon_engine", action="REFUND_SLA_OPENED",
+                            actor="recon_engine", action="RF_SLA",
                             reasoning="Deducted without settlement; NPCI auto-reversal window T+48h."))
             opened += 1
     db.commit()

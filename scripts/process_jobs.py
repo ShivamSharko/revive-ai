@@ -46,7 +46,7 @@ def process_due_promises():
                 f.status = "recovered"
                 f.amount_recovered_paise = f.amount_paise
             db.add(AuditLog(entity_type="promise", entity_id=p.id, actor="worker",
-                            action="PROMISE_DUE",
+                            action="P_DUE",
                             reasoning=f"Promise came due; auto-retry executed for {p.customer_id}. Revenue marked recovered."))
         db.commit()
         print(f"Processed {len(due)} due promises.")

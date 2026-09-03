@@ -302,6 +302,10 @@ footer{border-top:1.5px solid var(--ink);padding:32px 40px;color:var(--muted);fo
       <div class="panel reveal"><h3>B2B receivables · dispute halt + payment plans</h3><div class="feed" id="recv"></div></div>
       <div class="panel reveal"><h3>Drop-off funnel · drop-to-pay tracker</h3><div class="feed" id="funnel"></div></div>
     </div>
+    <div class="row">
+      <div class="panel reveal"><h3>Smart policy engine · quiet hours + promise halt</h3><div class="feed" id="policy"></div></div>
+      <div class="panel reveal"><h3>Outreach channel router · right channel per archetype</h3><div class="feed" id="channels"></div></div>
+    </div>
   </section>
 
   <section id="voice">
@@ -356,6 +360,7 @@ promisePending=document.getElementById('promise-pending'),
 promiseFulfilled=document.getElementById('promise-fulfilled'),
 promiseEscalated=document.getElementById('promise-escalated'),
 recv=document.getElementById('recv'),funnel=document.getElementById('funnel'),
+policy=document.getElementById('policy'),channelsEl=document.getElementById('channels'),
 donut=document.getElementById('donut'),bars=document.getElementById('bars');
 
 const INR=n=>'₹'+Number(Math.round(n)).toLocaleString('en-IN');
@@ -434,6 +439,7 @@ async function load(){
     const ec=o.economics||{};
     econ.innerHTML=`<div><b>Attempt cost:</b> ${INR(ec.attempt_cost_rupees||0)}</div>
       <div><b>Net recovered:</b> ${INR(ec.net_recovered_rupees||0)}</div>
+      <div><b>Expected Recovery Value:</b> ${INR(ec.expected_recovery_value_rupees||0)} (ERV)</div>
       <div><b>Cost per ₹ recovered:</b> ₹${ec.cost_per_rupee_recovered||0}</div>
       <div><b>Retry budget:</b> ${ec.retry_budget_per_customer||3} attempts / customer (R-08)</div>`;
     const rc=await (await fetch('/api/recon')).json();
@@ -481,6 +487,16 @@ async function load(){
       }
       else if(funnel)funnel.innerHTML='<div>No funnel data</div>';
     }catch(e){if(funnel)funnel.innerHTML='<div>Funnel unavailable</div>';}
+    try{
+      const po=await (await fetch('/api/policy')).json();
+      if(policy)policy.innerHTML=`<div><b>Quiet window:</b> ${po.quiet_window}</div>
+        <div><b>Status now:</b> ${po.in_quiet_hours?'Quiet hours — outreach paused':'Active hours — outreach allowed'}</div>
+        <div><b>Next allowed slot:</b> ${po.next_allowed_slot}</div>
+        <div><b>Active promises (outreach halted):</b> ${po.active_promises}</div>
+        <div><b>Promise halts logged:</b> ${po.promise_halts}</div>`;
+      const ch=await (await fetch('/api/channels')).json();
+      if(channelsEl)channelsEl.innerHTML=(ch||[]).map(c=>`<div><b>${c.archetype}</b> · ${c.cases} cases → ${c.channel}</div>`).join('');
+    }catch(e){}
     const au=await (await fetch('/api/audit')).json();
     audit.innerHTML=au.map(a=>`<div><b>${a.actor}</b> · ${a.action} · ${a.entity}#${a.entity_id}<br>${(a.reasoning||'').slice(0,140)}</div>`).join('');
   }catch(e){console.error('load() failed:',e);}

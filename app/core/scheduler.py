@@ -11,6 +11,10 @@ async def run_job_processor():
     """Poll jobs table every 60s and execute due deferred retries."""
     while True:
         await asyncio.sleep(60)
+        # Smart policy: TRAI quiet hours (21:00–07:00) — pause outreach, keep polling
+        from app.core.policy import in_quiet_hours
+        if in_quiet_hours():
+            continue
         db = SessionLocal()
         try:
             now = datetime.now()
