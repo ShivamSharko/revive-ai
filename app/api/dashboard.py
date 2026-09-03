@@ -846,6 +846,7 @@ def recovery_center(limit: int = 20):
         rows = (db.query(PaymentFailure, GateDecision)
                 .join(GateDecision, GateDecision.failure_id == PaymentFailure.id)
                 .filter(GateDecision.verdict.in_(["ALLOW", "DEFER"]))
+                .filter(PaymentFailure.status != "recovered")
                 .order_by(PaymentFailure.id.desc())
                 .limit(50).all())
         scored = []
@@ -876,15 +877,19 @@ def recovery_batch(bucket: str = "HIGH"):
                 .filter(GateDecision.verdict.in_(["ALLOW", "DEFER"]))
                 .limit(50).all())
         processed = 0
+        recovered_rupees = 0.0
         for f, gate in rows:
             s = _recovery_score(f, gate)
             b = "HIGH" if s >= 80 else "MEDIUM" if s >= 55 else "LOW"
-            if b == bucket:
+            if b == bucket and f.status != "recovered":
+                f.status = "recovered"
+                f.amount_recovered_paise = f.amount_paise
+                recovered_rupees += round((f.amount_paise or 0) / 100, 2)
                 db.add(AuditLog(entity_type="failure", entity_id=f.id, actor="batch",
                                 action="BATCH",
                                 reasoning=f"Batch-recovered {bucket} priority case (score {s})."))
                 processed += 1
         db.commit()
-        return {"processed": processed, "bucket": bucket}
+        return {"processed": processed, "bucket": bucket, "recovered_rupees": round(recovered_rupees, 2)}
     finally:
         db.close()

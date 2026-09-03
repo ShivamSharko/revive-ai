@@ -428,7 +428,7 @@ async function batchRecover(){
   try{
     const r=await fetch('/api/recovery_batch?bucket=HIGH',{method:'POST'});
     const o=await r.json();
-    alert(`Batch-recovered ${o.processed} HIGH priority cases. Check audit trail.`);
+    alert(`Batch-recovered ${o.processed} HIGH priority cases (+₹${Number(o.recovered_rupees||0).toLocaleString('en-IN')}). Queue cleared, audit trail updated.`);
     load();
   }catch(e){alert('Batch error: '+e);}
 }
