@@ -433,6 +433,38 @@ def agent(inp: AgentInput):
         except Exception:
             return None
 
+    # 0) Prompt-injection guard: deterministic, cannot be talked around
+    injection = [
+        r"ignore (all |any )?(previous|prior|above) (instructions|rules|prompts)",
+        r"disregard (all |any )?(previous|prior|rules|instructions)",
+        r"forget (everything|all|your) (instructions|rules|training)",
+        r"override (the |your )?(rules|gate|policy|safety|consent)",
+        r"bypass (the |your )?(gate|rules|safety|consent)",
+        r"jailbreak",
+        r"developer mode",
+        r"you are now (a|an) ",
+        r"pretend (you are|to be)",
+        r"(retry|charge|deduct|authorize|approve).*(now|immediately|anyway) (without|no) (consent|confirmation)",
+    ]
+    if any(re.search(p, text, re.I) for p in injection):
+        reply = ("Security notice: I detected an attempt to override my safety rules. "
+                 "My Consent Gate is deterministic code — it cannot be overridden by any message. "
+                 "I'm here to help with your payment. Bataiye, kya hua tha?"
+                 if lang == "hi" else
+                 "Security notice: I detected an attempt to override my safety rules. "
+                 "My Consent Gate is deterministic code and cannot be overridden by any message. "
+                 "I'm here to help with your payment. What went wrong?")
+        try:
+            from app.db.database import SessionLocal
+            from app.db.models import AuditLog
+            db = SessionLocal()
+            db.add(AuditLog(entity_type="security", entity_id=0, actor="sec",
+                            action="INJECT", reasoning=f"Prompt-injection attempt blocked: {text[:120]}"))
+            db.commit(); db.close()
+        except Exception:
+            pass
+        return {"reply": reply, "verdict": "BLOCK", "rule_id": "SEC-INJECT", "voice_data": speak(reply)}
+
     # 1) Brand guard: competitor questions → confident redirect
     if re.search(r"\b(justpay|juspay|stripe|paytm|phonepe|cashfree|gpay|google pay|amazon pay|competitor)\b|compare|which is better|\bvs\b", text, re.I):
         reply = ("Main Razorpay par bana hoon, isliye main apni team ke liye cheer karunga — Razorpay, har din! "
