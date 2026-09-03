@@ -321,6 +321,15 @@ footer{border-top:1.5px solid var(--ink);padding:32px 40px;color:var(--muted);fo
       <div class="panel reveal"><h3>Channel performance · India open rates</h3><div class="feed" id="wachannel"></div></div>
     </div>
     <div class="panel reveal" style="margin-bottom:16px"><h3>Merchant checkout-leak insights · your free product consultant</h3><div class="feed" id="minsights" style="max-height:320px"></div></div>
+    <div class="panel reveal" style="margin-bottom:16px"><h3>Recovery Center · ranked queue, 3 priority buckets</h3>
+      <div style="display:flex;gap:10px;margin-bottom:12px;flex-wrap:wrap">
+        <div style="flex:1;min-width:140px;background:var(--greenbg);border-radius:12px;padding:12px;text-align:center"><b style="color:var(--green);font-size:20px" id="rc-high">0</b><div style="font-size:11px;color:var(--muted)">HIGH</div></div>
+        <div style="flex:1;min-width:140px;background:var(--amberbg);border-radius:12px;padding:12px;text-align:center"><b style="color:var(--amber);font-size:20px" id="rc-med">0</b><div style="font-size:11px;color:var(--muted)">MEDIUM</div></div>
+        <div style="flex:1;min-width:140px;background:var(--tint);border-radius:12px;padding:12px;text-align:center"><b style="color:var(--blue);font-size:20px" id="rc-low">0</b><div style="font-size:11px;color:var(--muted)">LOW</div></div>
+        <button onclick="batchRecover()" style="background:var(--green);color:#fff;border:none;border-radius:999px;padding:10px 22px;font-weight:700;cursor:pointer;align-self:center">Batch recover HIGH ▸</button>
+      </div>
+      <div class="feed" id="rcenter" style="max-height:280px"></div>
+    </div>
   </section>
 
   <section id="voice">
@@ -377,6 +386,7 @@ promiseEscalated=document.getElementById('promise-escalated'),
 recv=document.getElementById('recv'),funnel=document.getElementById('funnel'),
 policy=document.getElementById('policy'),channelsEl=document.getElementById('channels'),
 wachannel=document.getElementById('wachannel'),minsights=document.getElementById('minsights'),
+rcenter=document.getElementById('rcenter'),
 donut=document.getElementById('donut'),bars=document.getElementById('bars');
 
 const INR=n=>'₹'+Number(Math.round(n)).toLocaleString('en-IN');
@@ -412,6 +422,15 @@ async function sendNudge(type){
   }catch(e){
     if(res) res.textContent = 'Error sending nudges.';
   }
+}
+
+async function batchRecover(){
+  try{
+    const r=await fetch('/api/recovery_batch?bucket=HIGH',{method:'POST'});
+    const o=await r.json();
+    alert(`Batch-recovered ${o.processed} HIGH priority cases. Check audit trail.`);
+    load();
+  }catch(e){alert('Batch error: '+e);}
 }
 
 async function load(){
@@ -529,6 +548,17 @@ async function load(){
         <div><b>SMS</b> · 12% open · 3% conversion</div>
         <div><b>Email</b> · 8% open · 2% conversion</div>
         <div style="color:var(--green);font-weight:700">In India, WhatsApp recovers ~6× more than SMS.</div>`;
+
+      const rc=await (await fetch('/api/recovery_center')).json();
+      const hi=rc.filter(r=>r.bucket==='HIGH').length,md=rc.filter(r=>r.bucket==='MEDIUM').length,lo=rc.filter(r=>r.bucket==='LOW').length;
+      document.getElementById('rc-high').textContent=hi;
+      document.getElementById('rc-med').textContent=md;
+      document.getElementById('rc-low').textContent=lo;
+      if(rcenter)rcenter.innerHTML=(rc||[]).map(r=>{
+        const color=r.bucket==='HIGH'?'var(--green)':r.bucket==='MEDIUM'?'var(--amber)':'var(--blue)';
+        return `<div style="display:flex;align-items:center;gap:12px"><span class="badge" style="background:${color};color:#fff">${r.bucket}</span><b style="font-family:Space Grotesk;font-size:18px;color:${color}">${r.score}</b><span style="flex:1">${r.payment_id.slice(0,18)}</span><span>${INR(r.rupees)}</span><span class="badge ${r.verdict}">${r.verdict}</span><span style="color:var(--muted);font-size:11px">${r.rule_id||''}</span></div>`;
+      }).join('')||'<div>No recoverable cases right now.</div>';
+
       const mi=await (await fetch('/api/merchant_insights')).json();
       if(minsights)minsights.innerHTML=(mi||[]).map(m=>
         `<div style="margin-bottom:12px"><b>${m.merchant}</b> · recoverable <span style="color:var(--green);font-weight:800">${INR(m.total_save)}</span> per batch`+

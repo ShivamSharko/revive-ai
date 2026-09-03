@@ -1,5 +1,6 @@
 """Read-only dashboard API: the agent's brain state as clean JSON."""
 from fastapi import APIRouter
+from datetime import datetime
 from fastapi.responses import HTMLResponse
 from sqlalchemy import func
 
@@ -821,3 +822,69 @@ def merchant_insights():
                         "total_save": sum(i["save"] for i in ins)})
     out.sort(key=lambda x: -x["total_save"])
     return out
+
+def _recovery_score(f, gate):
+    """Deterministic recovery score: verdict × amount × context × freshness."""
+    if not gate or gate.verdict == "BLOCK":
+        return 0
+    base = 90 if gate.verdict == "ALLOW" else 65
+    amt = min((f.amount_paise or 0) / 1e5, 1.5)  # up to 1.5× boost for large amounts
+    ctx = 1.2 if getattr(f, "session_active", False) else 1.0
+    if f.occurred_at:
+        occurred = f.occurred_at.replace(tzinfo=None) if f.occurred_at.tzinfo else f.occurred_at
+        age_hours = max(0.1, (datetime.now() - occurred).total_seconds() / 3600)
+    else:
+        age_hours = 1
+    fresh = max(0.5, 1.0 - (age_hours / 72))  # decays over 3 days
+    return round(base * (0.6 + amt) * ctx * fresh)
+
+@router.get("/recovery_center")
+def recovery_center(limit: int = 20):
+    """Ranked queue of recoverable failures — highest score first."""
+    db = SessionLocal()
+    try:
+        rows = (db.query(PaymentFailure, GateDecision)
+                .join(GateDecision, GateDecision.failure_id == PaymentFailure.id)
+                .filter(GateDecision.verdict.in_(["ALLOW", "DEFER"]))
+                .order_by(PaymentFailure.id.desc())
+                .limit(50).all())
+        scored = []
+        for f, gate in rows:
+            s = _recovery_score(f, gate)
+            if s > 0:
+                scored.append({
+                    "payment_id": f.external_payment_id,
+                    "rupees": round((f.amount_paise or 0) / 100, 2),
+                    "verdict": gate.verdict,
+                    "rule_id": gate.rule_id,
+                    "score": s,
+                    "bucket": "HIGH" if s >= 80 else "MEDIUM" if s >= 55 else "LOW",
+                    "occurred": f.occurred_at.isoformat() if f.occurred_at else None,
+                })
+        scored.sort(key=lambda x: -x["score"])
+        return scored[:limit]
+    finally:
+        db.close()
+
+@router.post("/recovery_batch")
+def recovery_batch(bucket: str = "HIGH"):
+    """Mock 'batch recover' for a priority bucket — logs each as RESCHED action."""
+    db = SessionLocal()
+    try:
+        rows = (db.query(PaymentFailure, GateDecision)
+                .join(GateDecision, GateDecision.failure_id == PaymentFailure.id)
+                .filter(GateDecision.verdict.in_(["ALLOW", "DEFER"]))
+                .limit(50).all())
+        processed = 0
+        for f, gate in rows:
+            s = _recovery_score(f, gate)
+            b = "HIGH" if s >= 80 else "MEDIUM" if s >= 55 else "LOW"
+            if b == bucket:
+                db.add(AuditLog(entity_type="failure", entity_id=f.id, actor="batch",
+                                action="BATCH",
+                                reasoning=f"Batch-recovered {bucket} priority case (score {s})."))
+                processed += 1
+        db.commit()
+        return {"processed": processed, "bucket": bucket}
+    finally:
+        db.close()
