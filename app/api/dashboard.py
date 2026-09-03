@@ -10,6 +10,11 @@ from app.db.models import (AuditLog, Diagnosis, GateDecision, RecoveryAction, Jo
 
 from pydantic import BaseModel
 
+try:
+    from app.api.webhooks import _DROPPED  # shared malformed-drop counter
+except Exception:
+    _DROPPED = {"count": 0}
+
 router = APIRouter(prefix="/api")
 
 @router.get("/overview")
@@ -167,15 +172,17 @@ def playground(inp: PlaygroundInput):
         # Adversarial reasoning: Devil's Advocate challenges the gate decision
         adversarial = None
         if diag and verdict:
-            from app.core.adversarial import challenge_decision
-            adversarial = challenge_decision(
-                diag.archetype, verdict, rule_id, reasoning, inp.amount_rupees
-            )
-            if adversarial["escalate"]:
-                # Strong counter-argument → force human review
-                verdict = "BLOCK"
-                rule_id = "ADVERSARIAL_ESCALATE"
-                reasoning = f"Adversarial agent found critical flaw: {adversarial['counter']}"
+            try:
+                from app.core.adversarial import challenge_decision
+                adversarial = challenge_decision(
+                    diag.archetype, verdict, rule_id, reasoning, inp.amount_rupees
+                )
+                if adversarial["escalate"]:
+                    verdict = "BLOCK"
+                    rule_id = "ADVERSARIAL_ESCALATE"
+                    reasoning = f"Adversarial agent found critical flaw: {adversarial['counter']}"
+            except Exception:
+                adversarial = None
 
         actions = {
             "ALLOW": "Silent retry via Health Graph + Mechanism Swap (invisible recovery).",
@@ -249,9 +256,9 @@ def playground(inp: PlaygroundInput):
 
         confidence_level = "LOW"
         if diag and diag.confidence:
-            if diagnosis.confidence >= 0.85:
+            if diag.confidence >= 0.85:
                 confidence_level = "HIGH"
-            elif diagnosis.confidence >= 0.65:
+            elif diag.confidence >= 0.65:
                 confidence_level = "MED"
 
         out = {
