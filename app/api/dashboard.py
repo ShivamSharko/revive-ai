@@ -203,6 +203,10 @@ def playground(inp: PlaygroundInput):
                 "Never invent amounts or payment IDs."
             )
             customer_message = generate_text(system, inp.failure_description, max_tokens=250) or fallback
+            from app.core.validator import validate_customer_message
+            ok, why = validate_customer_message(customer_message, inp.amount_rupees)
+            if not ok:
+                customer_message = fallback  # AI drafted, rules rejected → deterministic template
         except Exception:
             customer_message = fallback
 
@@ -471,6 +475,9 @@ def agent(inp: AgentInput):
         + "Never invent amounts, IDs, or promises."
     )
     reply = generate_text(system, text, max_tokens=220, history=inp.history)
+    from app.core.validator import validate_customer_message
+    if reply and not validate_customer_message(reply)[0]:
+        reply = None  # validator rejected → deterministic fallback
     if not reply:
         if lang == "hi":
             reply = ("Samajh gaya. Main is par koi paisa nahi kataunga jab tak aap confirm na karein."
