@@ -694,13 +694,14 @@ def voice_stream(archetype: str = "technical"):
 
 @router.get("/policy")
 def policy():
-    from app.core.policy import in_quiet_hours, next_allowed_slot
+    from app.core.policy import in_quiet_hours, next_allowed_slot, POLICY_VERSION
     from datetime import datetime
     from app.db.models import Promise, AuditLog
     db = SessionLocal()
     try:
         now = datetime.now()
         return {
+            "policy_version": POLICY_VERSION,
             "quiet_window": "21:00 – 07:00 (TRAI DND)",
             "in_quiet_hours": in_quiet_hours(now),
             "next_allowed_slot": next_allowed_slot(now).strftime("%d %b, %H:%M"),

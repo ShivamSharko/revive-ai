@@ -239,6 +239,23 @@ Run tests: `python scripts/stress_test.py`
 
 ---
 
+## 🏛️ Trust Boundary Matrix
+
+| Component | Role | Execution Authority |
+|:---|:---|:---:|
+| **LLM (Groq/Gemini)** | Diagnoses archetype/owner; drafts messages | **NONE** |
+| **Policy Engine** (`policy.py` v1.0.0) | Quiet hours, promise halt, action mapping | **ABSOLUTE** |
+| **Consent Gate** (`gate.py`) | Hard rules R-01..R-08 | **ABSOLUTE** |
+| **Message Validator** (`validator.py`) | Rejects pressure/fake promises/invented amounts | **ABSOLUTE** |
+| **Database** | PK + unique constraints = exactly-once | **ABSOLUTE** |
+| **Executor/Worker** | Dispatches retries/messages/voice | **BOUNDED** |
+| **Frontend** | Telemetry + triggers only | **READ-ONLY** |
+
+*The LLM proposes why. Rules decide what. The database guarantees exactly once.*
+*Proven by `scripts/stress_test.py`: replay rejection, tamper rejection, idempotency, economic floor, injection guard, validator.*
+
+---
+
 ## 🛠️ Run Locally
 
 ```bash

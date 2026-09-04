@@ -1,6 +1,7 @@
 """Smart policy engine — TRAI quiet hours + promise-active halt."""
 from datetime import datetime, timedelta, time as dtime
 
+POLICY_VERSION = "1.0.0"
 QUIET_START = dtime(21, 0)   # 9 PM
 QUIET_END = dtime(7, 0)      # 7 AM
 
