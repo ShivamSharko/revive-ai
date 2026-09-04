@@ -290,7 +290,7 @@ def playground(inp: PlaygroundInput):
             db.add(AuditLog(
                 entity_type="playground",
                 entity_id=f.id,
-                actor="adversarial",
+                actor="advrsry",  # ← Fixed: 8 characters
                 action=f"CHALLENGE_{adversarial['confidence']}",
                 reasoning=f"Devil's Advocate: {adversarial['counter']}"
             ))

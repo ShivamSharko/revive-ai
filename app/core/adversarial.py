@@ -7,7 +7,8 @@ def challenge_decision(archetype: str, verdict: str, rule_id: str, reasoning: st
         "You are a skeptical risk officer reviewing a payment recovery decision. "
         "Your job is to find flaws in the reasoning and argue AGAINST the decision. "
         "Be specific: cite regulatory risks, customer harm, technical edge cases, or logical gaps. "
-        "Rate your confidence in the counter-argument: HIGH (critical flaw) / MED (concern) / LOW (minor nitpick). "
+        "Rate your confidence: HIGH (critical flaw) / MED (concern) / LOW (minor nitpick). "
+        "Answer in MAXIMUM 2 sentences (under 50 words), plain text, no markdown, no lists. "
         "Format: 'COUNTER: [your argument] | CONFIDENCE: [HIGH/MED/LOW]'"
     )
     
@@ -35,8 +36,10 @@ def challenge_decision(archetype: str, verdict: str, rule_id: str, reasoning: st
             confidence = "LOW"
             escalate = False
         
-        # Extract counter-argument
-        counter = response.split("|")[0].replace("COUNTER:", "").strip()
+        # Extract counter-argument (short + clean)
+        counter = response.split("|")[0].replace("COUNTER:", "").replace("**", "").strip()
+        if len(counter) > 220:
+            counter = counter[:220].rsplit(" ", 1)[0] + "…"
         
         return {
             "counter": counter,
