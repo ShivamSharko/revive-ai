@@ -204,6 +204,144 @@ footer{border-top:1.5px solid var(--ink);padding:32px 40px;color:var(--muted);fo
   .tcard:hover .arrow{transform:none;background:var(--tint);color:var(--ink)}
 }
 
+/* Agent State Widget */
+#agentState {
+  position: fixed;
+  left: 22px;
+  bottom: 22px;
+  background: rgba(255, 255, 255, 0.98);
+  border: 1.5px solid var(--ink);
+  border-radius: 16px;
+  padding: 14px 18px;
+  font-size: 12px;
+  box-shadow: 6px 6px 0 rgba(11, 92, 255, 0.2);
+  z-index: 49;
+  max-width: 260px;
+  backdrop-filter: blur(8px);
+}
+#agentState h4 {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--muted);
+  margin-bottom: 8px;
+  font-weight: 800;
+}
+#agentState .state-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 4px 0;
+  font-weight: 600;
+}
+#agentState .state-icon {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.state-active { background: var(--green); }
+.state-paused { background: var(--amber); }
+.state-blocked { background: var(--red); }
+
+/* Pipeline Visualization */
+.pipeline-step {
+  opacity: 0;
+  transform: translateX(-20px);
+  animation: slideIn 0.5s ease-out forwards;
+}
+@keyframes slideIn {
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+.pipeline-step.thinking {
+  color: var(--blue);
+}
+.pipeline-step.done {
+  color: var(--green);
+}
+.pipeline-icon {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--tint);
+  margin-right: 8px;
+  position: relative;
+}
+.pipeline-icon::after {
+  content: '→';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 12px;
+  color: var(--blue);
+}
+.pipeline-icon.done::after {
+  content: '✓';
+  color: var(--green);
+}
+
+/* Chat Memory Badge */
+.memory-badge {
+  display: inline-block;
+  background: var(--tint);
+  border: 1px solid var(--blue);
+  border-radius: 999px;
+  padding: 2px 8px;
+  font-size: 10px;
+  color: var(--blue);
+  font-weight: 700;
+  margin-left: 8px;
+}
+
+/* Counter Explosion Effect */
+@keyframes explode {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.3); }
+  100% { transform: scale(1); }
+}
+.counter-explode {
+  animation: explode 0.6s ease-out;
+}
+
+/* Particle Effect */
+.particle {
+  position: fixed;
+  width: 8px;
+  height: 8px;
+  background: var(--green);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 1000;
+  animation: particleFade 1s ease-out forwards;
+}
+@keyframes particleFade {
+  0% {
+    opacity: 1;
+    transform: translate(0, 0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--tx), var(--ty)) scale(0);
+  }
+}
+
+/* Enhanced Playground Result */
+.presult .step {
+  border-left: 3px solid transparent;
+  padding-left: 12px;
+  margin-left: 0;
+  transition: all 0.3s ease;
+}
+.presult .step.highlight {
+  border-left-color: var(--blue);
+  background: linear-gradient(90deg, rgba(11, 92, 255, 0.05), transparent);
+}
+
 </style>
 </head>
 <body>
@@ -415,6 +553,26 @@ footer{border-top:1.5px solid var(--ink);padding:32px 40px;color:var(--muted);fo
   <div class="chatInput"><input id="chatIn" placeholder="e.g. my card expired…"><button id="chatSend">➤</button></div>
 </div>
 
+<div id="agentState">
+  <h4>Agent State</h4>
+  <div class="state-row">
+    <div class="state-icon state-active" id="state-hours"></div>
+    <span id="state-hours-text">Loading...</span>
+  </div>
+  <div class="state-row">
+    <div class="state-icon state-active" id="state-promises"></div>
+    <span id="state-promises-text">0 active promises</span>
+  </div>
+  <div class="state-row">
+    <div class="state-icon state-active" id="state-trust"></div>
+    <span>Trust boundary: ACTIVE</span>
+  </div>
+  <div class="state-row">
+    <div class="state-icon state-active" id="state-version"></div>
+    <span id="state-version-text">Policy v1.0.0</span>
+  </div>
+</div>
+
 <script>
 const c_total=document.getElementById('c-total'),c_risk=document.getElementById('c-risk'),
 c_rec=document.getElementById('c-rec'),c_prot=document.getElementById('c-prot'),c_block=document.getElementById('c-block'),
@@ -433,8 +591,40 @@ rcenter=document.getElementById('rcenter'),bench=document.getElementById('bench'
 donut=document.getElementById('donut'),bars=document.getElementById('bars');
 
 const INR=n=>'₹'+Number(Math.round(n)).toLocaleString('en-IN');
-function countUp(el,val,fmt){const t0=performance.now(),dur=1200;
-  (function f(t){const p=Math.min((t-t0)/dur,1),e=1-Math.pow(1-p,3);el.textContent=fmt(val*e);if(p<1)requestAnimationFrame(f)})(t0);}
+
+// Enhanced counter animation with explosion effect
+function countUp(el,val,fmt,explode=false){
+  const t0=performance.now(),dur=1200;
+  (function f(t){
+    const p=Math.min((t-t0)/dur,1),e=1-Math.pow(1-p,3);
+    el.textContent=fmt(val*e);
+    if(p<1)requestAnimationFrame(f);
+    else if(explode){
+      el.classList.add('counter-explode');
+      createParticles(el);
+      setTimeout(()=>el.classList.remove('counter-explode'),600);
+    }
+  })(t0);
+}
+
+// Particle effect for dramatic counters
+function createParticles(element){
+  const rect=element.getBoundingClientRect();
+  const colors=['#149a52','#0b5cff','#528bff'];
+  for(let i=0;i<12;i++){
+    const particle=document.createElement('div');
+    particle.className='particle';
+    particle.style.left=(rect.left+rect.width/2)+'px';
+    particle.style.top=(rect.top+rect.height/2)+'px';
+    particle.style.background=colors[Math.floor(Math.random()*colors.length)];
+    const angle=Math.random()*Math.PI*2;
+    const velocity=50+Math.random()*100;
+    particle.style.setProperty('--tx',Math.cos(angle)*velocity+'px');
+    particle.style.setProperty('--ty',Math.sin(angle)*velocity+'px');
+    document.body.appendChild(particle);
+    setTimeout(()=>particle.remove(),1000);
+  }
+}
 
 addEventListener('scroll',()=>{const h=document.documentElement;
   prog.style.width=(h.scrollTop/(h.scrollHeight-h.clientHeight)*100)+'%';});
@@ -476,22 +666,29 @@ async function batchRecover(){
   try{
     const r=await fetch('/api/recovery_batch?bucket=HIGH',{method:'POST'});
     const o=await r.json();
-    alert(o.processed>0
-      ?`Batch-recovered ${o.processed} HIGH priority cases (+₹${Number(o.recovered_rupees||0).toLocaleString('en-IN')}). Queue cleared, audit trail updated.`
-      :'No HIGH priority cases left — the safe queue is already clear. That is the Consent Gate doing its job.');
-    load();
+    if(o.processed>0){
+      alert(`Batch-recovered ${o.processed} HIGH priority cases (+₹${Number(o.recovered_rupees||0).toLocaleString('en-IN')}). Queue cleared, audit trail updated.`);
+      // Dramatic counter update with particles
+      setTimeout(()=>{
+        load(true); // Force explosion effect
+      },100);
+    } else {
+      alert('No HIGH priority cases left — the safe queue is already clear. That is the Consent Gate doing its job.');
+    }
   }catch(e){alert('Batch error: '+e);}
 }
 
-async function load(){
+async function load(forceExplode=false){
   try{
     const o=await (await fetch('/api/overview')).json();
-    if(!counted){counted=true;
-      countUp(c_total,o.failures_total,v=>Math.round(v));
-      countUp(c_risk,o.amount_at_risk_rupees,INR);
-      countUp(c_rec,o.amount_recovered_rupees,INR);
-      countUp(c_prot,o.amount_protected_rupees,INR);
-      countUp(c_block,(o.verdicts.BLOCK||0),v=>Math.round(v)+' ('+Math.round((o.verdicts.BLOCK||0)/Math.max(o.failures_total,1)*100)+'%)');
+    if(!counted || forceExplode){
+      counted=true;
+      const shouldExplode = forceExplode;
+      countUp(c_total,o.failures_total,v=>Math.round(v),false);
+      countUp(c_risk,o.amount_at_risk_rupees,INR,false);
+      countUp(c_rec,o.amount_recovered_rupees,INR,shouldExplode);
+      countUp(c_prot,o.amount_protected_rupees,INR,shouldExplode);
+      countUp(c_block,(o.verdicts.BLOCK||0),v=>Math.round(v)+' ('+Math.round((o.verdicts.BLOCK||0)/Math.max(o.failures_total,1)*100)+'%)',false);
     } else {
       c_total.textContent=o.failures_total;c_risk.textContent=INR(o.amount_at_risk_rupees);
       c_rec.textContent=INR(o.amount_recovered_rupees);c_prot.textContent=INR(o.amount_protected_rupees);
@@ -551,6 +748,10 @@ async function load(){
       promisePending.textContent=pending;
       promiseFulfilled.textContent=fulfilled;
       promiseEscalated.textContent=escalated;
+      
+      // Update agent state widget
+      document.getElementById('state-promises-text').textContent=`${pending} active promises`;
+      document.getElementById('state-promises').className='state-icon '+(pending>0?'state-paused':'state-active');
     }catch(e){if(promises)promises.innerHTML='<div>Promises unavailable</div>';}
     try{
       const rv=await (await fetch('/api/receivables')).json();
@@ -579,6 +780,12 @@ async function load(){
         <div><b>Next allowed slot:</b> ${po.next_allowed_slot}</div>
         <div><b>Active promises (outreach halted):</b> ${po.active_promises}</div>
         <div><b>Promise halts logged:</b> ${po.promise_halts}</div>`;
+      
+      // Update agent state widget
+      document.getElementById('state-hours-text').textContent=po.in_quiet_hours?'Quiet hours (paused)':'Active hours';
+      document.getElementById('state-hours').className='state-icon '+(po.in_quiet_hours?'state-paused':'state-active');
+      document.getElementById('state-version-text').textContent=`Policy ${po.policy_version||'v1.0.0'}`;
+      
       const ch=await (await fetch('/api/channels')).json();
       if(channelsEl)channelsEl.innerHTML=(ch||[]).map(c=>`<div><b>${c.archetype}</b> · ${c.cases} cases → ${c.channel}</div>`).join('');
       const wa=await (await fetch('/api/whatsapp')).json();
@@ -658,9 +865,29 @@ const presetSel=document.getElementById('preset');
 presetSel.innerHTML=PRESETS.map((p,i)=>`<option value="${i}">${p.name}</option>`).join('');
 function applyPreset(){const p=PRESETS[+presetSel.value];document.getElementById('p-method').value=p.method;document.getElementById('p-ctx').value=p.ctx;}
 presetSel.addEventListener('change',applyPreset);applyPreset();
+
+// Enhanced playground with pipeline visualization
 document.getElementById('p-run').addEventListener('click',async()=>{
   const p=PRESETS[+presetSel.value],btn=document.getElementById('p-run'),out=document.getElementById('p-result');
-  btn.textContent='Thinking…';btn.disabled=true;  out.innerHTML='<div class="step"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0b5cff" stroke-width="2" style="vertical-align:-2px;margin-right:6px"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>Diagnosing…</div>';
+  btn.textContent='Thinking…';btn.disabled=true;
+  
+  // Show pipeline visualization
+  out.innerHTML=`
+    <div class="pipeline-step thinking" style="animation-delay:0s">
+      <div class="pipeline-icon"></div>
+      <b>Ingesting failure...</b>
+    </div>
+  `;
+  
+  await new Promise(r=>setTimeout(r,500));
+  
+  out.innerHTML+=`
+    <div class="pipeline-step thinking" style="animation-delay:0.5s">
+      <div class="pipeline-icon"></div>
+      <b>Diagnosing with LLM...</b> <span style="color:var(--muted);font-size:0.9em">(Groq/Gemini)</span>
+    </div>
+  `;
+  
   try{
     const r=await fetch('/api/playground',{method:'POST',headers:{'Content-Type':'application/json'},
       body:JSON.stringify({amount_rupees:+document.getElementById('p-amt').value||499,
@@ -668,28 +895,55 @@ document.getElementById('p-run').addEventListener('click',async()=>{
         failure_code:p.code,failure_description:p.desc,merchant_id:p.merch,
         voice:document.getElementById('p-voice').checked})});
     const o=await r.json(),d=o.diagnosis;
-    out.innerHTML=[
-      `<b>1 · Diagnosis:</b> ${d?d.archetype+' / '+d.owner+' (conf '+d.confidence+', via '+d.model+')':'unavailable'}
-      <div class="confidence-level ${o.confidence_level||'LOW'}">
-        Confidence: ${o.confidence_level||'LOW'}
-        ${o.confidence_level === 'HIGH' ? '🎯' : o.confidence_level === 'MED' ? '⚠️' : '❓'}
-      </div>`,
-      `<b>2 · Consent Gate:</b> <span class="badge ${o.verdict||''}">${o.verdict||'—'}</span> ${o.rule_id||''}`,
-      `<b>3 · Reasoning:</b> ${o.reasoning||'—'}`,
-      (o.adversarial?.counter ? 
-        `<b>4 · Adversarial Challenge:</b> <span class="badge ${o.adversarial.confidence}">${o.adversarial.confidence}</span><br>
-        <div style="margin-left:16px;color:var(--muted);font-size:0.9em">"${o.adversarial.counter}"</div>
-        ${o.adversarial.escalate ? '<div style="color:var(--red);font-weight:700;margin-top:4px">⚠️ ESCALATED: Counter-argument too strong → forced BLOCK</div>' : ''}` 
-        : '<b>4 · Adversarial Challenge:</b> <span class="badge ALLOW">No significant concerns</span>'),
-      `<b>4 · Action:</b> ${o.action}`,
-      `<b>5 · Customer receives:</b> "${o.customer_message||''}" <span class="badge ${o.message_source==='live-ai'?'ALLOW':'DEFER'}">${o.message_source==='live-ai'?'live AI':'deterministic fallback'}</span>` +
-      (o.voice_url?`<audio controls src="${o.voice_url}" style="width:100%;margin-top:8px;height:36px"></audio>`:''),
-      `<b>6 · Recovery channel:</b> routed via <b>${o.mechanism||'upi'}</b> (highest observed success rate)` +
-      (o.update_link?`<br><b>7 · Card update:</b> <span style="color:var(--blue)">${o.update_link.slice(0,52)}…</span> (tokenized, zero PAN storage)`:'') +
-      (o.upi_autopay_link?`<br><b>8 · UPI Autopay:</b> <a href="${o.upi_autopay_link}" target="_blank" style="color:var(--green);font-weight:700;">Set up UPI Autopay mandate</a> (high success, permanent fix)`:'') +
-      (o.upi_autopay_link?`<br><b>10 · Email preview:</b> <span style="color:var(--muted)">From: ShopKart &lt;care@shopkart.in&gt; · Subject: "Card expire ho gaya — 1 tap mein update karo" · warm Hinglish body + tokenized link (zero PAN).</span>`:'') +
-      (o.reschedule_link?`<br><b>9 · Reschedule:</b> <a href="/api/reschedule/${o.reschedule_link}" target="_blank" style="color:var(--amber);font-weight:700;">Pick your own payment day</a> (customer chooses, 100% consent)`:'')
-    ].map((s,i)=>`<div class="step" style="animation-delay:${i*.15}s">${s}</div>`).join('');
+    
+    // Mark pipeline steps as done
+    const steps=out.querySelectorAll('.pipeline-step');
+    steps.forEach(s=>{s.classList.remove('thinking');s.classList.add('done');s.querySelector('.pipeline-icon').classList.add('done');});
+    
+    // Add final result with enhanced styling
+    setTimeout(()=>{
+      out.innerHTML+=`
+        <div class="pipeline-step done" style="animation-delay:1s">
+          <div class="pipeline-icon done"></div>
+          <b>Decision complete</b>
+        </div>
+        <hr style="margin:16px 0;border:none;border-top:1.5px solid var(--line)">
+        <div class="step highlight">
+          <b>1 · Diagnosis:</b> ${d?d.archetype+' / '+d.owner+' (conf '+d.confidence+', via '+d.model+')':'unavailable'}
+          <div class="confidence-level ${o.confidence_level||'LOW'}">
+            Confidence: ${o.confidence_level||'LOW'}
+            ${o.confidence_level === 'HIGH' ? '🎯' : o.confidence_level === 'MED' ? '⚠️' : '❓'}
+          </div>
+        </div>
+        <div class="step">
+          <b>2 · Consent Gate:</b> <span class="badge ${o.verdict||''}">${o.verdict||'—'}</span> ${o.rule_id||''}
+        </div>
+        <div class="step">
+          <b>3 · Reasoning:</b> ${o.reasoning||'—'}
+        </div>
+        ${o.adversarial?.counter ? `
+          <div class="step">
+            <b>4 · Adversarial Challenge:</b> <span class="badge ${o.adversarial.confidence}">${o.adversarial.confidence}</span><br>
+            <div style="margin-left:16px;color:var(--muted);font-size:0.9em">"${o.adversarial.counter}"</div>
+            ${o.adversarial.escalate ? '<div style="color:var(--red);font-weight:700;margin-top:4px">⚠️ ESCALATED: Counter-argument too strong → forced BLOCK</div>' : ''}
+          </div>
+        ` : '<div class="step"><b>4 · Adversarial Challenge:</b> <span class="badge ALLOW">No significant concerns</span></div>'}
+        <div class="step">
+          <b>5 · Action:</b> ${o.action}
+        </div>
+        <div class="step">
+          <b>6 · Customer receives:</b> "${o.customer_message||''}" <span class="badge ${o.message_source==='live-ai'?'ALLOW':'DEFER'}">${o.message_source==='live-ai'?'live AI':'deterministic fallback'}</span>
+          ${o.voice_url?`<audio controls src="${o.voice_url}" style="width:100%;margin-top:8px;height:36px"></audio>`:''}
+        </div>
+        <div class="step">
+          <b>7 · Recovery channel:</b> routed via <b>${o.mechanism||'upi'}</b> (highest observed success rate)
+          ${o.update_link?`<br><b>8 · Card update:</b> <span style="color:var(--blue)">${o.update_link.slice(0,52)}…</span> (tokenized, zero PAN storage)`:''}
+          ${o.upi_autopay_link?`<br><b>9 · UPI Autopay:</b> <a href="${o.upi_autopay_link}" target="_blank" style="color:var(--green);font-weight:700;">Set up UPI Autopay mandate</a> (high success, permanent fix)`:''}
+          ${o.upi_autopay_link?`<br><b>11 · Email preview:</b> <span style="color:var(--muted)">From: ShopKart &lt;care@shopkart.in&gt; · Subject: "Card expire ho gaya — 1 tap mein update karo" · warm Hinglish body + tokenized link (zero PAN).</span>`:''}
+          ${o.reschedule_link?`<br><b>10 · Reschedule:</b> <a href="/api/reschedule/${o.reschedule_link}" target="_blank" style="color:var(--amber);font-weight:700;">Pick your own payment day</a> (customer chooses, 100% consent)`:''}
+        </div>
+      `;
+    },100);
   }catch(e){out.innerHTML='<div class="step">Error: '+e+'</div>';}
   btn.textContent='Run the agent ▸';btn.disabled=false;
 });
@@ -729,6 +983,11 @@ async function ask(text){
   const hist=chatHistory.slice(-8);
   chatHistory.push({role:'user',content:text});
   if(chatHistory.length>24)chatHistory.splice(0,chatHistory.length-24);
+  
+  // Show memory badge if we have history
+  const memoryCount=Math.min(chatHistory.length,8);
+  const memoryBadge=memoryCount>1?`<span class="memory-badge">📚 ${memoryCount} messages remembered</span>`:'';
+  
   // "Check my last payment" -> lookup latest transaction for mock logged-in user
   if(/\b(last|latest|recent|pichla|aakhri)\b.*\b(payment|transaction|order|paisa)\b/i.test(text) || 
      /\b(payment|transaction|order)\b.*\b(last|latest|recent|pichla|aakhri)\b/i.test(text)){
@@ -738,7 +997,7 @@ async function ask(text){
       const o=await r.json();
       th.querySelector('.bub').innerHTML=`<div style="font-size:14px;line-height:1.6">${
         o.found?lookupReply(o,l):(l==='hi'?'Aapki koi recent payment system mein nahi mili.':'I could not find any recent payments for your account.')
-      }</div>`;
+      }</div>${memoryBadge}`;
     }catch(e){th.querySelector('.bub').textContent='Agent error: '+e;}
     chatLog.scrollTop=chatLog.scrollHeight;return;
   }
@@ -750,7 +1009,7 @@ async function ask(text){
       const o=await r.json();
       th.querySelector('.bub').innerHTML=`<div style="font-size:14px;line-height:1.6">${
         o.found?lookupReply(o,l):(l==='hi'?'Mujhe ye payment system mein nahi mili.':'I could not find this payment.')
-      }</div>`;
+      }</div>${memoryBadge}`;
     }catch(e){th.querySelector('.bub').textContent='Agent error: '+e;}
     chatLog.scrollTop=chatLog.scrollHeight;return;
   }
@@ -760,7 +1019,7 @@ async function ask(text){
       body:JSON.stringify({text,lang:l,history:hist,voice:voiceOn})});
     const o=await r.json();
     if(o.reply)chatHistory.push({role:'assistant',content:o.reply});
-    let html=`<div style="font-size:14px;line-height:1.6">${o.reply||''}</div>`+
+    let html=`<div style="font-size:14px;line-height:1.6">${o.reply||''}</div>${memoryBadge}`+
       (o.voice_data?`<audio controls autoplay src="${o.voice_data}" style="width:100%;margin-top:6px;height:34px"></audio>`:'');
     if(o.verdict)html+=`<div style="margin-top:6px;padding:6px 10px;background:var(--bg);border-radius:8px;font-size:11px;color:var(--muted)"><span class="badge ${o.verdict}" style="margin-right:4px">${o.verdict}</span> ${o.rule_id||''}</div>`;
     thinking.querySelector('.bub').innerHTML=html;
