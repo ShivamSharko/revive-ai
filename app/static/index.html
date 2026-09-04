@@ -144,6 +144,29 @@ footer{border-top:1.5px solid var(--ink);padding:32px 40px;color:var(--muted);fo
 .chips{display:flex;gap:6px;flex-wrap:wrap;padding:0 14px 10px}
 .chips button{border:1.5px solid var(--line);background:#fff;border-radius:999px;padding:4px 10px;font-size:11px;cursor:pointer;transition:.2s}
 .chips button:hover{border-color:var(--ink)}
+.quick-replies {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  padding: 8px 14px;
+  border-top: 1px solid var(--line);
+}
+.quick-reply-btn {
+  background: var(--tint);
+  border: 1px solid var(--blue);
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--blue);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.quick-reply-btn:hover {
+  background: var(--blue);
+  color: white;
+  transform: translateY(-1px);
+}
 .chatInput{display:flex;border-top:1.5px solid var(--line)}
 .chatInput input{flex:1;border:none;padding:12px;font-size:13px;outline:none}
 .chatInput button{background:var(--blue);color:#fff;border:none;padding:0 18px;font-weight:700;cursor:pointer}
@@ -405,6 +428,22 @@ footer{border-top:1.5px solid var(--ink);padding:32px 40px;color:var(--muted);fo
     </div>
   </section>
 
+  <section id="journey-timeline">
+    <div class="sh reveal"><small>Interactive</small><h2>Customer journey timeline</h2><p>See how a payment flows through the entire system.</p></div>
+    <div class="panel reveal">
+      <div style="display:flex;gap:12px;margin-bottom:20px;flex-wrap:wrap">
+        <select id="journeySelect" style="flex:1;min-width:200px;padding:10px;border:1.5px solid var(--line);border-radius:12px">
+          <option value="technical">Technical failure (Bank timeout)</option>
+          <option value="intent">Intent failure (OTP abandoned)</option>
+          <option value="affordability">Affordability (Low balance)</option>
+          <option value="lifecycle">Lifecycle (Card expired)</option>
+        </select>
+        <button onclick="playJourney()" style="background:var(--blue);color:#fff;border:none;border-radius:999px;padding:10px 20px;font-weight:700;cursor:pointer">▶ Play journey</button>
+      </div>
+      <div id="journeyTimeline" style="position:relative;padding:20px 0"></div>
+    </div>
+  </section>
+
   <section id="play">
     <div class="sh reveal"><small>Interactive</small><h2>Drive the agent yourself.</h2><p>Pick a failure scenario, press Run, and watch the agent diagnose → gate → act in real time.</p></div>
     <div class="play reveal">
@@ -421,6 +460,17 @@ footer{border-top:1.5px solid var(--ink);padding:32px 40px;color:var(--muted);fo
         <button class="btn primary" id="p-run">Run the agent ▸</button>
       </div>
       <div class="presult" id="p-result">Select a scenario and press <b>Run the agent</b>.</div>
+    </div>
+  </section>
+
+  <section id="simulation">
+    <div class="sh reveal"><small>Live</small><h2>Real-time failure processing</h2><p>Watch the agent process failures as they arrive from webhooks.</p></div>
+    <div class="panel reveal" style="margin-bottom:16px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <h3 style="margin:0">Incoming failures</h3>
+        <button id="simStartBtn" onclick="toggleSimulation()" style="background:var(--green);color:#fff;border:none;border-radius:999px;padding:8px 18px;font-weight:700;cursor:pointer">▶ Start simulation</button>
+      </div>
+      <div id="simFeed" style="max-height:300px;overflow-y:auto;font-size:13px"></div>
     </div>
   </section>
 
@@ -551,6 +601,7 @@ footer{border-top:1.5px solid var(--ink);padding:32px 40px;color:var(--muted);fo
     <button>What can you help me with?</button>
   </div>
   <div class="chatInput"><input id="chatIn" placeholder="e.g. my card expired…"><button id="chatSend">➤</button></div>
+  <div class="quick-replies" id="quickReplies"></div>
 </div>
 
 <div id="agentState">
@@ -907,6 +958,10 @@ document.getElementById('p-run').addEventListener('click',async()=>{
           <div class="pipeline-icon done"></div>
           <b>Decision complete</b>
         </div>
+        <div style="display:flex;gap:8px;margin:16px 0">
+          <button onclick="exportDecision()" style="flex:1;padding:8px;background:var(--tint);border:1.5px solid var(--line);border-radius:8px;cursor:pointer;font-size:12px;font-weight:700">📋 Export JSON</button>
+          <button onclick="compareWith('Bank timeout')" style="flex:1;padding:8px;background:var(--tint);border:1.5px solid var(--line);border-radius:8px;cursor:pointer;font-size:12px;font-weight:700">⚖️ Compare with bank timeout</button>
+        </div>
         <hr style="margin:16px 0;border:none;border-top:1.5px solid var(--line)">
         <div class="step highlight">
           <b>1 · Diagnosis:</b> ${d?d.archetype+' / '+d.owner+' (conf '+d.confidence+', via '+d.model+')':'unavailable'}
@@ -956,7 +1011,12 @@ const chatHistory=[];
 voiceTgl.onclick=()=>{voiceOn=!voiceOn;voiceTgl.innerHTML=voiceOn
   ?'<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-1px;margin-right:4px"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>voice on'
   :'<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:-1px;margin-right:4px"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>voice off';voiceTgl.classList.toggle('on',voiceOn);};
-chatBtn.onclick=()=>chatPanel.classList.toggle('open');
+chatBtn.onclick=()=>{
+  chatPanel.classList.toggle('open');
+  if (chatPanel.classList.contains('open')) {
+    showQuickReplies('default');
+  }
+};
 document.getElementById('chatClose').onclick=()=>chatPanel.classList.remove('open');
 document.addEventListener('click',e=>{
   if(chatPanel.classList.contains('open')&&!chatPanel.contains(e.target)&&!chatBtn.contains(e.target)){
@@ -1027,6 +1087,17 @@ async function ask(text){
     thinking.querySelector('.bub').textContent=l==='hi'?'Maaf karna, abhi connect nahi ho paya.':'Sorry, I could not connect right now.';
   }
   chatLog.scrollTop=chatLog.scrollHeight;
+  
+  // Show contextual quick replies
+  setTimeout(() => {
+    if (o.verdict === 'BLOCK') {
+      showQuickReplies('after_block');
+    } else if (o.verdict === 'DEFER') {
+      showQuickReplies('after_defer');
+    } else {
+      showQuickReplies('after_payment_lookup');
+    }
+  }, 500);
 }
 document.getElementById('chatSend').onclick=()=>{const t=chatIn.value.trim();if(t){chatIn.value='';ask(t);}};
 chatIn.addEventListener('keydown',e=>{if(e.key==='Enter'){const t=chatIn.value.trim();if(t){chatIn.value='';ask(t);}}});
@@ -1079,7 +1150,189 @@ document.getElementById('callBtn').onclick=async()=>{
   load();
 };
 
+// Quick Replies for Chat
+function showQuickReplies(context = 'default') {
+  const container = document.getElementById('quickReplies');
+  const replies = {
+    default: [
+      'Check my last payment',
+      'Why was I charged twice?',
+      'Cancel my subscription',
+      'Update payment method',
+    ],
+    after_payment_lookup: [
+      'What about my other payment?',
+      'When will this be resolved?',
+      'Speak to a human',
+    ],
+    after_block: [
+      'Why was it blocked?',
+      'What should I do now?',
+      'Contact support',
+    ],
+    after_defer: [
+      'Can I pay now instead?',
+      'When exactly will you retry?',
+      'Cancel this deferment',
+    ],
+  };
+  
+  const buttons = replies[context] || replies.default;
+  container.innerHTML = buttons.map(text => 
+    `<button class="quick-reply-btn" onclick="ask('${text}')">${text}</button>`
+  ).join('');
+}
+
+function exportDecision() {
+  const out = document.getElementById('p-result');
+  alert('Decision exported! In production, this would copy the full decision JSON to clipboard.');
+}
+
+function compareWith(scenarioName) {
+  alert(`Compare mode: Would show ${scenarioName} side-by-side with current decision.\n\nIn production, this would fetch both scenarios and display verdicts, rules, and actions in parallel columns.`);
+}
+
 load();setInterval(load,30000);
+
+// Live Failure Simulation
+let simRunning = false;
+let simInterval = null;
+
+function toggleSimulation() {
+  const btn = document.getElementById('simStartBtn');
+  simRunning = !simRunning;
+  
+  if (simRunning) {
+    btn.textContent = '⏸ Pause simulation';
+    btn.style.background = 'var(--amber)';
+    startSimulation();
+  } else {
+    btn.textContent = '▶ Start simulation';
+    btn.style.background = 'var(--green)';
+    if (simInterval) clearInterval(simInterval);
+  }
+}
+
+function startSimulation() {
+  const scenarios = [
+    { name: 'Bank timeout', archetype: 'technical', amount: 499 },
+    { name: 'Insufficient balance', archetype: 'affordability', amount: 1299 },
+    { name: 'OTP abandoned', archetype: 'intent', amount: 799 },
+    { name: 'Card expired', archetype: 'lifecycle', amount: 2499 },
+    { name: 'QR timeout', archetype: 'technical', amount: 349 },
+    { name: 'Fee shock', archetype: 'intent', amount: 1999 },
+  ];
+  
+  simInterval = setInterval(async () => {
+    if (!simRunning) return;
+    
+    const scenario = scenarios[Math.floor(Math.random() * scenarios.length)];
+    const feed = document.getElementById('simFeed');
+    const paymentId = 'pay_' + Math.random().toString(36).substr(2, 12);
+    
+    // Add new failure entry
+    const entry = document.createElement('div');
+    entry.style.cssText = 'padding:10px;border-bottom:1px solid #eef2f8;animation:fadeUp 0.5s both;';
+    entry.innerHTML = `
+      <div style="display:flex;justify-content:space-between;align-items:start">
+        <div style="flex:1">
+          <b>${paymentId}</b> · ₹${scenario.amount} · ${scenario.archetype}
+          <div style="color:var(--muted);font-size:11px;margin-top:4px">Diagnosing...</div>
+        </div>
+        <span class="badge DEFER" style="opacity:0.6">PROCESSING</span>
+      </div>
+    `;
+    feed.insertBefore(entry, feed.firstChild);
+    
+    // Simulate processing delay
+    setTimeout(() => {
+      const verdicts = ['ALLOW', 'BLOCK', 'DEFER'];
+      const verdict = verdicts[Math.floor(Math.random() * verdicts.length)];
+      const badge = entry.querySelector('.badge');
+      badge.className = `badge ${verdict}`;
+      badge.style.opacity = '1';
+      badge.textContent = verdict;
+      
+      const desc = entry.querySelector('div[style*="color:var(--muted)"]');
+      desc.textContent = `Gate decision: ${verdict} (Rule R-0${Math.floor(Math.random() * 8) + 1})`;
+    }, 1500);
+    
+    // Keep only last 10 entries
+    while (feed.children.length > 10) {
+      feed.removeChild(feed.lastChild);
+    }
+  }, 2000);
+}
+
+// Customer Journey Timeline
+function playJourney() {
+  const archetype = document.getElementById('journeySelect').value;
+  const timeline = document.getElementById('journeyTimeline');
+  timeline.innerHTML = '';
+  
+  const journeys = {
+    technical: [
+      { step: 'Webhook received', time: '0s', detail: 'Razorpay webhook: payment.failed', icon: '📥' },
+      { step: 'Diagnosis', time: '0.5s', detail: 'LLM identifies: technical / infra (conf 0.94)', icon: '🔍' },
+      { step: 'Consent Gate', time: '1s', detail: 'R-05 fires: ALLOW (infra-owned transient)', icon: '🛡️' },
+      { step: 'Action taken', time: '1.2s', detail: 'Silent retry via Health Graph', icon: '⚡' },
+      { step: 'Recovery', time: '3s', detail: 'Payment successful · Customer unaware', icon: '✅' },
+    ],
+    intent: [
+      { step: 'Webhook received', time: '0s', detail: 'Razorpay webhook: payment.failed', icon: '📥' },
+      { step: 'Diagnosis', time: '0.8s', detail: 'LLM identifies: intent / customer_temp (conf 0.87)', icon: '🔍' },
+      { step: 'Consent Gate', time: '1.2s', detail: 'R-06 fires: ALLOW (safe path)', icon: '🛡️' },
+      { step: 'Action taken', time: '1.5s', detail: 'Send WhatsApp + UPI Collect request', icon: '📱' },
+      { step: 'Customer action', time: '15s', detail: 'Customer approves UPI Collect (1-tap)', icon: '👆' },
+      { step: 'Recovery', time: '16s', detail: 'Payment successful', icon: '✅' },
+    ],
+    affordability: [
+      { step: 'Webhook received', time: '0s', detail: 'Razorpay webhook: payment.failed', icon: '📥' },
+      { step: 'Diagnosis', time: '1s', detail: 'LLM identifies: affordability / customer_temp (conf 0.91)', icon: '🔍' },
+      { step: 'Consent Gate', time: '1.5s', detail: 'R-04 fires: DEFER (salary day)', icon: '🛡️' },
+      { step: 'Action taken', time: '2s', detail: 'Schedule retry on salary day + Promise-to-Pay', icon: '📅' },
+      { step: 'Customer promise', time: '5s', detail: 'Voice call: "Kal shaam tak pakka"', icon: '📞' },
+      { step: 'Deferred recovery', time: '7 days', detail: 'Auto-retry on promised date', icon: '⏰' },
+    ],
+    lifecycle: [
+      { step: 'Webhook received', time: '0s', detail: 'Razorpay webhook: payment.failed', icon: '📥' },
+      { step: 'Diagnosis', time: '0.7s', detail: 'LLM identifies: lifecycle / customer (conf 0.96)', icon: '🔍' },
+      { step: 'Consent Gate', time: '1s', detail: 'R-06 fires: ALLOW (safe path)', icon: '🛡️' },
+      { step: 'Action taken', time: '1.3s', detail: 'Send email with tokenized card-update link', icon: '📧' },
+      { step: 'Customer action', time: '2 hours', detail: 'Customer updates card (zero PAN)', icon: '💳' },
+      { step: 'Next payment', time: '30 days', detail: 'Future payments succeed automatically', icon: '✅' },
+    ],
+  };
+  
+  const steps = journeys[archetype];
+  
+  steps.forEach((step, i) => {
+    setTimeout(() => {
+      const item = document.createElement('div');
+      item.style.cssText = `
+        margin-bottom:16px;padding:12px 16px;background:var(--tint);border-left:3px solid var(--blue);
+        border-radius:8px;animation:slideIn 0.5s ease-out;opacity:0;
+      `;
+      item.innerHTML = `
+        <div style="display:flex;align-items:start;gap:12px">
+          <div style="font-size:24px">${step.icon}</div>
+          <div style="flex:1">
+            <div style="display:flex;justify-content:space-between;align-items:center">
+              <b style="font-size:14px">${step.step}</b>
+              <span style="color:var(--muted);font-size:11px">${step.time}</span>
+            </div>
+            <div style="color:var(--muted);font-size:12px;margin-top:4px">${step.detail}</div>
+          </div>
+        </div>
+      `;
+      timeline.appendChild(item);
+      
+      // Trigger animation
+      setTimeout(() => item.style.opacity = '1', 10);
+    }, i * 600);
+  });
+}
+
 </script>
 </body>
 </html>
