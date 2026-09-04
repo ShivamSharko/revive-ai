@@ -31,6 +31,29 @@ background:#fff;border:1.5px solid var(--ink);border-radius:999px;padding:9px 9p
 .nlinks{display:flex;gap:4px;align-items:center}
 .nlinks a{color:var(--muted);text-decoration:none;font-size:13px;font-weight:600;padding:7px 12px;border-radius:999px;transition:.2s}
 .nlinks a:hover{color:var(--ink);background:var(--tint)}
+.ngroup{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  font-size:9px;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  color:var(--muted);
+  font-weight:800;
+  opacity:.75;
+  margin:0 4px 0 8px;
+  cursor:default;
+  user-select:none;
+  pointer-events:none;
+}
+.ngroup::before{
+  content:'◆';
+  color:var(--blue);
+  font-size:8px;
+  line-height:1;
+}
+.ndiv{width:1px;height:18px;background:var(--line);margin:0 10px;flex-shrink:0}
+@media(max-width:960px){.ngroup,.ndiv{display:none}}
 .navcta{background:var(--blue);color:#fff !important;padding:8px 18px !important;margin-left:6px}
 .navcta:hover{background:var(--ink) !important}
 .livebadge{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--green);font-weight:700;margin-right:14px}
@@ -227,7 +250,6 @@ footer{border-top:1.5px solid var(--ink);padding:32px 40px;color:var(--muted);fo
   .tcard:hover .arrow{transform:none;background:var(--tint);color:var(--ink)}
 }
 
-/* Agent State Widget */
 #agentState {
   position: fixed;
   left: 22px;
@@ -267,7 +289,6 @@ footer{border-top:1.5px solid var(--ink);padding:32px 40px;color:var(--muted);fo
 .state-paused { background: var(--amber); }
 .state-blocked { background: var(--red); }
 
-/* Pipeline Visualization */
 .pipeline-step {
   opacity: 0;
   transform: translateX(-20px);
@@ -308,7 +329,6 @@ footer{border-top:1.5px solid var(--ink);padding:32px 40px;color:var(--muted);fo
   color: var(--green);
 }
 
-/* Chat Memory Badge */
 .memory-badge {
   display: inline-block;
   background: var(--tint);
@@ -321,7 +341,6 @@ footer{border-top:1.5px solid var(--ink);padding:32px 40px;color:var(--muted);fo
   margin-left: 8px;
 }
 
-/* Counter Explosion Effect */
 @keyframes explode {
   0% { transform: scale(1); }
   50% { transform: scale(1.3); }
@@ -331,7 +350,6 @@ footer{border-top:1.5px solid var(--ink);padding:32px 40px;color:var(--muted);fo
   animation: explode 0.6s ease-out;
 }
 
-/* Particle Effect */
 .particle {
   position: fixed;
   width: 8px;
@@ -353,7 +371,6 @@ footer{border-top:1.5px solid var(--ink);padding:32px 40px;color:var(--muted);fo
   }
 }
 
-/* Enhanced Playground Result */
 .presult .step {
   border-left: 3px solid transparent;
   padding-left: 12px;
@@ -373,12 +390,16 @@ footer{border-top:1.5px solid var(--ink);padding:32px 40px;color:var(--muted);fo
 <nav><div class="nb">
   <div class="logo">Revive<span>AI</span></div>
   <div class="nlinks">
+    <span class="ngroup">Explore</span>
     <a href="#stats">Overview</a>
-    <a href="#proof">Proof</a>
+    <a href="#demos">Live Demos</a>
     <a href="#gate">Consent Gate</a>
-    <a href="#feed">Telemetry</a>
-    <a href="#audit">Audit</a>
-    <a href="#voice">Voice</a>
+    <span class="ndiv"></span>
+    <span class="ngroup">Trust</span>
+    <a href="#proof">Evidence</a>
+    <a href="#telemetry">Telemetry</a>
+    <a href="#audit">Compliance</a>
+    <span class="ndiv"></span>
     <a class="navcta" href="#play">Try the agent</a>
   </div>
   <div class="livebadge"><i></i> LIVE</div>
@@ -416,21 +437,12 @@ footer{border-top:1.5px solid var(--ink);padding:32px 40px;color:var(--muted);fo
     <div class="subpills reveal"><span>ALLOW 277</span><span>DEFER 58</span><span>BLOCK 165</span><span>32% stopped</span><span>pure-LLM 501/500</span></div>
   </section>
 
-  <section id="proof">
-    <div class="sh reveal"><small>Proof</small><h2>Real evidence, not claims.</h2></div>
-    <div class="trio">
-      <div class="tcard reveal"><div class="arrow">↗</div><div class="big">513+</div><div class="lbl">failures processed in one verified batch</div></div>
-      <div class="tcard reveal"><div class="diamonds">◆◆◆◆◆</div><div class="big">98% / 95%</div><div class="lbl">held-out accuracy · archetype / owner (n=40)</div>
-        <div class="stack"><span>Groq</span><span>Gemini</span><span>Pydantic</span><span>Razorpay</span></div></div>
-      <div class="tcard reveal"><div class="rowline"><span>28 Aug 2026</span><span>FAILED · replayable</span></div>
-        <code>pay_TSOALEUJL823Wr</code><div class="barcode"></div>
-        <div class="rowline"><span>real test-mode id</span><span>send_test_webhook</span></div></div>
-    </div>
-  </section>
-
-  <section id="journey-timeline">
-    <div class="sh reveal"><small>Interactive</small><h2>Customer journey timeline</h2><p>See how a payment flows through the entire system.</p></div>
-    <div class="panel reveal">
+  <section id="demos">
+    <div class="sh reveal"><small>Try it yourself</small><h2>Interactive demos</h2><p>See the agent work in real-time across different failure scenarios.</p></div>
+    
+    <div class="panel reveal" style="margin-bottom:16px">
+      <h3>Customer journey timeline</h3>
+      <p style="color:var(--muted);font-size:13px;margin-bottom:16px">Watch how a payment flows through the entire system step-by-step.</p>
       <div style="display:flex;gap:12px;margin-bottom:20px;flex-wrap:wrap">
         <select id="journeySelect" style="flex:1;min-width:200px;padding:10px;border:1.5px solid var(--line);border-radius:12px">
           <option value="technical">Technical failure (Bank timeout)</option>
@@ -442,32 +454,32 @@ footer{border-top:1.5px solid var(--ink);padding:32px 40px;color:var(--muted);fo
       </div>
       <div id="journeyTimeline" style="position:relative;padding:20px 0"></div>
     </div>
-  </section>
 
-  <section id="play">
-    <div class="sh reveal"><small>Interactive</small><h2>Drive the agent yourself.</h2><p>Pick a failure scenario, press Run, and watch the agent diagnose → gate → act in real time.</p></div>
-    <div class="play reveal">
-      <div>
-        <label>Scenario</label><select id="preset"></select>
-        <label>Amount (₹)</label><input id="p-amt" type="number" value="499">
-        <label>Method</label><select id="p-method"><option>upi</option><option>card</option><option>emandate</option></select>
-        <label>Context</label><select id="p-ctx"><option>in_session_online</option><option>post_session_online</option><option>post_session_offline</option><option>recurring</option></select>
-        <label style="display:flex;align-items:center;gap:8px;margin-top:14px;font-size:12px;font-weight:700;color:var(--muted);cursor:pointer">
-          <input type="checkbox" id="p-voice" style="width:auto;accent-color:var(--blue)">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0b5cff" stroke-width="2" style="vertical-align:-2px"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
-          Include Hinglish voice reply
-        </label>
-        <button class="btn primary" id="p-run">Run the agent ▸</button>
+    <div id="play" class="panel reveal" style="margin-bottom:16px">
+      <h3>Drive the agent yourself</h3>
+      <p style="color:var(--muted);font-size:13px;margin-bottom:16px">Pick a failure scenario, press Run, and watch the agent diagnose → gate → act in real time.</p>
+      <div class="play reveal" style="padding:0;border:none;box-shadow:none">
+        <div>
+          <label>Scenario</label><select id="preset"></select>
+          <label>Amount (₹)</label><input id="p-amt" type="number" value="499">
+          <label>Method</label><select id="p-method"><option>upi</option><option>card</option><option>emandate</option></select>
+          <label>Context</label><select id="p-ctx"><option>in_session_online</option><option>post_session_online</option><option>post_session_offline</option><option>recurring</option></select>
+          <label style="display:flex;align-items:center;gap:8px;margin-top:14px;font-size:12px;font-weight:700;color:var(--muted);cursor:pointer">
+            <input type="checkbox" id="p-voice" style="width:auto;accent-color:var(--blue)">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0b5cff" stroke-width="2" style="vertical-align:-2px"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+            Include Hinglish voice reply
+          </label>
+          <button class="btn primary" id="p-run" style="margin-top:18px;width:100%">Run the agent ▸</button>
+        </div>
+        <div class="presult" id="p-result">Select a scenario and press <b>Run the agent</b>.</div>
       </div>
-      <div class="presult" id="p-result">Select a scenario and press <b>Run the agent</b>.</div>
     </div>
-  </section>
 
-  <section id="simulation">
-    <div class="sh reveal"><small>Live</small><h2>Real-time failure processing</h2><p>Watch the agent process failures as they arrive from webhooks.</p></div>
     <div class="panel reveal" style="margin-bottom:16px">
+      <h3>Real-time failure processing</h3>
+      <p style="color:var(--muted);font-size:13px;margin-bottom:16px">Watch the agent process failures as they arrive from webhooks.</p>
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
-        <h3 style="margin:0">Incoming failures</h3>
+        <div></div>
         <button id="simStartBtn" onclick="toggleSimulation()" style="background:var(--green);color:#fff;border:none;border-radius:999px;padding:8px 18px;font-weight:700;cursor:pointer">▶ Start simulation</button>
       </div>
       <div id="simFeed" style="max-height:300px;overflow-y:auto;font-size:13px"></div>
@@ -483,57 +495,33 @@ footer{border-top:1.5px solid var(--ink);padding:32px 40px;color:var(--muted);fo
     </div>
   </section>
 
-  <section id="feed">
-    <div class="sh reveal"><small>Live telemetry</small><h2>Failure feed</h2></div>
+  <section id="proof">
+    <div class="sh reveal"><small>Proof</small><h2>Real evidence, not claims.</h2></div>
+    <div class="trio">
+      <div class="tcard reveal"><div class="arrow">↗</div><div class="big">513+</div><div class="lbl">failures processed in one verified batch</div></div>
+      <div class="tcard reveal"><div class="diamonds">◆◆◆◆◆</div><div class="big">98% / 95%</div><div class="lbl">held-out accuracy · archetype / owner (n=40)</div>
+        <div class="stack"><span>Groq</span><span>Gemini</span><span>Pydantic</span><span>Razorpay</span></div></div>
+      <div class="tcard reveal"><div class="rowline"><span>28 Aug 2026</span><span>FAILED · replayable</span></div>
+        <code>pay_TSOALEUJL823Wr</code><div class="barcode"></div>
+        <div class="rowline"><span>real test-mode id</span><span>send_test_webhook</span></div></div>
+    </div>
+  </section>
+
+  <section id="telemetry">
+    <div class="sh reveal"><small>Live telemetry</small><h2>Operational dashboard</h2></div>
+    
     <div class="panel reveal" style="margin-bottom:16px">
+      <h3>Core failure feed</h3>
       <table><thead><tr><th>Payment</th><th>₹</th><th>Archetype</th><th>Owner</th><th>Verdict</th><th>Rule</th><th>Status</th></tr></thead><tbody id="ftable"></tbody></table>
     </div>
+
+    <h3 class="reveal" style="font-size:18px;margin:32px 0 16px;font-family:'Space Grotesk'">Recovery operations</h3>
     <div class="row">
       <div class="panel reveal"><h3>Deferred jobs</h3><div class="feed" id="jobs"></div></div>
-      <div class="panel reveal"><h3>Merchant audit</h3><div class="feed" id="merch"></div></div>
-    </div>
-    <div class="row">
-      <div class="panel reveal"><h3>Recovery economics · cost observability</h3><div class="feed" id="econ"></div></div>
-      <div class="panel reveal"><h3>Reconciliation · limbo watch</h3><div class="feed" id="recon"></div></div>
-    </div>
-    <div class="row">
-      <div class="panel reveal"><h3>Mechanism selector · success-rate routing</h3><div class="feed" id="mech"></div></div>
-      <div class="panel reveal"><h3>Mandate sequencer · compliant dunning</h3><div class="feed" id="mandate"></div></div>
-    </div>
-    <div class="row">
       <div class="panel reveal"><h3>Promise-to-Pay tracker</h3><div class="feed" id="promises"></div></div>
-      <div class="panel reveal"><h3>Promise fulfillment</h3>
-        <div class="feed" id="promise-stats">
-          <div><b>Pending:</b> <span id="promise-pending">—</span></div>
-          <div><b>Fulfilled:</b> <span id="promise-fulfilled">—</span></div>
-          <div><b>Escalated:</b> <span id="promise-escalated">—</span></div>
-        </div>
-      </div>
     </div>
-    <div class="row">
-      <div class="panel reveal"><h3>B2B receivables · dispute halt + payment plans</h3><div class="feed" id="recv"></div></div>
-      <div class="panel reveal"><h3>Drop-off funnel · drop-to-pay tracker</h3><div class="feed" id="funnel"></div></div>
-    </div>
-    <div class="row">
-      <div class="panel reveal"><h3>Smart policy engine · quiet hours + promise halt</h3><div class="feed" id="policy"></div></div>
-      <div class="panel reveal"><h3>Outreach channel router · right channel per archetype</h3><div class="feed" id="channels"></div></div>
-    </div>
-    <div class="row">
-      <div class="panel reveal"><h3>WhatsApp recovery · voice note + 1-tap Razorpay link</h3>
-        <div style="max-width:340px;margin:0 auto;background:#e5ddd5;border-radius:16px;overflow:hidden;border:1.5px solid var(--ink)">
-          <div style="background:#075E55;color:#fff;padding:10px 14px;font-size:12px;font-weight:700;display:flex;justify-content:space-between"><span id="wa-cust"></span><span>WhatsApp</span></div>
-          <div style="padding:14px;display:flex;flex-direction:column;gap:8px">
-            <div style="background:#fff;border-radius:10px;padding:10px 12px;font-size:12px;line-height:1.5;max-width:88%" id="wa-text"></div>
-            <div style="background:#fff;border-radius:10px;padding:10px 12px;max-width:88%"><audio controls id="wa-voice" style="height:34px;width:210px;margin:0"></audio><div style="font-size:10px;color:var(--muted);margin-top:4px">Voice note · Hinglish</div></div>
-            <div id="wa-cta" style="background:#dcf8c6;border-radius:10px;padding:10px 12px;font-size:12px;max-width:88%"><a id="wa-link" target="_blank" style="color:#075E55;font-weight:800"></a><div style="font-size:10px;color:var(--muted);margin-top:4px;text-align:right">✓✓ 10:24</div></div>
-            <div id="wa-done" style="display:none;background:#dcf8c6;border-radius:10px;padding:10px 12px;font-size:12px;max-width:88%;color:#075E55;font-weight:700">Payment successful ✓ Order confirmed. Dhanyavaad!<div style="font-size:10px;color:var(--muted);margin-top:4px;text-align:right">✓✓ 10:24</div></div>
-          </div>
-        </div>
-      </div>
-      <div class="panel reveal"><h3>Channel performance · India open rates</h3><div class="feed" id="wachannel"></div></div>
-    </div>
-    <div class="panel reveal" style="margin-bottom:16px"><h3>Merchant checkout-leak insights · your free product consultant</h3><div class="feed" id="minsights" style="max-height:320px"></div></div>
-    <div class="panel reveal" style="margin-bottom:16px"><h3>Recovery Center · ranked queue, 3 priority buckets</h3>
+    <div class="panel reveal" style="margin-bottom:16px">
+      <h3>Recovery Center · ranked queue, 3 priority buckets</h3>
       <div style="display:flex;gap:10px;margin-bottom:12px;flex-wrap:wrap">
         <div style="flex:1;min-width:140px;background:var(--greenbg);border-radius:12px;padding:12px;text-align:center"><b style="color:var(--green);font-size:20px" id="rc-high">0</b><div style="font-size:11px;color:var(--muted)">HIGH</div></div>
         <div style="flex:1;min-width:140px;background:var(--amberbg);border-radius:12px;padding:12px;text-align:center"><b style="color:var(--amber);font-size:20px" id="rc-med">0</b><div style="font-size:11px;color:var(--muted)">MEDIUM</div></div>
@@ -542,20 +530,66 @@ footer{border-top:1.5px solid var(--ink);padding:32px 40px;color:var(--muted);fo
       </div>
       <div class="feed" id="rcenter" style="max-height:280px"></div>
     </div>
+
+    <h3 class="reveal" style="font-size:18px;margin:32px 0 16px;font-family:'Space Grotesk'">Economics & optimization</h3>
     <div class="row">
-      <div class="panel reveal"><h3>Uplift optimizer · act only beyond natural recovery</h3><div class="feed" id="uplift" style="max-height:280px"></div></div>
-      <div class="panel reveal"><h3>Policy simulator · tweak economics before deploying</h3>
+      <div class="panel reveal"><h3>Recovery economics</h3><div class="feed" id="econ"></div></div>
+      <div class="panel reveal"><h3>Strategy benchmark</h3><div class="feed" id="bench"></div></div>
+    </div>
+    <div class="row">
+      <div class="panel reveal"><h3>Uplift optimizer</h3><div class="feed" id="uplift" style="max-height:280px"></div></div>
+      <div class="panel reveal">
+        <h3>Policy simulator</h3>
         <label style="display:block;color:var(--muted);font-size:11px;letter-spacing:1px;text-transform:uppercase;margin:8px 0 4px;font-weight:700">Intervention cost: ₹<span id="sim-cost-v">2</span></label>
         <input type="range" min="0" max="10" step="0.5" value="2" id="sim-cost" style="width:100%;accent-color:var(--blue)">
         <label style="display:block;color:var(--muted);font-size:11px;letter-spacing:1px;text-transform:uppercase;margin:8px 0 4px;font-weight:700">Uplift boost: <span id="sim-boost-v">1.00</span>×</label>
         <input type="range" min="0.5" max="1.5" step="0.05" value="1" id="sim-boost" style="width:100%;accent-color:var(--blue)">
         <div class="feed" id="simout" style="margin-top:10px"></div>
-    <div class="row">
-      <div class="panel reveal"><h3>Strategy benchmark · no action vs spam-all vs revive ai</h3><div class="feed" id="bench"></div></div>
-      <div class="panel reveal"><h3>Manual review queue · compliance blocks → humans</h3><div class="feed" id="mreview"></div></div>
+      </div>
     </div>
-    <div class="panel reveal" style="margin-bottom:16px"><h3>Zombie subscription guard · pause billed-but-inactive before chargebacks</h3><div class="feed" id="zombies"></div></div>
-    <div class="panel reveal" style="margin-bottom:16px"><h3>Human approval queue · above merchant auto-limit (₹3,000) a human decides</h3><div class="feed" id="cqueue"></div></div>
+
+    <h3 class="reveal" style="font-size:18px;margin:32px 0 16px;font-family:'Space Grotesk'">Merchant & channel insights</h3>
+    <div class="row">
+      <div class="panel reveal"><h3>Merchant audit</h3><div class="feed" id="merch"></div></div>
+      <div class="panel reveal"><h3>Outreach channel router</h3><div class="feed" id="channels"></div></div>
+    </div>
+    <div class="panel reveal" style="margin-bottom:16px">
+      <h3>Merchant checkout-leak insights</h3>
+      <div class="feed" id="minsights" style="max-height:320px"></div>
+    </div>
+
+    <h3 class="reveal" style="font-size:18px;margin:32px 0 16px;font-family:'Space Grotesk'">Advanced features</h3>
+    <div class="row">
+      <div class="panel reveal"><h3>Mechanism selector</h3><div class="feed" id="mech"></div></div>
+      <div class="panel reveal"><h3>Mandate sequencer</h3><div class="feed" id="mandate"></div></div>
+    </div>
+    <div class="row">
+      <div class="panel reveal"><h3>B2B receivables</h3><div class="feed" id="recv"></div></div>
+      <div class="panel reveal"><h3>Drop-off funnel</h3><div class="feed" id="funnel"></div></div>
+    </div>
+    <div class="row">
+      <div class="panel reveal"><h3>Zombie subscription guard</h3><div class="feed" id="zombies"></div></div>
+      <div class="panel reveal"><h3>Human approval queue</h3><div class="feed" id="cqueue"></div></div>
+    </div>
+    <div class="row">
+      <div class="panel reveal"><h3>Smart policy engine</h3><div class="feed" id="policy"></div></div>
+      <div class="panel reveal"><h3>Manual review queue</h3><div class="feed" id="mreview"></div></div>
+    </div>
+    <div class="row">
+      <div class="panel reveal"><h3>Reconciliation</h3><div class="feed" id="recon"></div></div>
+      <div class="panel reveal"><h3>Channel performance</h3><div class="feed" id="wachannel"></div></div>
+    </div>
+
+    <div class="panel reveal" style="margin-top:16px">
+      <h3>WhatsApp recovery · voice note + 1-tap Razorpay link</h3>
+      <div style="max-width:340px;margin:0 auto;background:#e5ddd5;border-radius:16px;overflow:hidden;border:1.5px solid var(--ink)">
+        <div style="background:#075E55;color:#fff;padding:10px 14px;font-size:12px;font-weight:700;display:flex;justify-content:space-between"><span id="wa-cust"></span><span>WhatsApp</span></div>
+        <div style="padding:14px;display:flex;flex-direction:column;gap:8px">
+          <div style="background:#fff;border-radius:10px;padding:10px 12px;font-size:12px;line-height:1.5;max-width:88%" id="wa-text"></div>
+          <div style="background:#fff;border-radius:10px;padding:10px 12px;max-width:88%"><audio controls id="wa-voice" style="height:34px;width:210px;margin:0"></audio><div style="font-size:10px;color:var(--muted);margin-top:4px">Voice note · Hinglish</div></div>
+          <div id="wa-cta" style="background:#dcf8c6;border-radius:10px;padding:10px 12px;font-size:12px;max-width:88%"><a id="wa-link" target="_blank" style="color:#075E55;font-weight:800"></a><div style="font-size:10px;color:var(--muted);margin-top:4px;text-align:right">✓✓ 10:24</div></div>
+          <div id="wa-done" style="display:none;background:#dcf8c6;border-radius:10px;padding:10px 12px;font-size:12px;max-width:88%;color:#075E55;font-weight:700">Payment successful ✓ Order confirmed. Dhanyavaad!<div style="font-size:10px;color:var(--muted);margin-top:4px;text-align:right">✓✓ 10:24</div></div>
+        </div>
       </div>
     </div>
   </section>
@@ -643,7 +677,6 @@ donut=document.getElementById('donut'),bars=document.getElementById('bars');
 
 const INR=n=>'₹'+Number(Math.round(n)).toLocaleString('en-IN');
 
-// Enhanced counter animation with explosion effect
 function countUp(el,val,fmt,explode=false){
   const t0=performance.now(),dur=1200;
   (function f(t){
@@ -658,7 +691,6 @@ function countUp(el,val,fmt,explode=false){
   })(t0);
 }
 
-// Particle effect for dramatic counters
 function createParticles(element){
   const rect=element.getBoundingClientRect();
   const colors=['#149a52','#0b5cff','#528bff'];
@@ -719,9 +751,8 @@ async function batchRecover(){
     const o=await r.json();
     if(o.processed>0){
       alert(`Batch-recovered ${o.processed} HIGH priority cases (+₹${Number(o.recovered_rupees||0).toLocaleString('en-IN')}). Queue cleared, audit trail updated.`);
-      // Dramatic counter update with particles
       setTimeout(()=>{
-        load(true); // Force explosion effect
+        load(true);
       },100);
     } else {
       alert('No HIGH priority cases left — the safe queue is already clear. That is the Consent Gate doing its job.');
@@ -800,7 +831,6 @@ async function load(forceExplode=false){
       promiseFulfilled.textContent=fulfilled;
       promiseEscalated.textContent=escalated;
       
-      // Update agent state widget
       document.getElementById('state-promises-text').textContent=`${pending} active promises`;
       document.getElementById('state-promises').className='state-icon '+(pending>0?'state-paused':'state-active');
     }catch(e){if(promises)promises.innerHTML='<div>Promises unavailable</div>';}
@@ -832,7 +862,6 @@ async function load(forceExplode=false){
         <div><b>Active promises (outreach halted):</b> ${po.active_promises}</div>
         <div><b>Promise halts logged:</b> ${po.promise_halts}</div>`;
       
-      // Update agent state widget
       document.getElementById('state-hours-text').textContent=po.in_quiet_hours?'Quiet hours (paused)':'Active hours';
       document.getElementById('state-hours').className='state-icon '+(po.in_quiet_hours?'state-paused':'state-active');
       document.getElementById('state-version-text').textContent=`Policy ${po.policy_version||'v1.0.0'}`;
@@ -917,12 +946,10 @@ presetSel.innerHTML=PRESETS.map((p,i)=>`<option value="${i}">${p.name}</option>`
 function applyPreset(){const p=PRESETS[+presetSel.value];document.getElementById('p-method').value=p.method;document.getElementById('p-ctx').value=p.ctx;}
 presetSel.addEventListener('change',applyPreset);applyPreset();
 
-// Enhanced playground with pipeline visualization
 document.getElementById('p-run').addEventListener('click',async()=>{
   const p=PRESETS[+presetSel.value],btn=document.getElementById('p-run'),out=document.getElementById('p-result');
   btn.textContent='Thinking…';btn.disabled=true;
   
-  // Show pipeline visualization
   out.innerHTML=`
     <div class="pipeline-step thinking" style="animation-delay:0s">
       <div class="pipeline-icon"></div>
@@ -947,11 +974,9 @@ document.getElementById('p-run').addEventListener('click',async()=>{
         voice:document.getElementById('p-voice').checked})});
     const o=await r.json(),d=o.diagnosis;
     
-    // Mark pipeline steps as done
     const steps=out.querySelectorAll('.pipeline-step');
     steps.forEach(s=>{s.classList.remove('thinking');s.classList.add('done');s.querySelector('.pipeline-icon').classList.add('done');});
     
-    // Add final result with enhanced styling
     setTimeout(()=>{
       out.innerHTML+=`
         <div class="pipeline-step done" style="animation-delay:1s">
@@ -1044,11 +1069,9 @@ async function ask(text){
   chatHistory.push({role:'user',content:text});
   if(chatHistory.length>24)chatHistory.splice(0,chatHistory.length-24);
   
-  // Show memory badge if we have history
   const memoryCount=Math.min(chatHistory.length,8);
   const memoryBadge=memoryCount>1?`<span class="memory-badge">📚 ${memoryCount} messages remembered</span>`:'';
   
-  // "Check my last payment" -> lookup latest transaction for mock logged-in user
   if(/\b(last|latest|recent|pichla|aakhri)\b.*\b(payment|transaction|order|paisa)\b/i.test(text) || 
      /\b(payment|transaction|order)\b.*\b(last|latest|recent|pichla|aakhri)\b/i.test(text)){
     const th=addMsg('agent',l==='hi'?'Aapki aakhri payment dhundh raha hoon…':'Looking up your latest payment…');
@@ -1088,7 +1111,6 @@ async function ask(text){
   }
   chatLog.scrollTop=chatLog.scrollHeight;
   
-  // Show contextual quick replies
   setTimeout(() => {
     if (o.verdict === 'BLOCK') {
       showQuickReplies('after_block');
@@ -1150,7 +1172,6 @@ document.getElementById('callBtn').onclick=async()=>{
   load();
 };
 
-// Quick Replies for Chat
 function showQuickReplies(context = 'default') {
   const container = document.getElementById('quickReplies');
   const replies = {
@@ -1194,7 +1215,6 @@ function compareWith(scenarioName) {
 
 load();setInterval(load,30000);
 
-// Live Failure Simulation
 let simRunning = false;
 let simInterval = null;
 
@@ -1230,7 +1250,6 @@ function startSimulation() {
     const feed = document.getElementById('simFeed');
     const paymentId = 'pay_' + Math.random().toString(36).substr(2, 12);
     
-    // Add new failure entry
     const entry = document.createElement('div');
     entry.style.cssText = 'padding:10px;border-bottom:1px solid #eef2f8;animation:fadeUp 0.5s both;';
     entry.innerHTML = `
@@ -1244,7 +1263,6 @@ function startSimulation() {
     `;
     feed.insertBefore(entry, feed.firstChild);
     
-    // Simulate processing delay
     setTimeout(() => {
       const verdicts = ['ALLOW', 'BLOCK', 'DEFER'];
       const verdict = verdicts[Math.floor(Math.random() * verdicts.length)];
@@ -1257,14 +1275,12 @@ function startSimulation() {
       desc.textContent = `Gate decision: ${verdict} (Rule R-0${Math.floor(Math.random() * 8) + 1})`;
     }, 1500);
     
-    // Keep only last 10 entries
     while (feed.children.length > 10) {
       feed.removeChild(feed.lastChild);
     }
   }, 2000);
 }
 
-// Customer Journey Timeline
 function playJourney() {
   const archetype = document.getElementById('journeySelect').value;
   const timeline = document.getElementById('journeyTimeline');
@@ -1327,7 +1343,6 @@ function playJourney() {
       `;
       timeline.appendChild(item);
       
-      // Trigger animation
       setTimeout(() => item.style.opacity = '1', 10);
     }, i * 600);
   });
