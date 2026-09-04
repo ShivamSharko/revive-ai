@@ -54,7 +54,7 @@ background:#fff;border:1.5px solid var(--ink);border-radius:999px;padding:9px 9p
 }
 .ndiv{width:1px;height:18px;background:var(--line);margin:0 10px;flex-shrink:0}
 @media(max-width:960px){.ngroup,.ndiv{display:none}}
-.navcta{background:var(--blue);color:#fff !important;padding:8px 18px !important;margin-left:6px}
+.navcta{background:var(--blue);color:#fff !important;padding:8px 18px !important;margin-left:6px;border-radius:999px;text-decoration:none;font-size:13px;font-weight:700}
 .navcta:hover{background:var(--ink) !important}
 .livebadge{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--green);font-weight:700;margin-right:14px}
 .livebadge i{width:8px;height:8px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
@@ -196,7 +196,8 @@ footer{border-top:1.5px solid var(--ink);padding:32px 40px;color:var(--muted);fo
 #chatBtn{display:flex;align-items:center;justify-content:center}
 #voiceTgl{background:rgba(255,255,255,.15);border:none;color:#fff;border-radius:999px;padding:4px 10px;font-size:11px;cursor:pointer}
 #voiceTgl.on{background:var(--blue)}
-@media(max-width:960px){.stats,.trio{grid-template-columns:repeat(2,1fr)}.play,.row,.gategrid,.voicegrid{grid-template-columns:1fr}.hero{padding:48px 0 32px}.nlinks a:not(.navcta){display:none}.deco{display:none}}
+@media(max-width:960px){.stats,.trio{grid-template-columns:repeat(2,1fr)}.play,.row,.gategrid,.voicegrid{grid-template-columns:1fr}.hero{padding:48px 0 32px}.deco{display:none}
+.livebadge{display:none}.tab{padding:6px 9px;font-size:11.5px}.tabbar{margin:0 6px;justify-content:flex-start}}
 
 @media(max-width:640px){
   .wrap{padding:0 16px}
@@ -382,6 +383,17 @@ footer{border-top:1.5px solid var(--ink);padding:32px 40px;color:var(--muted);fo
   background: linear-gradient(90deg, rgba(11, 92, 255, 0.05), transparent);
 }
 
+/* Tab bar (lives inside the nav) */
+.tabbar{display:flex;gap:2px;align-items:center;overflow-x:auto;scrollbar-width:none;flex:1 1 auto;justify-content:center;margin:0 10px}
+.tabbar::-webkit-scrollbar{display:none}
+.tab{flex:0 0 auto;padding:7px 11px;border:none;border-radius:999px;background:transparent;color:var(--muted);
+font-weight:600;font-size:12.5px;cursor:pointer;transition:.2s;white-space:nowrap}
+.tab:hover{color:var(--ink);background:var(--tint)}
+.tab.active{background:var(--blue);color:#fff;font-weight:700}
+/* Tab panels: only the active one shows */
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+
 </style>
 </head>
 <body>
@@ -389,20 +401,21 @@ footer{border-top:1.5px solid var(--ink);padding:32px 40px;color:var(--muted);fo
 
 <nav><div class="nb">
   <div class="logo">Revive<span>AI</span></div>
-  <div class="nlinks">
-    <span class="ngroup">Explore</span>
-    <a href="#stats">Overview</a>
-    <a href="#demos">Live Demos</a>
-    <a href="#gate">Consent Gate</a>
-    <span class="ndiv"></span>
-    <span class="ngroup">Trust</span>
-    <a href="#proof">Evidence</a>
-    <a href="#telemetry">Telemetry</a>
-    <a href="#audit">Compliance</a>
-    <span class="ndiv"></span>
-    <a class="navcta" href="#play">Try the agent</a>
+  <div class="tabbar" id="tabbar">
+    <button class="tab active" data-target="stats">Overview</button>
+    <button class="tab" data-target="demos">Live Demo</button>
+    <button class="tab" data-target="gate">Consent Gate</button>
+    <button class="tab" data-target="ops">Recovery</button>
+    <button class="tab" data-target="economics">Economics</button>
+    <button class="tab" data-target="merchants">Merchants</button>
+    <button class="tab" data-target="safety">Safety Nets</button>
+    <button class="tab" data-target="voice">Voice</button>
+    <button class="tab" data-target="audit">Compliance</button>
   </div>
-  <div class="livebadge"><i></i> LIVE</div>
+  <div style="display:flex;align-items:center;gap:10px">
+    <a class="navcta" href="#play" onclick="goPlay();return false;">Try the agent</a>
+    <div class="livebadge"><i></i> LIVE</div>
+  </div>
 </div></nav>
 
 <div class="wrap">
@@ -414,7 +427,7 @@ footer{border-top:1.5px solid var(--ink);padding:32px 40px;color:var(--muted);fo
     <span class="w" style="--d:.2s"><em>Never remind.</em></span> <span class="w" style="--d:.3s"><em>Resolve.</em></span></h1>
     <p class="herosub">Every failed payment is diagnosed, passed through a deterministic 8-rule Consent Gate, and only then acted on. 98% archetype accuracy. 32% of retries blocked. Zero spam.</p>
     <div class="cta">
-      <a class="btn primary" href="#play">Try the agent →</a>
+      <a class="btn primary" href="#play" onclick="goPlay();return false;">Try the agent →</a>
       <a class="btn secondary" href="https://github.com/ShivamSharko/revive-ai" target="_blank"><span class="pl">▶</span> View source</a>
     </div>
     <div class="journey reveal">
@@ -425,7 +438,7 @@ footer{border-top:1.5px solid var(--ink);padding:32px 40px;color:var(--muted);fo
     </div>
   </div>
 
-  <section id="stats">
+  <section id="stats" class="tab-panel">
     <div class="sh reveal"><small>The numbers</small><h2>One batch. Every metric measured.</h2></div>
     <div class="stats">
       <div class="stat reveal"><div class="num" id="c-total">0</div><div class="label">Failures</div></div>
@@ -435,9 +448,17 @@ footer{border-top:1.5px solid var(--ink);padding:32px 40px;color:var(--muted);fo
       <div class="stat reveal"><div class="num red" id="c-block">0</div><div class="label">Blocked</div></div>
     </div>
     <div class="subpills reveal"><span>ALLOW 277</span><span>DEFER 58</span><span>BLOCK 165</span><span>32% stopped</span><span>pure-LLM 501/500</span></div>
+    <div class="trio reveal" style="margin-top:32px">
+      <div class="tcard"><div class="arrow">↗</div><div class="big">513+</div><div class="lbl">failures processed in one verified batch</div></div>
+      <div class="tcard"><div class="diamonds">◆◆◆◆◆</div><div class="big">98% / 95%</div><div class="lbl">held-out accuracy · archetype / owner (n=40)</div>
+        <div class="stack"><span>Groq</span><span>Gemini</span><span>Pydantic</span><span>Razorpay</span></div></div>
+      <div class="tcard"><div class="rowline"><span>28 Aug 2026</span><span>FAILED · replayable</span></div>
+        <code>pay_TSOALEUJL823Wr</code><div class="barcode"></div>
+        <div class="rowline"><span>real test-mode id</span><span>send_test_webhook</span></div></div>
+    </div>
   </section>
 
-  <section id="demos">
+  <section id="demos" class="tab-panel">
     <div class="sh reveal"><small>Try it yourself</small><h2>Interactive demos</h2><p>See the agent work in real-time across different failure scenarios.</p></div>
     
     <div class="panel reveal" style="margin-bottom:16px">
@@ -486,7 +507,7 @@ footer{border-top:1.5px solid var(--ink);padding:32px 40px;color:var(--muted);fo
     </div>
   </section>
 
-  <section id="gate">
+  <section id="gate" class="tab-panel">
     <div class="sh reveal"><small>Deterministic safety</small><h2>The Consent Gate</h2><p>8 rules. No AI. Every retry must pass before money moves.</p></div>
     <div class="gategrid reveal" id="gates"></div>
     <div class="row">
@@ -495,30 +516,11 @@ footer{border-top:1.5px solid var(--ink);padding:32px 40px;color:var(--muted);fo
     </div>
   </section>
 
-  <section id="proof">
-    <div class="sh reveal"><small>Proof</small><h2>Real evidence, not claims.</h2></div>
-    <div class="trio">
-      <div class="tcard reveal"><div class="arrow">↗</div><div class="big">513+</div><div class="lbl">failures processed in one verified batch</div></div>
-      <div class="tcard reveal"><div class="diamonds">◆◆◆◆◆</div><div class="big">98% / 95%</div><div class="lbl">held-out accuracy · archetype / owner (n=40)</div>
-        <div class="stack"><span>Groq</span><span>Gemini</span><span>Pydantic</span><span>Razorpay</span></div></div>
-      <div class="tcard reveal"><div class="rowline"><span>28 Aug 2026</span><span>FAILED · replayable</span></div>
-        <code>pay_TSOALEUJL823Wr</code><div class="barcode"></div>
-        <div class="rowline"><span>real test-mode id</span><span>send_test_webhook</span></div></div>
-    </div>
-  </section>
-
-  <section id="telemetry">
-    <div class="sh reveal"><small>Live telemetry</small><h2>Operational dashboard</h2></div>
-    
+  <section id="ops" class="tab-panel">
+    <div class="sh reveal"><small>Live operations</small><h2>Recovery operations</h2><p>Every failure, every job, every promise — tracked live.</p></div>
     <div class="panel reveal" style="margin-bottom:16px">
       <h3>Core failure feed</h3>
       <table><thead><tr><th>Payment</th><th>₹</th><th>Archetype</th><th>Owner</th><th>Verdict</th><th>Rule</th><th>Status</th></tr></thead><tbody id="ftable"></tbody></table>
-    </div>
-
-    <h3 class="reveal" style="font-size:18px;margin:32px 0 16px;font-family:'Space Grotesk'">Recovery operations</h3>
-    <div class="row">
-      <div class="panel reveal"><h3>Deferred jobs</h3><div class="feed" id="jobs"></div></div>
-      <div class="panel reveal"><h3>Promise-to-Pay tracker</h3><div class="feed" id="promises"></div></div>
     </div>
     <div class="panel reveal" style="margin-bottom:16px">
       <h3>Recovery Center · ranked queue, 3 priority buckets</h3>
@@ -530,8 +532,36 @@ footer{border-top:1.5px solid var(--ink);padding:32px 40px;color:var(--muted);fo
       </div>
       <div class="feed" id="rcenter" style="max-height:280px"></div>
     </div>
+    <div class="row">
+      <div class="panel reveal"><h3>Deferred jobs</h3><div class="feed" id="jobs"></div></div>
+      <div class="panel reveal"><h3>Promise-to-Pay tracker</h3><div class="feed" id="promises"></div></div>
+    </div>
+    <div class="row">
+      <div class="panel reveal"><h3>Promise fulfillment</h3>
+        <div class="feed" id="promise-stats">
+          <div><b>Pending:</b> <span id="promise-pending">—</span></div>
+          <div><b>Fulfilled:</b> <span id="promise-fulfilled">—</span></div>
+          <div><b>Escalated:</b> <span id="promise-escalated">—</span></div>
+        </div>
+      </div>
+      <div class="panel reveal"><h3>Outreach channel router</h3><div class="feed" id="channels"></div></div>
+    </div>
+    <div class="panel reveal" style="margin-top:16px">
+      <h3>WhatsApp recovery · voice note + 1-tap Razorpay link</h3>
+      <div style="max-width:340px;margin:0 auto;background:#e5ddd5;border-radius:16px;overflow:hidden;border:1.5px solid var(--ink)">
+        <div style="background:#075E55;color:#fff;padding:10px 14px;font-size:12px;font-weight:700;display:flex;justify-content:space-between"><span id="wa-cust"></span><span>WhatsApp</span></div>
+        <div style="padding:14px;display:flex;flex-direction:column;gap:8px">
+          <div style="background:#fff;border-radius:10px;padding:10px 12px;font-size:12px;line-height:1.5;max-width:88%" id="wa-text"></div>
+          <div style="background:#fff;border-radius:10px;padding:10px 12px;max-width:88%"><audio controls id="wa-voice" style="height:34px;width:210px;margin:0"></audio><div style="font-size:10px;color:var(--muted);margin-top:4px">Voice note · Hinglish</div></div>
+          <div id="wa-cta" style="background:#dcf8c6;border-radius:10px;padding:10px 12px;font-size:12px;max-width:88%"><a id="wa-link" target="_blank" style="color:#075E55;font-weight:800"></a><div style="font-size:10px;color:var(--muted);margin-top:4px;text-align:right">✓✓ 10:24</div></div>
+          <div id="wa-done" style="display:none;background:#dcf8c6;border-radius:10px;padding:10px 12px;font-size:12px;max-width:88%;color:#075E55;font-weight:700">Payment successful ✓ Order confirmed. Dhanyavaad!<div style="font-size:10px;color:var(--muted);margin-top:4px;text-align:right">✓✓ 10:24</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
 
-    <h3 class="reveal" style="font-size:18px;margin:32px 0 16px;font-family:'Space Grotesk'">Economics & optimization</h3>
+  <section id="economics" class="tab-panel">
+    <div class="sh reveal"><small>Money math</small><h2>Economics & optimization</h2><p>Every retry must earn more than it costs — proven live.</p></div>
     <div class="row">
       <div class="panel reveal"><h3>Recovery economics</h3><div class="feed" id="econ"></div></div>
       <div class="panel reveal"><h3>Strategy benchmark</h3><div class="feed" id="bench"></div></div>
@@ -547,26 +577,26 @@ footer{border-top:1.5px solid var(--ink);padding:32px 40px;color:var(--muted);fo
         <div class="feed" id="simout" style="margin-top:10px"></div>
       </div>
     </div>
+  </section>
 
-    <h3 class="reveal" style="font-size:18px;margin:32px 0 16px;font-family:'Space Grotesk'">Merchant & channel insights</h3>
-    <div class="row">
-      <div class="panel reveal"><h3>Merchant audit</h3><div class="feed" id="merch"></div></div>
-      <div class="panel reveal"><h3>Outreach channel router</h3><div class="feed" id="channels"></div></div>
-    </div>
+  <section id="merchants" class="tab-panel">
+    <div class="sh reveal"><small>For merchants</small><h2>Merchant insights</h2><p>Revive AI as a free product consultant for every merchant.</p></div>
     <div class="panel reveal" style="margin-bottom:16px">
       <h3>Merchant checkout-leak insights</h3>
       <div class="feed" id="minsights" style="max-height:320px"></div>
     </div>
-
-    <h3 class="reveal" style="font-size:18px;margin:32px 0 16px;font-family:'Space Grotesk'">Advanced features</h3>
     <div class="row">
-      <div class="panel reveal"><h3>Mechanism selector</h3><div class="feed" id="mech"></div></div>
-      <div class="panel reveal"><h3>Mandate sequencer</h3><div class="feed" id="mandate"></div></div>
+      <div class="panel reveal"><h3>Merchant audit</h3><div class="feed" id="merch"></div></div>
+      <div class="panel reveal"><h3>Drop-off funnel</h3><div class="feed" id="funnel"></div></div>
     </div>
     <div class="row">
       <div class="panel reveal"><h3>B2B receivables</h3><div class="feed" id="recv"></div></div>
-      <div class="panel reveal"><h3>Drop-off funnel</h3><div class="feed" id="funnel"></div></div>
+      <div class="panel reveal"><h3>Channel performance</h3><div class="feed" id="wachannel"></div></div>
     </div>
+  </section>
+
+  <section id="safety" class="tab-panel">
+    <div class="sh reveal"><small>Stopping rules</small><h2>Safety nets & guards</h2><p>Everything that stops the agent from doing harm.</p></div>
     <div class="row">
       <div class="panel reveal"><h3>Zombie subscription guard</h3><div class="feed" id="zombies"></div></div>
       <div class="panel reveal"><h3>Human approval queue</h3><div class="feed" id="cqueue"></div></div>
@@ -577,24 +607,12 @@ footer{border-top:1.5px solid var(--ink);padding:32px 40px;color:var(--muted);fo
     </div>
     <div class="row">
       <div class="panel reveal"><h3>Reconciliation</h3><div class="feed" id="recon"></div></div>
-      <div class="panel reveal"><h3>Channel performance</h3><div class="feed" id="wachannel"></div></div>
+      <div class="panel reveal"><h3>Mandate sequencer</h3><div class="feed" id="mandate"></div></div>
     </div>
-
-    <div class="panel reveal" style="margin-top:16px">
-      <h3>WhatsApp recovery · voice note + 1-tap Razorpay link</h3>
-      <div style="max-width:340px;margin:0 auto;background:#e5ddd5;border-radius:16px;overflow:hidden;border:1.5px solid var(--ink)">
-        <div style="background:#075E55;color:#fff;padding:10px 14px;font-size:12px;font-weight:700;display:flex;justify-content:space-between"><span id="wa-cust"></span><span>WhatsApp</span></div>
-        <div style="padding:14px;display:flex;flex-direction:column;gap:8px">
-          <div style="background:#fff;border-radius:10px;padding:10px 12px;font-size:12px;line-height:1.5;max-width:88%" id="wa-text"></div>
-          <div style="background:#fff;border-radius:10px;padding:10px 12px;max-width:88%"><audio controls id="wa-voice" style="height:34px;width:210px;margin:0"></audio><div style="font-size:10px;color:var(--muted);margin-top:4px">Voice note · Hinglish</div></div>
-          <div id="wa-cta" style="background:#dcf8c6;border-radius:10px;padding:10px 12px;font-size:12px;max-width:88%"><a id="wa-link" target="_blank" style="color:#075E55;font-weight:800"></a><div style="font-size:10px;color:var(--muted);margin-top:4px;text-align:right">✓✓ 10:24</div></div>
-          <div id="wa-done" style="display:none;background:#dcf8c6;border-radius:10px;padding:10px 12px;font-size:12px;max-width:88%;color:#075E55;font-weight:700">Payment successful ✓ Order confirmed. Dhanyavaad!<div style="font-size:10px;color:var(--muted);margin-top:4px;text-align:right">✓✓ 10:24</div></div>
-        </div>
-      </div>
-    </div>
+    <div class="panel reveal" style="margin-top:16px"><h3>Mechanism selector</h3><div class="feed" id="mech"></div></div>
   </section>
 
-  <section id="voice">
+  <section id="voice" class="tab-panel">
     <div class="sh reveal"><small>Multilingual</small><h2>Hinglish voice recovery</h2><p>Real audio explanations — never pressure, always explain.</p></div>
     <button class="btn primary" id="callBtn" style="margin-bottom:18px">Simulate recovery call ▸</button>
     <div class="panel" id="callPanel" style="display:none;margin-bottom:18px"><div class="feed" id="callLog"></div></div>
@@ -606,7 +624,7 @@ footer{border-top:1.5px solid var(--ink);padding:32px 40px;color:var(--muted);fo
     </div>
   </section>
 
-  <section id="audit">
+  <section id="audit" class="tab-panel">
     <div class="sh reveal"><small>Compliance</small><h2>Audit trail + security posture</h2></div>
     <div class="panel reveal" style="margin-bottom:16px"><h3>Security posture · proactive controls</h3><div class="feed" id="secposture"></div></div>
     <div class="panel reveal"><div class="feed" id="auditfeed"></div></div>
@@ -1212,6 +1230,21 @@ function exportDecision() {
 function compareWith(scenarioName) {
   alert(`Compare mode: Would show ${scenarioName} side-by-side with current decision.\n\nIn production, this would fetch both scenarios and display verdicts, rules, and actions in parallel columns.`);
 }
+
+function switchTab(id){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.target===id));
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.toggle('active',p.id===id));
+  const hero=document.querySelector('.hero');
+  if(hero)hero.style.display=(id==='stats')?'':'none';
+  const panel=document.getElementById(id);
+  if(panel)panel.querySelectorAll('.reveal').forEach(el=>el.classList.add('in'));
+  if(window.d1){window.d1.resize&&window.d1.resize();window.d1.update();}
+  if(window.d2){window.d2.resize&&window.d2.resize();window.d2.update();}
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>switchTab(t.dataset.target)));
+function goPlay(){switchTab('demos');setTimeout(()=>{const p=document.getElementById('play');p&&p.scrollIntoView({behavior:'smooth'});},60);}
+switchTab('stats');
 
 load();setInterval(load,30000);
 
