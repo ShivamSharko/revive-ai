@@ -8,6 +8,10 @@
 
 > *"140 million payments fail in India every month. Most recovery systems are spam engines. We studied airlines, hospitals, and logistics to build a recovery system based on dignity, operational design, and strict consent."*
 
+**One-sentence constitution:** *No money moves without valid consent. Never remind. Resolve.*
+
+> **The LLM proposes why. The Policy Engine decides what. The Gate enforces if. The Database guarantees exactly once.**
+
 ---
 
 ## The Problem (2026 Reality)
