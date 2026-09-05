@@ -471,7 +471,7 @@ font-weight:600;font-size:12.5px;cursor:pointer;transition:.2s;white-space:nowra
     <div class="badge-track">Track 03 · AI Revenue Recovery</div>
     <h1><span class="w" style="--d:0s">Recover</span> <span class="w" style="--d:.1s">revenue.</span><br>
     <span class="w" style="--d:.2s"><em>Never remind.</em></span> <span class="w" style="--d:.3s"><em>Resolve.</em></span></h1>
-    <p class="herosub">Every failed payment is diagnosed, passed through a deterministic 8-rule Consent Gate, and only then acted on. 98% archetype accuracy. 32% of retries blocked. Zero spam.</p>
+    <p class="herosub" id="herosub">Every failed payment is diagnosed, passed through a deterministic 8-rule Consent Gate, and only then acted on. 98% archetype accuracy. 36% of retries blocked. Zero spam.p>
     <div class="cta">
       <a class="btn primary" href="#play" onclick="goPlay();return false;">Try the agent →</a>
       <a class="btn secondary" href="https://github.com/ShivamSharko/revive-ai" target="_blank"><span class="pl">▶</span> View source</a>
@@ -493,9 +493,9 @@ font-weight:600;font-size:12.5px;cursor:pointer;transition:.2s;white-space:nowra
       <div class="stat reveal"><div class="num blue" id="c-prot">₹0</div><div class="label">Protected</div></div>
       <div class="stat reveal"><div class="num red" id="c-block">0</div><div class="label">Blocked</div></div>
     </div>
-    <div class="subpills reveal"><span>ALLOW 277</span><span>DEFER 58</span><span>BLOCK 165</span><span>32% stopped</span><span>pure-LLM 501/500</span></div>
+    <div class="subpills reveal" id="subpills"></div>
     <div class="trio reveal" style="margin-top:32px">
-      <div class="tcard"><div class="arrow">↗</div><div class="big">513+</div><div class="lbl">failures processed in one verified batch</div></div>
+<div class="tcard"><div class="arrow">↗</div><div class="big" id="tcard-total">—</div><div class="lbl">failures processed in one verified batch</div></div>
       <div class="tcard"><div class="diamonds">◆◆◆◆◆</div><div class="big">98% / 95%</div><div class="lbl">held-out accuracy · archetype / owner (n=40)</div>
         <div class="stack"><span>Groq</span><span>Gemini</span><span>Pydantic</span><span>Razorpay</span></div></div>
       <div class="tcard"><div class="rowline"><span>28 Aug 2026</span><span>FAILED · replayable</span></div>
@@ -858,6 +858,16 @@ async function load(forceExplode=false){
       c_rec.textContent=INR(o.amount_recovered_rupees);c_prot.textContent=INR(o.amount_protected_rupees);
       c_block.textContent=(o.verdicts.BLOCK||0)+' ('+Math.round((o.verdicts.BLOCK||0)/Math.max(o.failures_total,1)*100)+'%)';
     }
+
+    const A=o.verdicts.ALLOW||0,Df=o.verdicts.DEFER||0,B=o.verdicts.BLOCK||0;
+    const pct=Math.round(B/Math.max(o.failures_total,1)*100);
+    const sp=document.getElementById('subpills');
+    if(sp)sp.innerHTML=`<span>ALLOW ${A}</span><span>DEFER ${Df}</span><span>BLOCK ${B}</span><span>${pct}% stopped</span><span>pure-LLM ${o.pure_llm!=null?o.pure_llm+'/'+(o.llm_total||o.pure_llm):'500/500'}</span>`;
+    const hs=document.getElementById('herosub');
+    if(hs)hs.textContent=`Every failed payment is diagnosed, passed through a deterministic 8-rule Consent Gate, and only then acted on. 98% archetype accuracy. ${pct}% of retries blocked. Zero spam.`;
+    const tt=document.getElementById('tcard-total');
+    if(tt)tt.textContent=(o.failures_total||0)+'+';
+
     if(window.Chart){
       window._ov={v:[o.verdicts.ALLOW||0,o.verdicts.DEFER||0,o.verdicts.BLOCK||0],
         a:['technical','intent','affordability','lifecycle'].map(a=>o.archetypes[a]||0)};

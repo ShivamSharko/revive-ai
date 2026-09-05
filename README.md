@@ -1,5 +1,37 @@
 # Revive AI — Consent-First Payment Recovery Agent
 
+<p align="center">
+  <a href="https://revive-ai-production-3535.up.railway.app/"><img src="https://img.shields.io/badge/Live_on_Railway-UP-149a52?style=for-the-badge" alt="Live"></a>
+  <img src="https://img.shields.io/badge/Razorpay_Buildathon_2026-Track_03-0b5cff?style=for-the-badge" alt="Track 03">
+  <img src="https://img.shields.io/badge/Pure_LLM_Batch-500_of_500-528bff?style=for-the-badge" alt="LLM">
+  <img src="https://img.shields.io/badge/Consent_Gate-8_Rules-d43c3c?style=for-the-badge" alt="Gate">
+  <img src="https://img.shields.io/badge/Python-3.11-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python">
+</p>
+
+<p align="center">
+  <a href="https://revive-ai-production-3535.up.railway.app/#play">▶ Try the Playground</a> ·
+  <a href="https://revive-ai-production-3535.up.railway.app/api/overview">Live API</a> ·
+  <a href="https://revive-ai-production-3535.up.railway.app/api/audit">Audit Trail</a> ·
+  <a href="https://revive-ai-shxvy4uyvqydxucqxbqyin.streamlit.app">Streamlit</a>
+</p>
+
+<details open>
+<summary>📁 <b>Table of Contents</b></summary>
+
+- [The Problem (2026 Reality)](#the-problem-2026-reality)
+- [Track 03 Theme Alignment](#-track-03-theme-alignment)
+- [Quick Start for Reviewers](#-quick-start-for-reviewers-3-minutes)
+- [The Numbers](#-the-numbers-fresh-512-batch-test-mode-evidence)
+- [The 5 Laws](#️-the-5-laws-the-conscience)
+- [Architecture & The Consent Gate](#-architecture--the-consent-gate)
+- [12 Live Telemetry Panels](#-12-live-telemetry-panels-on-the-command-center)
+- [Trust Boundary Matrix](#️-trust-boundary-matrix)
+- [Run Locally](#️-run-locally)
+- [Honesty & Assumptions](#-honesty--assumptions)
+</details>
+
+---
+
 > ### 🎯 Headline result — ₹6,87,655 recovered · 182 double-charges blocked · 98% diagnosis accuracy
 >
 > A consent-gated recovery agent that diagnoses every failure, passes it through a deterministic 8-rule Consent Gate, and only then acts. Built for the **Razorpay Buildathon 2026 · Track 03: AI Revenue Recovery**.
@@ -45,6 +77,26 @@ With 23.6 billion monthly UPI transactions and ~140 million failures, blindly re
 
 ---
 
+## 🧩 Product Surface (at a glance)
+
+| Diagnosis Engine | Consent Gate | Recovery Engine | Customer Experience |
+|:---:|:---:|:---:|:---:|
+| Groq gpt-oss-120b + Gemini failover | R-01 RBI Mandate (24h) | EV Optimizer (airline-style) | Hinglish voice notes |
+| Pydantic strict-JSON + repair | R-07 Offline QR Trap ⭐ | Mechanism Swap (logistics-style) | WhatsApp voice note + 1-tap link |
+| 98% / 95% held-out accuracy | R-08 Retry Budget (3 max) | Liquidity Curves → salary day | Chat agent with ledger lookups |
+| Deterministic rules fallback | Verdicts are code, never LLM | Promise-to-Pay tracker | Self-serve reschedule portal |
+
+## 🏛️ Non-Functional Attributes
+
+| Deterministic Safety | Consent-First Design | Production Maturity | Multilingual Outreach |
+|:---:|:---:|:---:|:---:|
+| 8-rule Gate, zero LLM in money path | No money moves without consent | HMAC webhook verification | Auto-detect Hinglish vs English |
+| Idempotency at DB level | Promise halt stops dunning | Zero PAN storage (tokens) | Voice replies opt-in 🔊 |
+| Retry budget hard-stop | TRAI quiet hours 21:00–07:00 | Reconciliation (NPCI T+48h) | Warm, professional tone |
+
+---
+
+
 ## 🎯 Track 03 Theme Alignment
 
 | Track 03 Direction | Fit | Implementation |
@@ -70,7 +122,19 @@ With 23.6 billion monthly UPI transactions and ~140 million failures, blindly re
 
 ---
 
+## 🖥️ Command Center Preview
+
+<p align="center">
+  <img src="docs/command-center.png" width="900" alt="Revive AI Command Center">
+</p>
+
+---
+
 ## 📈 The Numbers (Fresh 512-Batch, Test-Mode Evidence)
+
+| 🧾 Failures | 🛡️ Blocked | 💰 Recovered | 🤝 Goodwill Protected |
+|:---:|:---:|:---:|:---:|
+| **512** | **182 (36%)** | **₹6,87,655** | **₹6,06,038** |
 
 | Metric | Value |
 |---|---|
@@ -159,6 +223,28 @@ A full conversational agent on the live site — not a canned FAQ:
 ---
 
 ## 🧱 Architecture & The Consent Gate
+
+```mermaid
+flowchart TD
+    W["Razorpay Webhooks / Orders API / Synthetic Generator"] --> IN["Ingestion — FastAPI BackgroundTasks (5ms)"]
+    IN --> D["Diagnosis Engine — Groq + Gemini failover + Pydantic"]
+    D --> G{"Consent Gate — R-01..R-08 (deterministic)"}
+    G -- ALLOW --> R["Recovery Engine — EV Optimizer + Mechanism Swap"]
+    G -- DEFER --> J["Jobs Table — Liquidity Curve to salary day"]
+    G -- BLOCK --> A["Audit Log — double-charge prevented"]
+    R --> M["Bilingual Messages + Hinglish Voice + Chat Agent"]
+    J --> M
+    A --> M
+    M --> CC["Command Center + Streamlit + REST API"]
+```
+
+```mermaid
+pie title Gate Verdicts — fresh 512 batch
+    "ALLOW safe retry (265)" : 265
+    "DEFER salary day (53)" : 53
+    "BLOCK protected (182)" : 182
+```
+
 
 ```text
 Razorpay Webhook / Orders API / Synthetic Generator

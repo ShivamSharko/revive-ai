@@ -42,6 +42,9 @@ def overview():
         archetypes = dict(db.query(Diagnosis.archetype, func.count(Diagnosis.id))
                           .group_by(Diagnosis.archetype).all())
 
+        pure_llm = db.query(func.count(Diagnosis.id)).filter(Diagnosis.model_used != "rules").scalar() or 0
+        llm_total = db.query(func.count(Diagnosis.id)).scalar() or 0
+
         allow_n, defer_n = verdicts.get("ALLOW", 0), verdicts.get("DEFER", 0)
         attempt_cost = round(allow_n * 2 + defer_n * 0.5, 2)
         recovered_rupees = round(float(totals.recovered or 0) / 100, 2)
@@ -68,6 +71,8 @@ def overview():
             "amount_protected_rupees": round(float(totals.protected or 0) / 100, 2),
             "verdicts": verdicts,
             "archetypes": archetypes,
+            "pure_llm": pure_llm,
+            "llm_total": llm_total,
             "economics": economics,
         }
     finally:
