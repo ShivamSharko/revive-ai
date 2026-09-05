@@ -754,6 +754,18 @@ gates.innerHTML=RULES.map(r=>`<div class="gc"><b>${r[0]}</b><span class="name">$
 
 let counted=false;
 
+function renderCharts(){
+  if(!window.Chart||!window._ov)return;
+  if(window.d1)window.d1.destroy();
+  if(window.d2)window.d2.destroy();
+  window.d1=new Chart(donut,{type:'doughnut',data:{labels:['ALLOW','DEFER','BLOCK'],
+    datasets:[{data:window._ov.v,backgroundColor:['#149a52','#b57900','#d43c3c']}]},
+    options:{maintainAspectRatio:false,plugins:{legend:{labels:{color:'#6b7a90',font:{size:12}}}}}});
+  window.d2=new Chart(bars,{type:'bar',data:{labels:['Technical','Intent','Affordability','Lifecycle'],
+    datasets:[{data:window._ov.a,backgroundColor:'#528bff',borderRadius:6}]},
+    options:{maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#6b7a90'},grid:{display:false}},y:{ticks:{color:'#6b7a90'},grid:{color:'#eef2f8'}}}}});
+}
+
 async function sendNudge(type){
   const res = document.getElementById('nudge-result');
   if(res) res.textContent = 'Sending UPI Collect Requests...';
@@ -803,16 +815,9 @@ async function load(forceExplode=false){
       c_block.textContent=(o.verdicts.BLOCK||0)+' ('+Math.round((o.verdicts.BLOCK||0)/Math.max(o.failures_total,1)*100)+'%)';
     }
     if(window.Chart){
-      if(window.d1){window.d1.data.datasets[0].data=[o.verdicts.ALLOW||0,o.verdicts.DEFER||0,o.verdicts.BLOCK||0];window.d1.update();
-        window.d2.data.datasets[0].data=['technical','intent','affordability','lifecycle'].map(a=>o.archetypes[a]||0);window.d2.update();}
-      else{
-        window.d1=new Chart(donut,{type:'doughnut',data:{labels:['ALLOW','DEFER','BLOCK'],
-          datasets:[{data:[o.verdicts.ALLOW||0,o.verdicts.DEFER||0,o.verdicts.BLOCK||0],backgroundColor:['#149a52','#b57900','#d43c3c']}]},
-          options:{maintainAspectRatio:false,plugins:{legend:{labels:{color:'#6b7a90',font:{size:12}}}}}});
-        window.d2=new Chart(bars,{type:'bar',data:{labels:['Technical','Intent','Affordability','Lifecycle'],
-          datasets:[{data:['technical','intent','affordability','lifecycle'].map(a=>o.archetypes[a]||0),backgroundColor:'#528bff',borderRadius:6}]},
-          options:{maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{color:'#6b7a90'},grid:{display:false}},y:{ticks:{color:'#6b7a90'},grid:{color:'#eef2f8'}}}}});
-      }
+      window._ov={v:[o.verdicts.ALLOW||0,o.verdicts.DEFER||0,o.verdicts.BLOCK||0],
+        a:['technical','intent','affordability','lifecycle'].map(a=>o.archetypes[a]||0)};
+      renderCharts();
     }
     const fs=await (await fetch('/api/failures?limit=20')).json();
     fs.sort((a,b)=>((b.verdict?1:0)-(a.verdict?1:0)));
@@ -1249,8 +1254,7 @@ function switchTab(id){
   if(hero)hero.style.display=(id==='stats')?'':'none';
   const panel=document.getElementById(id);
   if(panel)panel.querySelectorAll('.reveal').forEach(el=>el.classList.add('in'));
-  if(window.d1){window.d1.resize&&window.d1.resize();window.d1.update();}
-  if(window.d2){window.d2.resize&&window.d2.resize();window.d2.update();}
+  if(id==='gate')renderCharts();
   try{localStorage.setItem('revive-tab',id);}catch(e){}
   if(history.replaceState)history.replaceState(null,'','#'+id);
   window.scrollTo({top:0,behavior:'smooth'});
