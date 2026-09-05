@@ -394,6 +394,8 @@ font-weight:600;font-size:12.5px;cursor:pointer;transition:.2s;white-space:nowra
 .tab-panel{display:none}
 .tab-panel.active{display:block}
 
+#play,.tab-panel{scroll-margin-top:96px}
+
 </style>
 </head>
 <body>
@@ -483,8 +485,19 @@ font-weight:600;font-size:12.5px;cursor:pointer;transition:.2s;white-space:nowra
         <div>
           <label>Scenario</label><select id="preset"></select>
           <label>Amount (₹)</label><input id="p-amt" type="number" value="499">
-          <label>Method</label><select id="p-method"><option>upi</option><option>card</option><option>emandate</option></select>
-          <label>Context</label><select id="p-ctx"><option>in_session_online</option><option>post_session_online</option><option>post_session_offline</option><option>recurring</option></select>
+          <label>Method</label>
+          <select id="p-method">
+            <option value="upi">UPI</option>
+            <option value="card">Card</option>
+            <option value="emandate">e-Mandate (recurring auto-debit)</option>
+          </select>
+          <label>Context · where the customer is</label>
+          <select id="p-ctx">
+            <option value="in_session_online">On checkout · customer active on page</option>
+            <option value="post_session_online">Left checkout · online (app / web)</option>
+            <option value="post_session_offline">In-store / QR · customer left the shop</option>
+            <option value="recurring">Recurring · e-mandate auto-debit</option>
+          </select>
           <label style="display:flex;align-items:center;gap:8px;margin-top:14px;font-size:12px;font-weight:700;color:var(--muted);cursor:pointer">
             <input type="checkbox" id="p-voice" style="width:auto;accent-color:var(--blue)">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0b5cff" stroke-width="2" style="vertical-align:-2px"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
@@ -1240,7 +1253,16 @@ function switchTab(id){
   window.scrollTo({top:0,behavior:'smooth'});
 }
 document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>switchTab(t.dataset.target)));
-function goPlay(){switchTab('demos');setTimeout(()=>{const p=document.getElementById('play');p&&p.scrollIntoView({behavior:'smooth'});},60);}
+function goPlay(){
+  switchTab('demos');
+  setTimeout(()=>{
+    const p=document.getElementById('play');
+    if(p){
+      const y=p.getBoundingClientRect().top+window.scrollY-88;
+      window.scrollTo({top:y,behavior:'smooth'});
+    }
+  },80);
+}
 switchTab('stats');
 
 load();setInterval(load,30000);
