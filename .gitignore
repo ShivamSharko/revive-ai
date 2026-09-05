@@ -3,3 +3,4 @@ __pycache__/
 *.pyc
 .env
 .vscode/voice_play_*.mp3
+dump.sql 
