@@ -1337,7 +1337,11 @@ function goPlay(){
 const TABS=['stats','demos','gate','ops','economics','merchants','safety','voice','audit'];
 let saved=null; try{saved=localStorage.getItem('revive-tab');}catch(e){}
 const fromHash=(location.hash||'').slice(1);
-switchTab(TABS.includes(saved)?saved:(TABS.includes(fromHash)?fromHash:'stats'));
+if(fromHash==='play'){goPlay();}
+else{
+  switchTab(TABS.includes(saved)?saved:(TABS.includes(fromHash)?fromHash:'stats'));
+  if(fromHash==='chat'){chatPanel.classList.add('open');showQuickReplies('default');}
+}
 
 load();setInterval(load,30000);
 

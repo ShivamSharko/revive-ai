@@ -1,16 +1,16 @@
 # Revive AI — Consent-First Payment Recovery Agent
 
 <p align="center">
-  <a href="https://revive-ai-production-3535.up.railway.app/"><img src="https://img.shields.io/badge/Live_Command_Center-UP-149a52?style=for-the-badge" alt="Live"></a>
-  <a href="https://revive-ai-production-3535.up.railway.app/api/overview"><img src="https://img.shields.io/badge/API-Live_Data-0b5cff?style=for-the-badge" alt="API"></a>
-  <a href="#-the-numbers-fresh-512-batch-test-mode-evidence"><img src="https://img.shields.io/badge/Pure_LLM_Batch-500_of_500-528bff?style=for-the-badge" alt="LLM"></a>
+  <a href="https://revive-ai-production-3535.up.railway.app/"><img src="https://img.shields.io/badge/Live_Command_Center-UP-149a52" alt="Live"></a>
+  <a href="https://revive-ai-production-3535.up.railway.app/api/overview"><img src="https://img.shields.io/badge/API-Live_Data-0b5cff" alt="API"></a>
+  <a href="#-the-numbers-fresh-512-batch-test-mode-evidence"><img src="https://img.shields.io/badge/Pure_LLM_Batch-500_of_500-528bff" alt="LLM"></a>
 </p>
 
 <p align="center">
   <a href="https://revive-ai-production-3535.up.railway.app/#play">▶ Try the Playground</a> ·
-  <a href="https://revive-ai-production-3535.up.railway.app/">💬 Chat with the Agent</a> ·
+  <a href="https://revive-ai-production-3535.up.railway.app/#chat">💬 Chat with the Agent</a> ·
   <a href="https://revive-ai-shxvy4uyvqydxucqxbqyin.streamlit.app">📊 Streamlit Dashboard</a> ·
-  <a href="https://revive-ai-production-3535.up.railway.app/api/audit">🧾 Audit Trail</a> ·
+  <a href="https://revive-ai-production-3535.up.railway.app/#audit">🧾 Audit Trail</a> ·
   <a href="#-video-demo">🎥 Video Demo</a>
 </p>
 
