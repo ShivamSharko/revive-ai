@@ -199,7 +199,7 @@ def playground(inp: PlaygroundInput):
             ("technical", "ALLOW"): "Bank mein temporary problem thi, ab fix ho gayi hai. Humne dobara try kiya — payment successful. Koi action needed nahi.",
             ("technical", "BLOCK"): "Aapne store par cash se payment kar di thi — humne QR dobara charge nahi kiya. Double-charge prevented.",
             ("intent", "ALLOW"): "OTP mein problem ho gayi thi. Ab humne UPI Collect request bheji hai — one tap se approve kar sakte ho.",
-            ("affordability", "DEFER"): "Koi baat nahi! Humne payment aapke salary day tak shift kar di hai. Tab tak koi reminder nahi, koi late fee nahi.",
+            ("affordability", "DEFER"): "Koi baat nahi! Humne payment ko aapki suvidha ke hisaab se aage shift kar diya hai. Tab tak koi reminder nahi, koi late fee nahi.",
             ("lifecycle", "BLOCK"): "Aapka card expire ho gaya tha, isliye payment nahi hui. Jab convenient ho, naya card update karein. Koi jaldi nahi.",
         }
         key = (diag.archetype, verdict) if diag else (None, None)
@@ -667,7 +667,7 @@ def send_nudges(leak_type: str = "otp"):
 
 _VOICE_SCRIPTS = {
     "technical": "Bank mein temporary problem thi, ab fix ho gayi hai. Humne dobara koshish ki aur payment successful ho gayi. Aapko kuch karne ki zaroorat nahi.",
-    "affordability": "Koi baat nahi! Humne payment aapke salary day tak shift kar di hai. Tab tak koi reminder nahi, koi late fee nahi.",
+        "affordability": "Koi baat nahi! Humne payment ko aapki suvidha ke hisaab se aage shift kar diya hai. Jab bhi aap ready ho, tab pay karein. Tab tak koi reminder nahi, koi late fee nahi.",
     "intent": "OTP mein problem ho gayi thi. Ab humne UPI Collect request bheji hai — one tap se approve kar sakte ho.",
     "lifecycle": "Aapka card expire ho gaya tha. Jab convenient ho, naya card update karein ya UPI Autopay set karein. Koi jaldi nahi.",
 }
@@ -845,13 +845,13 @@ def whatsapp():
         db.close()
     scripts = {
         "technical": "bank server mein thodi der ki dikkat thi, ab fix ho gayi hai. Aapko kuch karne ki zaroorat nahi.",
-        "affordability": "koi baat nahi! Payment aapke salary day tak shift kar di hai. Chaaho toh abhi 1-tap se pay kar sakte ho.",
+        "affordability": "koi baat nahi! Payment ko humne aapki suvidha ke hisaab se aage shift kar diya hai — jab bhi aap ready ho, tab 1-tap se pay kar sakte ho. Koi jaldi nahi, koi pressure nahi.",
         "intent": "OTP par atak gayi thi payment — UPI Collect request bheji hai, 1 tap mein approve kar do.",
         "lifecycle": "aapka card expire ho gaya tha. Naya card update karo ya 1-tap UPI Autopay set karo.",
     }
     ctas = {
         "technical": None,  # already recovered — never ask for money again
-        "affordability": {"label": f"Pay ₹{rupees} now (1-tap) →", "url": f"https://rzp.io/r/{pay_id[-6:]}"},
+        "affordability": {"label": f"Pay when ready (1-tap) →", "url": f"https://rzp.io/r/{pay_id[-6:]}"},
         "intent": {"label": "Approve UPI Collect (1-tap) →", "url": f"https://rzp.io/r/{pay_id[-6:]}"},
         "lifecycle": {"label": "Set up UPI Autopay →", "url": f"https://rzp.io/autopay/{pay_id[-6:]}"},
     }
