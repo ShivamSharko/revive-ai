@@ -2,7 +2,7 @@
 
 <p align="center">
   <a href="https://revive-ai-production-3535.up.railway.app/"><img src="https://img.shields.io/badge/Live_Command_Center-UP-149a52" alt="Live"></a>
-  <a href="#-the-numbers-fresh-512-batch-test-mode-evidence"><img src="https://img.shields.io/badge/Pure_LLM_Batch-500_of_500-528bff" alt="LLM"></a>
+  <a href="#-the-numbers"><img src="https://img.shields.io/badge/Pure_LLM_Batch-500_of_500-528bff" alt="LLM"></a>
   <a href="https://revive-ai-production-3535.up.railway.app/api/overview"><img src="https://img.shields.io/badge/API-Live_Data-0b5cff" alt="API"></a>
 </p>
 
@@ -22,27 +22,14 @@
 - [The Numbers](#-the-numbers)
 - [Architecture & The Consent Gate](#-architecture--the-consent-gate)
 - [Product Features](#-product-features)
+- [12 Live Telemetry Panels](#-12-live-telemetry-panels)
+- [The Agent Talks](#-the-agent-talks)
 - [Track 03 Alignment](#-track-03-alignment)
 - [Trust & Safety](#️-trust--safety)
 - [Run Locally](#️-run-locally)
 - [Video Demo](#-video-demo)
+- [All Artifacts and Links](#-all-artifacts-and-links)
 - [Honesty & Assumptions](#-honesty--assumptions)
-
-</details>
-
-<details>
-<summary>📦 <b>All Artifacts & Links</b></summary>
-
-| Artifact | Link |
-|---|---|
-| **Live Command Center** | [revive-ai-production-3535.up.railway.app](https://revive-ai-production-3535.up.railway.app/) |
-| **Interactive Playground** | [#play](https://revive-ai-production-3535.up.railway.app/#play) |
-| **Chat with the Agent** | [#chat](https://revive-ai-production-3535.up.railway.app/#chat) |
-| **Live API Overview** | [/api/overview](https://revive-ai-production-3535.up.railway.app/api/overview) |
-| **Full Audit Trail** | [/api/audit](https://revive-ai-production-3535.up.railway.app/api/audit) |
-| **Streamlit Dashboard** | [revive-ai-shxvy4uyvqydxucqxbqyin.streamlit.app](https://revive-ai-shxvy4uyvqydxucqxbqyin.streamlit.app) |
-| **Failure Journal** | [`failure_journal.md`](failure_journal.md) |
-| **Hinglish Voice Sample** | [`voice_technical.mp3`](voice_technical.mp3) |
 
 </details>
 
@@ -363,6 +350,21 @@ The demo covers:
 3. Chat widget: double-charge guard + payment-ID ledger lookup
 4. Gate rules + Audit trail walkthrough
 5. Closing: *"Never remind. Resolve."*
+
+---
+
+## 📦 All Artifacts and Links
+
+| Artifact | Link |
+|---|---|
+| **Live Command Center** | [revive-ai-production-3535.up.railway.app](https://revive-ai-production-3535.up.railway.app/) |
+| **Interactive Playground** | [#play](https://revive-ai-production-3535.up.railway.app/#play) |
+| **Chat with the Agent** | [#chat](https://revive-ai-production-3535.up.railway.app/#chat) |
+| **Live API Overview** | [/api/overview](https://revive-ai-production-3535.up.railway.app/api/overview) |
+| **Full Audit Trail** | [/api/audit](https://revive-ai-production-3535.up.railway.app/api/audit) |
+| **Streamlit Dashboard** | [revive-ai-shxvy4uyvqydxucqxbqyin.streamlit.app](https://revive-ai-shxvy4uyvqydxucqxbqyin.streamlit.app) |
+| **Failure Journal** | [`failure_journal.md`](failure_journal.md) |
+| **Hinglish Voice Sample** | [`voice_technical.mp3`](voice_technical.mp3) |
 
 ---
 
