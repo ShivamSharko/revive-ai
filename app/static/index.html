@@ -56,16 +56,11 @@ background:#fff;border:1.5px solid var(--ink);border-radius:999px;padding:9px 9p
 @media(max-width:960px){.ngroup,.ndiv{display:none}}
 
 @media(max-width:760px){
-  .nb{flex-wrap:wrap;border-radius:20px;padding:10px;row-gap:8px}
-  .logo{order:1}
-  .nb>div:last-child{order:2;margin-left:auto}
-  /* Tabs become a full-width 3-column grid, flush to the pill edges */
-  .tabbar{order:3;flex:1 1 100%;display:grid;grid-template-columns:repeat(3,1fr);gap:6px;
-    margin:2px -10px -10px;padding:10px;background:#fff;border-radius:0 0 18px 18px;overflow:visible}
-  .tab{flex:none;text-align:center;padding:8px 4px;font-size:11px;white-space:normal;border-radius:12px}
-  .tab.active{border-radius:12px}
+  /* Tabs become a full-width 3x3 grid card — every button visible & tappable */
+  .tabbar{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;border-radius:16px;padding:8px;margin-top:8px}
+  .tab{flex:none;text-align:center;padding:8px 4px;font-size:11px;white-space:normal}
   #agentState{display:none}
-  #play,.tab-panel{scroll-margin-top:240px}
+  #play,.tab-panel{scroll-margin-top:230px}
 }
 
 .navcta{background:var(--blue);color:#fff !important;padding:8px 18px !important;margin-left:6px;border-radius:999px;text-decoration:none;font-size:13px;font-weight:700}
@@ -211,7 +206,7 @@ footer{border-top:1.5px solid var(--ink);padding:32px 40px;color:var(--muted);fo
 #voiceTgl{background:rgba(255,255,255,.15);border:none;color:#fff;border-radius:999px;padding:4px 10px;font-size:11px;cursor:pointer}
 #voiceTgl.on{background:var(--blue)}
 @media(max-width:960px){.stats,.trio{grid-template-columns:repeat(2,1fr)}.play,.row,.gategrid,.voicegrid{grid-template-columns:1fr}.hero{padding:48px 0 32px}.deco{display:none}
-.livebadge{display:none}.tab{padding:6px 9px;font-size:11.5px}.tabbar{margin:0 6px;justify-content:flex-start}}
+.livebadge{display:none}.tab{padding:6px 9px;font-size:11.5px}.tabbar{margin:8px 0 0;justify-content:flex-start}}
 
 @media(max-width:640px){
   .wrap{padding:0 16px}
@@ -404,8 +399,10 @@ footer{border-top:1.5px solid var(--ink);padding:32px 40px;color:var(--muted);fo
   background: linear-gradient(90deg, rgba(11, 92, 255, 0.05), transparent);
 }
 
-/* Tab bar (lives inside the nav) */
-.tabbar{display:flex;gap:2px;align-items:center;overflow-x:auto;scrollbar-width:none;flex:1 1 auto;justify-content:center;margin:0 10px}
+/* Tab bar: its own pill under the logo pill */
+.tabbar{max-width:1100px;margin:10px auto 0;display:flex;gap:2px;align-items:center;justify-content:center;
+background:#fff;border:1.5px solid var(--ink);border-radius:999px;padding:6px;
+box-shadow:0 10px 26px rgba(10,15,26,.08);overflow-x:auto;scrollbar-width:none}
 .tabbar::-webkit-scrollbar{display:none}
 .tab{flex:0 0 auto;padding:7px 11px;border:none;border-radius:999px;background:transparent;color:var(--muted);
 font-weight:600;font-size:12.5px;cursor:pointer;transition:.2s;white-space:nowrap}
@@ -422,8 +419,14 @@ font-weight:600;font-size:12.5px;cursor:pointer;transition:.2s;white-space:nowra
 <body>
 <div id="prog"></div>
 
-<nav><div class="nb">
-  <div class="logo">Revive<span>AI</span></div>
+<nav>
+  <div class="nb">
+    <div class="logo">Revive<span>AI</span></div>
+    <div style="display:flex;align-items:center;gap:10px">
+      <a class="navcta" href="#play" onclick="goPlay();return false;">Try the agent</a>
+      <div class="livebadge"><i></i> LIVE</div>
+    </div>
+  </div>
   <div class="tabbar" id="tabbar">
     <button class="tab active" data-target="stats">Overview</button>
     <button class="tab" data-target="demos">Live Demo</button>
@@ -435,11 +438,7 @@ font-weight:600;font-size:12.5px;cursor:pointer;transition:.2s;white-space:nowra
     <button class="tab" data-target="voice">Voice</button>
     <button class="tab" data-target="audit">Compliance</button>
   </div>
-  <div style="display:flex;align-items:center;gap:10px">
-    <a class="navcta" href="#play" onclick="goPlay();return false;">Try the agent</a>
-    <div class="livebadge"><i></i> LIVE</div>
-  </div>
-</div></nav>
+</nav>
 
 <div class="wrap">
 
