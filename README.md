@@ -1,6 +1,8 @@
+---
+
 # Revive AI — Consent-First Payment Recovery Agent
 
-> ### 🎯 Headline result — ₹7,21,681 recovered · 165 double-charges blocked · 98% diagnosis accuracy
+> ### 🎯 Headline result — ₹6,87,655 recovered · 182 double-charges blocked · 98% diagnosis accuracy
 >
 > A consent-gated recovery agent that diagnoses every failure, passes it through a deterministic 8-rule Consent Gate, and only then acts. Built for the **Razorpay Buildathon 2026 · Track 03: AI Revenue Recovery**.
 
@@ -65,34 +67,34 @@ With 23.6 billion monthly UPI transactions and ~140 million failures, blindly re
 1. **Open the Command Center** → [revive-ai-production-3535.up.railway.app](https://revive-ai-production-3535.up.railway.app/)
 2. **Try the Playground** → pick the **🏪 Offline QR trap (R-07 ★)** preset → tick "Include Hinglish voice reply" → press **Run the agent** → watch it diagnose + gate + act + speak
 3. **Open the Chat widget (💬)** → type *"mere paise kat gaye par merchant ko nahi mile"* → get an instant Hinglish reply. Type `pay_sim_0499` → get a grounded ledger lookup
-4. **Click the API** → `/api/overview` returns 513 failures, ₹7,21,681 recovered
+4. **Click the API** → `/api/overview` returns 512 failures, ₹6,87,655 recovered
 5. **Run the audit** → `/api/audit` shows every decision logged end-to-end
 
 ---
 
-## 📈 The Numbers (Fresh 513-Batch, Test-Mode Evidence)
+## 📈 The Numbers (Fresh 512-Batch, Test-Mode Evidence)
 
 | Metric | Value |
 |---|---|
-| Failures processed | 513 (500 synthetic + live test payments) |
+| Failures processed | 512 (500 synthetic + live test payments) |
 | Diagnosis accuracy (held-out, n=40, seeded) | **98% archetype / 95% owner** |
-| Retries blocked by Consent Gate | **165 (32%)** |
-| Safe retries executed (ALLOW) | **277** |
-| Deferred to salary day (DEFER) | **58** |
-| Revenue safely recaptured | **₹7,21,681** (incl. 1 real Razorpay test payment) |
-| Customer goodwill protected | **₹5,72,511** (₹4,29,877 blocked + ₹1,42,634 deferred) |
+| Retries blocked by Consent Gate | **182 (36%)** |
+| Safe retries executed (ALLOW) | **265** |
+| Deferred to salary day (DEFER) | **53** |
+| Revenue safely recaptured | **₹6,87,655** (incl. 1 real Razorpay test payment) |
+| Customer goodwill protected | **₹6,06,038** (₹4,71,712 blocked + ₹1,34,326 deferred) |
 
 ### The Money Slide (generated live by `scripts/generate_money_slide.py`)
 
 ```text
-513 failures (₹13,00,180 At Risk)
-├── Technical:     ₹3,75,412 recovered (silent retries, invisible recovery)
-├── Intent:        ₹2,50,458 recovered (mechanism swaps & nudges)
-├── Affordability: ₹0 now · ₹1,42,634 scheduled (Deferred EV to salary day)
+512 failures (₹12,93,693 At Risk)
+├── Technical:     ₹3,45,090 recovered (silent retries, invisible recovery)
+├── Intent:        ₹2,46,754 recovered (mechanism swaps & nudges)
+├── Affordability: ₹0 now · ₹1,34,326 scheduled (Deferred EV to salary day)
 ├── Lifecycle:     ₹95,811 recovered (card updates) · ₹1,37,251 protected (mandate compliance)
 └── In-flight:     ₹5,988 promised / live-test / human escalation
 
-Total: ₹7,21,681 recovered · ₹4,29,877 protected · ₹1,42,634 deferred
+Total: ₹6,87,655 recovered · ₹4,71,712 protected · ₹1,34,326 deferred
 Plus:  ₹5,988 in-flight / promised / escalated
 
 "Customer-structural recovery = Rs.0. That's intentional. (Hotel 'Walk' Protocol)"
@@ -228,7 +230,7 @@ Razorpay Webhook / Orders API / Synthetic Generator
 | **Prompt-Injection Guard** | `/api/agent` SEC-INJECT | Blocks attempts to override safety rules; gate is code, not AI |
 | **Webhook Replay Protection** | `app/api/webhooks.py` | HMAC signature + event-id + payment-id dedupe (RazorGuard-style) |
 | **AI vs Fallback Transparency** | Playground badge | Shows when message came from live AI vs deterministic fallback |
-| **Deliberate Abstention** | BLOCK verdicts + quiet hours + promise halts | 165 cases where intervention was wrong → we did nothing (Law 1) |
+| **Deliberate Abstention** | BLOCK verdicts + quiet hours + promise halts | 182 cases where intervention was wrong → we did nothing (Law 1) |
 
 ## 🛡️ Adversarial Testing
 
@@ -317,3 +319,5 @@ The demo covers:
 ---
 
 **Revive AI. Never remind. Resolve. No money moves without consent.**
+
+---
