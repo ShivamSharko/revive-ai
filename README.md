@@ -19,16 +19,16 @@
 
 - [The Problem](#the-problem-2026-reality)
 - [The 5 Laws](#️-the-5-laws)
+- [Track 03 Alignment](#-track-03-alignment)
 - [The Numbers](#-the-numbers)
 - [Architecture & The Consent Gate](#-architecture--the-consent-gate)
+- [Trust & Safety](#️-trust--safety)
 - [Product Features](#-product-features)
 - [12 Live Telemetry Panels](#-12-live-telemetry-panels)
 - [The Agent Talks](#-the-agent-talks)
-- [Track 03 Alignment](#-track-03-alignment)
-- [Trust & Safety](#️-trust--safety)
+- [All Artifacts and Links](#-all-artifacts-and-links)
 - [Run Locally](#️-run-locally)
 - [Video Demo](#-video-demo)
-- [All Artifacts and Links](#-all-artifacts-and-links)
 - [Honesty & Assumptions](#-honesty--assumptions)
 
 </details>
@@ -71,6 +71,21 @@ With 23.6 billion monthly UPI transactions and ~140 million failures, blindly re
 3. **The best recovery is invisible.** (Silent retries for technical failures)
 4. **Safety is rules, not AI.** (The Consent Gate and stopping rules are deterministic code, never probabilistic LLMs)
 5. **Assign ownership before acting.** (Never sell debt as recovery. Check if infra, merchant, or customer owns the failure)
+
+---
+
+## 🎯 Track 03 Alignment
+
+| Track 03 Direction | Fit | Implementation |
+|---|---|---|
+| **Payment degradation + root cause** | ✅✅✅ | `diagnosis.py` + `health.py` (Redis) + `ev_optimizer.py` |
+| **Checkout drop-off recovery** | ✅✅✅ | Mechanism Swap + `dropoff_funnel.py` + `poll_orders.py` |
+| **Failed subscription recovery** | ✅✅✅ | `/webhooks/razorpay/subscriptions` + mandate gate + sequencer |
+| **B2B receivables recovery** | ✅✅✅ | `receivables.py`: dispute halt + payment-plan splitting |
+| **Mandate expiry assurance** | ✅✅✅ | `audit.py` (RBI 24h pre-debit) + R-01 + Mandate Sequencer |
+| **Hinglish voice recovery** | ✅✅✅ | `voice.py`: ElevenLabs → edge-tts → text fallback, opt-in voice replies |
+| **Drop-to-pay flow tracker** | ✅✅✅ | `dropoff_funnel.py` + `/api/funnel` live endpoint |
+| **Promise-to-pay tracker** | ✅✅✅ | `app/db/models.py:Promise` + fulfillment stats |
 
 ---
 
@@ -154,6 +169,44 @@ pie title Gate Verdicts — fresh 512 batch
 | **R-06** Default Allow | Safe path | 🟢 ALLOW |
 | **R-07** Offline QR Trap ⭐ | `context=post_session_offline` | 🔴 BLOCK (prevents double-charge) |
 | **R-08** Retry Budget | 3+ safe attempts per customer | 🔴 BLOCK (stopping rules over spam) |
+
+---
+
+## 🏛️ Trust & Safety
+
+### Trust Boundary Matrix
+
+| Component | Role | Execution Authority |
+|:---|:---|:---:|
+| **LLM (Groq/Gemini)** | Diagnoses archetype/owner; drafts messages | **NONE** |
+| **Policy Engine** (`policy.py` v1.0.0) | Quiet hours, promise halt, action mapping | **ABSOLUTE** |
+| **Consent Gate** (`gate.py`) | Hard rules R-01..R-08 | **ABSOLUTE** |
+| **Message Validator** (`validator.py`) | Rejects pressure/fake promises/invented amounts | **ABSOLUTE** |
+| **Database** | PK + unique constraints = exactly-once | **ABSOLUTE** |
+| **Executor/Worker** | Dispatches retries/messages/voice | **BOUNDED** |
+| **Frontend** | Telemetry + triggers only | **READ-ONLY** |
+
+### Adversarial Testing
+
+Proven robustness under failure conditions:
+
+- **Concurrent Webhooks**: 10 simultaneous requests → exactly 1 succeeds
+- **Economic Floor**: Interventions <₹100 are automatically skipped
+- **Idempotency**: Duplicate payment_ids rejected at database level
+- **Stale Recovery**: Crashes during LLM evaluation don't cause hangs
+
+Run tests: `python scripts/stress_test.py`
+
+### Security Posture
+
+| Control | Implementation |
+|---|---|
+| **HMAC Webhook Verification** | Every Razorpay webhook is signature-checked; tampered payloads rejected |
+| **Zero PAN Storage** | Card refs are opaque tokens (vault.tokenize) — no card data ever persisted |
+| **Deterministic Consent Gate** | Financial actions decided by rules R-01..R-08, never by the LLM |
+| **Prompt-Injection Guard** | SEC-INJECT blocks attempts to override safety rules |
+| **Message Validator** | AI-drafted messages checked for pressure, fake promises, invented amounts |
+| **Webhook Replay Protection** | HMAC signature + event-id + payment-id dedupe (RazorGuard-style) |
 
 ---
 
@@ -245,56 +298,18 @@ A full conversational agent on the live site — not a canned FAQ:
 
 ---
 
-## 🎯 Track 03 Alignment
+## 📦 All Artifacts and Links
 
-| Track 03 Direction | Fit | Implementation |
-|---|---|---|
-| **Payment degradation + root cause** | ✅✅✅ | `diagnosis.py` + `health.py` (Redis) + `ev_optimizer.py` |
-| **Checkout drop-off recovery** | ✅✅✅ | Mechanism Swap + `dropoff_funnel.py` + `poll_orders.py` |
-| **Failed subscription recovery** | ✅✅✅ | `/webhooks/razorpay/subscriptions` + mandate gate + sequencer |
-| **B2B receivables recovery** | ✅✅✅ | `receivables.py`: dispute halt + payment-plan splitting |
-| **Mandate expiry assurance** | ✅✅✅ | `audit.py` (RBI 24h pre-debit) + R-01 + Mandate Sequencer |
-| **Hinglish voice recovery** | ✅✅✅ | `voice.py`: ElevenLabs → edge-tts → text fallback, opt-in voice replies |
-| **Drop-to-pay flow tracker** | ✅✅✅ | `dropoff_funnel.py` + `/api/funnel` live endpoint |
-| **Promise-to-pay tracker** | ✅✅✅ | `app/db/models.py:Promise` + fulfillment stats |
-
----
-
-## 🏛️ Trust & Safety
-
-### Trust Boundary Matrix
-
-| Component | Role | Execution Authority |
-|:---|:---|:---:|
-| **LLM (Groq/Gemini)** | Diagnoses archetype/owner; drafts messages | **NONE** |
-| **Policy Engine** (`policy.py` v1.0.0) | Quiet hours, promise halt, action mapping | **ABSOLUTE** |
-| **Consent Gate** (`gate.py`) | Hard rules R-01..R-08 | **ABSOLUTE** |
-| **Message Validator** (`validator.py`) | Rejects pressure/fake promises/invented amounts | **ABSOLUTE** |
-| **Database** | PK + unique constraints = exactly-once | **ABSOLUTE** |
-| **Executor/Worker** | Dispatches retries/messages/voice | **BOUNDED** |
-| **Frontend** | Telemetry + triggers only | **READ-ONLY** |
-
-### Adversarial Testing
-
-Proven robustness under failure conditions:
-
-- **Concurrent Webhooks**: 10 simultaneous requests → exactly 1 succeeds
-- **Economic Floor**: Interventions <₹100 are automatically skipped
-- **Idempotency**: Duplicate payment_ids rejected at database level
-- **Stale Recovery**: Crashes during LLM evaluation don't cause hangs
-
-Run tests: `python scripts/stress_test.py`
-
-### Security Posture
-
-| Control | Implementation |
+| Artifact | Link |
 |---|---|
-| **HMAC Webhook Verification** | Every Razorpay webhook is signature-checked; tampered payloads rejected |
-| **Zero PAN Storage** | Card refs are opaque tokens (vault.tokenize) — no card data ever persisted |
-| **Deterministic Consent Gate** | Financial actions decided by rules R-01..R-08, never by the LLM |
-| **Prompt-Injection Guard** | SEC-INJECT blocks attempts to override safety rules |
-| **Message Validator** | AI-drafted messages checked for pressure, fake promises, invented amounts |
-| **Webhook Replay Protection** | HMAC signature + event-id + payment-id dedupe (RazorGuard-style) |
+| **Live Command Center** | [revive-ai-production-3535.up.railway.app](https://revive-ai-production-3535.up.railway.app/) |
+| **Interactive Playground** | [#play](https://revive-ai-production-3535.up.railway.app/#play) |
+| **Chat with the Agent** | [#chat](https://revive-ai-production-3535.up.railway.app/#chat) |
+| **Live API Overview** | [/api/overview](https://revive-ai-production-3535.up.railway.app/api/overview) |
+| **Full Audit Trail** | [/api/audit](https://revive-ai-production-3535.up.railway.app/api/audit) |
+| **Streamlit Dashboard** | [revive-ai-shxvy4uyvqydxucqxbqyin.streamlit.app](https://revive-ai-shxvy4uyvqydxucqxbqyin.streamlit.app) |
+| **Failure Journal** | [`failure_journal.md`](failure_journal.md) |
+| **Hinglish Voice Sample** | [`voice_technical.mp3`](voice_technical.mp3) |
 
 ---
 
@@ -350,21 +365,6 @@ The demo covers:
 3. Chat widget: double-charge guard + payment-ID ledger lookup
 4. Gate rules + Audit trail walkthrough
 5. Closing: *"Never remind. Resolve."*
-
----
-
-## 📦 All Artifacts and Links
-
-| Artifact | Link |
-|---|---|
-| **Live Command Center** | [revive-ai-production-3535.up.railway.app](https://revive-ai-production-3535.up.railway.app/) |
-| **Interactive Playground** | [#play](https://revive-ai-production-3535.up.railway.app/#play) |
-| **Chat with the Agent** | [#chat](https://revive-ai-production-3535.up.railway.app/#chat) |
-| **Live API Overview** | [/api/overview](https://revive-ai-production-3535.up.railway.app/api/overview) |
-| **Full Audit Trail** | [/api/audit](https://revive-ai-production-3535.up.railway.app/api/audit) |
-| **Streamlit Dashboard** | [revive-ai-shxvy4uyvqydxucqxbqyin.streamlit.app](https://revive-ai-shxvy4uyvqydxucqxbqyin.streamlit.app) |
-| **Failure Journal** | [`failure_journal.md`](failure_journal.md) |
-| **Hinglish Voice Sample** | [`voice_technical.mp3`](voice_technical.mp3) |
 
 ---
 
