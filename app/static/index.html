@@ -684,6 +684,7 @@ font-weight:600;font-size:12.5px;cursor:pointer;transition:.2s;white-space:nowra
 </div>
 
 <script>
+if('scrollRestoration' in history) history.scrollRestoration='manual';
 const c_total=document.getElementById('c-total'),c_risk=document.getElementById('c-risk'),
 c_rec=document.getElementById('c-rec'),c_prot=document.getElementById('c-prot'),c_block=document.getElementById('c-block'),
 ftable=document.getElementById('ftable'),jobs=document.getElementById('jobs'),merch=document.getElementById('merch'),
@@ -1250,6 +1251,8 @@ function switchTab(id){
   if(panel)panel.querySelectorAll('.reveal').forEach(el=>el.classList.add('in'));
   if(window.d1){window.d1.resize&&window.d1.resize();window.d1.update();}
   if(window.d2){window.d2.resize&&window.d2.resize();window.d2.update();}
+  try{localStorage.setItem('revive-tab',id);}catch(e){}
+  if(history.replaceState)history.replaceState(null,'','#'+id);
   window.scrollTo({top:0,behavior:'smooth'});
 }
 document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>switchTab(t.dataset.target)));
@@ -1263,7 +1266,10 @@ function goPlay(){
     }
   },80);
 }
-switchTab('stats');
+const TABS=['stats','demos','gate','ops','economics','merchants','safety','voice','audit'];
+let saved=null; try{saved=localStorage.getItem('revive-tab');}catch(e){}
+const fromHash=(location.hash||'').slice(1);
+switchTab(TABS.includes(saved)?saved:(TABS.includes(fromHash)?fromHash:'stats'));
 
 load();setInterval(load,30000);
 
