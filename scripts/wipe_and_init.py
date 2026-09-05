@@ -1,14 +1,9 @@
 """Nuclear option: drop all tables, recreate schema, confirm table count."""
-from app.db.database import engine, Base
-from app.db.models import *
-from sqlalchemy import text
+from app.db.database import engine
+from app.db.models import Base
 
 print("Dropping all tables...")
-# Force drop with CASCADE to handle foreign key dependencies
-with engine.connect() as conn:
-    conn.execute(text("DROP SCHEMA public CASCADE"))
-    conn.execute(text("CREATE SCHEMA public"))
-    conn.commit()
+Base.metadata.drop_all(engine)
 print("Creating all tables...")
 Base.metadata.create_all(engine)
 
