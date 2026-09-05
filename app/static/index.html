@@ -55,19 +55,7 @@ background:#fff;border:1.5px solid var(--ink);border-radius:999px;padding:9px 9p
 .ndiv{width:1px;height:18px;background:var(--line);margin:0 10px;flex-shrink:0}
 @media(max-width:960px){.ngroup,.ndiv{display:none}}
 
-@media(max-width:760px){
-  .menuBtn{display:flex}
-  .tabbar{display:none}
-  .nb{flex-wrap:nowrap;border-radius:999px;padding:9px 10px 9px 12px}
-  .mobileMenu.open{display:grid;grid-template-columns:1fr 1fr;gap:6px;position:absolute;top:calc(100% + 10px);left:24px;right:24px;
-    background:#fff;border:1.5px solid var(--ink);border-radius:18px;padding:12px;
-    box-shadow:0 16px 34px rgba(10,15,26,.18);z-index:30}
-  .mobileMenu .tab{flex:none;text-align:center;padding:10px 6px;font-size:12px;white-space:normal;
-    border:1.5px solid var(--line);border-radius:12px;background:#fff}
-  .mobileMenu .tab.active{border-color:var(--blue)}
-  #agentState{display:none}
-  #play,.tab-panel{scroll-margin-top:96px}
-}
+
 
 .navcta{background:var(--blue);color:#fff !important;padding:8px 18px !important;margin-left:6px;border-radius:999px;text-decoration:none;font-size:13px;font-weight:700}
 .navcta:hover{background:var(--ink) !important}
@@ -214,36 +202,7 @@ footer{border-top:1.5px solid var(--ink);padding:32px 40px;color:var(--muted);fo
 @media(max-width:960px){.stats,.trio{grid-template-columns:repeat(2,1fr)}.play,.row,.gategrid,.voicegrid{grid-template-columns:1fr}.hero{padding:48px 0 32px}.deco{display:none}
 .livebadge{display:none}.tab{padding:6px 9px;font-size:11.5px}.tabbar{margin:0 6px;justify-content:flex-start}}
 
-@media(max-width:640px){
-  .wrap{padding:0 16px}
-  nav{padding:0 10px}
-  .nb{padding:8px 8px 8px 16px}
-  .livebadge{display:none}
-  section{padding:40px 0}
-  .hero{padding:44px 0 28px}
-  h1{letter-spacing:-1px}
-  .stats{grid-template-columns:repeat(2,1fr);gap:10px}
-  .stat{padding:14px}.stat .num{font-size:19px}
-  .sh h2{font-size:24px}
-  .gategrid{grid-template-columns:repeat(2,1fr)}
-  .panel{padding:16px}
-  .panel table{display:block;overflow-x:auto}
-  th,td{padding:6px 8px}
-  .presult{min-height:160px;padding:16px}
-  #chatBtn{right:14px;bottom:14px;width:50px;height:50px}
-  #chatPanel{left:10px;right:10px;bottom:74px;width:auto;max-width:none}
-  #chatLog{height:46vh}
-  .chips{flex-wrap:nowrap;overflow-x:auto;padding-bottom:8px}
-  .chips button{flex:0 0 auto}
-  .voicegrid{grid-template-columns:1fr}
 
-  .trio{grid-template-columns:1fr}
-  .stat:last-child{grid-column:1/-1}
-  .jline{display:none}
-  .jstep{flex:1 1 45%}
-  .navcta{padding:7px 14px !important;font-size:12px}
-  .tab{padding:6px 10px;font-size:11px}
-}
 
 .confidence-level {
   font-size: 0.85rem;
@@ -422,6 +381,51 @@ font-weight:600;font-size:12.5px;cursor:pointer;transition:.2s;white-space:nowra
 .tab-panel.active{display:block}
 
 #play,.tab-panel{scroll-margin-top:96px}
+
+@media(max-width:760px){
+  .menuBtn{display:flex}
+  .tabbar{display:none}
+  .nb{flex-wrap:nowrap;border-radius:999px;padding:9px 10px 9px 12px}
+  .mobileMenu.open{display:grid;grid-template-columns:1fr 1fr;gap:6px;position:absolute;top:calc(100% + 10px);left:24px;right:24px;
+    background:#fff;border:1.5px solid var(--ink);border-radius:18px;padding:12px;
+    box-shadow:0 16px 34px rgba(10,15,26,.18);z-index:30}
+  .mobileMenu .tab{flex:none;text-align:center;padding:10px 6px;font-size:12px;white-space:normal;
+    border:1.5px solid var(--line);border-radius:12px;background:#fff}
+  .mobileMenu .tab.active{border-color:var(--blue)}
+  #agentState{display:none}
+  #play,.tab-panel{scroll-margin-top:96px}
+}
+
+@media(max-width:640px){
+  .wrap{padding:0 16px}
+  nav{padding:0 10px}
+  .nb{padding:8px 8px 8px 16px}
+  .livebadge{display:none}
+  section{padding:40px 0}
+  .hero{padding:44px 0 28px}
+  h1{letter-spacing:-1px}
+  .stats{grid-template-columns:repeat(2,1fr);gap:10px}
+  .stat{padding:14px}.stat .num{font-size:19px}
+  .sh h2{font-size:24px}
+  .gategrid{grid-template-columns:repeat(2,1fr)}
+  .panel{padding:16px}
+  .panel table{display:block;overflow-x:auto}
+  th,td{padding:6px 8px}
+  .presult{min-height:160px;padding:16px}
+  #chatBtn{right:14px;bottom:14px;width:50px;height:50px}
+  #chatPanel{left:10px;right:10px;bottom:74px;width:auto;max-width:none}
+  #chatLog{height:46vh}
+  .chips{flex-wrap:nowrap;overflow-x:auto;padding-bottom:8px}
+  .chips button{flex:0 0 auto}
+  .voicegrid{grid-template-columns:1fr}
+
+  .trio{grid-template-columns:1fr}
+  .stat:last-child{grid-column:1/-1}
+  .jline{display:none}
+  .jstep{flex:1 1 45%}
+  .navcta{padding:7px 14px !important;font-size:12px}
+  .tab{padding:6px 10px;font-size:11px}
+}
 
 </style>
 </head>
