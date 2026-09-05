@@ -56,14 +56,17 @@ background:#fff;border:1.5px solid var(--ink);border-radius:999px;padding:9px 9p
 @media(max-width:960px){.ngroup,.ndiv{display:none}}
 
 @media(max-width:760px){
-  .nb{flex-wrap:wrap;border-radius:20px;padding:10px;row-gap:8px}
-  .logo{order:1}
-  .nb>div:last-child{order:2;margin-left:auto}
-  .tabbar{order:3;flex:1 1 100%;margin:0;overflow:visible;
-    display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
-  .tab{flex:none;text-align:center;padding:8px 4px;font-size:11px;white-space:normal}
+  .menuBtn{display:flex}
+  .tabbar{display:none}
+  .nb{flex-wrap:nowrap;border-radius:999px;padding:9px 10px 9px 12px}
+  .mobileMenu.open{display:grid;grid-template-columns:1fr 1fr;gap:6px;position:absolute;top:calc(100% + 10px);left:24px;right:24px;
+    background:#fff;border:1.5px solid var(--ink);border-radius:18px;padding:12px;
+    box-shadow:0 16px 34px rgba(10,15,26,.18);z-index:30}
+  .mobileMenu .tab{flex:none;text-align:center;padding:10px 6px;font-size:12px;white-space:normal;
+    border:1.5px solid var(--line);border-radius:12px;background:#fff}
+  .mobileMenu .tab.active{border-color:var(--blue)}
   #agentState{display:none}
-  #play,.tab-panel{scroll-margin-top:230px}
+  #play,.tab-panel{scroll-margin-top:96px}
 }
 
 .navcta{background:var(--blue);color:#fff !important;padding:8px 18px !important;margin-left:6px;border-radius:999px;text-decoration:none;font-size:13px;font-weight:700}
@@ -408,6 +411,11 @@ footer{border-top:1.5px solid var(--ink);padding:32px 40px;color:var(--muted);fo
 .tab{flex:0 0 auto;padding:7px 11px;border:none;border-radius:999px;background:transparent;color:var(--muted);
 font-weight:600;font-size:12.5px;cursor:pointer;transition:.2s;white-space:nowrap}
 .tab:hover{color:var(--ink);background:var(--tint)}
+
+.menuBtn{display:none;flex-direction:column;gap:4px;background:none;border:none;cursor:pointer;padding:6px 8px;margin-right:4px}
+.menuBtn span{width:20px;height:2.5px;background:var(--ink);border-radius:2px}
+.mobileMenu{display:none}
+
 .tab.active{background:var(--blue);color:#fff;font-weight:700}
 /* Tab panels: only the active one shows */
 .tab-panel{display:none}
@@ -421,6 +429,7 @@ font-weight:600;font-size:12.5px;cursor:pointer;transition:.2s;white-space:nowra
 <div id="prog"></div>
 
 <nav><div class="nb">
+  <button class="menuBtn" id="menuBtn" aria-label="Open menu"><span></span><span></span><span></span></button>
   <div class="logo">Revive<span>AI</span></div>
   <div class="tabbar" id="tabbar">
     <button class="tab active" data-target="stats">Overview</button>
@@ -437,7 +446,19 @@ font-weight:600;font-size:12.5px;cursor:pointer;transition:.2s;white-space:nowra
     <a class="navcta" href="#play" onclick="goPlay();return false;">Try the agent</a>
     <div class="livebadge"><i></i> LIVE</div>
   </div>
-</div></nav>
+</div>
+<div class="mobileMenu" id="mobileMenu">
+  <button class="tab active" data-target="stats">Overview</button>
+  <button class="tab" data-target="demos">Live Demo</button>
+  <button class="tab" data-target="gate">Consent Gate</button>
+  <button class="tab" data-target="ops">Recovery</button>
+  <button class="tab" data-target="economics">Economics</button>
+  <button class="tab" data-target="merchants">Merchants</button>
+  <button class="tab" data-target="safety">Safety Nets</button>
+  <button class="tab" data-target="voice">Voice</button>
+  <button class="tab" data-target="audit">Compliance</button>
+</div>
+</nav>
 
 <div class="wrap">
 
@@ -1279,6 +1300,15 @@ function switchTab(id){
   window.scrollTo({top:0,behavior:'smooth'});
 }
 document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>switchTab(t.dataset.target)));
+
+const menuBtn=document.getElementById('menuBtn'),mobileMenu=document.getElementById('mobileMenu');
+menuBtn.addEventListener('click',e=>{e.stopPropagation();mobileMenu.classList.toggle('open');});
+document.querySelectorAll('.mobileMenu .tab').forEach(t=>t.addEventListener('click',()=>mobileMenu.classList.remove('open')));
+document.addEventListener('click',e=>{
+  if(mobileMenu.classList.contains('open')&&!mobileMenu.contains(e.target)&&!menuBtn.contains(e.target))
+    mobileMenu.classList.remove('open');
+});
+
 function goPlay(){
   switchTab('demos');
   setTimeout(()=>{
