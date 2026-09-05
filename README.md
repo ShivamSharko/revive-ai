@@ -2,17 +2,10 @@
 
 <p align="center">
   <a href="https://revive-ai-production-3535.up.railway.app/"><img src="https://img.shields.io/badge/Live_on_Railway-UP-149a52?style=for-the-badge" alt="Live"></a>
-  <img src="https://img.shields.io/badge/Razorpay_Buildathon_2026-Track_03-0b5cff?style=for-the-badge" alt="Track 03">
-  <img src="https://img.shields.io/badge/Pure_LLM_Batch-500_of_500-528bff?style=for-the-badge" alt="LLM">
-  <img src="https://img.shields.io/badge/Consent_Gate-8_Rules-d43c3c?style=for-the-badge" alt="Gate">
-  <img src="https://img.shields.io/badge/Python-3.11-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python">
-</p>
-
-<p align="center">
-  <a href="https://revive-ai-production-3535.up.railway.app/#play">▶ Try the Playground</a> ·
-  <a href="https://revive-ai-production-3535.up.railway.app/api/overview">Live API</a> ·
-  <a href="https://revive-ai-production-3535.up.railway.app/api/audit">Audit Trail</a> ·
-  <a href="https://revive-ai-shxvy4uyvqydxucqxbqyin.streamlit.app">Streamlit</a>
+  <a href="#-track-03-theme-alignment"><img src="https://img.shields.io/badge/Razorpay_Buildathon_2026-Track_03-0b5cff?style=for-the-badge" alt="Track 03"></a>
+  <a href="#-the-numbers-fresh-512-batch-test-mode-evidence"><img src="https://img.shields.io/badge/Pure_LLM_Batch-500_of_500-528bff?style=for-the-badge" alt="LLM"></a>
+  <a href="#-architecture--the-consent-gate"><img src="https://img.shields.io/badge/Consent_Gate-8_Rules-d43c3c?style=for-the-badge" alt="Gate"></a>
+  <a href="https://www.python.org/"><img src="https://img.shields.io/badge/Python-3.11-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python"></a>
 </p>
 
 <details open>
