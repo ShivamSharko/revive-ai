@@ -238,6 +238,7 @@ flowchart TD
 ```
 
 ```mermaid
+%%{init: {'theme':'base', 'themeVariables': {'pie1':'#149a52','pie2':'#b57900','pie3':'#d43c3c','pieStrokeColor':'#ffffff'}}}%%
 pie title Gate Verdicts — fresh 512 batch
     "ALLOW safe retry (265)" : 265
     "DEFER salary day (53)" : 53
