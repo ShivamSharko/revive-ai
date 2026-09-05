@@ -646,12 +646,6 @@ font-weight:600;font-size:12.5px;cursor:pointer;transition:.2s;white-space:nowra
   </div>
 </div>
   <div id="chatLog"></div>
-  <div class="chips">
-    <button>Maine cash se pay kar diya tha</button>
-    <button>My money was deducted but merchant didn't get it</button>
-    <button>Who are you?</button>
-    <button>What can you help me with?</button>
-  </div>
   <div class="chatInput"><input id="chatIn" placeholder="e.g. my card expired…"><button id="chatSend">➤</button></div>
   <div class="quick-replies" id="quickReplies"></div>
 </div>
@@ -1194,10 +1188,10 @@ function showQuickReplies(context = 'default') {
   const container = document.getElementById('quickReplies');
   const replies = {
     default: [
+      'Maine cash se pay kar diya tha',
+      'My money was deducted but merchant didn\'t get it',
       'Check my last payment',
-      'Why was I charged twice?',
-      'Cancel my subscription',
-      'Update payment method',
+      'Who are you?',
     ],
     after_payment_lookup: [
       'What about my other payment?',
@@ -1215,11 +1209,14 @@ function showQuickReplies(context = 'default') {
       'Cancel this deferment',
     ],
   };
-  
-  const buttons = replies[context] || replies.default;
-  container.innerHTML = buttons.map(text => 
-    `<button class="quick-reply-btn" onclick="ask('${text}')">${text}</button>`
-  ).join('');
+  container.innerHTML = '';
+  (replies[context] || replies.default).forEach(text => {
+    const b = document.createElement('button');
+    b.className = 'quick-reply-btn';
+    b.textContent = text;
+    b.onclick = () => ask(text);
+    container.appendChild(b);
+  });
 }
 
 function exportDecision() {
