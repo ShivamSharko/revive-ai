@@ -210,10 +210,84 @@ Every instinct said to ship a focused 80% project.
 
 ---
 
+## Entry 17 — The Stray Brace That Paralysed the Whole Page
+
+**What broke:** After shipping tab persistence, every button on the site died. Tabs, playground, chat — all of it. The page rendered fine; the page *did* nothing. Console: `Uncaught SyntaxError: Unexpected token '}'`.
+
+**The real problem:** While editing `switchTab`, I left one extra closing brace. A single stray `}` stops the entire script from parsing — no listeners, no charts, no chat. The body of the site was alive; its brain was gone.
+
+**The fix:** Deleted one character. Everything came back.
+
+**What I learned:** A frontend is only as alive as its last parse. When "nothing works," read the console before you read the code. Syntax errors don't degrade — they annihilate.
+
+---
+
+## Entry 18 — The Hamburger That Wasn't There
+
+**What broke:** Built a mobile hamburger + dropdown for phones. Desktop looked perfect. On a real phone: no hamburger, and the old cramped tab bar still showing. It looked like the media query never ran at all.
+
+**The real problem:** CSS source order. My `@media(max-width:760px)` block sat near the *top* of the stylesheet; the base rules `.menuBtn{display:none}` and `.tabbar{display:flex}` sat *lower*. Equal specificity → later rule wins → the base rules silently overruled the phone rules. A media query adds a condition, not specificity.
+
+**The fix:** Moved both mobile media blocks to the end of the stylesheet. Hamburger appeared; tab bar vanished on phones.
+
+**What I learned:** In CSS, position is power. Mobile overrides must come last, or they're just suggestions.
+
+---
+
+## Entry 19 — The Invisible Active Tab
+
+**What broke:** The mobile dropdown worked, but the currently-selected tab rendered as an empty white pill. "Overview" was there — you just couldn't see it.
+
+**The real problem:** White-on-white, again, in a new outfit. `.tab.active` sets `color:#fff` (for the blue desktop pill). The dropdown's `.mobileMenu .tab` sets `background:#fff`. The background got overridden; the white colour stayed. White text, white pill, invisible label.
+
+**The fix:** Gave the menu's active state its own identity: `background:var(--tint); color:var(--blue)`.
+
+**What I learned:** Shared classes carry hidden contracts. When you reuse a class on a new surface, audit every property it inherits — not just the ones you styled.
+
+---
+
+## Entry 20 — Submission Day: When All Three APIs Said No
+
+**What broke:** Hours before submission, the 500-failure diagnosis batch stalled. Groq `gpt-oss-120b` → 429. Gemini → 429. Groq's llama models → `NotFoundError`, retired from my tier overnight. Every chunk fell to the rules fallback.
+
+**The real problem:** I had built the pipeline assuming at least one LLM would always be up. On the single most important day of the project, all of them were down or throttled at once.
+
+**The fix:** The architecture saved me. The rules fallback is not a failure mode — it is the deterministic spine of the product. The batch completed in minutes, the Gate ran, the money slide generated. When quota returned, the resumable pipeline upgraded the rows back, and `verify_numbers.py` printed `Pure LLM batch: ✅ YES`.
+
+**What I learned:** Graceful degradation is not a slide bullet. It is the difference between demoing and dying on submission day. Design for the day every API says no.
+
+---
+
+## Entry 21 — The Database That Lived in a Box
+
+**What broke:** Needed to push the final local batch to Railway's Postgres. `pg_dump` → "'pg_dump' is not recognized." There was no Postgres client on the Windows machine at all — the local database lives inside a Docker container.
+
+**The real problem:** I kept reaching for tools on the host when the tools were already inside the box. The container `revive-ai-db-1` ships `pg_dump` and `psql`.
+
+**The fix:** `docker exec revive-ai-db-1 pg_dump … > dump.sql`, wipe Railway with `DROP SCHEMA public CASCADE`, then `docker exec -i revive-ai-db-1 psql "<railway-url>" < dump.sql`. Verified with `SELECT COUNT(*)`. Local and live finally showed identical numbers.
+
+**What I learned:** When a tool is missing, look for where the tool already lives. And write the real container name down — `PG` is a placeholder, not a container. (I typed `PG` twice. Twice.)
+
+---
+
+## Entry 22 — The Salary Day We Stopped Saying Out Loud
+
+**What broke:** Not a crash — a wince. Reading the WhatsApp copy aloud: *"Payment aapke salary day tak shift kar di hai."* It sounded like we knew when their salary comes. That is surveillance dressed as kindness.
+
+**The real problem:** Internally, "defer to salary day" is a liquidity model — R-04 is allowed to be smart. Out loud, it reads as tracking and pressure: the exact spam-engine voice the 5 Laws exist to kill. The model may know; the message must not show it.
+
+**The fix:** Rewrote every customer-facing line to defer to *aapki suvidha* — your convenience. Same action, different dignity. Also scrubbed the salesman slang ("boss", "scene") from the voice: warm is good, unprofessional is not. Professional warmth, zero surveillance cues.
+
+**What I learned:** Consent violations hide in copy, not code. Read every customer sentence aloud — if it sounds like tracking, it is.
+
+---
+
 ## Final Word
 
-Sixteen entries. Sixteen times I broke something, found it, fixed it, and wrote it down.
+Twenty-two entries. Twenty-two times I broke something, found it, fixed it, and wrote it down.
 
-This repo isn't just code. It's proof that building production-grade, compliance-aware software is messy, iterative, and deeply human. If you're a Razorpay engineer reading this: I built what I promised. Every feature. Every edge case. Every law.
+This repo isn't just code. It's proof that building production-grade, compliance-aware software is messy, iterative, and deeply human — from a port war on day one to every API saying no on submission day, to the moment I realised a single word in a message can violate a law that a hundred rules enforce.
+
+Every feature. Every edge case. Every law. And when the machine broke — as machines do — I wrote down why, so the next engineer breaks something new instead.
 
 **No money moves without consent.**
