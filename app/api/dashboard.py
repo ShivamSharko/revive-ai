@@ -15,6 +15,14 @@ try:
 except Exception:
     _DROPPED = {"count": 0}
 
+SALESMAN_TONE = (
+    "Speak like a warm, professional Indian relationship-manager on WhatsApp in 2026: natural Hinglish, short clear lines, "
+    "respectful 'ji' forms, friendly-but-polished phrases like 'namaste', 'aap chinta mat kijiye', 'hum sambhal lenge', 'ho jayega'. "
+    "NEVER reveal or imply tracking (no 'we noticed', 'we saw you', no salary-day, no 'aapne kya kiya'). "
+    "Take ownership from your side ('hum end se dekh lete hain') instead of describing the customer's behaviour. "
+    "Avoid slang like 'boss', 'scene', 'yaar' — keep it professional. "
+)
+
 router = APIRouter(prefix="/api")
 
 @router.get("/overview")
@@ -196,11 +204,11 @@ def playground(inp: PlaygroundInput):
 
         ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
         MSG = {
-            ("technical", "ALLOW"): "Bank mein temporary problem thi, ab fix ho gayi hai. Humne dobara try kiya — payment successful. Koi action needed nahi.",
-            ("technical", "BLOCK"): "Aapne store par cash se payment kar di thi — humne QR dobara charge nahi kiya. Double-charge prevented.",
-            ("intent", "ALLOW"): "OTP mein problem ho gayi thi. Ab humne UPI Collect request bheji hai — one tap se approve kar sakte ho.",
-            ("affordability", "DEFER"): "Koi baat nahi! Humne payment ko aapki suvidha ke hisaab se aage shift kar diya hai. Tab tak koi reminder nahi, koi late fee nahi.",
-            ("lifecycle", "BLOCK"): "Aapka card expire ho gaya tha, isliye payment nahi hui. Jab convenient ho, naya card update karein. Koi jaldi nahi.",
+            ("technical", "ALLOW"): "Namaste! Bank ki side se thodi si dikkat thi — humne turant dobara process kiya aur aapki payment successfully ho gayi hai. Aapko kuch karne ki zaroorat nahi, sab kuch theek hai.",
+            ("technical", "BLOCK"): "Namaste! Aapne dukaan par cash se payment kar di thi, isliye humne QR dobara charge nahi kiya. Double payment ki koi baat nahi — aapka paisa bilkul safe hai.",
+            ("intent", "ALLOW"): "Namaste! OTP step par thodi si dikkat ho gayi thi. Humne ek naya UPI Collect request bheja hai — bas ek tap mein approve kar dijiye, payment ho jayegi.",
+            ("affordability", "DEFER"): "Namaste! Koi baat nahi. Humne aapki payment ko aapki suvidha ke hisaab se aage shift kar diya hai — jab aap ready ho tab kar dijiyega. Tab tak na koi reminder, na koi late fee.",
+            ("lifecycle", "BLOCK"): "Namaste! Aapka card expire ho gaya tha, isliye payment nahi ho payi. Jab bhi aapko suvidha ho, naya card update kar dijiye ya UPI Autopay set kar lijiye — bas do minute ka kaam hai.",
         }
         key = (diag.archetype, verdict) if diag else (None, None)
         fallback = MSG.get(key, "Humne payment issue samajh liya hai aur safely handle kar rahe hain. Aapko spam nahi karenge.")
@@ -666,10 +674,10 @@ def send_nudges(leak_type: str = "otp"):
         db.close()
 
 _VOICE_SCRIPTS = {
-    "technical": "Bank mein temporary problem thi, ab fix ho gayi hai. Humne dobara koshish ki aur payment successful ho gayi. Aapko kuch karne ki zaroorat nahi.",
-        "affordability": "Koi baat nahi! Humne payment ko aapki suvidha ke hisaab se aage shift kar diya hai. Jab bhi aap ready ho, tab pay karein. Tab tak koi reminder nahi, koi late fee nahi.",
-    "intent": "OTP mein problem ho gayi thi. Ab humne UPI Collect request bheji hai — one tap se approve kar sakte ho.",
-    "lifecycle": "Aapka card expire ho gaya tha. Jab convenient ho, naya card update karein ya UPI Autopay set karein. Koi jaldi nahi.",
+    "technical": "Namaste! Bank ki side se thodi si dikkat thi. Humne turant dobara process kiya aur aapki payment successfully ho gayi hai. Aapko kuch karne ki zaroorat nahi, sab kuch theek hai.",
+    "affordability": "Namaste! Koi baat nahi. Humne aapki payment ko aapki suvidha ke hisaab se aage shift kar diya hai. Jab aap ready ho tab kar dijiyega. Tab tak na koi reminder, na koi late fee. Aap bilkul chinta mat kijiye.",
+    "intent": "Namaste! OTP step par thodi si dikkat ho gayi thi. Humne ek naya UPI Collect request bheja hai — bas ek tap mein approve kar dijiye, payment ho jayegi.",
+    "lifecycle": "Namaste! Aapka card expire ho gaya tha, isliye payment nahi ho payi. Jab bhi aapko suvidha ho, naya card update kar dijiye ya UPI Autopay set kar lijiye. Bas do minute ka kaam hai, koi jaldi nahi.",
 }
 _voice_cache = {}
 
@@ -844,10 +852,10 @@ def whatsapp():
     finally:
         db.close()
     scripts = {
-        "technical": "bank server mein thodi der ki dikkat thi, ab fix ho gayi hai. Aapko kuch karne ki zaroorat nahi.",
-        "affordability": "koi baat nahi! Payment ko humne aapki suvidha ke hisaab se aage shift kar diya hai — jab bhi aap ready ho, tab 1-tap se pay kar sakte ho. Koi jaldi nahi, koi pressure nahi.",
-        "intent": "OTP par atak gayi thi payment — UPI Collect request bheji hai, 1 tap mein approve kar do.",
-        "lifecycle": "aapka card expire ho gaya tha. Naya card update karo ya 1-tap UPI Autopay set karo.",
+        "technical": "namaste! bank ki side se thodi si dikkat thi — humne turant dobara process kiya aur aapki payment ho gayi hai. aapko kuch karne ki zaroorat nahi 🙏",
+        "affordability": "namaste 🙏 koi baat nahi. humne aapki payment ko aapki suvidha ke hisaab se aage shift kar diya hai — jab aap ready ho tab 1-tap se kar dijiyega. na koi jaldi, na koi pressure.",
+        "intent": "namaste! OTP par thodi si dikkat thi — humne naya UPI Collect request bheja hai, bas 1 tap mein approve kar dijiye ✅",
+        "lifecycle": "namaste! aapka card expire ho gaya tha isliye payment nahi ho payi. jab suvidha ho naya card update kar dijiye ya 1-tap UPI Autopay set kar lijiye — bas 2 minute ka kaam hai 😊",
     }
     ctas = {
         "technical": None,  # already recovered — never ask for money again
