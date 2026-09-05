@@ -2,16 +2,16 @@
 
 <p align="center">
   <a href="https://revive-ai-production-3535.up.railway.app/"><img src="https://img.shields.io/badge/Live_Command_Center-UP-149a52" alt="Live"></a>
-  <a href="https://revive-ai-production-3535.up.railway.app/api/overview"><img src="https://img.shields.io/badge/API-Live_Data-0b5cff" alt="API"></a>
   <a href="#-the-numbers-fresh-512-batch-test-mode-evidence"><img src="https://img.shields.io/badge/Pure_LLM_Batch-500_of_500-528bff" alt="LLM"></a>
+  <a href="https://revive-ai-production-3535.up.railway.app/api/overview"><img src="https://img.shields.io/badge/API-Live_Data-0b5cff" alt="API"></a>
 </p>
 
 <p align="center">
-  <a href="https://revive-ai-production-3535.up.railway.app/#play">▶ Try the Playground</a> ·
-  <a href="https://revive-ai-production-3535.up.railway.app/#chat">💬 Chat with the Agent</a> ·
-  <a href="https://revive-ai-shxvy4uyvqydxucqxbqyin.streamlit.app">📊 Streamlit Dashboard</a> ·
-  <a href="https://revive-ai-production-3535.up.railway.app/#audit">🧾 Audit Trail</a> ·
-  <a href="#-video-demo">🎥 Video Demo</a>
+  <a href="https://revive-ai-production-3535.up.railway.app/#play"><img src="https://img.shields.io/badge/Try-Playground-0b5cff" alt="Playground"></a>
+  <a href="https://revive-ai-production-3535.up.railway.app/#chat"><img src="https://img.shields.io/badge/Chat-with_the_Agent-149a52" alt="Chat"></a>
+  <a href="https://revive-ai-shxvy4uyvqydxucqxbqyin.streamlit.app"><img src="https://img.shields.io/badge/Open-Streamlit-ff7f0e" alt="Streamlit"></a>
+  <a href="https://revive-ai-production-3535.up.railway.app/#audit"><img src="https://img.shields.io/badge/View-Audit_Trail-d43c3c" alt="Audit"></a>
+  <a href="#-video-demo"><img src="https://img.shields.io/badge/Watch-Video_Demo-6f42c1" alt="Video"></a>
 </p>
 
 <details open>
